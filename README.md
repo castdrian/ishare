@@ -1,2 +1,2 @@
 # ishare
-sharex-like screenshot utility for macos
+sharex-like screen capture utility for macOS
