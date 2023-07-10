@@ -8,19 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		3A9A9FD82A5C84B5007BA5C9 /* ishareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */; };
-		3A9A9FDA2A5C84B5007BA5C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD92A5C84B5007BA5C9 /* ContentView.swift */; };
-		3A9A9FDC2A5C84B5007BA5C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A9A9FDB2A5C84B5007BA5C9 /* Assets.xcassets */; };
-		3A9A9FDF2A5C84B5007BA5C9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A9A9FDE2A5C84B5007BA5C9 /* Preview Assets.xcassets */; };
+		3AF0124A2A5C9F8F00A4F5C9 /* MenuBarScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF012492A5C9F8F00A4F5C9 /* MenuBarScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3A9A9FD42A5C84B5007BA5C9 /* ishare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ishare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ishareApp.swift; sourceTree = "<group>"; };
-		3A9A9FD92A5C84B5007BA5C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		3A9A9FDB2A5C84B5007BA5C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		3A9A9FDE2A5C84B5007BA5C9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ishare.entitlements; sourceTree = "<group>"; };
 		3A9AA0022A5C8E45007BA5C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3AF012492A5C9F8F00A4F5C9 /* MenuBarScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,20 +51,10 @@
 			children = (
 				3A9AA0022A5C8E45007BA5C9 /* Info.plist */,
 				3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */,
-				3A9A9FD92A5C84B5007BA5C9 /* ContentView.swift */,
-				3A9A9FDB2A5C84B5007BA5C9 /* Assets.xcassets */,
+				3AF012492A5C9F8F00A4F5C9 /* MenuBarScene.swift */,
 				3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */,
-				3A9A9FDD2A5C84B5007BA5C9 /* Preview Content */,
 			);
 			path = ishare;
-			sourceTree = "<group>";
-		};
-		3A9A9FDD2A5C84B5007BA5C9 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				3A9A9FDE2A5C84B5007BA5C9 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,8 +115,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A9A9FDF2A5C84B5007BA5C9 /* Preview Assets.xcassets in Resources */,
-				3A9A9FDC2A5C84B5007BA5C9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,8 +125,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A9A9FDA2A5C84B5007BA5C9 /* ContentView.swift in Sources */,
 				3A9A9FD82A5C84B5007BA5C9 /* ishareApp.swift in Sources */,
+				3AF0124A2A5C9F8F00A4F5C9 /* MenuBarScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,7 +255,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ishare/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ishare/Info.plist;
@@ -298,7 +282,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ishare/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ishare/Info.plist;
