@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3A9A9FD82A5C84B5007BA5C9 /* ishareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */; };
+		3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */; };
 		3AF0124A2A5C9F8F00A4F5C9 /* MenuBarScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF012492A5C9F8F00A4F5C9 /* MenuBarScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -16,6 +17,7 @@
 		3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ishareApp.swift; sourceTree = "<group>"; };
 		3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ishare.entitlements; sourceTree = "<group>"; };
 		3A9AA0022A5C8E45007BA5C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
 		3AF012492A5C9F8F00A4F5C9 /* MenuBarScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,6 +55,7 @@
 				3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */,
 				3AF012492A5C9F8F00A4F5C9 /* MenuBarScene.swift */,
 				3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */,
+				3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */,
 			);
 			path = ishare;
 			sourceTree = "<group>";
@@ -126,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A9A9FD82A5C84B5007BA5C9 /* ishareApp.swift in Sources */,
+				3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */,
 				3AF0124A2A5C9F8F00A4F5C9 /* MenuBarScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,10 +256,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ishare/ishare.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = L988J7YMK5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ishare/Info.plist;
@@ -279,10 +285,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ishare/ishare.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = L988J7YMK5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ishare/Info.plist;
