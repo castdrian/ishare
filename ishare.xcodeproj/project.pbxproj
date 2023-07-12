@@ -13,6 +13,8 @@
 		3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */; };
 		3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */; };
 		3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345BB2A5EBA5400AAEC0E /* Defaults */; };
+		3AB345BF2A5ED54800AAEC0E /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345BE2A5ED54800AAEC0E /* SimpleToast */; };
+		3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */,
+				3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */,
+				3AB345BF2A5ED54800AAEC0E /* SimpleToast in Frameworks */,
 				3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,6 +90,8 @@
 			packageProductDependencies = (
 				3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */,
 				3AB345BB2A5EBA5400AAEC0E /* Defaults */,
+				3AB345BE2A5ED54800AAEC0E /* SimpleToast */,
+				3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
@@ -118,6 +124,8 @@
 			packageReferences = (
 				3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 				3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */,
+				3AB345BD2A5ED54800AAEC0E /* XCRemoteSwiftPackageReference "SimpleToast" */,
+				3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
 			projectDirPath = "";
@@ -366,6 +374,22 @@
 				kind = branch;
 			};
 		};
+		3AB345BD2A5ED54800AAEC0E /* XCRemoteSwiftPackageReference "SimpleToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sanzaru/SimpleToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.1;
+			};
+		};
+		3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -378,6 +402,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
+		};
+		3AB345BE2A5ED54800AAEC0E /* SimpleToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AB345BD2A5ED54800AAEC0E /* XCRemoteSwiftPackageReference "SimpleToast" */;
+			productName = SimpleToast;
+		};
+		3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

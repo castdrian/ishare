@@ -26,6 +26,16 @@ struct SettingsMenuView: View {
                 Label("Keybinds", systemImage: "command.circle")
             }
             
+            CaptureSettingsView()
+            .tabItem {
+                Label("Captures", systemImage: "photo")
+            }
+            
+            RecordingSettingsView()
+            .tabItem {
+                Label("Recordings", systemImage: "menubar.dock.rectangle.badge.record")
+            }
+            
             AdvancedSettingsView()
             .tabItem {
                 Label("Advanced", systemImage: "hammer.circle")
@@ -51,6 +61,20 @@ struct UploaderSettingsView: View {
 struct KeybindSettingsView: View {
     var body: some View {
         Text("Keybind Settings")
+            .font(.title)
+    }
+}
+
+struct CaptureSettingsView: View {
+    var body: some View {
+        Text("Capture Settings")
+            .font(.title)
+    }
+}
+
+struct RecordingSettingsView: View {
+    var body: some View {
+        Text("Recording Settings")
             .font(.title)
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum PostCaptureTasks: String, CaseIterable, Identifiable {
-    case COPY_TO_CLIPBOARD, OPEN_CAPTURE_FOLDER, UPLOAD_CAPTURE
+    case COPY_TO_CLIPBOARD, OPEN_CAPTURE_FOLDER, UPLOAD_MEDIA
     var id: Self { self }
 }
 
@@ -19,10 +19,12 @@ enum Destination: String, CaseIterable, Identifiable {
 
 struct MainMenuView: View {
     @State private var selectedDestination: Destination = .IMGUR
-    @State private var togglebool: Bool = false
+    @State private var copyToClipboard: Bool = true
+    @State private var openInFinder: Bool = false
+    @State private var uploadMedia: Bool = false
     
     var body: some View {
-        Menu("Capture") {
+        Menu("Capture/Record") {
             Button("Capture Region") {
                 captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.RegionImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: false))
             }
@@ -39,13 +41,13 @@ struct MainMenuView: View {
             }.disabled(true)
         }
         
-        Menu("Post Capture Tasks") {
-            Toggle("Copy to clipboard", isOn: $togglebool).toggleStyle(.checkbox)
-            Toggle("Open in Finder", isOn: $togglebool).toggleStyle(.checkbox)
-            Toggle("Upload capture", isOn: $togglebool).toggleStyle(.checkbox)
+        Menu("Post Media Tasks") {
+            Toggle("Copy to clipboard", isOn: $copyToClipboard).toggleStyle(.checkbox)
+            Toggle("Open in Finder", isOn: $openInFinder).toggleStyle(.checkbox)
+            Toggle("Upload capture", isOn: $uploadMedia).toggleStyle(.checkbox)
         }
 
-        Picker("Destination", selection: $selectedDestination) {
+        Picker("Upload Destination", selection: $selectedDestination) {
             ForEach(Destination.allCases, id: \.self) {
                 Text($0.rawValue.capitalized)
             }

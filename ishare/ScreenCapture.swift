@@ -13,8 +13,8 @@ enum CaptureType: String {
     case ScreenImage = ""
     case WindowImage = "-w"
     case RegionImage = "-s"
-    case ScreenVideo = "-v"
-    case RegionVideo = "-vs"
+    // case ScreenVideo = "-v"
+    // case RegionVideo = "-vs"
 }
 
 enum FileType: String {
