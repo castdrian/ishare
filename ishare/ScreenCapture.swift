@@ -14,7 +14,6 @@ enum CaptureType: String {
     case WindowImage = "-w"
     case RegionImage = "-s"
     case ScreenVideo = "-v"
-    case WindowVideo = "-vw"
     case RegionVideo = "-vs"
 }
 
@@ -44,7 +43,6 @@ func captureScreen(options: CaptureOptions) -> Void {
     task.launch()
     task.waitUntilExit()
     
-    let status = task.terminationStatus
     let fileURL = URL(fileURLWithPath: path)
     
     if !FileManager.default.fileExists(atPath: fileURL.path) {

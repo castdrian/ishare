@@ -33,9 +33,10 @@ struct MainMenuView: View {
                 captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.ScreenImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: false))
             }
             Divider()
-            Button("Record Region") {}
-            Button("Record Window") {}
-            Button("Record Screen") {}
+            Button("Record Region") {
+            }.disabled(true)
+            Button("Record Screen") {
+            }.disabled(true)
         }
         
         Menu("Post Capture Tasks") {
