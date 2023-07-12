@@ -26,13 +26,16 @@ struct MainMenuView: View {
     var body: some View {
         Menu("Capture/Record") {
             Button("Capture Region") {
-                captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.RegionImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: false))
+                let options = CaptureOptions(filePath: nil, type: CaptureType.RegionImage, ext: FileType.PNG, saveFileToClipboard: copyToClipboard, showInFinder: openInFinder)
+                captureScreen(options: options)
             }
             Button("Capture Window") {
-                captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: false))
+                let options = CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: copyToClipboard, showInFinder: openInFinder)
+                captureScreen(options: options)
             }
             Button("Capture Screen") {
-                captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.ScreenImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: false))
+                let options = CaptureOptions(filePath: nil, type: CaptureType.ScreenImage, ext: FileType.PNG, saveFileToClipboard: copyToClipboard, showInFinder: openInFinder)
+                captureScreen(options: options)
             }
             Divider()
             Button("Record Region") {

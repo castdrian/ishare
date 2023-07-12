@@ -59,4 +59,6 @@ func captureScreen(options: CaptureOptions) -> Void {
     if options.showInFinder {
         NSWorkspace.shared.activateFileViewerSelecting([fileURL])
     }
+    
+    showToast(fileURL: fileURL)
 }

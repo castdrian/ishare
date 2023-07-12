@@ -13,8 +13,8 @@
 		3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */; };
 		3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */; };
 		3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345BB2A5EBA5400AAEC0E /* Defaults */; };
-		3AB345BF2A5ED54800AAEC0E /* SimpleToast in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345BE2A5ED54800AAEC0E /* SimpleToast */; };
 		3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */; };
+		3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +25,7 @@
 		3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
 		3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMenuView.swift; sourceTree = "<group>"; };
+		3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastPopover.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,7 +35,6 @@
 			files = (
 				3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */,
 				3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */,
-				3AB345BF2A5ED54800AAEC0E /* SimpleToast in Frameworks */,
 				3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,6 +67,7 @@
 				3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */,
 				3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */,
 				3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */,
+				3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */,
 			);
 			path = ishare;
 			sourceTree = "<group>";
@@ -90,7 +91,6 @@
 			packageProductDependencies = (
 				3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */,
 				3AB345BB2A5EBA5400AAEC0E /* Defaults */,
-				3AB345BE2A5ED54800AAEC0E /* SimpleToast */,
 				3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */,
 			);
 			productName = ishare;
@@ -124,7 +124,6 @@
 			packageReferences = (
 				3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 				3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */,
-				3AB345BD2A5ED54800AAEC0E /* XCRemoteSwiftPackageReference "SimpleToast" */,
 				3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
@@ -154,6 +153,7 @@
 				3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */,
 				3A9A9FD82A5C84B5007BA5C9 /* ishareApp.swift in Sources */,
 				3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */,
+				3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */,
 				3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,14 +374,6 @@
 				kind = branch;
 			};
 		};
-		3AB345BD2A5ED54800AAEC0E /* XCRemoteSwiftPackageReference "SimpleToast" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sanzaru/SimpleToast.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.7.1;
-			};
-		};
 		3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
@@ -402,11 +394,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */;
 			productName = Defaults;
-		};
-		3AB345BE2A5ED54800AAEC0E /* SimpleToast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AB345BD2A5ED54800AAEC0E /* XCRemoteSwiftPackageReference "SimpleToast" */;
-			productName = SimpleToast;
 		};
 		3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
