@@ -28,15 +28,15 @@ struct MainMenuView: View {
             Button("Capture Region") {
                 let options = CaptureOptions(filePath: nil, type: CaptureType.RegionImage, ext: FileType.PNG, saveFileToClipboard: copyToClipboard, showInFinder: openInFinder)
                 captureScreen(options: options)
-            }
+            }.keyboardShortcut(.captureRegion)
             Button("Capture Window") {
                 let options = CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: copyToClipboard, showInFinder: openInFinder)
                 captureScreen(options: options)
-            }
+            }.keyboardShortcut(.captureWindow)
             Button("Capture Screen") {
                 let options = CaptureOptions(filePath: nil, type: CaptureType.ScreenImage, ext: FileType.PNG, saveFileToClipboard: copyToClipboard, showInFinder: openInFinder)
                 captureScreen(options: options)
-            }
+            }.keyboardShortcut(.captureScreen)
             Divider()
             Button("Record Region") {
             }.disabled(true)
