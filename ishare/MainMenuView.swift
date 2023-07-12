@@ -25,7 +25,7 @@ struct MainMenuView: View {
         Menu("Capture") {
             Button("Region Capture") {}
             Button("Window Capture") {
-              //  captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: true))
+                captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: true))
             }
             Button("Screen Capture") {}
             Button("Record Region") {}

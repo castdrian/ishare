@@ -27,6 +27,7 @@ struct CaptureOptions {
     let type: CaptureType
     let ext: FileType
     let saveFileToClipboard: Bool
+    let showInFinder: Bool
 }
 
 func captureScreen(options: CaptureOptions) -> (success: Bool, fileURL: URL?) {
@@ -54,6 +55,10 @@ func captureScreen(options: CaptureOptions) -> (success: Bool, fileURL: URL?) {
         pasteboard.clearContents()
             
         pasteboard.setString(fileURL.absoluteString, forType: .fileURL)
+    }
+    
+    if options.showInFinder {
+        NSWorkspace.shared.activateFileViewerSelecting([fileURL])
     }
         
     return (status == 0, fileURL)
