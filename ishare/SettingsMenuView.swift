@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import LaunchAtLogin
 
 struct SettingsMenuView: View {
     var body: some View {
@@ -36,11 +37,9 @@ struct SettingsMenuView: View {
 
 struct GeneralSettingsView: View {
     var body: some View {
-        Text("General Settings")
-            .font(.title)
+        LaunchAtLogin.Toggle()
     }
 }
- 
  
 struct UploaderSettingsView: View {
     var body: some View {
@@ -48,7 +47,6 @@ struct UploaderSettingsView: View {
             .font(.title)
     }
 }
- 
  
 struct KeybindSettingsView: View {
     var body: some View {
