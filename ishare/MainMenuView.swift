@@ -50,9 +50,7 @@ struct MainMenuView: View {
                 Text($0.rawValue.capitalized)
             }
             Divider()
-            Button("Custom Uploader Settings") {
-                
-            }
+            Button("Custom Uploader Settings") {}.disabled(true)
         }.pickerStyle(MenuPickerStyle())
         
         Button("Settings") {
