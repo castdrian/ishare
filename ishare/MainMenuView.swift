@@ -45,11 +45,18 @@ struct MainMenuView: View {
                 Text($0.rawValue.capitalized)
             }
             Divider()
-            Button("Custom Uploader Settings") {}
+            Button("Custom Uploader Settings") {
+                
+            }
         }.pickerStyle(MenuPickerStyle())
         
-        Button("Settings") {}.keyboardShortcut("s")
+        Button("Settings") {
+            NSApplication.shared.activate(ignoringOtherApps: true)
+            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        }.keyboardShortcut("s")
+        
         Divider()
+        
         Button("About ishare") {
             NSApplication.shared.activate(ignoringOtherApps: true)
             NSApplication.shared.orderFrontStandardAboutPanel(
@@ -67,6 +74,7 @@ struct MainMenuView: View {
                 ]
             )
         }.keyboardShortcut("a")
+        
         Button("Quit") {
             NSApplication.shared.terminate(nil)
         }.keyboardShortcut("q")

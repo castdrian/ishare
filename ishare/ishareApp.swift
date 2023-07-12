@@ -13,5 +13,9 @@ struct ishareApp: App {
         MenuBarExtra("ishare", systemImage: "photo.on.rectangle.angled") {
             MainMenuView()
         }
+        
+        Settings {
+            SettingsMenuView()
+        }
     }
 }
