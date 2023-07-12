@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AlertToast
 
 enum PostCaptureTasks: String, CaseIterable, Identifiable {
     case COPY_TO_CLIPBOARD, OPEN_CAPTURE_FOLDER, UPLOAD_CAPTURE
@@ -20,16 +21,22 @@ enum Destination: String, CaseIterable, Identifiable {
 struct MainMenuView: View {
     @State private var selectedDestination: Destination = .IMGUR
     @State private var togglebool: Bool = false
+    @State private var showToast = false
     
     var body: some View {
         Menu("Capture") {
-            Button("Region Capture") {}
-            Button("Window Capture") {
-                captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: true))
+            Button("Capture Region") {}
+            Button("Capture Window") {
+                captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: false))
+                showToast.toggle()
             }
-            Button("Screen Capture") {}
+            Button("Capture Screen") {}
+            Divider()
             Button("Record Region") {}
+            Button("Record Window") {}
             Button("Record Screen") {}
+        }.toast(isPresenting: $showToast){
+            AlertToast(displayMode: .banner(.slide), type: .regular, title: "Capture Taken!")
         }
         
         Menu("Post Capture Tasks") {
@@ -42,6 +49,8 @@ struct MainMenuView: View {
             ForEach(Destination.allCases, id: \.self) {
                 Text($0.rawValue.capitalized)
             }
+            Divider()
+            Button("Custom Uploader Settings") {}
         }.pickerStyle(MenuPickerStyle())
         
         Button("Settings") {}.keyboardShortcut("s")

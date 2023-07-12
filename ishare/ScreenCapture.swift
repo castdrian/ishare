@@ -7,6 +7,7 @@
 
 import Foundation
 import AppKit
+import AlertToast
 
 enum CaptureType: String {
     case ScreenImage = ""
@@ -61,5 +62,7 @@ func captureScreen(options: CaptureOptions) -> (success: Bool, fileURL: URL?) {
         NSWorkspace.shared.activateFileViewerSelecting([fileURL])
     }
         
+    // AlertToast(displayMode: .banner(.slide), type: .regular, title: "Captured!")
+    
     return (status == 0, fileURL)
 }
