@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import AlertToast
 
 enum PostCaptureTasks: String, CaseIterable, Identifiable {
     case COPY_TO_CLIPBOARD, OPEN_CAPTURE_FOLDER, UPLOAD_CAPTURE
@@ -21,22 +20,18 @@ enum Destination: String, CaseIterable, Identifiable {
 struct MainMenuView: View {
     @State private var selectedDestination: Destination = .IMGUR
     @State private var togglebool: Bool = false
-    @State private var showToast = false
     
     var body: some View {
         Menu("Capture") {
             Button("Capture Region") {}
             Button("Capture Window") {
                 captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: false))
-                showToast.toggle()
             }
             Button("Capture Screen") {}
             Divider()
             Button("Record Region") {}
             Button("Record Window") {}
             Button("Record Screen") {}
-        }.toast(isPresenting: $showToast){
-            AlertToast(displayMode: .banner(.slide), type: .regular, title: "Capture Taken!")
         }
         
         Menu("Post Capture Tasks") {

@@ -12,7 +12,7 @@ import AlertToast
 enum CaptureType: String {
     case ScreenImage = ""
     case WindowImage = "-w"
-    case RegionImage = "-s"
+    case RegionImage = "-s"    // partially untested
     case ScreenVideo = "-v"
     case WindowVideo = "-vw"
     case RegionVideo = "-vs"
@@ -61,8 +61,6 @@ func captureScreen(options: CaptureOptions) -> (success: Bool, fileURL: URL?) {
     if options.showInFinder {
         NSWorkspace.shared.activateFileViewerSelecting([fileURL])
     }
-        
-    // AlertToast(displayMode: .banner(.slide), type: .regular, title: "Captured!")
-    
+            
     return (status == 0, fileURL)
 }
