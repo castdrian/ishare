@@ -12,6 +12,7 @@
 		3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
 		3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */; };
 		3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */; };
+		3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345BB2A5EBA5400AAEC0E /* Defaults */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */,
 				3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -83,6 +85,7 @@
 			name = ishare;
 			packageProductDependencies = (
 				3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */,
+				3AB345BB2A5EBA5400AAEC0E /* Defaults */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
@@ -114,6 +117,7 @@
 			mainGroup = 3A9A9FCB2A5C84B4007BA5C9;
 			packageReferences = (
 				3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
+				3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
 			projectDirPath = "";
@@ -354,6 +358,14 @@
 				kind = branch;
 			};
 		};
+		3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -361,6 +373,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
 			productName = LaunchAtLogin;
+		};
+		3AB345BB2A5EBA5400AAEC0E /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

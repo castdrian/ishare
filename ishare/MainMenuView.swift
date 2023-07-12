@@ -23,11 +23,15 @@ struct MainMenuView: View {
     
     var body: some View {
         Menu("Capture") {
-            Button("Capture Region") {}
+            Button("Capture Region") {
+                captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.RegionImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: false))
+            }
             Button("Capture Window") {
                 captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: false))
             }
-            Button("Capture Screen") {}
+            Button("Capture Screen") {
+                captureScreen(options: CaptureOptions(filePath: nil, type: CaptureType.ScreenImage, ext: FileType.PNG, saveFileToClipboard: true, showInFinder: false))
+            }
             Divider()
             Button("Record Region") {}
             Button("Record Window") {}

@@ -12,7 +12,7 @@ import AlertToast
 enum CaptureType: String {
     case ScreenImage = ""
     case WindowImage = "-w"
-    case RegionImage = "-s"    // partially untested
+    case RegionImage = "-s"
     case ScreenVideo = "-v"
     case WindowVideo = "-vw"
     case RegionVideo = "-vs"
@@ -31,7 +31,7 @@ struct CaptureOptions {
     let showInFinder: Bool
 }
 
-func captureScreen(options: CaptureOptions) -> (success: Bool, fileURL: URL?) {
+func captureScreen(options: CaptureOptions) -> Void {
     let timestamp = Int(Date().timeIntervalSince1970)
     let uniqueFilename = "ishare-\(timestamp)"
     
@@ -40,7 +40,7 @@ func captureScreen(options: CaptureOptions) -> (success: Bool, fileURL: URL?) {
     
     let task = Process()
     task.launchPath = "/usr/sbin/screencapture"
-    task.arguments = [options.type.rawValue, path]
+    task.arguments = options.type == CaptureType.ScreenImage ? [path] : [options.type.rawValue, path]
     task.launch()
     task.waitUntilExit()
     
@@ -48,7 +48,7 @@ func captureScreen(options: CaptureOptions) -> (success: Bool, fileURL: URL?) {
     let fileURL = URL(fileURLWithPath: path)
     
     if !FileManager.default.fileExists(atPath: fileURL.path) {
-        return (false, nil)
+        return
     }
     
     if options.saveFileToClipboard {
@@ -61,6 +61,4 @@ func captureScreen(options: CaptureOptions) -> (success: Bool, fileURL: URL?) {
     if options.showInFinder {
         NSWorkspace.shared.activateFileViewerSelecting([fileURL])
     }
-            
-    return (status == 0, fileURL)
 }
