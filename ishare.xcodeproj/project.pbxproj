@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3A9A9FD82A5C84B5007BA5C9 /* ishareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */; };
 		3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */; };
-		3AF0124A2A5C9F8F00A4F5C9 /* MenuBarScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF012492A5C9F8F00A4F5C9 /* MenuBarScene.swift */; };
+		3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,7 +18,7 @@
 		3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ishare.entitlements; sourceTree = "<group>"; };
 		3A9AA0022A5C8E45007BA5C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
-		3AF012492A5C9F8F00A4F5C9 /* MenuBarScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarScene.swift; sourceTree = "<group>"; };
+		3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,9 +53,9 @@
 			children = (
 				3A9AA0022A5C8E45007BA5C9 /* Info.plist */,
 				3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */,
-				3AF012492A5C9F8F00A4F5C9 /* MenuBarScene.swift */,
 				3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */,
 				3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */,
+				3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */,
 			);
 			path = ishare;
 			sourceTree = "<group>";
@@ -128,9 +128,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */,
 				3A9A9FD82A5C84B5007BA5C9 /* ishareApp.swift in Sources */,
 				3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */,
-				3AF0124A2A5C9F8F00A4F5C9 /* MenuBarScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

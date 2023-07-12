@@ -9,5 +9,9 @@ import SwiftUI
 
 @main
 struct ishareApp: App {
-    var body = MenuBarScene()
+    var body: some Scene {
+        MenuBarExtra("ishare", systemImage: "photo.on.rectangle.angled") {
+            MainMenuView()
+        }
+    }
 }
