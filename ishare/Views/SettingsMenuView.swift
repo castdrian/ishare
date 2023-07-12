@@ -7,6 +7,7 @@
 
 import SwiftUI
 import LaunchAtLogin
+import KeyboardShortcuts
 
 struct SettingsMenuView: View {
     var body: some View {
@@ -60,8 +61,9 @@ struct UploaderSettingsView: View {
  
 struct KeybindSettingsView: View {
     var body: some View {
-        Text("Keybind Settings")
-            .font(.title)
+        Form {
+            KeyboardShortcuts.Recorder("Open Main Menu:", name: .toggleMainMenu)
+        }
     }
 }
 

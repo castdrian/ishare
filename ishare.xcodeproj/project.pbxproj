@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A9A9FD82A5C84B5007BA5C9 /* ishareApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */; };
+		3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* App.swift */; };
 		3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */; };
 		3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
 		3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */; };
@@ -15,17 +15,21 @@
 		3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345BB2A5EBA5400AAEC0E /* Defaults */; };
 		3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */; };
 		3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */; };
+		3AB345C62A5F0C7A00AAEC0E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C52A5F0C7A00AAEC0E /* Constants.swift */; };
+		3AB345C82A5F163800AAEC0E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C72A5F163800AAEC0E /* AppState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3A9A9FD42A5C84B5007BA5C9 /* ishare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ishare.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ishareApp.swift; sourceTree = "<group>"; };
+		3A9A9FD72A5C84B5007BA5C9 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ishare.entitlements; sourceTree = "<group>"; };
 		3A9AA0022A5C8E45007BA5C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
 		3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMenuView.swift; sourceTree = "<group>"; };
 		3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastPopover.swift; sourceTree = "<group>"; };
+		3AB345C52A5F0C7A00AAEC0E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3AB345C72A5F163800AAEC0E /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,15 +65,33 @@
 		3A9A9FD62A5C84B5007BA5C9 /* ishare */ = {
 			isa = PBXGroup;
 			children = (
+				3AB345CA2A5F1A9D00AAEC0E /* Util */,
+				3AB345C92A5F1A6C00AAEC0E /* Views */,
 				3A9AA0022A5C8E45007BA5C9 /* Info.plist */,
-				3A9A9FD72A5C84B5007BA5C9 /* ishareApp.swift */,
+				3A9A9FD72A5C84B5007BA5C9 /* App.swift */,
 				3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */,
-				3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */,
-				3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */,
-				3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */,
-				3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */,
 			);
 			path = ishare;
+			sourceTree = "<group>";
+		};
+		3AB345C92A5F1A6C00AAEC0E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */,
+				3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3AB345CA2A5F1A9D00AAEC0E /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				3AB345C72A5F163800AAEC0E /* AppState.swift */,
+				3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */,
+				3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */,
+				3AB345C52A5F0C7A00AAEC0E /* Constants.swift */,
+			);
+			path = Util;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,10 +173,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */,
-				3A9A9FD82A5C84B5007BA5C9 /* ishareApp.swift in Sources */,
+				3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */,
+				3AB345C82A5F163800AAEC0E /* AppState.swift in Sources */,
 				3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */,
 				3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */,
 				3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */,
+				3AB345C62A5F0C7A00AAEC0E /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
