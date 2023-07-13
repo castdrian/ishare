@@ -10,22 +10,23 @@ import Defaults
 import AppKit
 
 enum CaptureType: String {
-    case ScreenImage = ""
-    case WindowImage = "-w"
-    case RegionImage = "-s"
+    case SCREEN = "-t"
+    case WINDOW = "-wt"
+    case REGION = "-st"
 }
 
-enum FileType: String {
-    case PNG = ".png"
+enum FileType: String, CaseIterable, Identifiable, Defaults.Serializable {
+    case PNG = "png"
+    case JPG = "jpg"
+    case PDF = "pdf"
+    case TIFF = "tiff"
+    case HEIC = "heic"
+    var id: Self { self }
 }
 
-struct CaptureOptions {
-    let type: CaptureType
-    let ext: FileType
-}
-
-func captureScreen(options: CaptureOptions) -> Void {
+func captureScreen(type: CaptureType) -> Void {
     @Default(.capturePath) var capturePath
+    @Default(.captureFileType) var fileType
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.uploadMedia) var uploadMedia
@@ -33,12 +34,12 @@ func captureScreen(options: CaptureOptions) -> Void {
     let timestamp = Int(Date().timeIntervalSince1970)
     let uniqueFilename = "ishare-\(timestamp)"
     
-    var path = "\(capturePath)\(uniqueFilename)\(options.ext.rawValue)"
+    var path = "\(capturePath)\(uniqueFilename).\(fileType)"
     path = NSString(string: path).expandingTildeInPath
-    
+        
     let task = Process()
     task.launchPath = "/usr/sbin/screencapture"
-    task.arguments = options.type == CaptureType.ScreenImage ? [path] : [options.type.rawValue, path]
+    task.arguments = type == CaptureType.SCREEN ? [fileType.rawValue, path] : [type.rawValue, fileType.rawValue, path]
     task.launch()
     task.waitUntilExit()
     

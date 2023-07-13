@@ -75,19 +75,28 @@ struct KeybindSettingsView: View {
 
 struct CaptureSettingsView: View {
     @Default(.capturePath) var capturePath
+    @Default(.captureFileType) var fileType
     
     var body: some View {
-        HStack {
-            Text("Capture path:")
-            TextField(text: $capturePath) {}
-            Button("Select directory") {
-                selectFolder { folderURL in
-                    if let url = folderURL {
-                        capturePath = url.path()
+        VStack {
+            HStack {
+                Text("Capture path:")
+                TextField(text: $capturePath) {}
+                Button("Select directory") {
+                    selectFolder { folderURL in
+                        if let url = folderURL {
+                            capturePath = url.path()
+                        }
                     }
                 }
-            }
-        }.padding(10)
+            }.padding(10)
+            
+            Picker("File format:", selection: $fileType) {
+                ForEach(FileType.allCases, id: \.self) {
+                    Text($0.rawValue.uppercased())
+                }
+            }.padding(10)
+        }
     }
 }
 

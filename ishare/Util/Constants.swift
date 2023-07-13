@@ -23,6 +23,7 @@ extension Defaults.Keys {
     static let openInFinder = Key<Bool>("openInFinder", default: false)
     static let uploadMedia = Key<Bool>("uploadMedia", default: false)
     static let capturePath = Key<String>("capturePath", default: "~/Pictures/")
+    static let captureFileType = Key<FileType>("captureFileType", default: .PNG)
 }
 
 extension KeyboardShortcuts.Shortcut {

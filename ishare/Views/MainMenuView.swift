@@ -27,16 +27,13 @@ struct MainMenuView: View {
     var body: some View {
         Menu("Capture/Record") {
             Button("Capture Region") {
-                let options = CaptureOptions(type: CaptureType.RegionImage, ext: FileType.PNG)
-                captureScreen(options: options)
+                captureScreen(type: .REGION)
             }.keyboardShortcut(.captureRegion)
             Button("Capture Window") {
-                let options = CaptureOptions(type: CaptureType.WindowImage, ext: FileType.PNG)
-                captureScreen(options: options)
+                captureScreen(type: .WINDOW)
             }.keyboardShortcut(.captureWindow)
             Button("Capture Screen") {
-                let options = CaptureOptions(type: CaptureType.ScreenImage, ext: FileType.PNG)
-                captureScreen(options: options)
+                captureScreen(type: .SCREEN)
             }.keyboardShortcut(.captureScreen)
             Divider()
             Button("Record Region") {

@@ -16,13 +16,13 @@ final class AppState: ObservableObject {
             // TODO: show main menu on keybind
         }
         KeyboardShortcuts.onKeyUp(for: .captureRegion) {
-            let options = CaptureOptions(type: CaptureType.RegionImage, ext: FileType.PNG);            captureScreen(options: options)
+            captureScreen(type: .REGION)
         }
         KeyboardShortcuts.onKeyUp(for: .captureWindow) {
-            let options = CaptureOptions(type: CaptureType.WindowImage, ext: FileType.PNG);            captureScreen(options: options)
+            captureScreen(type: .WINDOW)
         }
         KeyboardShortcuts.onKeyUp(for: .captureScreen) {
-            let options = CaptureOptions(type: CaptureType.ScreenImage, ext: FileType.PNG);            captureScreen(options: options)
+            captureScreen(type: .SCREEN)
         }
         KeyboardShortcuts.onKeyUp(for: .recordRegion) {
         }
