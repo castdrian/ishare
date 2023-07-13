@@ -7,7 +7,6 @@
 
 import Foundation
 import AppKit
-import AlertToast
 
 enum CaptureType: String {
     case ScreenImage = ""

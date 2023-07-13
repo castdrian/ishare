@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import Defaults
 import KeyboardShortcuts
 
 @MainActor
 final class AppState: ObservableObject {
-    @State private var copyToClipboard: Bool = true
-    @State private var openInFinder: Bool = false
-    @State private var uploadMedia: Bool = false
+    @Default(.copyToClipboard) var copyToClipboard
+    @Default(.openInFinder) var openInFinder
+    @Default(.uploadMedia) var uploadMedia
 
     init() {
         KeyboardShortcuts.onKeyUp(for: .toggleMainMenu) {

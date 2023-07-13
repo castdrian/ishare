@@ -5,8 +5,9 @@
 //  Created by Adrian Castro on 12.07.23.
 //
 
-@testable import KeyboardShortcuts
 import SwiftUI
+import Defaults
+@testable import KeyboardShortcuts
 
 extension KeyboardShortcuts.Name {
     static let toggleMainMenu = Self("toggleMainMenu", default: .init(.s, modifiers: [.option, .command]))
@@ -17,14 +18,17 @@ extension KeyboardShortcuts.Name {
     static let recordScreen = Self("recordScreen", default: .init(.z, modifiers: [.control, .option,]))
 }
 
-extension KeyboardShortcuts.Shortcut {
+extension Defaults.Keys {
+    static let copyToClipboard = Key<Bool>("copyToClipboard", default: true)
+    static let openInFinder = Key<Bool>("openInFinder", default: false)
+    static let uploadMedia = Key<Bool>("uploadMedia", default: false)
+}
 
-    @available(iOS 14.0, macOS 11.0, *)
+extension KeyboardShortcuts.Shortcut {
     var swiftUI: SwiftUI.KeyboardShortcut? {
         guard let key = keyEquivalent.first else { return nil }
         return .init(.init(key), modifiers: modifiers.swiftUI)
     }
-
 }
 
 extension NSEvent.ModifierFlags {
@@ -53,7 +57,6 @@ extension NSEvent.ModifierFlags {
 }
 
 extension View {
-
     @ViewBuilder
     /// Assigns the global keyboard shortcut to the modified control.
     ///
@@ -67,5 +70,4 @@ extension View {
             self
         }
     }
-
 }

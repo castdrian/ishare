@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Defaults
 
 enum PostCaptureTasks: String, CaseIterable, Identifiable {
     case COPY_TO_CLIPBOARD, OPEN_CAPTURE_FOLDER, UPLOAD_MEDIA
@@ -19,9 +20,9 @@ enum Destination: String, CaseIterable, Identifiable {
 
 struct MainMenuView: View {
     @State private var selectedDestination: Destination = .IMGUR
-    @State private var copyToClipboard: Bool = true
-    @State private var openInFinder: Bool = false
-    @State private var uploadMedia: Bool = false
+    @Default(.copyToClipboard) var copyToClipboard
+    @Default(.openInFinder) var openInFinder
+    @Default(.uploadMedia) var uploadMedia
     
     var body: some View {
         Menu("Capture/Record") {
