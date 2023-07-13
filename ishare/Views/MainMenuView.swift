@@ -40,9 +40,9 @@ struct MainMenuView: View {
             }.keyboardShortcut(.captureScreen)
             Divider()
             Button("Record Region") {
-            }.disabled(true)
+            }.disabled(!isFFmpegInstalled())
             Button("Record Screen") {
-            }.disabled(true)
+            }.disabled(!isFFmpegInstalled())
         }
         
         Menu("Post Media Tasks") {

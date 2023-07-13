@@ -71,3 +71,10 @@ extension View {
         }
     }
 }
+
+func isFFmpegInstalled() -> Bool {
+    let fileManager = FileManager.default
+    let ffmpegPath = "/usr/local/bin/ffmpeg"
+
+    return fileManager.fileExists(atPath: ffmpegPath)
+}
