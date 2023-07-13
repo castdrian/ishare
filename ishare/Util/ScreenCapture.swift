@@ -6,34 +6,34 @@
 //
 
 import Foundation
+import Defaults
 import AppKit
 
 enum CaptureType: String {
     case ScreenImage = ""
     case WindowImage = "-w"
     case RegionImage = "-s"
-    // case ScreenVideo = "-v"
-    // case RegionVideo = "-vs"
 }
 
 enum FileType: String {
     case PNG = ".png"
-    case MOV = ".mov"
 }
 
 struct CaptureOptions {
-    let filePath: String?
     let type: CaptureType
     let ext: FileType
-    let saveFileToClipboard: Bool
-    let showInFinder: Bool
 }
 
 func captureScreen(options: CaptureOptions) -> Void {
+    @Default(.capturePath) var capturePath
+    @Default(.copyToClipboard) var copyToClipboard
+    @Default(.openInFinder) var openInFinder
+    @Default(.uploadMedia) var uploadMedia
+    
     let timestamp = Int(Date().timeIntervalSince1970)
     let uniqueFilename = "ishare-\(timestamp)"
     
-    var path = "\(options.filePath ?? "~/Pictures/")\(uniqueFilename)\(options.ext.rawValue)"
+    var path = "\(capturePath)\(uniqueFilename)\(options.ext.rawValue)"
     path = NSString(string: path).expandingTildeInPath
     
     let task = Process()
@@ -48,14 +48,14 @@ func captureScreen(options: CaptureOptions) -> Void {
         return
     }
     
-    if options.saveFileToClipboard {
+    if copyToClipboard {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
             
         pasteboard.setString(fileURL.absoluteString, forType: .fileURL)
     }
     
-    if options.showInFinder {
+    if openInFinder {
         NSWorkspace.shared.activateFileViewerSelecting([fileURL])
     }
     

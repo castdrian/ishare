@@ -22,6 +22,7 @@ extension Defaults.Keys {
     static let copyToClipboard = Key<Bool>("copyToClipboard", default: true)
     static let openInFinder = Key<Bool>("openInFinder", default: false)
     static let uploadMedia = Key<Bool>("uploadMedia", default: false)
+    static let capturePath = Key<String>("capturePath", default: "~/Pictures/")
 }
 
 extension KeyboardShortcuts.Shortcut {

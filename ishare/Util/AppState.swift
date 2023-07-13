@@ -11,25 +11,18 @@ import KeyboardShortcuts
 
 @MainActor
 final class AppState: ObservableObject {
-    @Default(.copyToClipboard) var copyToClipboard
-    @Default(.openInFinder) var openInFinder
-    @Default(.uploadMedia) var uploadMedia
-
     init() {
         KeyboardShortcuts.onKeyUp(for: .toggleMainMenu) {
             // TODO: show main menu on keybind
         }
         KeyboardShortcuts.onKeyUp(for: .captureRegion) {
-            let options = CaptureOptions(filePath: nil, type: CaptureType.RegionImage, ext: FileType.PNG, saveFileToClipboard: self.copyToClipboard, showInFinder: self.openInFinder)
-            captureScreen(options: options)
+            let options = CaptureOptions(type: CaptureType.RegionImage, ext: FileType.PNG);            captureScreen(options: options)
         }
         KeyboardShortcuts.onKeyUp(for: .captureWindow) {
-            let options = CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: self.copyToClipboard, showInFinder: self.openInFinder)
-            captureScreen(options: options)
+            let options = CaptureOptions(type: CaptureType.WindowImage, ext: FileType.PNG);            captureScreen(options: options)
         }
         KeyboardShortcuts.onKeyUp(for: .captureScreen) {
-            let options = CaptureOptions(filePath: nil, type: CaptureType.ScreenImage, ext: FileType.PNG, saveFileToClipboard: self.copyToClipboard, showInFinder: self.openInFinder)
-            captureScreen(options: options)
+            let options = CaptureOptions(type: CaptureType.ScreenImage, ext: FileType.PNG);            captureScreen(options: options)
         }
         KeyboardShortcuts.onKeyUp(for: .recordRegion) {
         }

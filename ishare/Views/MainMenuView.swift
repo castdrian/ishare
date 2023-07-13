@@ -27,28 +27,28 @@ struct MainMenuView: View {
     var body: some View {
         Menu("Capture/Record") {
             Button("Capture Region") {
-                let options = CaptureOptions(filePath: nil, type: CaptureType.RegionImage, ext: FileType.PNG, saveFileToClipboard: copyToClipboard, showInFinder: openInFinder)
+                let options = CaptureOptions(type: CaptureType.RegionImage, ext: FileType.PNG)
                 captureScreen(options: options)
             }.keyboardShortcut(.captureRegion)
             Button("Capture Window") {
-                let options = CaptureOptions(filePath: nil, type: CaptureType.WindowImage, ext: FileType.PNG, saveFileToClipboard: copyToClipboard, showInFinder: openInFinder)
+                let options = CaptureOptions(type: CaptureType.WindowImage, ext: FileType.PNG)
                 captureScreen(options: options)
             }.keyboardShortcut(.captureWindow)
             Button("Capture Screen") {
-                let options = CaptureOptions(filePath: nil, type: CaptureType.ScreenImage, ext: FileType.PNG, saveFileToClipboard: copyToClipboard, showInFinder: openInFinder)
+                let options = CaptureOptions(type: CaptureType.ScreenImage, ext: FileType.PNG)
                 captureScreen(options: options)
             }.keyboardShortcut(.captureScreen)
             Divider()
             Button("Record Region") {
-            }.disabled(!isFFmpegInstalled())
+            }.keyboardShortcut(.recordRegion).disabled(!isFFmpegInstalled())
             Button("Record Screen") {
-            }.disabled(!isFFmpegInstalled())
+            }.keyboardShortcut(.recordScreen).disabled(!isFFmpegInstalled())
         }
         
         Menu("Post Media Tasks") {
             Toggle("Copy to clipboard", isOn: $copyToClipboard).toggleStyle(.checkbox)
             Toggle("Open in Finder", isOn: $openInFinder).toggleStyle(.checkbox)
-            Toggle("Upload capture", isOn: $uploadMedia).toggleStyle(.checkbox)
+            Toggle("Upload media", isOn: $uploadMedia).toggleStyle(.checkbox)
         }
 
         Picker("Upload Destination", selection: $selectedDestination) {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Defaults
 import LaunchAtLogin
 import KeyboardShortcuts
 
@@ -73,9 +74,20 @@ struct KeybindSettingsView: View {
 }
 
 struct CaptureSettingsView: View {
+    @Default(.capturePath) var capturePath
+    
     var body: some View {
-        Text("Capture Settings")
-            .font(.title)
+        HStack {
+            Text("Capture path:")
+            TextField(text: $capturePath) {}
+            Button("Select directory") {
+                selectFolder { folderURL in
+                    if let url = folderURL {
+                        capturePath = url.path()
+                    }
+                }
+            }
+        }.padding(10)
     }
 }
 
@@ -90,5 +102,22 @@ struct AdvancedSettingsView: View {
     var body: some View {
         Text("Advanced Settings")
             .font(.title)
+    }
+}
+
+func selectFolder(completion: @escaping (URL?) -> Void) {
+    let folderPicker = NSOpenPanel()
+    folderPicker.canChooseDirectories = true
+    folderPicker.canChooseFiles = false
+    folderPicker.allowsMultipleSelection = false
+    folderPicker.canDownloadUbiquitousContents = true
+    folderPicker.canResolveUbiquitousConflicts = true
+    
+    folderPicker.begin { response in
+        if response == .OK {
+            completion(folderPicker.urls.first)
+        } else {
+            completion(nil)
+        }
     }
 }
