@@ -60,5 +60,13 @@ func captureScreen(type: CaptureType) -> Void {
         NSWorkspace.shared.activateFileViewerSelecting([fileURL])
     }
     
-    showToast(fileURL: fileURL)
+    if uploadMedia {
+        imgurUpload(fileURL) {
+            showToast(fileURL: fileURL)
+            NSSound.beep()
+        }
+    } else {
+        showToast(fileURL: fileURL)
+        NSSound.beep()
+    }
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3A17C0782A61A20E0012F285 /* Alamofire */; };
+		3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17C07B2A61A2510012F285 /* Imgur.swift */; };
 		3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* App.swift */; };
 		3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */; };
 		3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
@@ -20,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A17C07B2A61A2510012F285 /* Imgur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Imgur.swift; sourceTree = "<group>"; };
 		3A9A9FD42A5C84B5007BA5C9 /* ishare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ishare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9A9FD72A5C84B5007BA5C9 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ishare.entitlements; sourceTree = "<group>"; };
@@ -38,6 +41,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */,
+				3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */,
 				3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */,
 				3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */,
 			);
@@ -46,6 +50,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A17C07A2A61A2320012F285 /* Http */ = {
+			isa = PBXGroup;
+			children = (
+				3A17C07B2A61A2510012F285 /* Imgur.swift */,
+			);
+			path = Http;
+			sourceTree = "<group>";
+		};
 		3A9A9FCB2A5C84B4007BA5C9 = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +77,7 @@
 		3A9A9FD62A5C84B5007BA5C9 /* ishare */ = {
 			isa = PBXGroup;
 			children = (
+				3A17C07A2A61A2320012F285 /* Http */,
 				3AB345CA2A5F1A9D00AAEC0E /* Util */,
 				3AB345C92A5F1A6C00AAEC0E /* Views */,
 				3A9AA0022A5C8E45007BA5C9 /* Info.plist */,
@@ -114,6 +127,7 @@
 				3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */,
 				3AB345BB2A5EBA5400AAEC0E /* Defaults */,
 				3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */,
+				3A17C0782A61A20E0012F285 /* Alamofire */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
@@ -147,6 +161,7 @@
 				3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 				3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */,
 				3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				3A17C0772A61A20E0012F285 /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
 			projectDirPath = "";
@@ -174,6 +189,7 @@
 			files = (
 				3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */,
 				3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */,
+				3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */,
 				3AB345C82A5F163800AAEC0E /* AppState.swift in Sources */,
 				3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */,
 				3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */,
@@ -382,6 +398,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3A17C0772A61A20E0012F285 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
@@ -409,6 +433,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3A17C0782A61A20E0012F285 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A17C0772A61A20E0012F285 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;

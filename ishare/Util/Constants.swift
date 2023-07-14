@@ -24,6 +24,7 @@ extension Defaults.Keys {
     static let uploadMedia = Key<Bool>("uploadMedia", default: false)
     static let capturePath = Key<String>("capturePath", default: "~/Pictures/")
     static let captureFileType = Key<FileType>("captureFileType", default: .PNG)
+    static let imgurClientId = Key<String>("imgurClientId", default: "867afe9433c0a53")
 }
 
 extension KeyboardShortcuts.Shortcut {
