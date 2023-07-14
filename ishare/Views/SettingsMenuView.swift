@@ -105,7 +105,7 @@ struct RecordingSettingsView: View {
     @State private var isInstalling = false
     @State private var errorAlert: ErrorAlert? = nil
     @State private var isFFmpegInstalled: Bool = false
-
+    
     
     private var alertTitle: String = "Install ffmpeg"
     private var alertMessage: String = "Do you want to install ffmpeg on this Mac?"
@@ -124,16 +124,16 @@ struct RecordingSettingsView: View {
                 .alert(Text(alertTitle),
                        isPresented: $showingAlert,
                        actions: {
-                        Button(alertButtonText) {
-                            showingAlert = false
-                            // installFFmpeg() doesn't work yet, might not do this
-                        }
-                        Button("Cancel", role: .cancel) {
-                            showingAlert = false
-                        }
-                    }, message: {
-                        Text(alertMessage)
+                    Button(alertButtonText) {
+                        showingAlert = false
+                        // installFFmpeg() doesn't work yet, might not do this
                     }
+                    Button("Cancel", role: .cancel) {
+                        showingAlert = false
+                    }
+                }, message: {
+                    Text(alertMessage)
+                }
                 )
             }.onAppear {
                 isFFmpegInstalled = checkAppInstallation(.FFMPEG)
@@ -152,7 +152,7 @@ struct RecordingSettingsView: View {
                             .accentColor(.blue)
                             .padding(.horizontal)
                         }
-                        .padding()
+                            .padding()
                     )
             }
         }
@@ -210,25 +210,40 @@ struct ErrorAlert: Identifiable {
 }
 
 struct AdvancedSettingsView: View {
-    var body: some View {
-        Text("Advanced Settings")
-            .font(.title)
-    }
-}
-
-func selectFolder(completion: @escaping (URL?) -> Void) {
-    let folderPicker = NSOpenPanel()
-    folderPicker.canChooseDirectories = true
-    folderPicker.canChooseFiles = false
-    folderPicker.allowsMultipleSelection = false
-    folderPicker.canDownloadUbiquitousContents = true
-    folderPicker.canResolveUbiquitousConflicts = true
+    @State private var showingAlert: Bool = false
     
-    folderPicker.begin { response in
-        if response == .OK {
-            completion(folderPicker.urls.first)
-        } else {
-            completion(nil)
+    var body: some View {
+        VStack{
+            
+        }.alert(Text("Advanced Settings"),
+                isPresented: $showingAlert,
+                actions: {
+            Button("I understand") {
+                showingAlert = false
+            }
+        }, message: {
+            Text("Warning! Only modify these settings if you know what you're doing!")
+        }
+        )
+        .onAppear{
+            showingAlert = true
         }
     }
 }
+    
+    func selectFolder(completion: @escaping (URL?) -> Void) {
+        let folderPicker = NSOpenPanel()
+        folderPicker.canChooseDirectories = true
+        folderPicker.canChooseFiles = false
+        folderPicker.allowsMultipleSelection = false
+        folderPicker.canDownloadUbiquitousContents = true
+        folderPicker.canResolveUbiquitousConflicts = true
+        
+        folderPicker.begin { response in
+            if response == .OK {
+                completion(folderPicker.urls.first)
+            } else {
+                completion(nil)
+            }
+        }
+    }
