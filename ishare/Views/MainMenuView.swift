@@ -16,7 +16,7 @@ enum Destination: String, CaseIterable, Identifiable {
 struct MainMenuView: View {
     @State private var selectedDestination: Destination = .IMGUR
     @State private var isFFmpegInstalled: Bool = false
-
+    
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.uploadMedia) var uploadMedia
@@ -29,9 +29,13 @@ struct MainMenuView: View {
             Button("Capture Window") {
                 captureScreen(type: .WINDOW)
             }.keyboardShortcut(.captureWindow)
-            Button("Capture Screen") {
-                captureScreen(type: .SCREEN)
-            }.keyboardShortcut(.captureScreen)
+            ForEach(NSScreen.screens.indices, id: \.self) { index in
+                let screen = NSScreen.screens[index]
+                let screenName = screen.localizedName
+                Button("Capture \(screenName)") {
+                    captureScreen(type: .SCREEN, display: index + 1)
+                }.keyboardShortcut(index == 0 ? .captureScreen : .noKeybind)
+            }
             Divider()
             Button("Record Region") {
             }.keyboardShortcut(.recordRegion).disabled(!isFFmpegInstalled)
@@ -46,7 +50,7 @@ struct MainMenuView: View {
             Toggle("Open in Finder", isOn: $openInFinder).toggleStyle(.checkbox)
             Toggle("Upload media", isOn: $uploadMedia).toggleStyle(.checkbox)
         }
-
+        
         Picker("Upload Destination", selection: $selectedDestination) {
             ForEach(Destination.allCases, id: \.self) {
                 Text($0.rawValue.capitalized)
@@ -72,7 +76,7 @@ struct MainMenuView: View {
                             NSAttributedString.Key.font: NSFont.boldSystemFont(
                                 ofSize: NSFont.smallSystemFontSize)
                         ]
-                ),
+                    ),
                     NSApplication.AboutPanelOptionKey(
                         rawValue: "Copyright"
                     ): "© 2023 ADRIAN CASTRO"

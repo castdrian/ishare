@@ -24,7 +24,7 @@ enum FileType: String, CaseIterable, Identifiable, Defaults.Serializable {
     var id: Self { self }
 }
 
-func captureScreen(type: CaptureType) -> Void {
+func captureScreen(type: CaptureType, display: Int = 1) -> Void {
     @Default(.capturePath) var capturePath
     @Default(.captureFileType) var fileType
     @Default(.copyToClipboard) var copyToClipboard
@@ -39,7 +39,7 @@ func captureScreen(type: CaptureType) -> Void {
         
     let task = Process()
     task.launchPath = "/usr/sbin/screencapture"
-    task.arguments = type == CaptureType.SCREEN ? [fileType.rawValue, path] : [type.rawValue, fileType.rawValue, path]
+    task.arguments = type == CaptureType.SCREEN ? [type.rawValue, fileType.rawValue, "-D", "\(display)", path] : [type.rawValue, fileType.rawValue, path]
     task.launch()
     task.waitUntilExit()
     

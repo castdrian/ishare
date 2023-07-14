@@ -10,6 +10,7 @@ import Defaults
 @testable import KeyboardShortcuts
 
 extension KeyboardShortcuts.Name {
+    static let noKeybind = Self("noKeybind")
     static let toggleMainMenu = Self("toggleMainMenu", default: .init(.s, modifiers: [.option, .command]))
     static let captureRegion = Self("captureRegion", default: .init(.p, modifiers: [.option, .command]))
     static let captureWindow = Self("captureWindow", default: .init(.p, modifiers: [.control,.option]))
