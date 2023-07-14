@@ -8,11 +8,6 @@
 import SwiftUI
 import Defaults
 
-enum PostCaptureTasks: String, CaseIterable, Identifiable {
-    case COPY_TO_CLIPBOARD, OPEN_CAPTURE_FOLDER, UPLOAD_MEDIA
-    var id: Self { self }
-}
-
 enum Destination: String, CaseIterable, Identifiable {
     case IMGUR, CUSTOM
     var id: Self { self }
@@ -43,7 +38,7 @@ struct MainMenuView: View {
             Button("Record Screen") {
             }.keyboardShortcut(.recordScreen).disabled(!isFFmpegInstalled)
         }.onAppear {
-            isFFmpegInstalled = checkFFmpegInstallation()
+            isFFmpegInstalled = checkAppInstallation(.FFMPEG)
         }
         
         Menu("Post Media Tasks") {

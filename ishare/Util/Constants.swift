@@ -74,25 +74,30 @@ extension View {
     }
 }
 
-func checkFFmpegInstallation() -> Bool {
-    let process = Process()
-    let pipe = Pipe()
+enum InstalledApp: String {
+    case HOMEBREW
+    case FFMPEG
+}
 
-    process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
-    process.arguments = ["which", "ffmpeg"]
-    process.standardOutput = pipe
+func checkAppInstallation(_ app: InstalledApp) -> Bool {
+    let fileManager = FileManager.default
+    let homebrewPath = utsname.isAppleSilicon ? "/opt/homebrew/bin/brew" : "/usr/local/bin/brew"
+    let ffmpegPath = utsname.isAppleSilicon ? "/opt/homebrew/bin/ffmpeg" : "/usr/local/bin/ffmpeg"
 
-    do {
-        try process.run()
-        process.waitUntilExit()
+    return fileManager.fileExists(atPath: app == InstalledApp.HOMEBREW ? homebrewPath : ffmpegPath)
+}
 
-        let data = pipe.fileHandleForReading.readDataToEndOfFile()
-        if let output = String(data: data, encoding: .utf8) {
-            return !output.isEmpty
+extension utsname {
+    static var sMachine: String {
+        var utsname = utsname()
+        uname(&utsname)
+        return withUnsafePointer(to: &utsname.machine) {
+            $0.withMemoryRebound(to: CChar.self, capacity: Int(_SYS_NAMELEN)) {
+                String(cString: $0)
+            }
         }
-    } catch {
-        print("Error: \(error)")
     }
-
-    return false
+    static var isAppleSilicon: Bool {
+        sMachine == "arm64"
+    }
 }

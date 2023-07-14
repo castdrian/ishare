@@ -136,7 +136,10 @@ struct RecordingSettingsView: View {
                     }
                 )
             }.onAppear {
-                isFFmpegInstalled = checkFFmpegInstallation()
+                print(checkAppInstallation(.FFMPEG))
+                print(checkAppInstallation(.HOMEBREW))
+
+                isFFmpegInstalled = checkAppInstallation(.FFMPEG)
             }
             if isInstalling {
                 RoundedRectangle(cornerRadius: 10)
@@ -162,18 +165,27 @@ struct RecordingSettingsView: View {
     }
     
     func installFFmpeg() {
+        if !checkAppInstallation(.HOMEBREW) {
+            errorAlert = ErrorAlert(
+                title: "Installation Failed",
+                message: "Homebrew is not installed on this Mac."
+            )
+            return
+        }
+        
         isInstalling = true
         
         DispatchQueue.global().async {
             let process = Process()
-            process.launchPath = "/usr/local/bin/brew"
-            process.arguments = ["install", "ffmpeg"]
+            process.launchPath = "/usr/local/bin/env"
+            process.arguments = ["brew", "install", "ffmpeg"]
             
             process.launch()
             process.waitUntilExit()
             
             DispatchQueue.main.async {
                 isInstalling = false
+                isFFmpegInstalled = checkAppInstallation(.FFMPEG)
                 
                 if process.terminationStatus != 0 {
                     errorAlert = ErrorAlert(
