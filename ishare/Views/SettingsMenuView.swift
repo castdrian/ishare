@@ -126,7 +126,7 @@ struct RecordingSettingsView: View {
                        actions: {
                         Button(alertButtonText) {
                             showingAlert = false
-                            installFFmpeg()
+                            // installFFmpeg() doesn't work yet, might not do this
                         }
                         Button("Cancel", role: .cancel) {
                             showingAlert = false
@@ -136,9 +136,6 @@ struct RecordingSettingsView: View {
                     }
                 )
             }.onAppear {
-                print(checkAppInstallation(.FFMPEG))
-                print(checkAppInstallation(.HOMEBREW))
-
                 isFFmpegInstalled = checkAppInstallation(.FFMPEG)
             }
             if isInstalling {
@@ -177,8 +174,8 @@ struct RecordingSettingsView: View {
         
         DispatchQueue.global().async {
             let process = Process()
-            process.launchPath = "/usr/local/bin/env"
-            process.arguments = ["brew", "install", "ffmpeg"]
+            process.launchPath = utsname.isAppleSilicon ? "/opt/homebrew/bin/brew" : "/usr/local/bin/brew"
+            process.arguments = ["install", "ffmpeg"]
             
             process.launch()
             process.waitUntilExit()
