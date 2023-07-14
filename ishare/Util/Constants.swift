@@ -74,9 +74,25 @@ extension View {
     }
 }
 
-func isFFmpegInstalled() -> Bool {
-    let fileManager = FileManager.default
-    let ffmpegPath = "/usr/local/bin/ffmpeg"
+func checkFFmpegInstallation() -> Bool {
+    let process = Process()
+    let pipe = Pipe()
 
-    return fileManager.fileExists(atPath: ffmpegPath)
+    process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
+    process.arguments = ["which", "ffmpeg"]
+    process.standardOutput = pipe
+
+    do {
+        try process.run()
+        process.waitUntilExit()
+
+        let data = pipe.fileHandleForReading.readDataToEndOfFile()
+        if let output = String(data: data, encoding: .utf8) {
+            return !output.isEmpty
+        }
+    } catch {
+        print("Error: \(error)")
+    }
+
+    return false
 }

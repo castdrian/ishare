@@ -20,6 +20,8 @@ enum Destination: String, CaseIterable, Identifiable {
 
 struct MainMenuView: View {
     @State private var selectedDestination: Destination = .IMGUR
+    @State private var isFFmpegInstalled: Bool = false
+
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.uploadMedia) var uploadMedia
@@ -37,9 +39,11 @@ struct MainMenuView: View {
             }.keyboardShortcut(.captureScreen)
             Divider()
             Button("Record Region") {
-            }.keyboardShortcut(.recordRegion).disabled(!isFFmpegInstalled())
+            }.keyboardShortcut(.recordRegion).disabled(!isFFmpegInstalled)
             Button("Record Screen") {
-            }.keyboardShortcut(.recordScreen).disabled(!isFFmpegInstalled())
+            }.keyboardShortcut(.recordScreen).disabled(!isFFmpegInstalled)
+        }.onAppear {
+            isFFmpegInstalled = checkFFmpegInstallation()
         }
         
         Menu("Post Media Tasks") {

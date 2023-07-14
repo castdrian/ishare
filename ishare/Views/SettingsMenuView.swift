@@ -103,7 +103,9 @@ struct CaptureSettingsView: View {
 struct RecordingSettingsView: View {
     @State private var showingAlert: Bool = false
     @State private var isInstalling = false
-    @State private var installProgress: Double = 0.0
+    @State private var errorAlert: ErrorAlert? = nil
+    @State private var isFFmpegInstalled: Bool = false
+
     
     private var alertTitle: String = "Install ffmpeg"
     private var alertMessage: String = "Do you want to install ffmpeg on this Mac?"
@@ -113,26 +115,28 @@ struct RecordingSettingsView: View {
         VStack {
             HStack {
                 Text("ffmpeg status:")
-                Button(isFFmpegInstalled() ? "installed" : "not installed") {
+                Button(isFFmpegInstalled ? "installed" : "not installed") {
                     showingAlert = true
                 }
                 .buttonStyle(.borderedProminent)
-                .tint(isFFmpegInstalled() ? .green : .pink)
-                .disabled(isFFmpegInstalled())
+                .tint(isFFmpegInstalled ? .green : .pink)
+                .disabled(isFFmpegInstalled)
                 .alert(Text(alertTitle),
                        isPresented: $showingAlert,
                        actions: {
-                    Button(alertButtonText) {
-                        showingAlert = false
-                        installFFmpeg()
+                        Button(alertButtonText) {
+                            showingAlert = false
+                            installFFmpeg()
+                        }
+                        Button("Cancel", role: .cancel) {
+                            showingAlert = false
+                        }
+                    }, message: {
+                        Text(alertMessage)
                     }
-                    Button("Cancel", role: .cancel) {
-                        showingAlert = false
-                    }
-                }, message: {
-                    Text(alertMessage)
-                }
                 )
+            }.onAppear {
+                isFFmpegInstalled = checkFFmpegInstallation()
             }
             if isInstalling {
                 RoundedRectangle(cornerRadius: 10)
@@ -140,38 +144,59 @@ struct RecordingSettingsView: View {
                     .frame(width: 200, height: 180)
                     .overlay(
                         VStack {
-                            Text("Installing FFmpeg...")
-                                .foregroundColor(.primary)
-                            Text(String(format: "%.0f%%", installProgress))
-                                .font(.title2)
-                                .foregroundColor(.primary)
-                                .padding(.bottom, 8)
-                            ProgressView(value: installProgress, total: 100)
-                                .progressViewStyle(LinearProgressViewStyle())
-                                .accentColor(.blue)
-                                .padding(.horizontal)
+                            ProgressView {
+                                Text("Installing ffmpeg...")
+                                    .foregroundColor(.primary)
+                            }
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .accentColor(.blue)
+                            .padding(.horizontal)
                         }
-                            .padding()
+                        .padding()
                     )
             }
         }
+        .alert(item: $errorAlert) { error in
+            error.alert
+        }
     }
+    
     func installFFmpeg() {
         isInstalling = true
         
         DispatchQueue.global().async {
-            // Simulating installation progress for demonstration purposes
-            let totalProgress: Double = 100.0
-            let increment: Double = 1.0
+            let process = Process()
+            process.launchPath = "/usr/local/bin/brew"
+            process.arguments = ["install", "ffmpeg"]
             
-            while installProgress < totalProgress {
-                installProgress += increment
-                usleep(20000) // Simulating delay between progress updates
+            process.launch()
+            process.waitUntilExit()
+            
+            DispatchQueue.main.async {
+                isInstalling = false
+                
+                if process.terminationStatus != 0 {
+                    errorAlert = ErrorAlert(
+                        title: "Installation Failed",
+                        message: "Failed to install ffmpeg. Please try again."
+                    )
+                }
             }
-            
-            // Install completed
-            isInstalling = false
         }
+    }
+}
+
+struct ErrorAlert: Identifiable {
+    var id = UUID()
+    var title: String
+    var message: String
+    
+    var alert: Alert {
+        Alert(
+            title: Text(title),
+            message: Text(message),
+            dismissButton: .default(Text("OK"))
+        )
     }
 }
 
