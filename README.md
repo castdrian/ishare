@@ -1,6 +1,10 @@
 # ishare
 sharex-like screen capture utility for macOS
 
+## Custom Uploader Request Specification
+ishare performs a `POST` request to the specified endpoint, containing all configuartions that are defined in the custom uploader.\
+The screencapture or recording that was taken is appended to the multipart/form-data body under the `image` or `video` key respectively.
+
 ## Custom Uploader Specification
 
 The ishare custom uploader spec allows you to define the configuration for uploading files to a custom endpoint.\
