@@ -8,18 +8,13 @@
 import SwiftUI
 import Defaults
 
-enum Destination: String, CaseIterable, Identifiable {
-    case IMGUR, CUSTOM
-    var id: Self { self }
-}
-
 struct MainMenuView: View {
-    @State private var selectedDestination: Destination = .IMGUR
     @State private var isFFmpegInstalled: Bool = false
     
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.uploadMedia) var uploadMedia
+    @Default(.uploadType) var uploadType
     
     var body: some View {
         Menu("Capture/Record") {
@@ -51,8 +46,8 @@ struct MainMenuView: View {
             Toggle("Upload media", isOn: $uploadMedia).toggleStyle(.checkbox)
         }
         
-        Picker("Upload Destination", selection: $selectedDestination) {
-            ForEach(Destination.allCases, id: \.self) {
+        Picker("Upload Destination", selection: $uploadType) {
+            ForEach(UploadType.allCases, id: \.self) {
                 Text($0.rawValue.capitalized)
             }
             Divider()

@@ -8,7 +8,7 @@
 import Foundation
 import Defaults
 
-struct CustomUploader: Codable, Defaults.Serializable {
+struct CustomUploader: Codable, Hashable, Defaults.Serializable {
     let name: String
     let requestUrl: String
     let headers: [String: String]?

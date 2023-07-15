@@ -31,6 +31,7 @@ func captureScreen(type: CaptureType, display: Int = 1) -> Void {
     @Default(.openInFinder) var openInFinder
     @Default(.uploadMedia) var uploadMedia
     @Default(.captureBinary) var captureBinary
+    @Default(.uploadType) var uploadType
     
     let timestamp = Int(Date().timeIntervalSince1970)
     let uniqueFilename = "ishare-\(timestamp)"
@@ -62,7 +63,7 @@ func captureScreen(type: CaptureType, display: Int = 1) -> Void {
     }
     
     if uploadMedia {
-        imgurUpload(fileURL) {
+        uploadFile(fileURL: fileURL, uploadType: uploadType) {
             showToast(fileURL: fileURL)
             NSSound.beep()
         }
