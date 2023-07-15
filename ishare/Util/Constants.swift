@@ -26,6 +26,7 @@ extension Defaults.Keys {
     static let capturePath = Key<String>("capturePath", default: "~/Pictures/")
     static let captureFileType = Key<FileType>("captureFileType", default: .PNG)
     static let imgurClientId = Key<String>("imgurClientId", default: "867afe9433c0a53")
+    static let captureBinary = Key<String>("captureBinary", default: "/usr/sbin/screencapture")
 }
 
 extension KeyboardShortcuts.Shortcut {

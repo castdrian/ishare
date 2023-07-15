@@ -211,10 +211,25 @@ struct ErrorAlert: Identifiable {
 
 struct AdvancedSettingsView: View {
     @State private var showingAlert: Bool = false
+    @Default(.imgurClientId) var imgurClientId
+    @Default(.captureBinary) var captureBinary
     
     var body: some View {
         VStack{
-            
+            HStack {
+                Text("Imgur Client ID:")
+                TextField(String(), text: $imgurClientId)
+                Button("Default") {
+                    imgurClientId = Defaults.Keys.imgurClientId.defaultValue
+                }
+            }.padding(20)
+            HStack {
+                Text("Screencapture binary:")
+                TextField(String(), text: $captureBinary)
+                Button("Default") {
+                    imgurClientId = Defaults.Keys.captureBinary.defaultValue
+                }
+            }.padding(20)
         }.alert(Text("Advanced Settings"),
                 isPresented: $showingAlert,
                 actions: {

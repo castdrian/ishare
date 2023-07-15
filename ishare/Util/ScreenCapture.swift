@@ -30,6 +30,7 @@ func captureScreen(type: CaptureType, display: Int = 1) -> Void {
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.uploadMedia) var uploadMedia
+    @Default(.captureBinary) var captureBinary
     
     let timestamp = Int(Date().timeIntervalSince1970)
     let uniqueFilename = "ishare-\(timestamp)"
@@ -38,7 +39,7 @@ func captureScreen(type: CaptureType, display: Int = 1) -> Void {
     path = NSString(string: path).expandingTildeInPath
         
     let task = Process()
-    task.launchPath = "/usr/sbin/screencapture"
+    task.launchPath = captureBinary
     task.arguments = type == CaptureType.SCREEN ? [type.rawValue, fileType.rawValue, "-D", "\(display)", path] : [type.rawValue, fileType.rawValue, path]
     task.launch()
     task.waitUntilExit()
