@@ -8,15 +8,35 @@
 import Foundation
 import Defaults
 
-struct CustomUploader: Codable, Hashable, Identifiable, Defaults.Serializable {
-    var id: UUID = UUID()
+struct CustomUploader: Codable, Hashable, Equatable, Identifiable, Defaults.Serializable {
+    var id: UUID
     let name: String
     let requestUrl: String
     let headers: [String: String]?
     let formData: [String: String]?
     let responseProp: String
+        
+    init(id: UUID = UUID(), name: String, requestUrl: String, headers: [String: String]?, formData: [String: String]?, responseProp: String) {
+        self.id = id
+        self.name = name
+        self.requestUrl = requestUrl
+        self.headers = headers
+        self.formData = formData
+        self.responseProp = responseProp
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        name = try container.decode(String.self, forKey: .name)
+        requestUrl = try container.decode(String.self, forKey: .requestUrl)
+        headers = try container.decodeIfPresent([String: String].self, forKey: .headers)
+        formData = try container.decodeIfPresent([String: String].self, forKey: .formData)
+        responseProp = try container.decode(String.self, forKey: .responseProp)
+    }
     
     enum CodingKeys: String, CodingKey {
+        case id
         case name
         case requestUrl
         case headers

@@ -11,6 +11,7 @@ import Defaults
 struct UploaderSettingsView: View {
     @Default(.activeCustomUploader) var activeCustomUploader
     @Default(.savedCustomUploaders) var savedCustomUploaders
+    @Default(.uploadType) var uploadType
 
     @State private var isAddSheetPresented = false
     @State private var isImportSheetPresented = false
@@ -59,6 +60,14 @@ struct UploaderSettingsView: View {
                 Text("Import Custom Uploader")
             }
             .buttonStyle(DefaultButtonStyle())
+
+            Button(action: {
+                clearAllUploaders()
+            }) {
+                Text("Clear All Uploaders")
+                    .foregroundColor(.red)
+            }
+            .buttonStyle(DefaultButtonStyle())
         }
         .sheet(isPresented: $isAddSheetPresented) {
             AddCustomUploaderView()
@@ -70,12 +79,18 @@ struct UploaderSettingsView: View {
 
     private func deleteCustomUploader(_ uploader: CustomUploader) {
         guard var uploaders = savedCustomUploaders else { return }
-        uploaders.remove(uploader)
+        uploaders = uploaders.filter { $0.id != uploader.id }
         savedCustomUploaders = uploaders
 
-        if uploader.id == activeCustomUploader?.id {
+        if uploader == activeCustomUploader {
             activeCustomUploader = nil
         }
+    }
+
+    private func clearAllUploaders() {
+        savedCustomUploaders = nil
+        activeCustomUploader = nil
+        uploadType = .IMGUR
     }
 }
 
