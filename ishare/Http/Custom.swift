@@ -35,7 +35,7 @@ func customUpload(fileURL: URL, specification: CustomUploader, completion: @esca
     }, to: url, method: .post, headers: headers).response { response in
         if let data = response.data,
            let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
-           let link = json[specification.responseProp] as? String {
+           let link = nestedValue(for: specification.responseProp, in: json) as? String {
             print("File uploaded successfully. Link: \(link)")
 
             var modifiedLink = link
@@ -53,4 +53,16 @@ func customUpload(fileURL: URL, specification: CustomUploader, completion: @esca
             completion()
         }
     }
+}
+
+func nestedValue(for keyPath: String, in dictionary: [String: Any]) -> Any? {
+    var components = keyPath.components(separatedBy: ".")
+    var value: Any? = dictionary
+
+    while !components.isEmpty, let key = components.first, let dict = value as? [String: Any] {
+        value = dict[key]
+        components.removeFirst()
+    }
+
+    return value
 }
