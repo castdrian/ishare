@@ -7,9 +7,12 @@
 
 import Alamofire
 import Foundation
+import Defaults
 import AppKit
 
 func customUpload(fileURL: URL, specification: CustomUploader, completion: @escaping () -> Void) {
+    @Default(.imageFormFileName) var imageFormFileName
+
     guard specification.isValid() else {
         print("Invalid specification")
         completion()
@@ -31,7 +34,7 @@ func customUpload(fileURL: URL, specification: CustomUploader, completion: @esca
         }
         
         let fileData = try? Data(contentsOf: fileURL)
-        multipartFormData.append(fileData!, withName: "image", fileName: fileURL.lastPathComponent)
+        multipartFormData.append(fileData!, withName: imageFormFileName, fileName: fileURL.lastPathComponent)
     }, to: url, method: .post, headers: headers).response { response in
         if let data = response.data,
            let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
