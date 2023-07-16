@@ -209,6 +209,8 @@ struct AddCustomUploaderView: View {
 struct ImportCustomUploaderView: View {
     @Environment(\.presentationMode) var presentationMode
     @Default(.savedCustomUploaders) var savedCustomUploaders
+    @Default(.activeCustomUploader) var activeCustomUploader
+    @Default(.uploadType) var uploadType
 
     @State private var selectedFileURLs: [URL] = []
     @State private var isImportSheetPresented = false
@@ -279,7 +281,9 @@ struct ImportCustomUploaderView: View {
             } else {
                 savedCustomUploaders = Set([uploader])
             }
-
+            
+            activeCustomUploader = uploader
+            uploadType = .CUSTOM
             presentationMode.wrappedValue.dismiss()
         } catch {
             importError = ImportError(error: error)
