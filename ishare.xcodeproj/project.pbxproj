@@ -22,6 +22,8 @@
 		3AB38D042A62B56B00184E0D /* CustomUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D032A62B56B00184E0D /* CustomUploader.swift */; };
 		3AB38D062A62C35C00184E0D /* Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D052A62C35C00184E0D /* Custom.swift */; };
 		3AB38D082A62C49C00184E0D /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D072A62C49C00184E0D /* Upload.swift */; };
+		3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */; };
+		3AB38D0D2A62F7C500184E0D /* RecordingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0C2A62F7C500184E0D /* RecordingSettings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		3AB38D032A62B56B00184E0D /* CustomUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUploader.swift; sourceTree = "<group>"; };
 		3AB38D052A62C35C00184E0D /* Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Custom.swift; sourceTree = "<group>"; };
 		3AB38D072A62C49C00184E0D /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
+		3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploaderSettings.swift; sourceTree = "<group>"; };
+		3AB38D0C2A62F7C500184E0D /* RecordingSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSettings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +102,7 @@
 		3AB345C92A5F1A6C00AAEC0E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3AB38D092A62F26800184E0D /* Settings */,
 				3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */,
 				3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */,
 			);
@@ -114,6 +119,15 @@
 				3AB38D032A62B56B00184E0D /* CustomUploader.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		3AB38D092A62F26800184E0D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */,
+				3AB38D0C2A62F7C500184E0D /* RecordingSettings.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,8 +212,10 @@
 			files = (
 				3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */,
 				3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */,
+				3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */,
 				3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */,
 				3AB38D042A62B56B00184E0D /* CustomUploader.swift in Sources */,
+				3AB38D0D2A62F7C500184E0D /* RecordingSettings.swift in Sources */,
 				3AB38D062A62C35C00184E0D /* Custom.swift in Sources */,
 				3AB38D082A62C49C00184E0D /* Upload.swift in Sources */,
 				3AB345C82A5F163800AAEC0E /* AppState.swift in Sources */,

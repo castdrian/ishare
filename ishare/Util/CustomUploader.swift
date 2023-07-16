@@ -8,7 +8,8 @@
 import Foundation
 import Defaults
 
-struct CustomUploader: Codable, Hashable, Defaults.Serializable {
+struct CustomUploader: Codable, Hashable, Identifiable, Defaults.Serializable {
+    var id: UUID = UUID()
     let name: String
     let requestUrl: String
     let headers: [String: String]?
@@ -23,6 +24,14 @@ struct CustomUploader: Codable, Hashable, Defaults.Serializable {
         case responseProp
     }
     
+    static func == (lhs: CustomUploader, rhs: CustomUploader) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
     static func fromJSON(_ json: Data) throws -> CustomUploader {
         let decoder = JSONDecoder()
         return try decoder.decode(CustomUploader.self, from: json)

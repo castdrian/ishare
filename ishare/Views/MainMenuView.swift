@@ -15,6 +15,8 @@ struct MainMenuView: View {
     @Default(.openInFinder) var openInFinder
     @Default(.uploadMedia) var uploadMedia
     @Default(.uploadType) var uploadType
+    @Default(.activeCustomUploader) var activeCustomUploader
+    @Default(.savedCustomUploaders) var savedCustomUploaders
     
     var body: some View {
         Menu("Capture/Record") {
@@ -47,12 +49,33 @@ struct MainMenuView: View {
         }
         
         Picker("Upload Destination", selection: $uploadType) {
-            ForEach(UploadType.allCases, id: \.self) {
+            ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) {
                 Text($0.rawValue.capitalized)
             }
-            Divider()
-            Button("Custom Uploader Settings") {}.disabled(true)
-        }.pickerStyle(MenuPickerStyle())
+            if let uploaders = savedCustomUploaders {
+                if !uploaders.isEmpty {
+                    Menu("Custom") {
+                        if let activeUploader = activeCustomUploader {
+                            Section("Currently Active") {
+                                Button(activeUploader.name) {
+                                    activeCustomUploader = nil
+                                    uploadType = .IMGUR
+                                }
+                            }
+                            Divider()
+                        }
+                        
+                        ForEach(uploaders.sorted(by: { $0.name < $1.name })) { uploader in
+                            Button(uploader.name) {
+                                activeCustomUploader = uploader
+                                uploadType = .CUSTOM
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .pickerStyle(MenuPickerStyle())
         
         Button("Settings") {
             NSApplication.shared.activate(ignoringOtherApps: true)

@@ -10,12 +10,13 @@ import Defaults
 
 enum UploadType: String, CaseIterable, Identifiable, Codable, Defaults.Serializable {
     case IMGUR, CUSTOM
+    
     var id: Self { self }
 }
 
 func uploadFile(fileURL: URL, uploadType: UploadType, completion: @escaping () -> Void) {
     @Default(.activeCustomUploader) var activeUploader
-    
+
     switch uploadType {
     case .IMGUR:
         imgurUpload(fileURL, completion: completion)

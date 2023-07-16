@@ -27,7 +27,7 @@ extension Defaults.Keys {
     static let captureFileType = Key<FileType>("captureFileType", default: .PNG)
     static let imgurClientId = Key<String>("imgurClientId", default: "867afe9433c0a53")
     static let captureBinary = Key<String>("captureBinary", default: "/usr/sbin/screencapture")
-    static let activeCustomUploader = Key<CustomUploader?>("activeCustomUploader")
+    static let activeCustomUploader = Key<CustomUploader?>("activeCustomUploader", default: nil)
     static let savedCustomUploaders = Key<Set<CustomUploader>?>("savedCustomUploaders")
     static let uploadType = Key<UploadType>("uploadType", default: .IMGUR)
 }
@@ -105,5 +105,22 @@ extension utsname {
     }
     static var isAppleSilicon: Bool {
         sMachine == "arm64"
+    }
+}
+
+func selectFolder(completion: @escaping (URL?) -> Void) {
+    let folderPicker = NSOpenPanel()
+    folderPicker.canChooseDirectories = true
+    folderPicker.canChooseFiles = false
+    folderPicker.allowsMultipleSelection = false
+    folderPicker.canDownloadUbiquitousContents = true
+    folderPicker.canResolveUbiquitousConflicts = true
+    
+    folderPicker.begin { response in
+        if response == .OK {
+            completion(folderPicker.urls.first)
+        } else {
+            completion(nil)
+        }
     }
 }
