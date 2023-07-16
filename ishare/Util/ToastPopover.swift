@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ToastPopoverView: View {
     let thumbnailImage: NSImage
+    let fileURL: URL
     
     var body: some View {
         Image(nsImage: thumbnailImage)
@@ -13,6 +14,9 @@ struct ToastPopoverView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
             .animation(Animation.easeInOut(duration: 1.0), value: thumbnailImage)
+            .onTapGesture {
+                        NSWorkspace.shared.selectFile(fileURL.path, inFileViewerRootedAtPath: "")
+                    }
     }
 }
 
@@ -33,7 +37,7 @@ func showToast(fileURL: URL) {
     toastWindow.backgroundColor = .clear
     toastWindow.isMovableByWindowBackground = false
     toastWindow.contentView = NSHostingView(
-        rootView: ToastPopoverView(thumbnailImage: thumbnailImage)
+            rootView: ToastPopoverView(thumbnailImage: thumbnailImage, fileURL: fileURL)
     )
     
     toastWindow.makeKeyAndOrderFront(nil)
