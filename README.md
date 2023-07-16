@@ -25,7 +25,7 @@ ishare is configured to support and open `.iscu` files by default.
   Additional form data to be included in the request payload. It should be a dictionary of key-value pairs, where each key represents the form field name and the value represents the form field value.
   
 - **responseProp** (string):\
-  The property name in the response JSON that contains the uploaded file URL. Replace `"url"` with the actual property name returned in the response.
+  The property name in the response JSON that contains the uploaded file URL. Replace `"url"` with the actual stringified json that leads to the property returned in the response.
 
 ### Example
 
