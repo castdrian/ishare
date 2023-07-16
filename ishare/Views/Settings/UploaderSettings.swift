@@ -83,7 +83,9 @@ struct UploaderSettingsView: View {
         savedCustomUploaders = uploaders
 
         if uploader == activeCustomUploader {
+            savedCustomUploaders = nil
             activeCustomUploader = nil
+            uploadType = .IMGUR
         }
     }
 

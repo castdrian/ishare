@@ -66,9 +66,11 @@ struct MainMenuView: View {
                         }
                         
                         ForEach(uploaders.sorted(by: { $0.name < $1.name })) { uploader in
-                            Button(uploader.name) {
-                                activeCustomUploader = uploader
-                                uploadType = .CUSTOM
+                            if uploader != activeCustomUploader {
+                                Button(uploader.name) {
+                                    activeCustomUploader = uploader
+                                    uploadType = .CUSTOM
+                                }
                             }
                         }
                     }
@@ -76,7 +78,7 @@ struct MainMenuView: View {
             }
         }
         .pickerStyle(MenuPickerStyle())
-        
+
         Button("Settings") {
             NSApplication.shared.activate(ignoringOtherApps: true)
             NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)

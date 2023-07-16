@@ -124,3 +124,92 @@ func selectFolder(completion: @escaping (URL?) -> Void) {
         }
     }
 }
+
+func importIscu(_ url: URL) {
+    if let keyWindow = NSApplication.shared.keyWindow {
+        let alert = NSAlert()
+        alert.messageText = "Import ISCU"
+        alert.informativeText = "Do you want to import this custom uploader?"
+        alert.addButton(withTitle: "Import")
+        alert.addButton(withTitle: "Cancel")
+        alert.beginSheetModal(for: keyWindow) { (response) in
+            if response == .alertFirstButtonReturn {
+                alert.window.orderOut(nil)
+                importFile(url) { success, error in
+                    if success {
+                        let successAlert = NSAlert()
+                        successAlert.messageText = "Import Successful"
+                        successAlert.informativeText = "The custom uploader has been imported successfully."
+                        successAlert.addButton(withTitle: "OK")
+                        successAlert.runModal()
+                    } else if let error = error {
+                        let errorAlert = NSAlert()
+                        errorAlert.messageText = "Import Error"
+                        errorAlert.informativeText = error.localizedDescription
+                        errorAlert.addButton(withTitle: "OK")
+                        errorAlert.runModal()
+                    }
+                }
+            }
+        }
+    } else {
+        let window = NSWindow(contentViewController: NSHostingController(rootView: EmptyView()))
+        window.makeKeyAndOrderFront(nil)
+        window.center()
+        
+        let alert = NSAlert()
+        alert.messageText = "Import ISCU"
+        alert.informativeText = "Do you want to import this custom uploader?"
+        alert.addButton(withTitle: "Import")
+        alert.addButton(withTitle: "Cancel")
+        alert.beginSheetModal(for: window) { (response) in
+            if response == .alertFirstButtonReturn {
+                alert.window.orderOut(nil)
+                importFile(url) { success, error in
+                    if success {
+                        let successAlert = NSAlert()
+                        successAlert.messageText = "Import Successful"
+                        successAlert.informativeText = "The custom uploader has been imported successfully."
+                        successAlert.addButton(withTitle: "OK")
+                        successAlert.runModal()
+                    } else if let error = error {
+                        let errorAlert = NSAlert()
+                        errorAlert.messageText = "Import Error"
+                        errorAlert.informativeText = error.localizedDescription
+                        errorAlert.addButton(withTitle: "OK")
+                        errorAlert.runModal()
+                    }
+                }
+            }
+            
+            window.orderOut(nil)
+        }
+    }
+}
+
+func importFile(_ url: URL, completion: @escaping (Bool, Error?) -> Void) {
+    do {
+        let data = try Data(contentsOf: url)
+        let decoder = JSONDecoder()
+        let uploader = try decoder.decode(CustomUploader.self, from: data)
+
+        @Default(.savedCustomUploaders) var savedCustomUploaders
+        @Default(.activeCustomUploader) var activeCustomUploader
+        @Default(.uploadType) var uploadType
+
+        if var uploaders = savedCustomUploaders {
+            uploaders.remove(uploader)
+            uploaders.insert(uploader)
+            savedCustomUploaders = uploaders
+        } else {
+            savedCustomUploaders = Set([uploader])
+        }
+
+        activeCustomUploader = uploader
+        uploadType = .CUSTOM
+
+        completion(true, nil) // Success callback
+    } catch {
+        completion(false, error) // Error callback
+    }
+}

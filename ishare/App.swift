@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct ishare: App {
     @StateObject private var appState = AppState()
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @NSApplicationDelegateAdaptor private var appDeletate : AppDelegate
     
     var body: some Scene {
         MenuBarExtra("ishare", systemImage: "photo.on.rectangle.angled") {
@@ -24,12 +24,9 @@ struct ishare: App {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    func application(_ sender: NSApplication, openFile filename: String) -> Bool {
-        // Handle the file open event here
-        print("File opened: \(filename)")
-        
-        // Add your custom logic to handle the file content
-        
-        return true
+    func application(_ application: NSApplication, open urls: [URL]) {
+        if urls.count == 1 {
+            importIscu(urls.first!)
+        }
     }
 }
