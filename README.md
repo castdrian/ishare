@@ -1,6 +1,8 @@
 # ishare
 sharex-like screen capture utility for macOS
 
+<a href="https://discord.gg/vXsRvye8BS"><img src="https://discord.com/api/guilds/844574704698130492/widget.png?style=banner2" alt="Discord Server"></a>
+
 ## Custom Uploader Request Specification
 ishare performs a `POST` request to the specified endpoint, containing all configurations that are defined in the custom uploader.\
 The screencapture or recording that was taken is appended to the multipart/form-data body under the `image` or `video` key respectively (can be overriden).
