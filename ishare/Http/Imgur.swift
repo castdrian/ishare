@@ -5,6 +5,7 @@
 //  Created by Adrian Castro on 14.07.23.
 //
 
+import SwiftyJSON
 import Alamofire
 import Foundation
 import Defaults
@@ -19,20 +20,20 @@ func imgurUpload(_ fileURL: URL, completion: @escaping () -> Void) {
     AF.upload(multipartFormData: { multipartFormData in
         multipartFormData.append(fileURL, withName: "image", fileName: "ishare.\(fileType)", mimeType: "image/\(fileType)")
     }, to: url, method: .post, headers: ["Authorization": "Client-ID " + imgurClientId]).response { response in
-        if let data = response.data,
-           let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
-           let imageDic = json["data"] as? [String: Any],
-           let link = imageDic["link"] as? String {
-            print("Image uploaded successfully. Link: \(link)")
-            
-            let pasteboard = NSPasteboard.general
-            pasteboard.clearContents()
+        if let data = response.data {
+            let json = JSON(data)
+            if let link = json["data"]["link"].string {
+                print("Image uploaded successfully. Link: \(link)")
                 
-            pasteboard.setString(link, forType: .string)
-            completion()
-        } else {
-            print("Error parsing response or retrieving image link")
-            completion()
+                let pasteboard = NSPasteboard.general
+                pasteboard.clearContents()
+                
+                pasteboard.setString(link, forType: .string)
+                completion()
+            } else {
+                print("Error parsing response or retrieving image link")
+                completion()
+            }
         }
     }
 }

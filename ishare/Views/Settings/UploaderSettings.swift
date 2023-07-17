@@ -104,6 +104,7 @@ struct AddCustomUploaderView: View {
     @State private var requestUrl = ""
     @State private var headers: [String: String] = [:]
     @State private var formData: [String: String] = [:]
+    @State private var fileFormName = ""
     @State private var responseProp = ""
 
     var body: some View {
@@ -193,6 +194,7 @@ struct AddCustomUploaderView: View {
             requestUrl: requestUrl,
             headers: headers.isEmpty ? nil : headers,
             formData: formData.isEmpty ? nil : formData,
+            fileFormName: fileFormName.isEmpty ? nil : fileFormName,
             responseProp: responseProp
         )
 

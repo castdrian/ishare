@@ -98,7 +98,6 @@ struct AdvancedSettingsView: View {
     @State private var showingAlert: Bool = false
     @Default(.imgurClientId) var imgurClientId
     @Default(.captureBinary) var captureBinary
-    @Default(.imageFormFileName) var imageFormFileName
     
     var body: some View {
         VStack{
@@ -112,13 +111,6 @@ struct AdvancedSettingsView: View {
             HStack {
                 Text("Screencapture binary:")
                 TextField(String(), text: $captureBinary)
-                Button("Default") {
-                    imgurClientId = Defaults.Keys.captureBinary.defaultValue
-                }
-            }.padding(20)
-            HStack {
-                Text("Image form file name:")
-                TextField(String(), text: $imageFormFileName)
                 Button("Default") {
                     imgurClientId = Defaults.Keys.captureBinary.defaultValue
                 }

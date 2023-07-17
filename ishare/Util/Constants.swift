@@ -30,7 +30,7 @@ extension Defaults.Keys {
     static let activeCustomUploader = Key<CustomUploader?>("activeCustomUploader", default: nil)
     static let savedCustomUploaders = Key<Set<CustomUploader>?>("savedCustomUploaders")
     static let uploadType = Key<UploadType>("uploadType", default: .IMGUR)
-    static let imageFormFileName = Key<String>("imageFormFileName", default: "image")
+    static let imageFileFormName = Key<String>("imageFileFormName", default: "image")
 }
 
 extension KeyboardShortcuts.Shortcut {

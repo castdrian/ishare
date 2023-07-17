@@ -54,6 +54,13 @@ struct MainMenuView: View {
             }
             if let uploaders = savedCustomUploaders {
                 if !uploaders.isEmpty {
+                    // doesn"t work :(
+//                    Picker("Custom", selection: $activeCustomUploader) {
+//                        ForEach(CustomUploader.allCases) { uploader in
+//                            Text(uploader.name).tag(uploader)
+//                        }
+//                    }
+
                     Menu("Custom") {
                         if let activeUploader = activeCustomUploader {
                             Section("Currently Active") {
@@ -64,7 +71,7 @@ struct MainMenuView: View {
                             }
                             Divider()
                         }
-                        
+
                         ForEach(uploaders.sorted(by: { $0.name < $1.name })) { uploader in
                             if uploader != activeCustomUploader {
                                 Button(uploader.name) {
