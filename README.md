@@ -3,7 +3,7 @@ sharex-like screen capture utility for macOS
 
 ## Custom Uploader Request Specification
 ishare performs a `POST` request to the specified endpoint, containing all configurations that are defined in the custom uploader.\
-The screencapture or recording that was taken is appended to the multipart/form-data body under the `image` or `video` key respectively.
+The screencapture or recording that was taken is appended to the multipart/form-data body under the `image` or `video` key respectively (can be overriden).
 
 ## Custom Uploader Specification
 
@@ -23,9 +23,12 @@ ishare is configured to support and open `.iscu` files by default.
   
 - **formData** (optional, object):\
   Additional form data to be included in the request payload. It should be a dictionary of key-value pairs, where each key represents the form field name and the value represents the form field value.
+
+- **fileFormName** (optional, string):\
+  Optional override for the value used as in the file name field for the multipart/form-data request.
   
 - **responseProp** (string):\
-  The property name in the response JSON that contains the uploaded file URL. Replace `"url"` with the actual stringified json that leads to the property returned in the response.
+  The property name in the response JSON that contains the uploaded file URL. Replace `"url"` with the actual json accessors that lead to the property returned in the response.
 
 ### Example
 
@@ -35,10 +38,11 @@ ishare is configured to support and open `.iscu` files by default.
   "requestUrl": "example.com/upload",
   "headers": { "Authorization": "Basic 0123456789" },
   "formData": { "key": "value" },
+  "fileFormName": "image",
   "responseProp": "url"
 }
 ```
 
-In this example, the custom uploader is configured to upload files to `example.com/upload`. It includes an authorization header and a form field. The uploaded file URL is expected to be available in the specified property of the response JSON.
+In this example, the custom uploader is configured to upload files to `example.com/upload`. It includes an authorization header, a form field and a file form name override. The uploaded file URL is expected to be available in the specified property of the response JSON.
 
 Feel free to adjust the specification details according to your requirements.
