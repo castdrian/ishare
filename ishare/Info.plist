@@ -3,53 +3,57 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDocumentTypes</key>
- <array>
-  <dict>
-   <!-- <key>CFBundleTypeIconFiles</key>
-   <array>
-    <string>iscu-22x29.png</string>
-    <string>iscu-44x58.png</string>
-    <string>iscu-64x64.png</string>
-    <string>iscu-320x320.png</string>
-   </array> -->
-   <key>CFBundleTypeName</key>
-   <string>ishare Custom Uploader</string>
-   <key>CFBundleTypeRole</key>
-   <string>Editor</string>
-   <key>LSHandlerRank</key>
-   <string>Owner</string>
-   <key>LSItemContentTypes</key>
-   <array>
-    <string>com.castdrian.ishare</string>
-   </array>
-  </dict>
- </array>
- <key>LSSupportsOpeningDocumentsInPlace</key>
- <true/>
- <key>UTExportedTypeDeclarations</key>
- <array>
-  <dict>
-   <key>UTTypeConformsTo</key>
-   <array>
-    <string>public.content</string>
-    <string>public.data</string>
-   </array>
-   <key>UTTypeDescription</key>
-   <string>ishare custom uploader</string>
-   <key>UTTypeIdentifier</key>
-   <string>com.castdrian.ishare</string>
-   <key>UTTypeTagSpecification</key>
-   <dict>
-    <key>public.filename-extension</key>
-    <array>
-     <string>iscu</string>
-    </array>
-    <key>public.mime-type</key>
-    <array>
-     <string>application/json</string>
-    </array>
-   </dict>
-  </dict>
- </array>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconFile</key>
+			<string></string>
+			<key>CFBundleTypeIconSystemGenerated</key>
+			<integer>1</integer>
+			<key>CFBundleTypeName</key>
+			<string>ishare custom uploader</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.castdrian.ishare</string>
+			</array>
+		</dict>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.content</string>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>ishare custom uploader</string>
+			<key>UTTypeIconFile</key>
+			<string></string>
+			<key>UTTypeIcons</key>
+			<dict>
+				<key>UTTypeIconBadgeName</key>
+				<string>ISCU</string>
+				<key>UTTypeIconText</key>
+				<string>ISCU</string>
+			</dict>
+			<key>UTTypeIdentifier</key>
+			<string>com.castdrian.ishare</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>iscu</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/json</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
