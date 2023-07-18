@@ -26,6 +26,7 @@
 		3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */; };
 		3AB38D0D2A62F7C500184E0D /* RecordingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0C2A62F7C500184E0D /* RecordingSettings.swift */; };
 		3ADDAEDA2A659A0B00C42406 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDAED92A659A0B00C42406 /* Assets.xcassets */; };
+		3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADDAEE22A65D00F00C42406 /* Zip */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */,
 				3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */,
 				3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */,
 				3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */,
@@ -157,6 +159,7 @@
 				3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */,
 				3A17C0782A61A20E0012F285 /* Alamofire */,
 				3A0679E02A648C0F0088DE6A /* SwiftyJSON */,
+				3ADDAEE22A65D00F00C42406 /* Zip */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
@@ -192,6 +195,7 @@
 				3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				3A17C0772A61A20E0012F285 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				3A0679DF2A648C0F0088DE6A /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				3ADDAEE12A65D00F00C42406 /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
 			projectDirPath = "";
@@ -484,6 +488,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		3ADDAEE12A65D00F00C42406 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -511,6 +523,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
+		};
+		3ADDAEE22A65D00F00C42406 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ADDAEE12A65D00F00C42406 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

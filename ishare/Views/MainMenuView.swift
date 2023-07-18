@@ -54,9 +54,9 @@ struct MainMenuView: View {
             }
             if let uploaders = savedCustomUploaders {
                 if !uploaders.isEmpty {
-                    // doesn"t work :(
+                    // doesn't work :(
 //                    Picker("Custom", selection: $activeCustomUploader) {
-//                        ForEach(CustomUploader.allCases) { uploader in
+//                        ForEach(CustomUploader.allCases, id: \.self) { uploader in
 //                            Text(uploader.name).tag(uploader)
 //                        }
 //                    }
@@ -110,6 +110,10 @@ struct MainMenuView: View {
                 ]
             )
         }.keyboardShortcut("a")
+        
+        Button("Check for Updates") {
+            selfUpdate()
+        }.keyboardShortcut("u")
         
         Button("Quit") {
             NSApplication.shared.terminate(nil)
