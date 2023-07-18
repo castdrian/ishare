@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FinderSync
 
 @main
 struct ishare: App {
@@ -27,6 +28,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ application: NSApplication, open urls: [URL]) {
         if urls.count == 1 {
             importIscu(urls.first!)
+        }
+    }
+    
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        // Show extensions, if ishare is not approved
+        if !FIFinderSyncController.isExtensionEnabled {
+            FIFinderSyncController.showExtensionManagementInterface()
         }
     }
 }

@@ -10,6 +10,9 @@
 		3A0679E12A648C0F0088DE6A /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3A0679E02A648C0F0088DE6A /* SwiftyJSON */; };
 		3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3A17C0782A61A20E0012F285 /* Alamofire */; };
 		3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17C07B2A61A2510012F285 /* Imgur.swift */; };
+		3A1E39BB2A66915700F6CBBF /* FinderSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1E39BA2A66915700F6CBBF /* FinderSync.swift */; };
+		3A1E39C02A66915700F6CBBF /* ishare-actions.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3A1E39B82A66915700F6CBBF /* ishare-actions.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3A1E39C62A66936000F6CBBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3A1E39C52A66936000F6CBBF /* Assets.xcassets */; };
 		3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* App.swift */; };
 		3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */; };
 		3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
@@ -29,8 +32,37 @@
 		3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADDAEE22A65D00F00C42406 /* Zip */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3A1E39BE2A66915700F6CBBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A9A9FCC2A5C84B4007BA5C9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3A1E39B72A66915700F6CBBF;
+			remoteInfo = "ishare-actions";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3A1E39C42A66915700F6CBBF /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3A1E39C02A66915700F6CBBF /* ishare-actions.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3A17C07B2A61A2510012F285 /* Imgur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Imgur.swift; sourceTree = "<group>"; };
+		3A1E39B82A66915700F6CBBF /* ishare-actions.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ishare-actions.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A1E39BA2A66915700F6CBBF /* FinderSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderSync.swift; sourceTree = "<group>"; };
+		3A1E39BC2A66915700F6CBBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3A1E39BD2A66915700F6CBBF /* ishare_actions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ishare_actions.entitlements; sourceTree = "<group>"; };
+		3A1E39C52A66936000F6CBBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3A9A9FD42A5C84B5007BA5C9 /* ishare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ishare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9A9FD72A5C84B5007BA5C9 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ishare.entitlements; sourceTree = "<group>"; };
@@ -50,6 +82,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3A1E39B52A66915700F6CBBF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3A9A9FD12A5C84B5007BA5C9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -76,10 +115,22 @@
 			path = Http;
 			sourceTree = "<group>";
 		};
+		3A1E39B92A66915700F6CBBF /* ishare-actions */ = {
+			isa = PBXGroup;
+			children = (
+				3A1E39BA2A66915700F6CBBF /* FinderSync.swift */,
+				3A1E39BC2A66915700F6CBBF /* Info.plist */,
+				3A1E39BD2A66915700F6CBBF /* ishare_actions.entitlements */,
+				3A1E39C52A66936000F6CBBF /* Assets.xcassets */,
+			);
+			path = "ishare-actions";
+			sourceTree = "<group>";
+		};
 		3A9A9FCB2A5C84B4007BA5C9 = {
 			isa = PBXGroup;
 			children = (
 				3A9A9FD62A5C84B5007BA5C9 /* ishare */,
+				3A1E39B92A66915700F6CBBF /* ishare-actions */,
 				3A9A9FD52A5C84B5007BA5C9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				3A9A9FD42A5C84B5007BA5C9 /* ishare.app */,
+				3A1E39B82A66915700F6CBBF /* ishare-actions.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,6 +192,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3A1E39B72A66915700F6CBBF /* ishare-actions */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A1E39C12A66915700F6CBBF /* Build configuration list for PBXNativeTarget "ishare-actions" */;
+			buildPhases = (
+				3A1E39B42A66915700F6CBBF /* Sources */,
+				3A1E39B52A66915700F6CBBF /* Frameworks */,
+				3A1E39B62A66915700F6CBBF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ishare-actions";
+			productName = "ishare-actions";
+			productReference = 3A1E39B82A66915700F6CBBF /* ishare-actions.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		3A9A9FD32A5C84B5007BA5C9 /* ishare */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3A9A9FF92A5C84B5007BA5C9 /* Build configuration list for PBXNativeTarget "ishare" */;
@@ -147,10 +216,12 @@
 				3A9A9FD02A5C84B5007BA5C9 /* Sources */,
 				3A9A9FD12A5C84B5007BA5C9 /* Frameworks */,
 				3A9A9FD22A5C84B5007BA5C9 /* Resources */,
+				3A1E39C42A66915700F6CBBF /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3A1E39BF2A66915700F6CBBF /* PBXTargetDependency */,
 			);
 			name = ishare;
 			packageProductDependencies = (
@@ -175,6 +246,9 @@
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					3A1E39B72A66915700F6CBBF = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
 					3A9A9FD32A5C84B5007BA5C9 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
@@ -202,11 +276,20 @@
 			projectRoot = "";
 			targets = (
 				3A9A9FD32A5C84B5007BA5C9 /* ishare */,
+				3A1E39B72A66915700F6CBBF /* ishare-actions */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3A1E39B62A66915700F6CBBF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A1E39C62A66936000F6CBBF /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3A9A9FD22A5C84B5007BA5C9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,6 +301,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3A1E39B42A66915700F6CBBF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A1E39BB2A66915700F6CBBF /* FinderSync.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3A9A9FD02A5C84B5007BA5C9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -240,7 +331,75 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3A1E39BF2A66915700F6CBBF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3A1E39B72A66915700F6CBBF /* ishare-actions */;
+			targetProxy = 3A1E39BE2A66915700F6CBBF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		3A1E39C22A66915700F6CBBF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = "ishare-actions/ishare_actions.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L988J7YMK5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ishare-actions/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "ishare-actions";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.castdrian.ishare.ishare-actions";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3A1E39C32A66915700F6CBBF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = "ishare-actions/ishare_actions.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L988J7YMK5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "ishare-actions/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "ishare-actions";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.castdrian.ishare.ishare-actions";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		3A9A9FF72A5C84B5007BA5C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -364,6 +523,7 @@
 		3A9A9FFA2A5C84B5007BA5C9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ishare/ishare.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -396,6 +556,7 @@
 		3A9A9FFB2A5C84B5007BA5C9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ishare/ishare.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -429,6 +590,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3A1E39C12A66915700F6CBBF /* Build configuration list for PBXNativeTarget "ishare-actions" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A1E39C22A66915700F6CBBF /* Debug */,
+				3A1E39C32A66915700F6CBBF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3A9A9FCF2A5C84B4007BA5C9 /* Build configuration list for PBXProject "ishare" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
