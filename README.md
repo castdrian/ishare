@@ -1,7 +1,7 @@
 # ishare
 sharex-like screen capture utility for macOS
 
-<a href="https://discord.gg/vXsRvye8BS"><img src="https://discord.com/api/guilds/844574704698130492/widget.png?style=banner2" alt="Discord Server"></a>
+<a href="https://discord.gg/sX4KYzu5pX"><img src="https://discord.com/api/guilds/844574704698130492/widget.png?style=banner2" alt="Discord Server"></a>
 
 ## Custom Uploader Request Specification
 ishare performs a `POST` request to the specified endpoint, containing all configurations that are defined in the custom uploader.\
