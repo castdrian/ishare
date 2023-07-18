@@ -372,3 +372,30 @@ func replaceAppWithDownloadedArchive(zipURL: URL) {
         showAlert(title: "Update Failed", message: "Failed to extract the update archive: \(error.localizedDescription)")
     }
 }
+
+struct Contributor: Codable {
+    let login: String
+    let avatarURL: URL
+
+    enum CodingKeys: String, CodingKey {
+        case login
+        case avatarURL = "avatar_url"
+    }
+}
+
+func fetchContributors(completion: @escaping ([Contributor]?) -> Void) {
+    guard let contributorsURL = URL(string: "https://api.github.com/repos/castdrian/ishare/contributors") else {
+        completion(nil)
+        return
+    }
+    
+    AF.request(contributorsURL).responseDecodable(of: [Contributor].self) { response in
+        switch response.result {
+        case .success(let contributors):
+            completion(contributors)
+        case .failure(let error):
+            print("Failed to fetch contributors: \(error)")
+            completion(nil)
+        }
+    }
+}

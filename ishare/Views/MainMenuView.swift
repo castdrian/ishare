@@ -95,21 +95,36 @@ struct MainMenuView: View {
         
         Button("About ishare") {
             NSApplication.shared.activate(ignoringOtherApps: true)
-            NSApplication.shared.orderFrontStandardAboutPanel(
-                options: [
-                    NSApplication.AboutPanelOptionKey.credits: NSAttributedString(
-                        string: "isharemac.app",
-                        attributes: [
-                            NSAttributedString.Key.font: NSFont.boldSystemFont(
-                                ofSize: NSFont.smallSystemFontSize)
-                        ]
-                    ),
-                    NSApplication.AboutPanelOptionKey(
-                        rawValue: "Copyright"
-                    ): "© 2023 ADRIAN CASTRO"
-                ]
-            )
-        }.keyboardShortcut("a")
+            
+            fetchContributors { contributors in
+                if let contributors = contributors {
+                    var credits = "isharemac.app\n\nContributors: "
+                    
+                    for (index, contributor) in contributors.enumerated() {
+                        if index == contributors.count - 1 {
+                            credits += contributor.login
+                        } else {
+                            credits += "\(contributor.login), "
+                        }
+                    }
+                    
+                    let creditsAttributedString = NSAttributedString(string: credits, attributes: [
+                        NSAttributedString.Key.font: NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize)
+                    ])
+                    
+                    var options: [NSApplication.AboutPanelOptionKey: Any] = [
+                        NSApplication.AboutPanelOptionKey.credits: creditsAttributedString,
+                        NSApplication.AboutPanelOptionKey(rawValue: "Copyright"): "© \(Calendar.current.component(.year, from: Date())) ADRIAN CASTRO"
+                    ]
+                    
+                    NSApplication.shared.orderFrontStandardAboutPanel(options: options)
+                } else {
+                    print("Failed to fetch contributors")
+                }
+            }
+        }
+        .keyboardShortcut("a")
+
         
         Button("Check for Updates") {
             selfUpdate()
