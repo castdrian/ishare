@@ -56,26 +56,31 @@ struct MainMenuView: View {
                 if !uploaders.isEmpty {
                     // doesn't work :(
 //                    Picker("Custom", selection: $activeCustomUploader) {
-//                        ForEach(CustomUploader.allCases, id: \.self) { uploader in
-//                            Text(uploader.name).tag(uploader)
+//                        ForEach(CustomUploader.allCases.map({ $0.id }), id: \.self) { uploader in
+//                            Text(CustomUploader.allCases.first(where: { $0.id == activeCustomUploader })!.name)
 //                        }
 //                    }
-
+//                    .onChange(of: activeCustomUploader) { newValue in
+//                        if newValue != nil {
+//                            uploadType = .CUSTOM
+//                        }
+//                    }
+                    
                     Menu("Custom") {
-                        if let activeUploader = activeCustomUploader {
+                        if activeCustomUploader != nil {
                             Section("Currently Active") {
-                                Button(activeUploader.name) {
+                                Button(CustomUploader.allCases.first(where: { $0.id == activeCustomUploader })!.name) {
                                     activeCustomUploader = nil
                                     uploadType = .IMGUR
                                 }
                             }
                             Divider()
                         }
-
+                        
                         ForEach(uploaders.sorted(by: { $0.name < $1.name })) { uploader in
-                            if uploader != activeCustomUploader {
+                            if uploader.id != activeCustomUploader {
                                 Button(uploader.name) {
-                                    activeCustomUploader = uploader
+                                    activeCustomUploader = uploader.id
                                     uploadType = .CUSTOM
                                 }
                             }
@@ -85,7 +90,7 @@ struct MainMenuView: View {
             }
         }
         .pickerStyle(MenuPickerStyle())
-
+        
         Button("Settings") {
             NSApplication.shared.activate(ignoringOtherApps: true)
             NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
@@ -124,7 +129,7 @@ struct MainMenuView: View {
             }
         }
         .keyboardShortcut("a")
-
+        
         
         Button("Check for Updates") {
             selfUpdate()

@@ -21,7 +21,7 @@ func uploadFile(fileURL: URL, uploadType: UploadType, completion: @escaping () -
     case .IMGUR:
         imgurUpload(fileURL, completion: completion)
     case .CUSTOM:
-        guard let specification = activeUploader else {
+        guard let specification = CustomUploader.allCases.first(where: { $0.id == activeUploader }) else {
             print("Custom uploader specification not found")
             completion()
             return

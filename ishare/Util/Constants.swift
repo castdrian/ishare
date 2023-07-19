@@ -30,7 +30,7 @@ extension Defaults.Keys {
     static let captureFileType = Key<FileType>("captureFileType", default: .PNG)
     static let imgurClientId = Key<String>("imgurClientId", default: "867afe9433c0a53")
     static let captureBinary = Key<String>("captureBinary", default: "/usr/sbin/screencapture")
-    static let activeCustomUploader = Key<CustomUploader?>("activeCustomUploader", default: nil)
+    static let activeCustomUploader = Key<UUID?>("activeCustomUploader", default: nil)
     static let savedCustomUploaders = Key<Set<CustomUploader>?>("savedCustomUploaders")
     static let uploadType = Key<UploadType>("uploadType", default: .IMGUR)
     static let imageFileFormName = Key<String>("imageFileFormName", default: "image")
@@ -210,7 +210,7 @@ func importFile(_ url: URL, completion: @escaping (Bool, Error?) -> Void) {
             savedCustomUploaders = Set([uploader])
         }
         
-        activeCustomUploader = uploader
+        activeCustomUploader = uploader.id
         uploadType = .CUSTOM
         
         completion(true, nil) // Success callback

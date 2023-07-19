@@ -82,7 +82,7 @@ struct UploaderSettingsView: View {
         uploaders = uploaders.filter { $0.id != uploader.id }
         savedCustomUploaders = uploaders
 
-        if uploader == activeCustomUploader {
+        if uploader.id == activeCustomUploader {
             savedCustomUploaders = nil
             activeCustomUploader = nil
             uploadType = .IMGUR
@@ -286,7 +286,7 @@ struct ImportCustomUploaderView: View {
                 savedCustomUploaders = Set([uploader])
             }
             
-            activeCustomUploader = uploader
+            activeCustomUploader = uploader.id
             uploadType = .CUSTOM
             presentationMode.wrappedValue.dismiss()
         } catch {
