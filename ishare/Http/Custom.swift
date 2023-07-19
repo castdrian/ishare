@@ -11,7 +11,12 @@ import Defaults
 import AppKit
 import SwiftyJSON
 
-func customUpload(fileURL: URL, specification: CustomUploader, completion: @escaping () -> Void) {
+enum CustomUploadError: Error {
+    case responseParsing
+    case responseRetrieval
+}
+
+func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error?, URL?) -> Void)? = nil, completion: @escaping () -> Void) {
     @Default(.imageFileFormName) var imageFileFormName
     @Default(.captureFileType) var fileType
 
@@ -54,13 +59,16 @@ func customUpload(fileURL: URL, specification: CustomUploader, completion: @esca
                     pasteboard.clearContents()
                     pasteboard.setString(modifiedLink, forType: .string)
                     
+                    callback?(nil, URL(string: modifiedLink))
                     completion()
                 } else {
                     print("Error parsing response or retrieving file link")
+                    callback?(CustomUploadError.responseParsing, nil)
                     completion()
                 }
             } else {
                 print("Error retrieving response data")
+                callback?(CustomUploadError.responseRetrieval, nil)
                 completion()
             }
         }

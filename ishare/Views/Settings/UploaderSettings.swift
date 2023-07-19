@@ -36,6 +36,15 @@ struct UploaderSettingsView: View {
                             Image(systemName: "trash")
                         }
                         .buttonStyle(BorderlessButtonStyle())
+                        .help("Delete Uploader")
+                        
+                        Button(action: {
+                            testCustomUploader(uploader)
+                        }) {
+                            Image(systemName: "icloud.and.arrow.up")
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                        .help("Test Uploader")
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 4)
@@ -86,6 +95,51 @@ struct UploaderSettingsView: View {
             savedCustomUploaders = nil
             activeCustomUploader = nil
             uploadType = .IMGUR
+        }
+    }
+    
+    private func testCustomUploader(_ uploader: CustomUploader) {
+        let image = NSImage(named: "AppIcon")
+        guard let imageData = image?.tiffRepresentation else { return }
+        let fileManager = FileManager.default
+        let temporaryDirectory = fileManager.temporaryDirectory
+        let fileURL = temporaryDirectory.appendingPathComponent("appIconImage.jpg")
+        do {
+            try imageData.write(to: fileURL)
+        } catch {
+            print("Failed to write image file: \(error)")
+            return
+        }
+
+        let callback: ((Error?, URL?) -> Void) = { error, finalURL in
+            if let error = error {
+                    print("Upload error: \(error)")
+                    DispatchQueue.main.async {
+                        let alert = NSAlert()
+                        alert.alertStyle = .critical
+                        alert.messageText = "Upload Error"
+                        alert.informativeText = "An error occurred during the upload process."
+                        alert.runModal()
+                    }
+                } else if let url = finalURL {
+                    print("Final URL: \(url)")
+                    DispatchQueue.main.async {
+                        let alert = NSAlert()
+                        alert.alertStyle = .informational
+                        alert.messageText = "Upload Successful"
+                        alert.informativeText = "The file was uploaded successfully."
+                        alert.runModal()
+                    }
+                }
+        }
+        
+        customUpload(fileURL: fileURL, specification: uploader, callback: callback) {}
+        
+        // Clean up temp
+        do {
+            try FileManager.default.removeItem(at: fileURL)
+        } catch {
+            print("Failed to delete temporary file: \(error)")
         }
     }
 
