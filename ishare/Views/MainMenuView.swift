@@ -8,8 +8,14 @@
 import SwiftUI
 import Defaults
 
+enum UploadDestination: Equatable, Hashable {
+    case builtIn(UploadType)
+    case custom(UUID?)
+}
+
 struct MainMenuView: View {
     @State private var isFFmpegInstalled: Bool = false
+    @State private var uploadDestination: UploadDestination = .builtIn(.IMGUR)
     
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
@@ -48,49 +54,32 @@ struct MainMenuView: View {
             Toggle("Upload media", isOn: $uploadMedia).toggleStyle(.checkbox)
         }
         
-        Picker("Upload Destination", selection: $uploadType) {
-            ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) {
-                Text($0.rawValue.capitalized)
-            }
-            if let uploaders = savedCustomUploaders {
-                if !uploaders.isEmpty {
-                    // doesn't work :(
-//                    Picker("Custom", selection: $activeCustomUploader) {
-//                        ForEach(CustomUploader.allCases.map({ $0.id }), id: \.self) { uploader in
-//                            Text(CustomUploader.allCases.first(where: { $0.id == activeCustomUploader })!.name)
-//                        }
-//                    }
-//                    .onChange(of: activeCustomUploader) { newValue in
-//                        if newValue != nil {
-//                            uploadType = .CUSTOM
-//                        }
-//                    }
-                    
-                    Menu("Custom") {
-                        if activeCustomUploader != nil {
-                            Section("Currently Active") {
-                                Button(CustomUploader.allCases.first(where: { $0.id == activeCustomUploader })!.name) {
-                                    activeCustomUploader = nil
-                                    uploadType = .IMGUR
-                                }
-                            }
-                            Divider()
-                        }
-                        
-                        ForEach(uploaders.sorted(by: { $0.name < $1.name })) { uploader in
-                            if uploader.id != activeCustomUploader {
-                                Button(uploader.name) {
-                                    activeCustomUploader = uploader.id
-                                    uploadType = .CUSTOM
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        .pickerStyle(MenuPickerStyle())
-        
+        Picker("Upload Destination", selection: $uploadDestination) {
+                   ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) { uploadType in
+                       Text(uploadType.rawValue.capitalized)
+                           .tag(UploadDestination.builtIn(uploadType))
+                   }
+            if let customUploaders = savedCustomUploaders {
+                       if !customUploaders.isEmpty {
+                           Divider()
+                           ForEach(CustomUploader.allCases.map({ $0.id }), id: \.self) { uploaderID in
+                               Text(CustomUploader.allCases.first(where: { $0.id == uploaderID })!.name)
+                                   .tag(UploadDestination.custom(uploaderID as UUID?))
+                           }
+                       }
+                   }
+               }
+               .onChange(of: uploadDestination) { newValue in
+                   if case .builtIn(_) = newValue {
+                       activeCustomUploader = nil
+                       uploadType = .IMGUR
+                   } else if case let .custom(customUploader) = newValue {
+                       activeCustomUploader = customUploader
+                       uploadType = .CUSTOM
+                   }
+               }
+               .pickerStyle(MenuPickerStyle())
+                
         Button("Settings") {
             NSApplication.shared.activate(ignoringOtherApps: true)
             NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
