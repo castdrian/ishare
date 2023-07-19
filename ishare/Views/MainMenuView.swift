@@ -8,14 +8,13 @@
 import SwiftUI
 import Defaults
 
-enum UploadDestination: Equatable, Hashable {
+enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
     case builtIn(UploadType)
     case custom(UUID?)
 }
 
 struct MainMenuView: View {
     @State private var isFFmpegInstalled: Bool = false
-    @State private var uploadDestination: UploadDestination = .builtIn(.IMGUR)
     
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
@@ -23,6 +22,7 @@ struct MainMenuView: View {
     @Default(.uploadType) var uploadType
     @Default(.activeCustomUploader) var activeCustomUploader
     @Default(.savedCustomUploaders) var savedCustomUploaders
+    @Default(.uploadDestination) var uploadDestination
     
     var body: some View {
         Menu("Capture/Record") {
@@ -62,9 +62,9 @@ struct MainMenuView: View {
             if let customUploaders = savedCustomUploaders {
                        if !customUploaders.isEmpty {
                            Divider()
-                           ForEach(CustomUploader.allCases.map({ $0.id }), id: \.self) { uploaderID in
-                               Text(CustomUploader.allCases.first(where: { $0.id == uploaderID })!.name)
-                                   .tag(UploadDestination.custom(uploaderID as UUID?))
+                           ForEach(CustomUploader.allCases, id: \.self) { uploader in
+                               Text(uploader.name)
+                                   .tag(UploadDestination.custom(uploader.id))
                            }
                        }
                    }

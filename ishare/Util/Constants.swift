@@ -35,6 +35,7 @@ extension Defaults.Keys {
     static let uploadType = Key<UploadType>("uploadType", default: .IMGUR)
     static let imageFileFormName = Key<String>("imageFileFormName", default: "image")
     static let menuBarAppIcon = Key<Bool>("menuBarAppIcon", default: true)
+    static let uploadDestination = Key<UploadDestination>("uploadDestination", default: .builtIn(.IMGUR))
 }
 
 extension KeyboardShortcuts.Shortcut {
