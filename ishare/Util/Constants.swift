@@ -57,9 +57,6 @@ extension NSEvent.ModifierFlags {
         if contains(.capsLock) {
             modifiers.insert(.capsLock)
         }
-        if contains(.function) {
-            modifiers.insert(.function)
-        }
         if contains(.option) {
             modifiers.insert(.option)
         }
@@ -351,7 +348,7 @@ func replaceAppWithDownloadedArchive(zipURL: URL) {
         
         
         do {
-            try fileManager.replaceItemAt(currentAppExecutableURL, withItemAt: extractedAppExecutableURL)
+            _ = try fileManager.replaceItemAt(currentAppExecutableURL, withItemAt: extractedAppExecutableURL)
             
             showAlert(title: "Update Successful", message: "ishare has been updated successfully. The app will now restart.")
             

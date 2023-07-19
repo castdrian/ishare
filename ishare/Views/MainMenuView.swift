@@ -106,7 +106,7 @@ struct MainMenuView: View {
                         NSAttributedString.Key.font: NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize)
                     ])
                     
-                    var options: [NSApplication.AboutPanelOptionKey: Any] = [
+                    let options: [NSApplication.AboutPanelOptionKey: Any] = [
                         NSApplication.AboutPanelOptionKey.credits: creditsAttributedString,
                         NSApplication.AboutPanelOptionKey(rawValue: "Copyright"): "© \(Calendar.current.component(.year, from: Date())) ADRIAN CASTRO"
                     ]
