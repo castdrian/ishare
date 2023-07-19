@@ -34,6 +34,7 @@ extension Defaults.Keys {
     static let savedCustomUploaders = Key<Set<CustomUploader>?>("savedCustomUploaders")
     static let uploadType = Key<UploadType>("uploadType", default: .IMGUR)
     static let imageFileFormName = Key<String>("imageFileFormName", default: "image")
+    static let menuBarAppIcon = Key<Bool>("menuBarAppIcon", default: true)
 }
 
 extension KeyboardShortcuts.Shortcut {
@@ -399,3 +400,10 @@ func fetchContributors(completion: @escaping ([Contributor]?) -> Void) {
         }
     }
 }
+
+let AppIcon: NSImage = {
+        let ratio = $0.size.height / $0.size.width
+        $0.size.height = 18
+        $0.size.width = 18 / ratio
+        return $0
+    }(NSImage(named: "AppIcon")!)

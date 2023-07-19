@@ -49,8 +49,13 @@ struct SettingsMenuView: View {
 }
 
 struct GeneralSettingsView: View {
+    @Default(.menuBarAppIcon) var menuBarAppIcon
+
     var body: some View {
-        LaunchAtLogin.Toggle()
+        VStack {
+            LaunchAtLogin.Toggle()
+            Toggle("Use app icon in menubar", isOn: $menuBarAppIcon)
+        }
     }
 }
 

@@ -26,7 +26,6 @@ class FinderSync: FIFinderSync {
     }
     
     @objc func uploadClicked(_ sender: AnyObject?) {
-        NSApplication.shared.terminate(nil)
         guard let target = FIFinderSyncController.default().targetedURL() else {
             NSLog("Failed to obtain targeted URL")
             return
