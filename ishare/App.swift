@@ -15,19 +15,12 @@ struct ishare: App {
     @StateObject private var appState = AppState()
     @NSApplicationDelegateAdaptor private var appDeletate : AppDelegate
     
-    let icon: NSImage = {
-            let ratio = $0.size.height / $0.size.width
-            $0.size.height = 18
-            $0.size.width = 18 / ratio
-            return $0
-        }(NSImage(named: "AppIcon")!)
-
     var body: some Scene {
         MenuBarExtra() {
             MainMenuView()
         }
     label: {
-        menuBarAppIcon ? Image(nsImage: icon) : Image(systemName: "photo.on.rectangle.angled")
+        menuBarAppIcon ? Image(nsImage: AppIcon) : Image(systemName: "photo.on.rectangle.angled")
     }
         
         Settings {
