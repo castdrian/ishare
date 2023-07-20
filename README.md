@@ -12,9 +12,12 @@ The screencapture or recording that was taken is appended to the multipart/form-
 The ishare custom uploader spec allows you to define the configuration for uploading files to a custom endpoint.\
 ishare is configured to support and open `.iscu` files by default.
 
-### Specification Details
-
-- **name** (string):\
+<details>
+  <summary>
+    Specification Details
+  </summary>
+  
+  - **name** (string):\
   The name of the custom uploader. Use this value to identify the uploader instance or provide a user-friendly name.
   
 - **requestUrl** (string):\
@@ -32,8 +35,13 @@ ishare is configured to support and open `.iscu` files by default.
 - **responseProp** (string):\
   The property name in the response JSON that contains the uploaded file URL. Replace `"url"` with the actual json accessors that lead to the property returned in the response.
 
-### Example
+</details>
 
+<details>
+  <summary>
+    Example
+  </summary>
+  
 ```json
 {
   "name": "ishare custom uploader",
@@ -47,4 +55,23 @@ ishare is configured to support and open `.iscu` files by default.
 
 In this example, the custom uploader is configured to upload files to `example.com/upload`. It includes an authorization header, a form field and a file form name override. The uploaded file URL is expected to be available in the specified property of the response JSON.
 
-Feel free to adjust the specification details according to your requirements.
+</details>
+
+## Post Media Task Plugin Specification
+
+ishare allows you to script your own plugins that you can use as PMT (Post Media Task)\
+ishare is configured to support and recognize python scripts that adhere to the PMT Plugin spec.
+
+<details>
+  <summary>
+    Specification Details
+  </summary>
+  TBD
+</details>
+
+<details>
+  <summary>
+    Example
+  </summary>
+  TBD
+</details>
