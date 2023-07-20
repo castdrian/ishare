@@ -39,6 +39,11 @@ struct SettingsMenuView: View {
                     Label("Recordings", systemImage: "menubar.dock.rectangle.badge.record")
                 }
             
+            PluginSettingsView()
+                .tabItem {
+                    Label("Plugins", systemImage: "puzzlepiece")
+                }
+            
             AdvancedSettingsView()
                 .tabItem {
                     Label("Advanced", systemImage: "hammer.circle")
@@ -95,6 +100,13 @@ struct CaptureSettingsView: View {
                     Text($0.rawValue.uppercased())
                 }
             }.padding(10)
+        }
+    }
+}
+
+struct PluginSettingsView: View {
+    var body: some View {
+        VStack {
         }
     }
 }
