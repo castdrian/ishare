@@ -28,6 +28,7 @@
 		3AB38D082A62C49C00184E0D /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D072A62C49C00184E0D /* Upload.swift */; };
 		3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */; };
 		3AB38D0D2A62F7C500184E0D /* RecordingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0C2A62F7C500184E0D /* RecordingSettings.swift */; };
+		3AD151802A6A5CD8002C2F66 /* PythonKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3AD1517F2A6A5CD8002C2F66 /* PythonKit */; };
 		3ADDAEDA2A659A0B00C42406 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDAED92A659A0B00C42406 /* Assets.xcassets */; };
 		3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADDAEE22A65D00F00C42406 /* Zip */; };
 /* End PBXBuildFile section */
@@ -98,6 +99,7 @@
 				3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */,
 				3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */,
 				3A0679E12A648C0F0088DE6A /* SwiftyJSON in Frameworks */,
+				3AD151802A6A5CD8002C2F66 /* PythonKit in Frameworks */,
 				3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -231,6 +233,7 @@
 				3A17C0782A61A20E0012F285 /* Alamofire */,
 				3A0679E02A648C0F0088DE6A /* SwiftyJSON */,
 				3ADDAEE22A65D00F00C42406 /* Zip */,
+				3AD1517F2A6A5CD8002C2F66 /* PythonKit */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
@@ -270,6 +273,7 @@
 				3A17C0772A61A20E0012F285 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				3A0679DF2A648C0F0088DE6A /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				3ADDAEE12A65D00F00C42406 /* XCRemoteSwiftPackageReference "Zip" */,
+				3AD1517E2A6A5CD8002C2F66 /* XCRemoteSwiftPackageReference "PythonKit" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
 			projectDirPath = "";
@@ -664,6 +668,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		3AD1517E2A6A5CD8002C2F66 /* XCRemoteSwiftPackageReference "PythonKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pvieito/PythonKit.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		3ADDAEE12A65D00F00C42406 /* XCRemoteSwiftPackageReference "Zip" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/marmelroy/Zip.git";
@@ -699,6 +711,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
+		};
+		3AD1517F2A6A5CD8002C2F66 /* PythonKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AD1517E2A6A5CD8002C2F66 /* XCRemoteSwiftPackageReference "PythonKit" */;
+			productName = PythonKit;
 		};
 		3ADDAEE22A65D00F00C42406 /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;

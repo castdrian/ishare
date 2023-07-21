@@ -114,9 +114,42 @@ struct CaptureSettingsView: View {
 }
 
 struct PluginSettingsView: View {
+    @State private var isDraggedOver = false
+
     var body: some View {
         VStack {
+            Text("Plugin Settings")
+            Spacer()
+            
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 450, height: 225)
+                
+                Text("Drop plugins here")
+                    .foregroundColor(.white)
+                    .font(.headline)
+            }
+            .padding().onDrop(of: [.fileURL], isTargeted: $isDraggedOver) { providers in
+                return handleDrop(providers: providers)
+            }
+
+            Spacer()
         }
+        .padding()
+    }
+
+    private func handleDrop(providers: [NSItemProvider]) -> Bool {
+        for provider in providers {
+            if provider.canLoadObject(ofClass: NSURL.self) {
+                provider.loadObject(ofClass: NSURL.self) { item, error in
+                    if let url = item as? URL {
+                        print("Received file URL: \(url)")
+                    }
+                }
+            }
+        }
+        return true
     }
 }
 
