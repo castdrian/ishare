@@ -27,6 +27,7 @@ enum FileType: String, CaseIterable, Identifiable, Defaults.Serializable {
 func captureScreen(type: CaptureType, display: Int = 1) -> Void {
     @Default(.capturePath) var capturePath
     @Default(.captureFileType) var fileType
+    @Default(.captureFileName) var fileName
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.uploadMedia) var uploadMedia
@@ -34,7 +35,7 @@ func captureScreen(type: CaptureType, display: Int = 1) -> Void {
     @Default(.uploadType) var uploadType
     
     let timestamp = Int(Date().timeIntervalSince1970)
-    let uniqueFilename = "ishare-\(timestamp)"
+    let uniqueFilename = "\(fileName)-\(timestamp)"
     
     var path = "\(capturePath)\(uniqueFilename).\(fileType)"
     path = NSString(string: path).expandingTildeInPath

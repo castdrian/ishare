@@ -28,6 +28,7 @@ extension Defaults.Keys {
     static let uploadMedia = Key<Bool>("uploadMedia", default: false)
     static let capturePath = Key<String>("capturePath", default: "~/Pictures/")
     static let captureFileType = Key<FileType>("captureFileType", default: .PNG)
+    static let captureFileName = Key<String>("captureFileName", default: "ishare")
     static let imgurClientId = Key<String>("imgurClientId", default: "867afe9433c0a53")
     static let captureBinary = Key<String>("captureBinary", default: "/usr/sbin/screencapture")
     static let activeCustomUploader = Key<UUID?>("activeCustomUploader", default: nil)

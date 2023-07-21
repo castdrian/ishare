@@ -80,6 +80,7 @@ struct KeybindSettingsView: View {
 struct CaptureSettingsView: View {
     @Default(.capturePath) var capturePath
     @Default(.captureFileType) var fileType
+    @Default(.captureFileName) var fileName
     
     var body: some View {
         VStack {
@@ -94,6 +95,14 @@ struct CaptureSettingsView: View {
                     }
                 }
             }.padding(10)
+            
+            HStack {
+                Text("File name:")
+                TextField(String(), text: $fileName)
+                Button("Default") {
+                    fileName = Defaults.Keys.captureFileName.defaultValue
+                }
+            }.padding(20)
             
             Picker("File format:", selection: $fileType) {
                 ForEach(FileType.allCases, id: \.self) {
