@@ -55,11 +55,19 @@ struct SettingsMenuView: View {
 
 struct GeneralSettingsView: View {
     @Default(.menuBarAppIcon) var menuBarAppIcon
-
+    
     var body: some View {
         VStack {
             LaunchAtLogin.Toggle()
             Toggle("Use app icon in menubar", isOn: $menuBarAppIcon)
+            HStack {
+                Button("Export settings") {
+                        exportUserDefaults()
+                }
+                Button("Import settings") {
+                        importUserDefaults()
+                }
+            }
         }
     }
 }
@@ -115,7 +123,7 @@ struct CaptureSettingsView: View {
 
 struct PluginSettingsView: View {
     @State private var isDraggedOver = false
-
+    
     var body: some View {
         VStack {
             Text("Plugin Settings")
@@ -133,12 +141,12 @@ struct PluginSettingsView: View {
             .padding().onDrop(of: [.fileURL], isTargeted: $isDraggedOver) { providers in
                 return handleDrop(providers: providers)
             }
-
+            
             Spacer()
         }
         .padding()
     }
-
+    
     private func handleDrop(providers: [NSItemProvider]) -> Bool {
         for provider in providers {
             if provider.canLoadObject(ofClass: NSURL.self) {
@@ -174,7 +182,7 @@ struct AdvancedSettingsView: View {
                     imgurClientId = Defaults.Keys.captureBinary.defaultValue
                 }
             }.padding(20)
-
+            
         }.alert(Text("Advanced Settings"),
                 isPresented: $showingAlert,
                 actions: {

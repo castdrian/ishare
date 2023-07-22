@@ -406,3 +406,54 @@ let AppIcon: NSImage = {
         $0.size.width = 18 / ratio
         return $0
     }(NSImage(named: "AppIcon")!)
+
+func exportUserDefaults() {
+    let settings = UserDefaults.standard.dictionaryRepresentation()
+    let data: Data
+    do {
+        data = try PropertyListSerialization.data(fromPropertyList: settings, format: .binary, options: 0)
+    } catch {
+        print("Error exporting UserDefaults: \(error)")
+        return
+    }
+    
+    let savePanel = NSSavePanel()
+    savePanel.title = "Export Settings"
+    savePanel.allowedContentTypes = [.propertyList]
+    
+    savePanel.begin { result in
+        if result == .OK, let fileURL = savePanel.url {
+            do {
+                try data.write(to: fileURL)
+                print("UserDefaults exported to file: \(fileURL.absoluteString)")
+            } catch {
+                print("Error exporting UserDefaults: \(error)")
+            }
+        }
+    }
+}
+
+func importUserDefaults() {
+    let openPanel = NSOpenPanel()
+    openPanel.title = "Import Settings"
+    openPanel.allowsMultipleSelection = false
+    openPanel.canChooseFiles = true
+    openPanel.canChooseDirectories = false
+    openPanel.allowedContentTypes = [.propertyList]
+
+    openPanel.begin { result in
+        if result == .OK, let fileURL = openPanel.url {
+            do {
+                let data = try Data(contentsOf: fileURL)
+                if let settings = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any] {
+                    UserDefaults.standard.setPersistentDomain(settings, forName: Bundle.main.bundleIdentifier!)
+                    print("UserDefaults imported from file: \(fileURL.absoluteString)")
+                } else {
+                    print("Error: Unable to import settings. Invalid data format.")
+                }
+            } catch {
+                print("Error importing UserDefaults: \(error)")
+            }
+        }
+    }
+}
