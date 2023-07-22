@@ -67,13 +67,13 @@ ishare is configured to support and recognize python scripts that adhere to the 
     Specification Details
   </summary>
   
-  - **name** (string):\
+  - **name** (str):\
   The name of the plugin. Use this value to identify the plugin instance or provide a user-friendly name.
 
-- **description** (string):\
+- **description** (str):\
   A description of the plugin.
 
-- **runBeforeUpload** (boolean):\
+- **run_before_upload** (bool):\
   A boolean value indicating whether the plugin should run before the media upload process (`True`) or after the upload (`False`).
 
 - **execute(file_path: str, uploader_result: Optional[str])**:\
@@ -92,7 +92,7 @@ ishare is configured to support and recognize python scripts that adhere to the 
       def __init__(self):
           self.name = "Example Plugin"
           self.description = "This is an example plugin"
-          self.run_before_upload = True
+          self.run_before_upload = False
   
       def execute(self, file_path, uploader_result):
           print(f"Plugin Name: {self.name}")
