@@ -37,7 +37,7 @@ struct UploaderSettingsView: View {
                         }
                         .buttonStyle(BorderlessButtonStyle())
                         .help("Delete Uploader")
-                        
+
                         Button(action: {
                             testCustomUploader(uploader)
                         }) {
@@ -45,6 +45,22 @@ struct UploaderSettingsView: View {
                         }
                         .buttonStyle(BorderlessButtonStyle())
                         .help("Test Uploader")
+
+                        Button(action: {
+                            editCustomUploader(uploader) // Edit button added
+                        }) {
+                            Image(systemName: "pencil")
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                        .help("Edit Uploader")
+
+                        Button(action: {
+                            exportUploader(uploader) // Export button added
+                        }) {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                        .help("Export Uploader")
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 4)
@@ -85,7 +101,7 @@ struct UploaderSettingsView: View {
             ImportCustomUploaderView()
         }
     }
-
+    
     private func deleteCustomUploader(_ uploader: CustomUploader) {
         guard var uploaders = savedCustomUploaders else { return }
         uploaders = uploaders.filter { $0.id != uploader.id }
@@ -148,6 +164,27 @@ struct UploaderSettingsView: View {
         activeCustomUploader = nil
         uploadType = .IMGUR
     }
+    
+    private func editCustomUploader(_ uploader: CustomUploader) {
+            isAddSheetPresented.toggle()
+        }
+        
+        private func exportUploader(_ uploader: CustomUploader) {
+            let data = try! JSONEncoder().encode(uploader)
+            let savePanel = NSSavePanel()
+            savePanel.allowedContentTypes = [.init(filenameExtension: "iscu")!]
+            savePanel.nameFieldStringValue = "\(uploader.name).iscu"
+
+            savePanel.begin { result in
+                if result == .OK, let url = savePanel.url {
+                    do {
+                        try data.write(to: url)
+                    } catch {
+                        print("Error exporting uploader: \(error)")
+                    }
+                }
+            }
+        }
 }
 
 struct AddCustomUploaderView: View {
