@@ -32,19 +32,8 @@ jobs:
           cd build
           zip -r "ishare_macOS.zip" "ishare.app"
 
-      - name: Get previous release tag
-        id: previous_release
-        run: echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
-
-      - name: Get commit messages since latest release
-        id: commit_messages
-        run: |
-          latest_tag="${{ steps.latest_tag.outputs.tag }}"
-          if [ -z "$latest_tag" ]; then
-            latest_tag=$(git rev-list --max-parents=0 HEAD)
-          fi
-          git log --pretty=format:"- %s" $latest_tag..HEAD > commits.txt
-          echo "::set-output name=commits::$(cat commits.txt)"
+      - name: Set shortened SHA
+        run: echo "SHORT=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         id: create_release
@@ -52,11 +41,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.run_id }}
-          release_name: Release v${{ github.run_id }}
-          body: |
-            Changes in this release:
-            ${{ steps.commit_messages.outputs.commits }}
+          tag_name: v${{ env.SHORT }}
+          release_name: Release ${{ env.SHORT }}
+          generate_release_notes: true
           draft: false
           prerelease: true
 
