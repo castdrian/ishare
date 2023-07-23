@@ -23,7 +23,7 @@ jobs:
       - run: xcodebuild -version 
 
       - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare" -configuration "Debug" -archivePath "build/ishare.xcarchive" SKIP_INSTALL=NO
+        run: xcodebuild archive -scheme "ishare" -configuration "Debug" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" SKIP_INSTALL=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
 
       - name: Package .app and create .zip
         run: |
