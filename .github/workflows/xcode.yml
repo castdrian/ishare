@@ -36,10 +36,14 @@ jobs:
         id: previous_release
         run: echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
 
-      - name: Get commit messages since previous release
+      - name: Get commit messages since latest release
         id: commit_messages
         run: |
-          git log --pretty=format:"- %s" ${{ steps.previous_release.outputs.tag }}..HEAD > commits.txt
+          latest_tag="${{ steps.latest_tag.outputs.tag }}"
+          if [ -z "$latest_tag" ]; then
+            latest_tag=$(git rev-list --max-parents=0 HEAD)
+          fi
+          git log --pretty=format:"- %s" $latest_tag..HEAD > commits.txt
           echo "::set-output name=commits::$(cat commits.txt)"
 
       - name: Create GitHub Release
