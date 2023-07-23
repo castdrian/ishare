@@ -15,6 +15,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        
+      - name: Xcode Select Version
+        uses: mobiledevops/xcode-select-version-action@v1
+        with:
+          xcode-select-version: 14.3.1
+      - run: xcodebuild -version 
 
       - name: Build macOS app
         run: xcodebuild archive -scheme "ishare" -configuration "Debug" -archivePath "build/ishare.xcarchive" SKIP_INSTALL=NO
