@@ -16,9 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - uses: maxim-lobanov/setup-xcode@v1
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: latest-stable
+          xcode-version: '14.3'
 
       - name: Build macOS app
         run: xcodebuild archive -scheme "ishare" -configuration "Debug" -archivePath "build/ishare.xcarchive" SKIP_INSTALL=NO
