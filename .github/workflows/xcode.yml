@@ -20,7 +20,6 @@ jobs:
         uses: mobiledevops/xcode-select-version-action@v1
         with:
           xcode-select-version: 14.3.1
-      - run: xcodebuild -version 
 
       - name: Build macOS app
         run: xcodebuild archive -scheme "ishare" -configuration "Debug" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" SKIP_INSTALL=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
@@ -41,7 +40,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ env.SHORT }}
+          tag_name: ${{ env.SHORT }}
           release_name: Release ${{ env.SHORT }}
           generate_release_notes: true
           draft: false
