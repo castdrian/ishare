@@ -1,5 +1,5 @@
 # ishare
-sharex-like screen capture utility for macOS
+clean and unbloated screen capture utility for macOS
 
 <a href="https://discord.gg/sX4KYzu5pX"><img src="https://discord.com/api/guilds/844574704698130492/widget.png?style=banner2" alt="Discord Server"></a>
 
@@ -60,46 +60,17 @@ In this example, the custom uploader is configured to upload files to `example.c
 ## Post Media Task Plugin Specification
 
 ishare allows you to script your own plugins that you can use as PMT (Post Media Task).\
-ishare is configured to support and recognize python scripts that adhere to the PMT Plugin spec.
 
 <details>
   <summary>
     Specification Details
   </summary>
-  
-  - **name** (str):\
-  The name of the plugin. Use this value to identify the plugin instance or provide a user-friendly name.
-
-- **description** (str):\
-  A description of the plugin.
-
-- **run_before_upload** (bool):\
-  A boolean value indicating whether the plugin should run before the media upload process (`True`) or after the upload (`False`).
-
-- **execute(file_path: str, uploader_result: Optional[str])**:\
-  The `execute` method takes two parameters:
-    - `file_path`: A string representing the file path of the media to process.
-    - `uploader_result`: An optional string representing the result of the uploader. It will be `None` if the plugin runs before the media is uploaded.
+  TBD
 </details>
 
 <details>
   <summary>
     Example
   </summary>
-  
-  ```py
-   class Plugin:
-      def __init__(self):
-          self.name = "Example Plugin"
-          self.description = "This is an example plugin"
-          self.run_before_upload = False
-  
-      def execute(self, file_path, uploader_result):
-          print(f"Plugin Name: {self.name}")
-          print(f"Plugin Description: {self.description}")
-
-          if uploader_result:
-              print(f"Uploader Result: {uploader_result}")
-  ```
-
+  TBD
 </details>
