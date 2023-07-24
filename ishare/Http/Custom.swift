@@ -17,7 +17,6 @@ enum CustomUploadError: Error {
 }
 
 func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error?, URL?) -> Void)? = nil, completion: @escaping () -> Void) {
-    @Default(.imageFileFormName) var imageFileFormName
     @Default(.captureFileType) var fileType
 
     guard specification.isValid() else {
@@ -32,6 +31,9 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
     if let requestHeaders = specification.headers {
         headers = HTTPHeaders(requestHeaders)
     }
+    
+    let fileFormName = fileURL.pathExtension == "mov" ? "video" : "image"
+    let mimeType = fileURL.pathExtension == "mov" ? "video/mov" : "image/\(fileType)"
 
     AF.upload(multipartFormData: { multipartFormData in
         if let formData = specification.formData {
@@ -41,7 +43,7 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
         }
 
         let fileData = try? Data(contentsOf: fileURL)
-        multipartFormData.append(fileData!, withName: specification.fileFormName ?? imageFileFormName, fileName: fileURL.lastPathComponent, mimeType: "image/\(fileType)")
+        multipartFormData.append(fileData!, withName: specification.fileFormName ?? fileFormName, fileName: fileURL.lastPathComponent, mimeType: mimeType)
     }, to: url, method: .post, headers: headers).response { response in
         if let data = response.data {
             let json = JSON(data)

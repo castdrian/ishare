@@ -17,8 +17,12 @@ func imgurUpload(_ fileURL: URL, completion: @escaping () -> Void) {
     
     let url = "https://api.imgur.com/3/upload"
     
+    let fileFormName = fileURL.pathExtension == "mov" ? "video" : "image"
+    let fileName = fileURL.pathExtension == "mov" ? "ishare.mov" : "ishare.\(fileType)"
+    let mimeType = fileURL.pathExtension == "mov" ? "video/mov" : "image/\(fileType)"
+    
     AF.upload(multipartFormData: { multipartFormData in
-        multipartFormData.append(fileURL, withName: "image", fileName: "ishare.\(fileType)", mimeType: "image/\(fileType)")
+        multipartFormData.append(fileURL, withName: fileFormName, fileName: fileName, mimeType: mimeType)
     }, to: url, method: .post, headers: ["Authorization": "Client-ID " + imgurClientId]).response { response in
         if let data = response.data {
             let json = JSON(data)

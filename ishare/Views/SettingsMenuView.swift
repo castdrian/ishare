@@ -127,10 +127,30 @@ struct CaptureSettingsView: View {
 }
 
 struct RecordingSettingsView: View {
+    @Default(.recordingPath) var recordingPath
+    @Default(.recordingFileName) var fileName
+    
     var body: some View {
         VStack {
             HStack {
-            }
+                Text("Capture path:")
+                TextField(text: $recordingPath) {}
+                Button("Select directory") {
+                    selectFolder { folderURL in
+                        if let url = folderURL {
+                            recordingPath = url.path()
+                        }
+                    }
+                }
+            }.padding(10)
+            
+            HStack {
+                Text("File name:")
+                TextField(String(), text: $fileName)
+                Button("Default") {
+                    fileName = Defaults.Keys.recordingFileName.defaultValue
+                }
+            }.padding(20)
         }
     }
 }

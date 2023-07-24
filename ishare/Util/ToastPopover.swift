@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct ToastPopoverView: View {
     let thumbnailImage: NSImage
@@ -21,7 +22,24 @@ struct ToastPopoverView: View {
 }
 
 func showToast(fileURL: URL) {
-    guard let thumbnailImage = NSImage(contentsOf: fileURL) else {
+    var thumbnailImage: NSImage?
+    
+    if fileURL.pathExtension == "mov" {
+        let asset = AVURLAsset(url: fileURL)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        let time = CMTime(seconds: 2, preferredTimescale: 60)
+        do {
+            let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
+            thumbnailImage = NSImage(cgImage: cgImage, size: CGSize(width: cgImage.width, height: cgImage.height))
+        } catch {
+            print("Error generating thumbnail: \(error)")
+        }
+    } else {
+        thumbnailImage = NSImage(contentsOf: fileURL)
+    }
+    
+    guard let thumbnail = thumbnailImage else {
         return
     }
     
@@ -37,7 +55,7 @@ func showToast(fileURL: URL) {
     toastWindow.backgroundColor = .clear
     toastWindow.isMovableByWindowBackground = false
     toastWindow.contentView = NSHostingView(
-            rootView: ToastPopoverView(thumbnailImage: thumbnailImage, fileURL: fileURL)
+        rootView: ToastPopoverView(thumbnailImage: thumbnail, fileURL: fileURL)
     )
     
     toastWindow.makeKeyAndOrderFront(nil)

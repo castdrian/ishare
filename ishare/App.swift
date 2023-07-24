@@ -31,7 +31,7 @@ struct ishare: App {
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     static private(set) var shared: AppDelegate! = nil
-
+    
     func application(_ application: NSApplication, open urls: [URL]) {
         if urls.count == 1 {
             importIscu(urls.first!)
@@ -43,6 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }()
     
     var isIconShown = false
+    var recordingTask: Process?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         AppDelegate.shared = self
@@ -59,5 +60,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             statusBarItem.button?.image = nil
         }
+        
+        if !isIconShown {
+            stopRecording()
+        }
+    }
+    
+    func stopRecording() {
+        recordingTask?.interrupt()
+        recordingTask = nil
     }
 }
