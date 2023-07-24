@@ -33,7 +33,7 @@ jobs:
       - name: Export .app from .xcarchive
         run: cp -R "build/ishare.xcarchive/Products/Applications/ishare.app" "build/"
 
-      - name: Package .app and create .zip
+      - name: Archive .app
         run: cd build && zip -r "ishare_macOS.zip" "ishare.app"
 
       - name: Set shortened SHA
@@ -46,7 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.SHORT }}
-          release_name: Release ${{ env.SHORT }}
+          release_name: Commit ${{ env.SHORT }}
           generate_release_notes: true
           draft: false
           prerelease: true

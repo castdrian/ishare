@@ -59,7 +59,7 @@ In this example, the custom uploader is configured to upload files to `example.c
 
 ## Post Media Task Plugin Specification
 
-ishare allows you to script your own plugins that you can use as PMT (Post Media Task).\
+ishare allows you to script your own plugins that you can use as PMT (Post Media Task).
 
 <details>
   <summary>
