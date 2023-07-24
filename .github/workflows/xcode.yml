@@ -36,10 +36,11 @@ jobs:
           xcode-select-version: 14.3.1
 
       - name: Build macOS app (Unsigned)
-        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" CODE_SIGNING_ALLOWED="No"
+        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS"
 
       - name: Sign the .app
-        run: codesign --force --deep --sign "Mac Developer" "build/ishare.xcarchive/Products/Applications/ishare.app"
+        run: |
+          codesign --force --deep --sign "Apple Development: castdrian@gmail.com (M43MLSZ667)" "build/ishare.xcarchive/Products/Applications/ishare.app"
 
       - name: Package .app and create .zip
         run: |
