@@ -24,7 +24,6 @@
 		3AB38D062A62C35C00184E0D /* Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D052A62C35C00184E0D /* Custom.swift */; };
 		3AB38D082A62C49C00184E0D /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D072A62C49C00184E0D /* Upload.swift */; };
 		3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */; };
-		3AB38D0D2A62F7C500184E0D /* RecordingSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0C2A62F7C500184E0D /* RecordingSettings.swift */; };
 		3ADDAEDA2A659A0B00C42406 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDAED92A659A0B00C42406 /* Assets.xcassets */; };
 		3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADDAEE22A65D00F00C42406 /* Zip */; };
 /* End PBXBuildFile section */
@@ -58,7 +57,6 @@
 		3AB38D052A62C35C00184E0D /* Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Custom.swift; sourceTree = "<group>"; };
 		3AB38D072A62C49C00184E0D /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
 		3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploaderSettings.swift; sourceTree = "<group>"; };
-		3AB38D0C2A62F7C500184E0D /* RecordingSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingSettings.swift; sourceTree = "<group>"; };
 		3ADDAED92A659A0B00C42406 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Util/Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,7 +143,6 @@
 			isa = PBXGroup;
 			children = (
 				3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */,
-				3AB38D0C2A62F7C500184E0D /* RecordingSettings.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -241,7 +238,6 @@
 				3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */,
 				3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */,
 				3AB38D042A62B56B00184E0D /* CustomUploader.swift in Sources */,
-				3AB38D0D2A62F7C500184E0D /* RecordingSettings.swift in Sources */,
 				3AB38D062A62C35C00184E0D /* Custom.swift in Sources */,
 				3AB38D082A62C49C00184E0D /* Upload.swift in Sources */,
 				3AB345C82A5F163800AAEC0E /* AppState.swift in Sources */,

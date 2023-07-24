@@ -126,6 +126,15 @@ struct CaptureSettingsView: View {
     }
 }
 
+struct RecordingSettingsView: View {
+    var body: some View {
+        VStack {
+            HStack {
+            }
+        }
+    }
+}
+
 struct PluginSettingsView: View {
     @State private var isDraggedOver = false
     
