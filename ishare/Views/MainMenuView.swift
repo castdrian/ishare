@@ -13,9 +13,7 @@ enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
     case custom(UUID?)
 }
 
-struct MainMenuView: View {
-    @State private var isFFmpegInstalled: Bool = false
-    
+struct MainMenuView: View {    
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.uploadMedia) var uploadMedia
@@ -41,11 +39,14 @@ struct MainMenuView: View {
             }
             Divider()
             Button("Record Region") {
-            }.keyboardShortcut(.recordRegion).disabled(!isFFmpegInstalled)
-            Button("Record Screen") {
-            }.keyboardShortcut(.recordScreen).disabled(!isFFmpegInstalled)
-        }.onAppear {
-            isFFmpegInstalled = checkAppInstallation(.FFMPEG)
+            }.keyboardShortcut(.recordRegion).disabled(true)
+            ForEach(NSScreen.screens.indices, id: \.self) { index in
+                let screen = NSScreen.screens[index]
+                let screenName = screen.localizedName
+                Button("Record \(screenName)") {
+                    // captureScreen(type: .SCREEN, display: index + 1)
+                }.keyboardShortcut(index == 0 ? .recordScreen : .noKeybind)
+            }
         }
         
         Menu("Post Media Tasks") {

@@ -10,6 +10,7 @@
 		3A0679E12A648C0F0088DE6A /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3A0679E02A648C0F0088DE6A /* SwiftyJSON */; };
 		3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3A17C0782A61A20E0012F285 /* Alamofire */; };
 		3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17C07B2A61A2510012F285 /* Imgur.swift */; };
+		3A59CD5E2A6EE47E00E85161 /* ScreenRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A59CD5D2A6EE47E00E85161 /* ScreenRecording.swift */; };
 		3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* App.swift */; };
 		3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */; };
 		3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		3A17C07B2A61A2510012F285 /* Imgur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Imgur.swift; sourceTree = "<group>"; };
+		3A59CD5D2A6EE47E00E85161 /* ScreenRecording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRecording.swift; sourceTree = "<group>"; };
 		3A9A9FD42A5C84B5007BA5C9 /* ishare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ishare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9A9FD72A5C84B5007BA5C9 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ishare.entitlements; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */,
 				3AB345C52A5F0C7A00AAEC0E /* Constants.swift */,
 				3AB38D032A62B56B00184E0D /* CustomUploader.swift */,
+				3A59CD5D2A6EE47E00E85161 /* ScreenRecording.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 			files = (
 				3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */,
 				3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */,
+				3A59CD5E2A6EE47E00E85161 /* ScreenRecording.swift in Sources */,
 				3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */,
 				3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */,
 				3AB38D042A62B56B00184E0D /* CustomUploader.swift in Sources */,
