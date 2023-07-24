@@ -30,8 +30,11 @@ jobs:
       - name: Build macOS app
         run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS"
 
+      - name: Export .app from .xcarchive
+        run: cp -R "build/ishare.xcarchive/Products/Applications/ishare.app" "build/"
+
       - name: Package .app and create .zip
-        run: zip -r "build/ishare_macOS.zip" "build/ishare.xcarchive/Products/Applications/ishare.app"
+        run: cd build && zip -r "ishare_macOS.zip" "ishare.app"
 
       - name: Set shortened SHA
         run: echo "SHORT=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
