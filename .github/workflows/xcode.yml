@@ -11,7 +11,6 @@ on:
 env:
   CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
   P12_PASSWORD_BASE64: ${{ secrets.P12_PASSWORD }}
-  DEVELOPMENT_TEAM_ID: ${{ secrets.TEAM_ID }}  
 
 jobs:
   build:
@@ -36,8 +35,11 @@ jobs:
         with:
           xcode-select-version: 14.3.1
 
-      - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" CODE_SIGN_IDENTITY="Mac Developer" CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM_ID
+      - name: Build macOS app (Unsigned)
+        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" CODE_SIGNING_ALLOWED="No"
+
+      - name: Sign the .app
+        run: codesign --force --deep --sign "Mac Developer" "build/ishare.xcarchive/Products/Applications/ishare.app"
 
       - name: Package .app and create .zip
         run: |
@@ -74,4 +76,5 @@ jobs:
       - name: Clean up temporary files
         run: |
           security delete-keychain ~/Library/Keychains/build.keychain
+          rm -rf "build/ishare.xcarchive"
           rm -f certificate.p12 password.txt
