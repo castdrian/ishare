@@ -6,11 +6,12 @@
 //
 
 import Zip
+import Carbon
 import SwiftUI
 import Defaults
 import Alamofire
 import SwiftyJSON
-@testable import KeyboardShortcuts
+import KeyboardShortcuts
 
 extension KeyboardShortcuts.Name {
     static let noKeybind = Self("noKeybind")
@@ -39,49 +40,81 @@ extension Defaults.Keys {
     static let uploadDestination = Key<UploadDestination>("uploadDestination", default: .builtIn(.IMGUR))
 }
 
-extension KeyboardShortcuts.Shortcut {
-    var swiftUI: SwiftUI.KeyboardShortcut? {
-        guard let key = keyEquivalent.first else { return nil }
-        return .init(.init(key), modifiers: modifiers.swiftUI)
+extension View {
+    
+    public func keyboardShortcut(_ shortcut: KeyboardShortcuts.Name) -> some View {
+        if let shortcut = shortcut.shortcut {
+            if let keyEquivalent = shortcut.toKeyEquivalent() {
+                return AnyView(self.keyboardShortcut(keyEquivalent, modifiers: shortcut.toEventModifiers()))
+            }
+        }
+        
+        return AnyView(self)
     }
+    
 }
 
-extension NSEvent.ModifierFlags {
-    var swiftUI: SwiftUI.EventModifiers {
+extension KeyboardShortcuts.Shortcut {
+    
+    func toKeyEquivalent() -> KeyEquivalent? {
+        let carbonKeyCode = UInt16(self.carbonKeyCode)
+        let maxNameLength = 4
+        var nameBuffer = [UniChar](repeating: 0, count : maxNameLength)
+        var nameLength = 0
+        
+        let modifierKeys = UInt32(alphaLock >> 8) & 0xFF // Caps Lock
+        var deadKeys: UInt32 = 0
+        let keyboardType = UInt32(LMGetKbdType())
+        
+        let source = TISCopyCurrentKeyboardLayoutInputSource().takeRetainedValue()
+        guard let ptr = TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData) else {
+            NSLog("Could not get keyboard layout data")
+            return nil
+        }
+        let layoutData = Unmanaged<CFData>.fromOpaque(ptr).takeUnretainedValue() as Data
+        let osStatus = layoutData.withUnsafeBytes {
+            UCKeyTranslate($0.bindMemory(to: UCKeyboardLayout.self).baseAddress, carbonKeyCode, UInt16(kUCKeyActionDown),
+                           modifierKeys, keyboardType, UInt32(kUCKeyTranslateNoDeadKeysMask),
+                           &deadKeys, maxNameLength, &nameLength, &nameBuffer)
+        }
+        guard osStatus == noErr else {
+            NSLog("Code: 0x%04X  Status: %+i", carbonKeyCode, osStatus);
+            return nil
+        }
+        
+        return KeyEquivalent(Character(String(utf16CodeUnits: nameBuffer, count: nameLength)))
+    }
+    
+    func toEventModifiers() -> SwiftUI.EventModifiers {
         var modifiers: SwiftUI.EventModifiers = []
-        if contains(.shift) {
-            modifiers.insert(.shift)
+        
+        if self.modifiers.contains(NSEvent.ModifierFlags.command) {
+            modifiers.update(with: EventModifiers.command)
         }
-        if contains(.command) {
-            modifiers.insert(.command)
+        
+        if self.modifiers.contains(NSEvent.ModifierFlags.control) {
+            modifiers.update(with: EventModifiers.control)
         }
-        if contains(.capsLock) {
-            modifiers.insert(.capsLock)
+        
+        if self.modifiers.contains(NSEvent.ModifierFlags.option) {
+            modifiers.update(with: EventModifiers.option)
         }
-        if contains(.option) {
-            modifiers.insert(.option)
+        
+        if self.modifiers.contains(NSEvent.ModifierFlags.shift) {
+            modifiers.update(with: EventModifiers.shift)
         }
-        if contains(.control) {
-            modifiers.insert(.control)
+        
+        if self.modifiers.contains(NSEvent.ModifierFlags.capsLock) {
+            modifiers.update(with: EventModifiers.capsLock)
         }
+        
+        if self.modifiers.contains(NSEvent.ModifierFlags.numericPad) {
+            modifiers.update(with: EventModifiers.numericPad)
+        }
+        
         return modifiers
     }
-}
-
-extension View {
-    @ViewBuilder
-    /// Assigns the global keyboard shortcut to the modified control.
-    ///
-    /// Only assigns a keyboard shortcut, if one was defined (or it has a default shortcut).
-    ///
-    /// - Parameter shortcut: Strongly-typed name of the shortcut
-    public func keyboardShortcut(_ shortcut: KeyboardShortcuts.Name) -> some View {
-        if let shortcut = (shortcut.shortcut ?? shortcut.defaultShortcut)?.swiftUI {
-            self.keyboardShortcut(shortcut)
-        } else {
-            self
-        }
-    }
+    
 }
 
 enum InstalledApp: String {
