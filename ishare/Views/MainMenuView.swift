@@ -44,7 +44,7 @@ struct MainMenuView: View {
                 let screen = NSScreen.screens[index]
                 let screenName = screen.localizedName
                 Button("Record \(screenName)") {
-                    // captureScreen(type: .SCREEN, display: index + 1)
+                    recordScreen(type: .SCREEN, display: index + 1)
                 }.keyboardShortcut(index == 0 ? .recordScreen : .noKeybind)
             }
         }

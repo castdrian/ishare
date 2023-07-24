@@ -13,7 +13,7 @@ import FinderSync
 struct ishare: App {
     @Default(.menuBarAppIcon) var menuBarAppIcon
     @StateObject private var appState = AppState()
-    @NSApplicationDelegateAdaptor private var appDeletate : AppDelegate
+    @NSApplicationDelegateAdaptor private var appDelegate : AppDelegate
     
     var body: some Scene {
         MenuBarExtra() {
@@ -30,9 +30,34 @@ struct ishare: App {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
+    static private(set) var shared: AppDelegate! = nil
+
     func application(_ application: NSApplication, open urls: [URL]) {
         if urls.count == 1 {
             importIscu(urls.first!)
         }
-    }    
+    }
+    
+    lazy var statusBarItem: NSStatusItem = {
+        return NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+    }()
+    
+    var isIconShown = false
+    
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        AppDelegate.shared = self
+        if let button = statusBarItem.button {
+            button.action = #selector(toggleIcon)
+        }
+    }
+    
+    @objc func toggleIcon(_ sender: AnyObject) {
+        isIconShown.toggle()
+        
+        if isIconShown {
+            statusBarItem.button?.image = NSImage(systemSymbolName: "stop.fill", accessibilityDescription: "Stop Icon")
+        } else {
+            statusBarItem.button?.image = nil
+        }
+    }
 }
