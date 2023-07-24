@@ -7,6 +7,10 @@ on:
     paths-ignore:
       - 'README.md'
   workflow_dispatch:
+  
+env:
+  CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+  P12_PASSWORD_BASE64: ${{ secrets.P12_PASSWORD }}
 
 jobs:
   build:
@@ -16,13 +20,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
+      - name: Set up macOS keychain
+        run: |
+          mkdir -p ~/Library/Keychains
+          echo "${CERTIFICATE_BASE64}" | base64 --decode > certificate.p12
+          echo "${P12_PASSWORD_BASE64}" | base64 --decode > password.txt
+          security create-keychain -p mysecretpassword build.keychain
+          security import certificate.p12 -P "$(cat password.txt)" -k ~/Library/Keychains/build.keychain -T /usr/bin/codesign
+          security list-keychain -s ~/Library/Keychains/build.keychain
+          security default-keychain -s ~/Library/Keychains/build.keychain
+
       - name: Xcode Select Version
         uses: mobiledevops/xcode-select-version-action@v1
         with:
           xcode-select-version: 14.3.1
 
       - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare" -configuration "Debug" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" SKIP_INSTALL=NO CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+        run: xcodebuild archive -scheme "ishare" -configuration "Debug" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" "CODE_SIGN_IDENTITY=Mac Developer" "CODE_SIGNING_REQUIRED=YES"
 
       - name: Package .app and create .zip
         run: |
@@ -55,3 +69,8 @@ jobs:
           asset_path: ./build/ishare_macOS.zip
           asset_name: ishare_macOS.zip
           asset_content_type: application/zip
+          
+      - name: Clean up temporary files
+        run: |
+          security delete-keychain ~/Library/Keychains/build.keychain
+          rm -f certificate.p12 password.txt
