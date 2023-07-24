@@ -56,11 +56,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ishare_macOS.zip
+          asset_path: ./build/ishare_macOS.zip
           asset_name: ishare_macOS.zip
           asset_content_type: application/zip
-
-      - name: Clean up temporary files
-        run: |
-          security delete-keychain ~/keychain/build.keychain
-          rm -f certificate.p12 password.txt
