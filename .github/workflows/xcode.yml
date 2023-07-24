@@ -37,7 +37,7 @@ jobs:
           xcode-select-version: 14.3.1
 
       - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" CODE_SIGN_IDENTITY="Mac Developer" DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM_ID CODE_SIGN_STYLE=Manual CODE_SIGNING_REQUIRED="YES" OTHER_CODE_SIGN_FLAGS="--deep"
+        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" CODE_SIGN_IDENTITY="Mac Developer" DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM_ID CODE_SIGN_STYLE=Manual CODE_SIGNING_REQUIRED="YES" CODE_SIGNING_ALLOWED="No" OTHER_CODE_SIGN_FLAGS="--deep"
 
       - name: Package .app and create .zip
         run: |
