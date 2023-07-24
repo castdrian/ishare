@@ -74,13 +74,18 @@ struct GeneralSettingsView: View {
 
 struct KeybindSettingsView: View {
     var body: some View {
-        Form {
-            KeyboardShortcuts.Recorder("Open Main Menu:", name: .toggleMainMenu)
-            KeyboardShortcuts.Recorder("Capture Region:", name: .captureRegion)
-            KeyboardShortcuts.Recorder("Capture Window:", name: .captureWindow)
-            KeyboardShortcuts.Recorder("Capture Screen:", name: .captureScreen)
-            KeyboardShortcuts.Recorder("Record Region:", name: .recordRegion)
-            KeyboardShortcuts.Recorder("Record Screen:", name: .recordScreen)
+        VStack {
+            Form {
+                KeyboardShortcuts.Recorder("Open Main Menu:", name: .toggleMainMenu)
+                KeyboardShortcuts.Recorder("Capture Region:", name: .captureRegion)
+                KeyboardShortcuts.Recorder("Capture Window:", name: .captureWindow)
+                KeyboardShortcuts.Recorder("Capture Screen:", name: .captureScreen)
+                KeyboardShortcuts.Recorder("Record Region:", name: .recordRegion)
+                KeyboardShortcuts.Recorder("Record Screen:", name: .recordScreen)
+            }
+            Button("Reset") {
+                KeyboardShortcuts.reset([.toggleMainMenu, .captureRegion, .captureWindow, .captureScreen, .recordRegion, .recordScreen])
+            }
         }
     }
 }
