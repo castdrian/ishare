@@ -22,25 +22,21 @@ jobs:
         
       - name: Set up macOS keychain
         run: |
-          mkdir -p ~/Library/Keychains
+          mkdir -p ~/keychain
           echo "${CERTIFICATE_BASE64}" | base64 --decode > certificate.p12
           echo "${P12_PASSWORD_BASE64}" | base64 --decode > password.txt
-          security create-keychain -p mysecretpassword build.keychain
-          security import certificate.p12 -P "$(cat password.txt)" -k ~/Library/Keychains/build.keychain -T /usr/bin/codesign
-          security list-keychain -s ~/Library/Keychains/build.keychain
-          security default-keychain -s ~/Library/Keychains/build.keychain
+          security create-keychain -p mysecretpassword ~/keychain/build.keychain
+          security import certificate.p12 -P "$(cat password.txt)" -k ~/keychain/build.keychain -T /usr/bin/codesign
+          security list-keychain -s ~/keychain/build.keychain
+          security default-keychain -s ~/keychain/build.keychain
 
       - name: Xcode Select Version
         uses: mobiledevops/xcode-select-version-action@v1
         with:
           xcode-select-version: 14.3.1
 
-      - name: Build macOS app (Unsigned)
+      - name: Build macOS app
         run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS"
-
-      - name: Sign the .app
-        run: |
-          codesign --force --deep --sign "Apple Development: castdrian@gmail.com (M43MLSZ667)" "build/ishare.xcarchive/Products/Applications/ishare.app"
 
       - name: Package .app and create .zip
         run: |
