@@ -7,11 +7,6 @@ on:
     paths-ignore:
       - 'README.md'
   workflow_dispatch:
-  
-env:
-  CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
-  P12_PASSWORD_BASE64: ${{ secrets.P12_PASSWORD }}
-  DEVELOPMENT_TEAM_ID: ${{ secrets.TEAM_ID }}  
 
 jobs:
   build:
@@ -20,16 +15,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
-      - name: Set up macOS keychain
-        run: |
-          mkdir -p ~/keychain
-          echo "${CERTIFICATE_BASE64}" | base64 --decode > certificate.p12
-          echo "${P12_PASSWORD_BASE64}" | base64 --decode > password.txt
-          security create-keychain -p mysecretpassword ~/keychain/build.keychain
-          security import certificate.p12 -P "$(cat password.txt)" -k ~/keychain/build.keychain -T /usr/bin/codesign
-          security list-keychain -s ~/keychain/build.keychain
-          security default-keychain -s ~/keychain/build.keychain
+
+      - name: Setup Certificate
+        uses: apple-actions/import-codesign-certs@v2
+        with: 
+          p12-file-base64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          p12-password: ${{ secrets.P12_PASSWORD }}
 
       - name: Xcode Select Version
         uses: mobiledevops/xcode-select-version-action@v1
@@ -37,14 +28,12 @@ jobs:
           xcode-select-version: 14.3.1
 
       - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" CODE_SIGN_IDENTITY="Mac Developer" DEVELOPMENT_TEAM=$DEVELOPMENT_TEAM_ID CODE_SIGN_STYLE=Manual CODE_SIGNING_REQUIRED="YES" OTHER_CODE_SIGN_FLAGS="--deep"
+        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS"
 
       - name: Package .app and create .zip
         run: |
-          mkdir -p build/ishare.app
-          cp -R "build/ishare.xcarchive/Products/Applications/ishare.app" "build/ishare.app"
-          cd build
-          zip -r "ishare_macOS.zip" "ishare.app"
+          cd build/ishare.xcarchive/Products/Applications
+          zip -r "../../ishare_macOS.zip" ishare.app
 
       - name: Set shortened SHA
         run: echo "SHORT=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
@@ -67,10 +56,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/ishare_macOS.zip
+          asset_path: ./ishare_macOS.zip
           asset_name: ishare_macOS.zip
           asset_content_type: application/zip
-          
+
       - name: Clean up temporary files
         run: |
           security delete-keychain ~/keychain/build.keychain
