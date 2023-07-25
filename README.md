@@ -1,6 +1,14 @@
 # ishare
 clean and unbloated screen capture utility for macOS
 
+<div>
+  <a href="https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip" download>
+    <img src="https://applications.kitco.com/sites/default/files/mac-button.png" alt="Download Latest Release" width="200">
+  </a>
+</div>
+
+<br>
+
 <a href="https://discord.gg/sX4KYzu5pX"><img src="https://discord.com/api/guilds/844574704698130492/widget.png?style=banner2" alt="Discord Server"></a>
 
 ## Custom Uploader Request Specification
