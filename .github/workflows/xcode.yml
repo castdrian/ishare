@@ -49,7 +49,6 @@ jobs:
           release_name: Commit ${{ env.SHORT }}
           generate_release_notes: true
           draft: false
-          prerelease: true
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
