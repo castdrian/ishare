@@ -454,6 +454,7 @@ func exportUserDefaults() {
     let savePanel = NSSavePanel()
     savePanel.title = "Export Settings"
     savePanel.allowedContentTypes = [.propertyList]
+    savePanel.directoryURL = URL(string: NSString(string: "~/Documents").expandingTildeInPath)
     
     savePanel.begin { result in
         if result == .OK, let fileURL = savePanel.url {
