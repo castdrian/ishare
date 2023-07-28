@@ -25,17 +25,28 @@ struct MainMenuView: View {
     
     var body: some View {
         Menu {
-            Button("Capture Region") {
+            Button {
                 captureScreen(type: .REGION)
+            } label: {
+                Image(systemName: "uiwindow.split.2x1")
+                Label("Capture Region", image: String())
             }.keyboardShortcut(.captureRegion)
-            Button("Capture Window") {
+            
+            Button {
                 captureScreen(type: .WINDOW)
+            } label: {
+                Image(systemName: "macwindow.on.rectangle")
+                Label("Capture Window", image: String())
             }.keyboardShortcut(.captureWindow)
+            
             ForEach(NSScreen.screens.indices, id: \.self) { index in
                 let screen = NSScreen.screens[index]
                 let screenName = screen.localizedName
-                Button("Capture \(screenName)") {
+                Button {
                     captureScreen(type: .SCREEN, display: index + 1)
+                } label: {
+                    Image(systemName: "macwindow")
+                    Label("Capture \(screenName)", image: String())
                 }.keyboardShortcut(index == 0 ? .captureScreen : .noKeybind)
             }
         } label: {
@@ -44,13 +55,14 @@ struct MainMenuView: View {
         }
         
         Menu {
-            Button("Record Region") {
-            }.keyboardShortcut(.recordRegion).disabled(true)
             ForEach(NSScreen.screens.indices, id: \.self) { index in
                 let screen = NSScreen.screens[index]
                 let screenName = screen.localizedName
-                Button("Record \(screenName)") {
+                Button {
                     recordScreen(type: .SCREEN, display: index + 1)
+                } label: {
+                    Image(systemName: "menubar.dock.rectangle.badge.record")
+                    Label("Record \(screenName)", image: String())
                 }.keyboardShortcut(index == 0 ? .recordScreen : .noKeybind)
             }
         } label: {
@@ -59,9 +71,20 @@ struct MainMenuView: View {
         }
         
         Menu {
-            Toggle("Copy to clipboard", isOn: $copyToClipboard).toggleStyle(.checkbox)
-            Toggle("Open in Finder", isOn: $openInFinder).toggleStyle(.checkbox)
-            Toggle("Upload media", isOn: $uploadMedia).toggleStyle(.checkbox)
+            Toggle(isOn: $copyToClipboard) {
+                Image(systemName: "clipboard")
+                Label("Copy to clipboard", image: String())
+            }.toggleStyle(.checkbox)
+            
+            Toggle(isOn: $openInFinder){
+                Image(systemName: "folder")
+                Label("Open in Finder", image: String())
+            }.toggleStyle(.checkbox)
+            
+            Toggle(isOn: $uploadMedia){
+                Image(systemName: "icloud.and.arrow.up")
+                Label("Upload media", image: String())
+            }.toggleStyle(.checkbox)
         } label: {
             Image(systemName: "list.bullet.clipboard")
             Label("Post Media Tasks", image: String())
@@ -69,15 +92,19 @@ struct MainMenuView: View {
         
         Picker(selection: $uploadDestination) {
                    ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) { uploadType in
-                       Text(uploadType.rawValue.capitalized)
-                           .tag(UploadDestination.builtIn(uploadType))
+                       Button {} label: {
+                           Image(systemName: "photo")
+                           Label(uploadType.rawValue.capitalized, image: String())
+                       }.tag(UploadDestination.builtIn(uploadType))
                    }
             if let customUploaders = savedCustomUploaders {
                        if !customUploaders.isEmpty {
                            Divider()
                            ForEach(CustomUploader.allCases, id: \.self) { uploader in
-                               Text(uploader.name)
-                                   .tag(UploadDestination.custom(uploader.id))
+                               Button {} label: {
+                                   Image(nsImage: AppIcon)
+                                   Label(uploader.name, image: String())
+                               }.tag(UploadDestination.custom(uploader.id))
                            }
                        }
                    }
@@ -103,7 +130,7 @@ struct MainMenuView: View {
             NSApplication.shared.activate(ignoringOtherApps: true)
             NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
         } label: {
-            Image(systemName: "gear")
+            Image(systemName: "gearshape")
             Label("Settings", image: String())
         }.keyboardShortcut("s")
         

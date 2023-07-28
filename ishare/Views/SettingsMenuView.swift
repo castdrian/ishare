@@ -17,7 +17,7 @@ struct SettingsMenuView: View {
         TabView {
             GeneralSettingsView()
                 .tabItem {
-                    Label("General", systemImage: "gear")
+                    Label("General", systemImage: "gearshape")
                 }
             
             UploaderSettingsView()
