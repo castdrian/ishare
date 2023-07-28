@@ -1,6 +1,15 @@
 # ishare
 clean and unbloated screen capture utility for macOS
 
+[![castdrian - ishare](https://img.shields.io/static/v1?label=castdrian&message=ishare&color=blue&logo=github)](https://github.com/castdrian/ishare "Go to GitHub repo")
+[![stars - ishare](https://img.shields.io/github/stars/castdrian/ishare?style=social)](https://github.com/castdrian/ishare)
+[![forks - ishare](https://img.shields.io/github/forks/castdrian/ishare?style=social)](https://github.com/castdrian/ishare)
+
+[![Build and Release App](https://github.com/castdrian/ishare/workflows/Build%20and%20Release%20App/badge.svg)](https://github.com/castdrian/ishare/actions?query=workflow:"Build+and+Release+App")
+[![GitHub release](https://img.shields.io/github/release/castdrian/ishare?include_prereleases=&sort=semver&color=blue)](https://github.com/castdrian/ishare/releases/)
+[![License](https://img.shields.io/badge/License-GPL_v3-blue)](#license)
+[![issues - ishare](https://img.shields.io/github/issues/castdrian/ishare)](https://github.com/castdrian/ishare/issues)
+
 <div>
   <a href="https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip" download>
     <img src="https://www.dmo-app.com/wp-content/uploads/2022/05/mac-download-button-1.png" alt="Download Latest Release" width="200">
@@ -82,3 +91,7 @@ ishare allows you to script your own plugins that you can use as PMT (Post Media
   </summary>
   TBD
 </details>
+
+## License
+
+Released under [GPL v3](/LICENSE) by [@castdrian](https://github.com/castdrian).
