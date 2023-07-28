@@ -93,7 +93,7 @@ struct MainMenuView: View {
         Picker(selection: $uploadDestination) {
                    ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) { uploadType in
                        Button {} label: {
-                           Image(systemName: "photo")
+                           Image(nsImage: ImgurIcon)
                            Label(uploadType.rawValue.capitalized, image: String())
                        }.tag(UploadDestination.builtIn(uploadType))
                    }
