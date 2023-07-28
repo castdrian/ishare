@@ -24,7 +24,7 @@ struct MainMenuView: View {
     @Default(.uploadDestination) var uploadDestination
     
     var body: some View {
-        Menu("Capture/Record") {
+        Menu {
             Button("Capture Region") {
                 captureScreen(type: .REGION)
             }.keyboardShortcut(.captureRegion)
@@ -38,7 +38,12 @@ struct MainMenuView: View {
                     captureScreen(type: .SCREEN, display: index + 1)
                 }.keyboardShortcut(index == 0 ? .captureScreen : .noKeybind)
             }
-            Divider()
+        } label: {
+            Image(systemName: "photo.on.rectangle.angled")
+            Label("Capture", image: String())
+        }
+        
+        Menu {
             Button("Record Region") {
             }.keyboardShortcut(.recordRegion).disabled(true)
             ForEach(NSScreen.screens.indices, id: \.self) { index in
@@ -48,15 +53,21 @@ struct MainMenuView: View {
                     recordScreen(type: .SCREEN, display: index + 1)
                 }.keyboardShortcut(index == 0 ? .recordScreen : .noKeybind)
             }
+        } label: {
+            Image(systemName: "menubar.dock.rectangle.badge.record")
+            Label("Record", image: String())
         }
         
-        Menu("Post Media Tasks") {
+        Menu {
             Toggle("Copy to clipboard", isOn: $copyToClipboard).toggleStyle(.checkbox)
             Toggle("Open in Finder", isOn: $openInFinder).toggleStyle(.checkbox)
             Toggle("Upload media", isOn: $uploadMedia).toggleStyle(.checkbox)
+        } label: {
+            Image(systemName: "list.bullet.clipboard")
+            Label("Post Media Tasks", image: String())
         }
         
-        Picker("Upload Destination", selection: $uploadDestination) {
+        Picker(selection: $uploadDestination) {
                    ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) { uploadType in
                        Text(uploadType.rawValue.capitalized)
                            .tag(UploadDestination.builtIn(uploadType))
@@ -71,6 +82,10 @@ struct MainMenuView: View {
                        }
                    }
                }
+                label: {
+                    Image(systemName: "icloud.and.arrow.up")
+                    Label("Upload Destination", image: String())
+                }
                .onChange(of: uploadDestination) { newValue in
                    if case .builtIn(_) = newValue {
                        activeCustomUploader = nil
@@ -84,14 +99,17 @@ struct MainMenuView: View {
                }
                .pickerStyle(MenuPickerStyle())
                 
-        Button("Settings") {
+        Button {
             NSApplication.shared.activate(ignoringOtherApps: true)
             NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        } label: {
+            Image(systemName: "gear")
+            Label("Settings", image: String())
         }.keyboardShortcut("s")
         
         Divider()
         
-        Button("About ishare") {
+        Button {
             NSApplication.shared.activate(ignoringOtherApps: true)
             
             fetchContributors { contributors in
@@ -120,16 +138,24 @@ struct MainMenuView: View {
                     print("Failed to fetch contributors")
                 }
             }
+        } label: {
+            Image(systemName: "info.circle")
+            Label("About ishare", image: String())
         }
         .keyboardShortcut("a")
         
-        
-        Button("Check for Updates") {
+        Button {
             selfUpdate()
+        } label: {
+            Image(systemName: "arrow.down.app")
+            Label("Check for Updates", image: String())
         }.keyboardShortcut("u")
         
-        Button("Quit") {
+        Button {
             NSApplication.shared.terminate(nil)
+        } label: {
+            Image(systemName: "power.circle")
+            Label("Quit", image: String())
         }.keyboardShortcut("q")
     }
 }
