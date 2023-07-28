@@ -9,6 +9,7 @@ import SwiftUI
 import Defaults
 import LaunchAtLogin
 import KeyboardShortcuts
+import BezelNotification
 import UniformTypeIdentifiers
 
 struct SettingsMenuView: View {
@@ -85,6 +86,7 @@ struct KeybindSettingsView: View {
             }
             Button("Reset") {
                 KeyboardShortcuts.reset([.toggleMainMenu, .captureRegion, .captureWindow, .captureScreen, .recordRegion, .recordScreen])
+                BezelNotification.show(messageText: "Reset keybinds", icon: ToastIcon)
             }
         }
     }
@@ -149,6 +151,7 @@ struct RecordingSettingsView: View {
                 TextField(String(), text: $fileName)
                 Button("Default") {
                     fileName = Defaults.Keys.recordingFileName.defaultValue
+                    BezelNotification.show(messageText: "Reset filename", icon: ToastIcon)
                 }
             }.padding(20)
         }
@@ -213,7 +216,8 @@ struct AdvancedSettingsView: View {
                 Text("Screencapture binary:")
                 TextField(String(), text: $captureBinary)
                 Button("Default") {
-                    imgurClientId = Defaults.Keys.captureBinary.defaultValue
+                    captureBinary = Defaults.Keys.captureBinary.defaultValue
+                    BezelNotification.show(messageText: "Reset captureBinary", icon: ToastIcon)
                 }
             }.padding(20)
             

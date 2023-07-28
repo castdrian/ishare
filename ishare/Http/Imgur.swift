@@ -5,6 +5,7 @@
 //  Created by Adrian Castro on 14.07.23.
 //
 
+import BezelNotification
 import SwiftyJSON
 import Alamofire
 import Foundation
@@ -36,6 +37,7 @@ func imgurUpload(_ fileURL: URL, completion: @escaping () -> Void) {
                 completion()
             } else {
                 print("Error parsing response or retrieving image link")
+                BezelNotification.show(messageText: "An error occured", icon: ToastIcon)
                 completion()
             }
         }

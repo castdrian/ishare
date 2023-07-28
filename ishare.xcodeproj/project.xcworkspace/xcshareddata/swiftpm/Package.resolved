@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "bezelnotification",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/BlueHuskyStudios/BezelNotification.git",
+      "state" : {
+        "revision" : "4a4d9c485f2c019ed83bcfa23d1d1939610090de",
+        "version" : "2.0.0"
+      }
+    },
+    {
       "identity" : "defaults",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/Defaults",
@@ -34,6 +43,24 @@
       "state" : {
         "branch" : "main",
         "revision" : "9c41991631605c8ccfe0347bbcb5c659169f2ec5"
+      }
+    },
+    {
+      "identity" : "swift-cross-kit-types",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RougeWare/Swift-Cross-Kit-Types.git",
+      "state" : {
+        "revision" : "d64faa8d5e988352dff45e03a13da4f90c3a70e5",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swift-function-tools",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RougeWare/Swift-Function-Tools.git",
+      "state" : {
+        "revision" : "0bd76ca2c00120acf7ff840b5dcc1e700870ae22",
+        "version" : "1.2.3"
       }
     },
     {

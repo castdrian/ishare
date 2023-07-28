@@ -12,6 +12,7 @@ import Defaults
 import Alamofire
 import SwiftyJSON
 import KeyboardShortcuts
+import BezelNotification
 
 extension KeyboardShortcuts.Name {
     static let noKeybind = Self("noKeybind")
@@ -429,17 +430,42 @@ func fetchContributors(completion: @escaping ([Contributor]?) -> Void) {
             completion(contributors)
         case .failure(let error):
             print("Failed to fetch contributors: \(error)")
+            BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
             completion(nil)
         }
     }
 }
 
+extension Image {
+    func resized(to size: CGSize) -> some View {
+        self
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: size.width, height: size.height)
+    }
+}
+
 let AppIcon: NSImage = {
-        let ratio = $0.size.height / $0.size.width
-        $0.size.height = 18
-        $0.size.width = 18 / ratio
-        return $0
-    }(NSImage(named: "AppIcon")!)
+    let appIconImage = NSImage(named: "AppIcon")!
+    let ratio = appIconImage.size.height / appIconImage.size.width
+    let newSize = NSSize(width: 18, height: 18 / ratio)
+    let resizedImage = NSImage(size: newSize)
+    resizedImage.lockFocus()
+    appIconImage.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: appIconImage.size), operation: .copy, fraction: 1.0)
+    resizedImage.unlockFocus()
+    return resizedImage
+}()
+
+let ToastIcon: NSImage = {
+    let toastIconImage = NSImage(named: "AppIcon")!
+    let ratio = toastIconImage.size.height / toastIconImage.size.width
+    let newSize = NSSize(width: 100, height: 100 / ratio)
+    let resizedImage = NSImage(size: newSize)
+    resizedImage.lockFocus()
+    toastIconImage.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: toastIconImage.size), operation: .copy, fraction: 1.0)
+    resizedImage.unlockFocus()
+    return resizedImage
+}()
 
 func exportUserDefaults() {
     let settings = UserDefaults.standard.dictionaryRepresentation()
@@ -448,6 +474,7 @@ func exportUserDefaults() {
         data = try PropertyListSerialization.data(fromPropertyList: settings, format: .binary, options: 0)
     } catch {
         print("Error exporting UserDefaults: \(error)")
+        BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
         return
     }
     
@@ -461,8 +488,10 @@ func exportUserDefaults() {
             do {
                 try data.write(to: fileURL)
                 print("UserDefaults exported to file: \(fileURL.absoluteString)")
+                BezelNotification.show(messageText: "Exported settings", icon: ToastIcon)
             } catch {
                 print("Error exporting UserDefaults: \(error)")
+                BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
             }
         }
     }
@@ -483,11 +512,14 @@ func importUserDefaults() {
                 if let settings = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any] {
                     UserDefaults.standard.setPersistentDomain(settings, forName: Bundle.main.bundleIdentifier!)
                     print("UserDefaults imported from file: \(fileURL.absoluteString)")
+                    BezelNotification.show(messageText: "Imported settings", icon: ToastIcon)
                 } else {
                     print("Error: Unable to import settings. Invalid data format.")
+                    BezelNotification.show(messageText: "Invalid data format.", icon: ToastIcon)
                 }
             } catch {
                 print("Error importing UserDefaults: \(error)")
+                BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
             }
         }
     }

@@ -5,6 +5,7 @@
 //  Created by Adrian Castro on 15.07.23.
 //
 
+import BezelNotification
 import Alamofire
 import Foundation
 import Defaults
@@ -65,11 +66,13 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
                     completion()
                 } else {
                     print("Error parsing response or retrieving file link")
+                    BezelNotification.show(messageText: "An error occured", icon: ToastIcon)
                     callback?(CustomUploadError.responseParsing, nil)
                     completion()
                 }
             } else {
                 print("Error retrieving response data")
+                BezelNotification.show(messageText: "An error occured", icon: ToastIcon)
                 callback?(CustomUploadError.responseRetrieval, nil)
                 completion()
             }

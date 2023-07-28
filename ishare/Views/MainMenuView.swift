@@ -5,6 +5,7 @@
 //  Created by Adrian Castro on 12.07.23.
 //
 
+import BezelNotification
 import SwiftUI
 import Defaults
 
@@ -74,9 +75,11 @@ struct MainMenuView: View {
                    if case .builtIn(_) = newValue {
                        activeCustomUploader = nil
                        uploadType = .IMGUR
+                       BezelNotification.show(messageText: "Selected \(uploadType.rawValue.capitalized)", icon: ToastIcon)
                    } else if case let .custom(customUploader) = newValue {
                        activeCustomUploader = customUploader
                        uploadType = .CUSTOM
+                       BezelNotification.show(messageText: "Selected Custom", icon: ToastIcon)
                    }
                }
                .pickerStyle(MenuPickerStyle())
