@@ -8,7 +8,6 @@
 import SwiftUI
 import Defaults
 import Sparkle
-import FinderSync
 
 @main
 struct ishare: App {

@@ -13,6 +13,7 @@ import Alamofire
 import SwiftyJSON
 import KeyboardShortcuts
 import BezelNotification
+import ScreenCaptureKit
 
 extension KeyboardShortcuts.Name {
     static let noKeybind = Self("noKeybind")
@@ -369,5 +370,44 @@ func importUserDefaults() {
                 BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
             }
         }
+    }
+}
+
+func filterWindows(_ windows: [SCWindow]) -> [SCWindow] {
+    windows
+    // Sort the windows by app name.
+        .sorted { $0.owningApplication?.applicationName ?? "" < $1.owningApplication?.applicationName ?? "" }
+    // Remove windows that don't have an associated .app bundle.
+        .filter { $0.owningApplication != nil && $0.owningApplication?.applicationName != "" }
+    // Remove this app's window from the list.
+        .filter { $0.owningApplication?.bundleIdentifier != Bundle.main.bundleIdentifier }
+}
+
+struct AvailableContent {
+    let displays: [SCDisplay]
+    let windows: [SCWindow]
+    let applications: [SCRunningApplication]
+}
+
+func refreshAvailableContent() async throws -> AvailableContent {
+    do {
+        // Retrieve the available screen content to capture.
+        let availableContent = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: true)
+        let availableDisplays = availableContent.displays
+        
+        // Declare availableWindows before its usage
+        var availableWindows = [SCWindow]()
+        
+        let windows = filterWindows(availableContent.windows)
+        if windows != availableWindows {
+            availableWindows = windows
+        }
+        let availableApps = availableContent.applications
+        
+        return AvailableContent(displays: availableDisplays,
+                                windows: availableWindows,
+                                applications: availableApps)
+    } catch {
+        throw error // Rethrow the error to the caller
     }
 }
