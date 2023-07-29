@@ -31,6 +31,9 @@ struct ishare: App {
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     static private(set) var shared: AppDelegate! = nil
+    var isIconShown = false
+    var recordingTask: Process?
+    var statusBarItem: NSStatusItem!
     
     func application(_ application: NSApplication, open urls: [URL]) {
         if urls.count == 1 {
@@ -38,27 +41,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
-    lazy var statusBarItem: NSStatusItem = {
-        return NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-    }()
-    
-    var isIconShown = false
-    var recordingTask: Process?
-    
     func applicationDidFinishLaunching(_ notification: Notification) {
         AppDelegate.shared = self
-        if let button = statusBarItem.button {
-            button.action = #selector(toggleIcon)
-        }
     }
     
     @objc func toggleIcon(_ sender: AnyObject) {
         isIconShown.toggle()
         
         if isIconShown {
-            statusBarItem.button?.image = NSImage(systemSymbolName: "stop.fill", accessibilityDescription: "Stop Icon")
+            statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+            if let button = statusBarItem.button {
+                button.action = #selector(toggleIcon)
+                button.image = NSImage(systemSymbolName: "stop.fill", accessibilityDescription: "Stop Icon")
+            }
         } else {
-            statusBarItem.button?.image = nil
+            NSStatusBar.system.removeStatusItem(statusBarItem)
+            statusBarItem = nil
         }
         
         if !isIconShown {
