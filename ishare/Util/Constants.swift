@@ -257,7 +257,7 @@ func importFile(_ url: URL, completion: @escaping (Bool, Error?) -> Void) {
 struct Contributor: Codable {
     let login: String
     let avatarURL: URL
-
+    
     enum CodingKeys: String, CodingKey {
         case login
         case avatarURL = "avatar_url"
@@ -352,7 +352,7 @@ func importUserDefaults() {
     openPanel.canChooseFiles = true
     openPanel.canChooseDirectories = false
     openPanel.allowedContentTypes = [.propertyList]
-
+    
     openPanel.begin { result in
         if result == .OK, let fileURL = openPanel.url {
             do {
@@ -373,6 +373,13 @@ func importUserDefaults() {
     }
 }
 
+let ignoredBundleIdentifiers = [
+    "com.apple.controlcenter",
+    "com.apple.dock",
+    "com.apple.Spotlight",
+    "com.knollsoft.Rectangle"
+]
+
 func filterWindows(_ windows: [SCWindow]) -> [SCWindow] {
     windows
     // Sort the windows by app name.
@@ -381,6 +388,9 @@ func filterWindows(_ windows: [SCWindow]) -> [SCWindow] {
         .filter { $0.owningApplication != nil && $0.owningApplication?.applicationName != "" }
     // Remove this app's window from the list.
         .filter { $0.owningApplication?.bundleIdentifier != Bundle.main.bundleIdentifier }
+        .filter { item in
+            !ignoredBundleIdentifiers.contains(where: { $0 == item.owningApplication?.bundleIdentifier })
+        }
 }
 
 struct AvailableContent {

@@ -22,7 +22,6 @@ struct ishare: App {
     label: {
         menuBarAppIcon ? Image(nsImage: AppIcon) : Image(systemName: "photo.on.rectangle.angled")
     }
-        
         Settings {
             SettingsMenuView()
         }

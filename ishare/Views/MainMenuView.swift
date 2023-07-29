@@ -76,6 +76,20 @@ struct MainMenuView: View {
                         Label("Record \(window.displayName)", image: String())
                     }
                 }
+                Divider()
+                Button {
+                    Task {
+                        do {
+                            self.availableContent = try await refreshAvailableContent()
+                        } catch {
+                            print("Error refreshing content: \(error)")
+                        }
+                    }
+                    BezelNotification.show(messageText: "Refreshed Window List", icon: ToastIcon)
+                } label: {
+                    Image(systemName: "arrow.triangle.2.circlepath")
+                    Label("Refresh Window List", image: String())
+                }
             }
         }
     label: {
@@ -197,14 +211,14 @@ struct MainMenuView: View {
             Image(systemName: "power.circle")
             Label("Quit", image: String())
         }.keyboardShortcut("q")
-        .onAppear {
-        Task {
-            do {
-                self.availableContent = try await refreshAvailableContent()
-            } catch {
-                print("Error refreshing content: \(error)")
+            .onAppear {
+                Task {
+                    do {
+                        self.availableContent = try await refreshAvailableContent()
+                    } catch {
+                        print("Error refreshing content: \(error)")
+                    }
                 }
             }
-        }
     }
 }
