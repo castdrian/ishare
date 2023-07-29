@@ -32,7 +32,9 @@ jobs:
         run: curl -L -o ishare_macOS.zip https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip
 
       - name: Download Sparkle
-        run: curl -L https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz | tar -xJ
+        run: |
+          curl -L https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz | tar -xJ
+          ls -la ./Sparkle-2.4.2/bin  # Debugging purpose, ensure `generate_appcast` is present
 
       - name: Set executable bit for generate_appcast
         run: chmod +x ./Sparkle-2.4.2/bin/generate_appcast
