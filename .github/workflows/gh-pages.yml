@@ -1,10 +1,12 @@
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+name: Deploy GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
+    paths-ignore:
+      - '**.github/workflows/*'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -22,12 +24,44 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
-  build:
+  # Generate appcast job
+  appcast:
+    runs-on: macos-latest
+    steps:
+      - name: Download Latest Release
+        run: curl -L -o ishare_macOS.zip https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip
+
+      - name: Download Sparkle
+        run: curl -L https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz | tar -xJ
+
+      - name: Generate appcast.xml
+        run: ./Sparkle-2.4.2/bin/generate_appcast ./ishare_macOS.zip
+        env:
+          ARCHIVES_SOURCE_DIR: .
+
+      - name: Archive appcast.xml as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: appcast
+          path: ./appcast.xml
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    needs: appcast
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Download appcast.xml artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: appcast
+          path: ./
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Build with Jekyll
@@ -38,14 +72,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
 
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
