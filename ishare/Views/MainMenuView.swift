@@ -172,7 +172,7 @@ struct MainMenuView: View {
         .keyboardShortcut("a")
         
         Button {
-            selfUpdate()
+            AppDelegate.shared.updaterController.updater.checkForUpdates()
         } label: {
             Image(systemName: "arrow.down.app")
             Label("Check for Updates", image: String())

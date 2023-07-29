@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Defaults
+import Sparkle
 import FinderSync
 
 @main
@@ -29,11 +30,12 @@ struct ishare: App {
     }
 }
 
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     static private(set) var shared: AppDelegate! = nil
     var isIconShown = false
     var recordingTask: Process?
     var statusBarItem: NSStatusItem!
+    var updaterController: SPUStandardUpdaterController!
     
     func application(_ application: NSApplication, open urls: [URL]) {
         if urls.count == 1 {
@@ -43,6 +45,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         AppDelegate.shared = self
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
+        updaterController.updater.checkForUpdatesInBackground()
     }
     
     @objc func toggleIcon(_ sender: AnyObject) {

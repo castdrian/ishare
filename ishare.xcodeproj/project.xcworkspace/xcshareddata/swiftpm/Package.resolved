@@ -46,6 +46,15 @@
       }
     },
     {
+      "identity" : "sparkle",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sparkle-project/Sparkle",
+      "state" : {
+        "revision" : "87e4fcbac39912f9cdb9a9acf205cad60e1ca3bc",
+        "version" : "2.4.2"
+      }
+    },
+    {
       "identity" : "swift-cross-kit-types",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RougeWare/Swift-Cross-Kit-Types.git",
