@@ -8,10 +8,12 @@
 import SwiftUI
 import Defaults
 import Sparkle
+import MenuBarExtraAccess
 
 @main
 struct ishare: App {
     @Default(.menuBarAppIcon) var menuBarAppIcon
+    @Default(.showMainMenu) var showMainMenu
     @StateObject private var appState = AppState()
     @NSApplicationDelegateAdaptor private var appDelegate : AppDelegate
     
@@ -21,7 +23,7 @@ struct ishare: App {
         }
     label: {
         menuBarAppIcon ? Image(nsImage: AppIcon) : Image(systemName: "photo.on.rectangle.angled")
-    }
+    }.menuBarExtraAccess(isPresented: $showMainMenu)
         Settings {
             SettingsMenuView()
         }

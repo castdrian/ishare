@@ -26,6 +26,7 @@ extension KeyboardShortcuts.Name {
 }
 
 extension Defaults.Keys {
+    static let showMainMenu = Key<Bool>("showMainMenu", default: false)
     static let copyToClipboard = Key<Bool>("copyToClipboard", default: true)
     static let openInFinder = Key<Bool>("openInFinder", default: false)
     static let uploadMedia = Key<Bool>("uploadMedia", default: false)
