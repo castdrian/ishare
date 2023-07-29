@@ -10,6 +10,9 @@ clean and unbloated screen capture utility for macOS
 [![License](https://img.shields.io/badge/License-GPL_v3-blue)](#license)
 [![issues - ishare](https://img.shields.io/github/issues/castdrian/ishare)](https://github.com/castdrian/ishare/issues)
 
+star amount for homebrew cask:\
+![](https://progress-bar.dev/16/?width=240)
+
 <div>
   <a href="https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip" download>
     <img src="https://www.dmo-app.com/wp-content/uploads/2022/05/mac-download-button-1.png" alt="Download Latest Release" width="200">
