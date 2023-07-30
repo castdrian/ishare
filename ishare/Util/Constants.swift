@@ -42,6 +42,8 @@ extension Defaults.Keys {
     static let uploadType = Key<UploadType>("uploadType", default: .IMGUR)
     static let menuBarAppIcon = Key<Bool>("menuBarAppIcon", default: true)
     static let uploadDestination = Key<UploadDestination>("uploadDestination", default: .builtIn(.IMGUR))
+    static let showRecordingPreview = Key<Bool>("showRecordingPreview", default: true)
+    static let recordAudio = Key<Bool>("recordAudio", default: true)
 }
 
 extension View {

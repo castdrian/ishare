@@ -131,11 +131,15 @@ struct CaptureSettingsView: View {
 struct RecordingSettingsView: View {
     @Default(.recordingPath) var recordingPath
     @Default(.recordingFileName) var fileName
+    @Default(.showRecordingPreview) var showPreview
+    @Default(.recordAudio) var recordAudio
     
     var body: some View {
         VStack {
+            Toggle("Show recording preview", isOn: $showPreview)
+            Toggle("Record audio", isOn: $recordAudio)
             HStack {
-                Text("Capture path:")
+                Text("Recording path:")
                 TextField(text: $recordingPath) {}
                 Button("Select directory") {
                     selectFolder { folderURL in

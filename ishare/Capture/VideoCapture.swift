@@ -13,30 +13,35 @@ import AppKit
 import Cocoa
 import ScreenCaptureKit
 
-enum RecordingType {
-    case SCREEN
-    case WINDOW
-
-    func getCaptureType() -> ScreenRecorder.CaptureType {
-        switch self {
-        case .SCREEN:
-            return ScreenRecorder.CaptureType.display
-        case .WINDOW:
-            return ScreenRecorder.CaptureType.window
-        }
-    }
-}
-
 @MainActor
-func recordScreen(type: RecordingType, display: SCDisplay) {
-    let screenRecorder = AppDelegate.shared.screenRecorder
-    screenRecorder?.captureType = ScreenRecorder.CaptureType.display
-    screenRecorder?.selectedDisplay = display
+func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
+    @Default(.showRecordingPreview) var showPreview
+    @Default(.recordAudio) var recordAudio
     
-    let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, display: display)
-    AppDelegate.shared.previewPopup = popupWindow
+    let screenRecorder = AppDelegate.shared.screenRecorder
+    
+    if let display = display {
+        screenRecorder?.captureType = ScreenRecorder.CaptureType.display
+        screenRecorder?.selectedDisplay = display
+        
+        if showPreview {
+            let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, display: display)
+            AppDelegate.shared.previewPopup = popupWindow
+        }
+    } else if let window = window {
+        screenRecorder?.captureType = ScreenRecorder.CaptureType.window
+        screenRecorder?.selectedWindow = window
+        
+        if showPreview {
+            let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, window: window)
+            AppDelegate.shared.previewPopup = popupWindow
+        }
+    } else {
+        return
+    }
+    
     AppDelegate.shared.toggleIcon(AppDelegate.shared as AnyObject)
-
+    
     Task {
         if ((await screenRecorder?.canRecord) != nil) {
             await screenRecorder?.start()
@@ -44,6 +49,10 @@ func recordScreen(type: RecordingType, display: SCDisplay) {
             BezelNotification.show(messageText: "Missing permission", icon: ToastIcon)
         }
     }
+    
+    print("pog recording actually stopped")
+    BezelNotification.show(messageText: "Recording finished", icon: ToastIcon)
+    
 
 //    @Default(.copyToClipboard) var copyToClipboard
 //    @Default(.openInFinder) var openInFinder
@@ -85,39 +94,5 @@ func recordScreen(type: RecordingType, display: SCDisplay) {
 //            showToast(fileURL: fileURL)
 //            NSSound.beep()
 //        }
-//
-//        deleteScreenRecordings()
 //    }
 }
-
-//func recordingTask(path: String, type: RecordingType, display: Int = 1, completion: @escaping () -> Void) {
-//    AppDelegate.shared.toggleIcon(AppDelegate.shared as AnyObject)
-//
-//    @Default(.captureBinary) var captureBinary
-//
-//    let task = Process()
-//    task.launchPath = captureBinary
-//    task.arguments = type == RecordingType.SCREEN ? [type.rawValue, "-D", "\(display)", path] : [type.rawValue, path]
-//
-//    AppDelegate.shared.recordingTask = task
-//
-//    DispatchQueue.global(qos: .background).async {
-//        task.launch()
-//        task.waitUntilExit()
-//
-//        DispatchQueue.main.async {
-//            AppDelegate.shared.recordingTask = nil
-//            completion()
-//        }
-//    }
-//}
-//
-//func deleteScreenRecordings() {
-//    let screenRecordingsPath = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/ScreenRecordings")
-//
-//    do {
-//        try FileManager.default.removeItem(at: screenRecordingsPath)
-//    } catch {
-//        print("Error deleting the ScreenRecordings folder: \(error)")
-//    }
-//}
