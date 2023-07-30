@@ -29,19 +29,15 @@ enum RecordingType {
 
 @MainActor
 func recordScreen(type: RecordingType, display: SCDisplay) {
-    print("hello video")
     let screenRecorder = AppDelegate.shared.screenRecorder
     screenRecorder?.captureType = ScreenRecorder.CaptureType.display
     screenRecorder?.selectedDisplay = display
     
-    let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview)
-    print("preview popup")
+    let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, display: display)
     
     Task {
-        print("hello recordingtask")
         if ((await screenRecorder?.canRecord) != nil) {
             await screenRecorder?.start()
-            print("recording")
             // Show the popup and store the window reference
 
             // To dismiss the popup programmatically, call the close() method on the window reference
