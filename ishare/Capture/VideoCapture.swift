@@ -34,15 +34,12 @@ func recordScreen(type: RecordingType, display: SCDisplay) {
     screenRecorder?.selectedDisplay = display
     
     let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, display: display)
-    
+    AppDelegate.shared.previewPopup = popupWindow
+    AppDelegate.shared.toggleIcon(AppDelegate.shared as AnyObject)
+
     Task {
         if ((await screenRecorder?.canRecord) != nil) {
             await screenRecorder?.start()
-            // Show the popup and store the window reference
-
-            // To dismiss the popup programmatically, call the close() method on the window reference
-            //popupWindow.close()
-
         } else {
             BezelNotification.show(messageText: "Missing permission", icon: ToastIcon)
         }

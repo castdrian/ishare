@@ -39,6 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     var isIconShown = false
     var statusBarItem: NSStatusItem!
     var screenRecorder: ScreenRecorder!
+    var previewPopup: NSWindow!
     var updaterController: SPUStandardUpdaterController!
     
     func application(_ application: NSApplication, open urls: [URL]) {
@@ -73,7 +74,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     }
     
     func stopRecording() {
-//        recordingTask?.interrupt()
-//        recordingTask = nil
+        Task {
+            await screenRecorder.stop()
+        }
+        previewPopup?.close()
     }
 }
