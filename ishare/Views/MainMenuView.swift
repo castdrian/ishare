@@ -61,7 +61,7 @@ struct MainMenuView: View {
             if let availableContent = availableContent {
                 ForEach(availableContent.displays, id: \.self) { display in
                     Button {
-                        // recordScreen(type: .SCREEN, display: index + 1)
+                        recordScreen(type: .SCREEN, display: display)
                     } label: {
                         Image(systemName: "menubar.dock.rectangle.badge.record")
                         Label("Record \(display.displayName)", image: String())

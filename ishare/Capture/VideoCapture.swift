@@ -11,18 +11,42 @@ import SwiftUI
 import Defaults
 import AppKit
 import Cocoa
+import ScreenCaptureKit
 
-enum RecordingType: String {
-    case SCREEN = "-v"
-    // case WINDOW = "-wt"
-    // case REGION = "-st"
+enum RecordingType {
+    case SCREEN
+    case WINDOW
+
+    func getCaptureType() -> ScreenRecorder.CaptureType {
+        switch self {
+        case .SCREEN:
+            return ScreenRecorder.CaptureType.display
+        case .WINDOW:
+            return ScreenRecorder.CaptureType.window
+        }
+    }
 }
 
 @MainActor
-func recordScreen(screenRecorder: ScreenRecorder, type: RecordingType, display: Int = 1) {
+func recordScreen(type: RecordingType, display: SCDisplay) {
+    print("hello video")
+    let screenRecorder = AppDelegate.shared.screenRecorder
+    screenRecorder?.captureType = ScreenRecorder.CaptureType.display
+    screenRecorder?.selectedDisplay = display
+    
+    let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview)
+    print("preview popup")
+    
     Task {
-        if await screenRecorder.canRecord {
-            await screenRecorder.start()
+        print("hello recordingtask")
+        if ((await screenRecorder?.canRecord) != nil) {
+            await screenRecorder?.start()
+            print("recording")
+            // Show the popup and store the window reference
+
+            // To dismiss the popup programmatically, call the close() method on the window reference
+            //popupWindow.close()
+
         } else {
             BezelNotification.show(messageText: "Missing permission", icon: ToastIcon)
         }

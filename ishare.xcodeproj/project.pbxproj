@@ -11,14 +11,16 @@
 		3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3A17C0782A61A20E0012F285 /* Alamofire */; };
 		3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17C07B2A61A2510012F285 /* Imgur.swift */; };
 		3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */ = {isa = PBXBuildFile; productRef = 3A59057D2A73EF5C00109892 /* BezelNotification */; };
-		3A59CD5E2A6EE47E00E85161 /* ScreenRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A59CD5D2A6EE47E00E85161 /* ScreenRecording.swift */; };
+		3A59CD5E2A6EE47E00E85161 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A59CD5D2A6EE47E00E85161 /* VideoCapture.swift */; };
 		3A72B9932A7505CF00B2DEBA /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3A72B9922A7505CF00B2DEBA /* Sparkle */; };
 		3A72B9952A752A0A00B2DEBA /* ScreenRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9942A752A0A00B2DEBA /* ScreenRecorder.swift */; };
 		3A72B9972A752AD000B2DEBA /* CaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9962A752AD000B2DEBA /* CaptureEngine.swift */; };
 		3A72B9992A752B1500B2DEBA /* PowerMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9982A752B1500B2DEBA /* PowerMeter.swift */; };
 		3A72B9A12A7594F900B2DEBA /* MenuBarExtraAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3A72B9A02A7594F900B2DEBA /* MenuBarExtraAccess */; };
+		3A72B9A32A7699E200B2DEBA /* CapturePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9A22A7699E200B2DEBA /* CapturePreview.swift */; };
+		3A72B9A52A769A7200B2DEBA /* PreviewPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9A42A769A7200B2DEBA /* PreviewPopover.swift */; };
 		3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* App.swift */; };
-		3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */; };
+		3AB345AB2A5D779500AAEC0E /* ImageCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ImageCapture.swift */; };
 		3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
 		3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */; };
 		3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */; };
@@ -50,15 +52,17 @@
 
 /* Begin PBXFileReference section */
 		3A17C07B2A61A2510012F285 /* Imgur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Imgur.swift; sourceTree = "<group>"; };
-		3A59CD5D2A6EE47E00E85161 /* ScreenRecording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRecording.swift; sourceTree = "<group>"; };
+		3A59CD5D2A6EE47E00E85161 /* VideoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
 		3A72B9942A752A0A00B2DEBA /* ScreenRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenRecorder.swift; sourceTree = "<group>"; };
 		3A72B9962A752AD000B2DEBA /* CaptureEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureEngine.swift; sourceTree = "<group>"; };
 		3A72B9982A752B1500B2DEBA /* PowerMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PowerMeter.swift; sourceTree = "<group>"; };
+		3A72B9A22A7699E200B2DEBA /* CapturePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePreview.swift; sourceTree = "<group>"; };
+		3A72B9A42A769A7200B2DEBA /* PreviewPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPopover.swift; sourceTree = "<group>"; };
 		3A9A9FD42A5C84B5007BA5C9 /* ishare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ishare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A9A9FD72A5C84B5007BA5C9 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ishare.entitlements; sourceTree = "<group>"; };
 		3A9AA0022A5C8E45007BA5C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapture.swift; sourceTree = "<group>"; };
+		3AB345AA2A5D779500AAEC0E /* ImageCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCapture.swift; sourceTree = "<group>"; };
 		3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMenuView.swift; sourceTree = "<group>"; };
 		3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastPopover.swift; sourceTree = "<group>"; };
@@ -101,6 +105,18 @@
 			path = Http;
 			sourceTree = "<group>";
 		};
+		3A72B9A62A769EA100B2DEBA /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				3AB345AA2A5D779500AAEC0E /* ImageCapture.swift */,
+				3A59CD5D2A6EE47E00E85161 /* VideoCapture.swift */,
+				3A72B9942A752A0A00B2DEBA /* ScreenRecorder.swift */,
+				3A72B9962A752AD000B2DEBA /* CaptureEngine.swift */,
+				3A72B9982A752B1500B2DEBA /* PowerMeter.swift */,
+			);
+			path = Capture;
+			sourceTree = "<group>";
+		};
 		3A9A9FCB2A5C84B4007BA5C9 = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +136,7 @@
 		3A9A9FD62A5C84B5007BA5C9 /* ishare */ = {
 			isa = PBXGroup;
 			children = (
+				3A72B9A62A769EA100B2DEBA /* Capture */,
 				3ADDAED92A659A0B00C42406 /* Assets.xcassets */,
 				3A17C07A2A61A2320012F285 /* Http */,
 				3AB345CA2A5F1A9D00AAEC0E /* Util */,
@@ -137,6 +154,7 @@
 				3AB38D092A62F26800184E0D /* Settings */,
 				3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */,
 				3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */,
+				3A72B9A22A7699E200B2DEBA /* CapturePreview.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -145,14 +163,10 @@
 			isa = PBXGroup;
 			children = (
 				3AB345C72A5F163800AAEC0E /* AppState.swift */,
-				3AB345AA2A5D779500AAEC0E /* ScreenCapture.swift */,
 				3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */,
 				3AB345C52A5F0C7A00AAEC0E /* Constants.swift */,
 				3AB38D032A62B56B00184E0D /* CustomUploader.swift */,
-				3A59CD5D2A6EE47E00E85161 /* ScreenRecording.swift */,
-				3A72B9942A752A0A00B2DEBA /* ScreenRecorder.swift */,
-				3A72B9962A752AD000B2DEBA /* CaptureEngine.swift */,
-				3A72B9982A752B1500B2DEBA /* PowerMeter.swift */,
+				3A72B9A42A769A7200B2DEBA /* PreviewPopover.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -259,9 +273,11 @@
 			files = (
 				3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */,
 				3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */,
-				3A59CD5E2A6EE47E00E85161 /* ScreenRecording.swift in Sources */,
+				3A59CD5E2A6EE47E00E85161 /* VideoCapture.swift in Sources */,
 				3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */,
 				3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */,
+				3A72B9A52A769A7200B2DEBA /* PreviewPopover.swift in Sources */,
+				3A72B9A32A7699E200B2DEBA /* CapturePreview.swift in Sources */,
 				3A72B9992A752B1500B2DEBA /* PowerMeter.swift in Sources */,
 				3AB38D042A62B56B00184E0D /* CustomUploader.swift in Sources */,
 				3AB38D062A62C35C00184E0D /* Custom.swift in Sources */,
@@ -271,7 +287,7 @@
 				3AB345C82A5F163800AAEC0E /* AppState.swift in Sources */,
 				3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */,
 				3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */,
-				3AB345AB2A5D779500AAEC0E /* ScreenCapture.swift in Sources */,
+				3AB345AB2A5D779500AAEC0E /* ImageCapture.swift in Sources */,
 				3AB345C62A5F0C7A00AAEC0E /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

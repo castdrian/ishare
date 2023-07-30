@@ -18,12 +18,7 @@ class AudioLevelsProvider: ObservableObject {
 
 @MainActor
 class ScreenRecorder: ObservableObject {
-    init() {
-        // Call monitorAvailableContent in the initializer to start monitoring on initialization
-        Task {
-            await monitorAvailableContent()
-        }
-    }
+    
     /// The supported capture types.
     enum CaptureType {
         case display
@@ -53,6 +48,11 @@ class ScreenRecorder: ObservableObject {
     
     @Published var contentSize = CGSize(width: 1, height: 1)
     private var scaleFactor: Int { Int(NSScreen.main?.backingScaleFactor ?? 2) }
+    
+    /// A view that renders the screen content.
+    lazy var capturePreview: CapturePreview = {
+        CapturePreview()
+    }()
     
     private var availableApps = [SCRunningApplication]()
     @Published private(set) var availableDisplays = [SCDisplay]()
@@ -131,6 +131,7 @@ class ScreenRecorder: ObservableObject {
             isRunning = true
             // Start the stream and await new video frames.
             for try await frame in captureEngine.startCapture(configuration: config, filter: filter) {
+                capturePreview.updateFrame(frame)
                 if contentSize != frame.size {
                     // Update the content size if it changed.
                     contentSize = frame.size

@@ -15,15 +15,19 @@ struct ishare: App {
     @Default(.menuBarAppIcon) var menuBarAppIcon
     @Default(.showMainMenu) var showMainMenu
     @StateObject private var appState = AppState()
+    @StateObject private var screenRecorder = ScreenRecorder()
     @NSApplicationDelegateAdaptor private var appDelegate : AppDelegate
     
     var body: some Scene {
         MenuBarExtra() {
-            MainMenuView()
+            MainMenuView().environmentObject(screenRecorder).onAppear {
+                AppDelegate.shared.screenRecorder = screenRecorder
+            }
         }
     label: {
         menuBarAppIcon ? Image(nsImage: AppIcon) : Image(systemName: "photo.on.rectangle.angled")
-    }.menuBarExtraAccess(isPresented: $showMainMenu)
+    }
+    .menuBarExtraAccess(isPresented: $showMainMenu)
         Settings {
             SettingsMenuView()
         }
@@ -33,8 +37,8 @@ struct ishare: App {
 class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     static private(set) var shared: AppDelegate! = nil
     var isIconShown = false
-    var recordingTask: Process?
     var statusBarItem: NSStatusItem!
+    var screenRecorder: ScreenRecorder!
     var updaterController: SPUStandardUpdaterController!
     
     func application(_ application: NSApplication, open urls: [URL]) {
@@ -69,7 +73,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     }
     
     func stopRecording() {
-        recordingTask?.interrupt()
-        recordingTask = nil
+//        recordingTask?.interrupt()
+//        recordingTask = nil
     }
 }
