@@ -380,6 +380,7 @@ let ignoredBundleIdentifiers = [
     "com.apple.controlcenter",
     "com.apple.dock",
     "com.apple.Spotlight",
+    "com.apple.TextInputMenuAgent",
     "com.knollsoft.Rectangle"
 ]
 
@@ -422,5 +423,27 @@ func refreshAvailableContent() async throws -> AvailableContent {
                                 applications: availableApps)
     } catch {
         throw error // Rethrow the error to the caller
+    }
+}
+
+@MainActor
+class AvailableContentProvider: ObservableObject {
+    @Published var availableContent: AvailableContent?
+
+    init() {
+        refreshContent()
+    }
+
+    func refreshContent() {
+        Task.detached {
+            do {
+                let content = try await refreshAvailableContent()
+                DispatchQueue.main.async {
+                    self.availableContent = content
+                }
+            } catch {
+                print("Error refreshing content: \(error)")
+            }
+        }
     }
 }

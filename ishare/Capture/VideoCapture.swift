@@ -36,21 +36,6 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
             let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, window: window)
             AppDelegate.shared.previewPopup = popupWindow
         }
-    } else if (display == nil) && (window == nil) {
-        Task {
-            do {
-                let availableContent = try await refreshAvailableContent()
-                screenRecorder?.selectedDisplay = availableContent.displays.first
-                
-                if showPreview {
-                    let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, window: window)
-                    AppDelegate.shared.previewPopup = popupWindow
-                }
-            } catch {
-                print("Error refreshing content: \(error)")
-            }
-        }
-
     }
     
     AppDelegate.shared.toggleIcon(AppDelegate.shared as AnyObject)

@@ -23,7 +23,9 @@ struct MainMenuView: View {
     @Default(.activeCustomUploader) var activeCustomUploader
     @Default(.savedCustomUploaders) var savedCustomUploaders
     @Default(.uploadDestination) var uploadDestination
-        
+    
+    @StateObject private var availableContentProvider = AvailableContentProvider()
+    
     var body: some View {
         Menu {
             Button {
@@ -56,23 +58,25 @@ struct MainMenuView: View {
         }
         
         Menu {
-            ForEach(NSScreen.screens.indices, id: \.self) { index in
-                let screen = NSScreen.screens[index]
-                let screenName = screen.localizedName
-                
-                Button {
-                    recordScreen()
-                } label: {
-                    Image(systemName: "menubar.dock.rectangle.badge.record")
-                    Label("Record \(screenName)", image: String())
-                }.keyboardShortcut(index == 0 ? .recordScreen : .noKeybind)
+            if let availableContent = availableContentProvider.availableContent {
+                ForEach(availableContent.displays, id: \.self) { display in
+                    Button {
+                        recordScreen(display: display)
+                    } label: {
+                        Image(systemName: "menubar.dock.rectangle.badge.record")
+                        Label("Record \(display.displayName)", image: String())
+                    }.keyboardShortcut(display.displayID == 1 ? .recordScreen : .noKeybind)
+                }
+                Divider()
+                ForEach(availableContent.windows, id: \.self) { window in
+                    Button {
+                        recordScreen(window: window)
+                    } label: {
+                        Image(systemName: "menubar.dock.rectangle.badge.record")
+                        Label("Record \(window.displayName)", image: String())
+                    }
+                }
             }
-            Button {
-                // recordScreen(display: availableContent?.displays.first(where: { $0.displayID == index + 1 }))
-            } label: {
-                Image(systemName: "menubar.dock.rectangle.badge.record")
-                Label("Record Window", image: String())
-            }.keyboardShortcut(.recordWindow)
         }
     label: {
         Image(systemName: "menubar.dock.rectangle.badge.record")
@@ -193,14 +197,11 @@ struct MainMenuView: View {
             Image(systemName: "power.circle")
             Label("Quit", image: String())
         }.keyboardShortcut("q")
-//            .onAppear {
-//                Task {
-//                    do {
-//                        self.availableContent = try await refreshAvailableContent()
-//                    } catch {
-//                        print("Error refreshing content: \(error)")
-//                    }
-//                }
-//            }
+            .onAppear {
+                availableContentProvider.refreshContent()
+                Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
+                    availableContentProvider.refreshContent()
+                }
+            }
     }
 }
