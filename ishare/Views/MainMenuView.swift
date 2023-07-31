@@ -18,6 +18,7 @@ enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
 struct MainMenuView: View {    
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
+    @Default(.saveToDisk) var saveToDisk
     @Default(.uploadMedia) var uploadMedia
     @Default(.uploadType) var uploadType
     @Default(.activeCustomUploader) var activeCustomUploader
@@ -86,7 +87,12 @@ struct MainMenuView: View {
         Menu {
             Toggle(isOn: $copyToClipboard) {
                 Image(systemName: "clipboard")
-                Label("Copy to clipboard", image: String())
+                Label("Copy to Clipboard", image: String())
+            }.toggleStyle(.checkbox)
+            
+            Toggle(isOn: $saveToDisk) {
+                Image(systemName: "internaldrive")
+                Label("Save to Disk", image: String())
             }.toggleStyle(.checkbox)
             
             Toggle(isOn: $openInFinder){
@@ -96,7 +102,7 @@ struct MainMenuView: View {
             
             Toggle(isOn: $uploadMedia){
                 Image(systemName: "icloud.and.arrow.up")
-                Label("Upload media", image: String())
+                Label("Upload Media", image: String())
             }.toggleStyle(.checkbox)
         } label: {
             Image(systemName: "list.bullet.clipboard")
@@ -187,7 +193,7 @@ struct MainMenuView: View {
         Button {
             AppDelegate.shared.updaterController.updater.checkForUpdates()
         } label: {
-            Image(systemName: "arrow.down.app")
+            Image(systemName: "arrow.triangle.2.circlepath")
             Label("Check for Updates", image: String())
         }.keyboardShortcut("u")
         

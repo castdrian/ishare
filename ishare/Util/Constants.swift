@@ -29,6 +29,7 @@ extension Defaults.Keys {
     static let showMainMenu = Key<Bool>("showMainMenu", default: false)
     static let copyToClipboard = Key<Bool>("copyToClipboard", default: true)
     static let openInFinder = Key<Bool>("openInFinder", default: false)
+    static let saveToDisk = Key<Bool>("saveToDisk", default: true)
     static let uploadMedia = Key<Bool>("uploadMedia", default: false)
     static let capturePath = Key<String>("capturePath", default: "~/Pictures/")
     static let recordingPath = Key<String>("recordingPath", default: "~/Pictures/")
