@@ -93,12 +93,20 @@ struct MainMenuView: View {
             Toggle(isOn: $saveToDisk) {
                 Image(systemName: "internaldrive")
                 Label("Save to Disk", image: String())
-            }.toggleStyle(.checkbox)
+            }
+            .toggleStyle(.checkbox)
+            .onChange(of: saveToDisk) { newValue in
+                if !newValue {
+                    openInFinder = false
+                }
+            }
             
-            Toggle(isOn: $openInFinder){
+            Toggle(isOn: $openInFinder) {
                 Image(systemName: "folder")
                 Label("Open in Finder", image: String())
-            }.toggleStyle(.checkbox)
+            }
+            .toggleStyle(.checkbox)
+            .disabled(!saveToDisk)
             
             Toggle(isOn: $uploadMedia){
                 Image(systemName: "icloud.and.arrow.up")
