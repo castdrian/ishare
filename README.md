@@ -11,7 +11,7 @@ clean and unbloated screen capture utility for macOS
 [![issues - ishare](https://img.shields.io/github/issues/castdrian/ishare)](https://github.com/castdrian/ishare/issues)
 
 star amount for homebrew cask:\
-![](https://progress-bar.dev/21/?width=240)
+![](https://progress-bar.dev/23/?width=240)
 
 <div>
   <a href="https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip" download>
