@@ -25,7 +25,7 @@ final class AppState: ObservableObject {
         KeyboardShortcuts.onKeyUp(for: .captureScreen) {
             captureScreen(type: .SCREEN)
         }
-        KeyboardShortcuts.onKeyUp(for: .recordRegion) {
+        KeyboardShortcuts.onKeyUp(for: .recordWindow) {
         }
         KeyboardShortcuts.onKeyUp(for: .recordScreen) {
             // recordScreen(type: .SCREEN)

@@ -23,9 +23,7 @@ struct MainMenuView: View {
     @Default(.activeCustomUploader) var activeCustomUploader
     @Default(.savedCustomUploaders) var savedCustomUploaders
     @Default(.uploadDestination) var uploadDestination
-    
-    @State private var availableContent: AvailableContent?
-    
+        
     var body: some View {
         Menu {
             Button {
@@ -58,39 +56,23 @@ struct MainMenuView: View {
         }
         
         Menu {
-            if let availableContent = availableContent {
-                ForEach(availableContent.displays, id: \.self) { display in
-                    Button {
-                        recordScreen(display: display)
-                    } label: {
-                        Image(systemName: "menubar.dock.rectangle.badge.record")
-                        Label("Record \(display.displayName)", image: String())
-                    }.keyboardShortcut(display.displayID == 1 ? .recordScreen : .noKeybind)
-                }
-                Divider()
-                ForEach(availableContent.windows, id: \.self) { window in
-                    Button {
-                        recordScreen(window: window)
-                    } label: {
-                        Image(systemName: "menubar.dock.rectangle.badge.record")
-                        Label("Record \(window.displayName)", image: String())
-                    }
-                }
-                Divider()
+            ForEach(NSScreen.screens.indices, id: \.self) { index in
+                let screen = NSScreen.screens[index]
+                let screenName = screen.localizedName
+                
                 Button {
-                    Task {
-                        do {
-                            self.availableContent = try await refreshAvailableContent()
-                        } catch {
-                            print("Error refreshing content: \(error)")
-                        }
-                    }
-                    BezelNotification.show(messageText: "Refreshed Window List", icon: ToastIcon)
+                    recordScreen()
                 } label: {
-                    Image(systemName: "arrow.triangle.2.circlepath")
-                    Label("Refresh Window List", image: String())
-                }
+                    Image(systemName: "menubar.dock.rectangle.badge.record")
+                    Label("Record \(screenName)", image: String())
+                }.keyboardShortcut(index == 0 ? .recordScreen : .noKeybind)
             }
+            Button {
+                // recordScreen(display: availableContent?.displays.first(where: { $0.displayID == index + 1 }))
+            } label: {
+                Image(systemName: "menubar.dock.rectangle.badge.record")
+                Label("Record Window", image: String())
+            }.keyboardShortcut(.recordWindow)
         }
     label: {
         Image(systemName: "menubar.dock.rectangle.badge.record")
@@ -211,14 +193,14 @@ struct MainMenuView: View {
             Image(systemName: "power.circle")
             Label("Quit", image: String())
         }.keyboardShortcut("q")
-            .onAppear {
-                Task {
-                    do {
-                        self.availableContent = try await refreshAvailableContent()
-                    } catch {
-                        print("Error refreshing content: \(error)")
-                    }
-                }
-            }
+//            .onAppear {
+//                Task {
+//                    do {
+//                        self.availableContent = try await refreshAvailableContent()
+//                    } catch {
+//                        print("Error refreshing content: \(error)")
+//                    }
+//                }
+//            }
     }
 }

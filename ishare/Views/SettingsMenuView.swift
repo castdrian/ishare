@@ -81,11 +81,11 @@ struct KeybindSettingsView: View {
                 KeyboardShortcuts.Recorder("Capture Region:", name: .captureRegion)
                 KeyboardShortcuts.Recorder("Capture Window:", name: .captureWindow)
                 KeyboardShortcuts.Recorder("Capture Screen:", name: .captureScreen)
-                KeyboardShortcuts.Recorder("Record Region:", name: .recordRegion)
+                KeyboardShortcuts.Recorder("Record Window:", name: .recordWindow)
                 KeyboardShortcuts.Recorder("Record Screen:", name: .recordScreen)
             }
             Button("Reset") {
-                KeyboardShortcuts.reset([.toggleMainMenu, .captureRegion, .captureWindow, .captureScreen, .recordRegion, .recordScreen])
+                KeyboardShortcuts.reset([.toggleMainMenu, .captureRegion, .captureWindow, .captureScreen, .recordWindow, .recordScreen])
                 BezelNotification.show(messageText: "Reset keybinds", icon: ToastIcon)
             }
         }

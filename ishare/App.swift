@@ -15,14 +15,11 @@ struct ishare: App {
     @Default(.menuBarAppIcon) var menuBarAppIcon
     @Default(.showMainMenu) var showMainMenu
     @StateObject private var appState = AppState()
-    @StateObject private var screenRecorder = ScreenRecorder()
     @NSApplicationDelegateAdaptor private var appDelegate : AppDelegate
     
     var body: some Scene {
         MenuBarExtra() {
-            MainMenuView().environmentObject(screenRecorder).onAppear {
-                AppDelegate.shared.screenRecorder = screenRecorder
-            }
+            MainMenuView()
         }
     label: {
         menuBarAppIcon ? Image(nsImage: AppIcon) : Image(systemName: "photo.on.rectangle.angled")
@@ -50,6 +47,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         AppDelegate.shared = self
+        
+        Task {
+            screenRecorder = ScreenRecorder()
+        }
+        
         updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
         updaterController.updater.checkForUpdatesInBackground()
     }
