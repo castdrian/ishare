@@ -90,16 +90,16 @@ struct MainMenuView: View {
                 Label("Copy to Clipboard", image: String())
             }.toggleStyle(.checkbox)
             
-            Toggle(isOn: $saveToDisk) {
-                Image(systemName: "internaldrive")
-                Label("Save to Disk", image: String())
-            }
-            .toggleStyle(.checkbox)
-            .onChange(of: saveToDisk) { newValue in
-                if !newValue {
-                    openInFinder = false
-                }
-            }
+//            Toggle(isOn: $saveToDisk) {
+//                Image(systemName: "internaldrive")
+//                Label("Save to Disk", image: String())
+//            }
+//            .toggleStyle(.checkbox)
+//            .onChange(of: saveToDisk) { newValue in
+//                if !newValue {
+//                    openInFinder = false
+//                }
+//            }
             
             Toggle(isOn: $openInFinder) {
                 Image(systemName: "folder")
