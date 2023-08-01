@@ -88,7 +88,9 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
         self.outputURL = outputURL
         super.init()
         
-        setupWriter()
+        DispatchQueue.global().async {
+            self.setupWriter()
+        }
     }
     
     private func setupWriter() {
@@ -117,8 +119,10 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
             
             videoInputAdaptor = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: videoInput, sourcePixelBufferAttributes: sourcePixelBufferAttributes)
             
-            assetWriter?.startWriting()
-            assetWriter?.startSession(atSourceTime: .zero)
+            DispatchQueue.global().async {
+                self.assetWriter?.startWriting()
+                self.assetWriter?.startSession(atSourceTime: .zero)
+            }
         } catch {
             print("Failed to set up writer: \(error)")
         }
@@ -178,13 +182,13 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
         guard let audioBufferList = ablPointer,
               let formatDescription = sampleBuffer.formatDescription,
               let asbd = formatDescription.audioStreamBasicDescription else { return nil }
-
+        
         return withUnsafePointer(to: asbd) { pointer in
             guard let format = AVAudioFormat(streamDescription: pointer) else { return nil }
             return AVAudioPCMBuffer(pcmFormat: format, bufferListNoCopy: audioBufferList)
         }
     }
-
+    
     func stream(_ stream: SCStream, didStopWithError error: Error) {
         videoInput?.markAsFinished()
         assetWriter?.finishWriting {
