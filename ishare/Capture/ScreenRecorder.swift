@@ -262,6 +262,9 @@ class ScreenRecorder: ObservableObject {
             .filter { $0.owningApplication != nil && $0.owningApplication?.applicationName != "" }
         // Remove this app's window from the list.
             .filter { $0.owningApplication?.bundleIdentifier != Bundle.main.bundleIdentifier }
+            .filter { item in
+                !ignoredBundleIdentifiers.contains(where: { $0 == item.owningApplication?.bundleIdentifier })
+            }
     }
 }
 

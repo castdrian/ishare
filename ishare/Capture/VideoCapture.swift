@@ -26,17 +26,19 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
         screenRecorder?.selectedDisplay = display
         
         if showPreview {
-            let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, display: display)
+            let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: display)
             AppDelegate.shared.previewPopup = popupWindow
         }
+        
     } else if let window = window {
         screenRecorder?.captureType = ScreenRecorder.CaptureType.window
         screenRecorder?.selectedWindow = window
         
         if showPreview {
-            let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, window: window)
+            let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, window: window)
             AppDelegate.shared.previewPopup = popupWindow
         }
+        
     } else if (display == nil) && (window == nil) {
         Task {
             do {
@@ -44,7 +46,7 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
                 screenRecorder?.selectedDisplay = availableContent.displays.first
                 
                 if showPreview {
-                    let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, window: window)
+                    let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, window: window)
                     AppDelegate.shared.previewPopup = popupWindow
                 }
             } catch {

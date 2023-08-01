@@ -79,6 +79,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
         Task {
             await screenRecorder.stop()
         }
-        previewPopup?.close()
+        if let popup = previewPopup {
+            popup.close()
+        }
     }
 }
