@@ -21,14 +21,12 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
     let screenRecorder = AppDelegate.shared.screenRecorder
     screenRecorder?.isAudioCaptureEnabled = recordAudio
 
-    var popupWindow: NSWindow? // Store the reference to the popup window here
-
     if let display = display {
         screenRecorder?.captureType = ScreenRecorder.CaptureType.display
         screenRecorder?.selectedDisplay = display
 
         if showPreview {
-            popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: display)
+            showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: display)
         }
 
     } else if let window = window {
@@ -36,7 +34,7 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
         screenRecorder?.selectedWindow = window
 
         if showPreview {
-            popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, window: window)
+            showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, window: window)
         }
 
     } else if (display == nil) && (window == nil) {
@@ -46,7 +44,7 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
                 screenRecorder?.selectedDisplay = availableContent.displays.first
 
                 if showPreview {
-                    popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: screenRecorder?.availableDisplays.first)
+                    showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: screenRecorder?.availableDisplays.first)
                 }
             } catch {
                 print("Error refreshing content: \(error)")
@@ -54,11 +52,9 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
         }
     }
 
-    if let popupWindow = popupWindow {
-        AppDelegate.shared.previewPopup = popupWindow
+    if !showPreview {
+        AppDelegate.shared.toggleIcon(AppDelegate.shared as AnyObject)
     }
-
-    AppDelegate.shared.toggleIcon(AppDelegate.shared as AnyObject)
 
     Task {
         if ((await screenRecorder?.canRecord) != nil) {

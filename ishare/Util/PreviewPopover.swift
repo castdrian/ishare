@@ -12,6 +12,7 @@ import ScreenCaptureKit
 struct CapturePreviewPopup: View {
     let capturePreview: CapturePreview
     @ObservedObject var screenRecorder: ScreenRecorder
+    var popUp: NSWindow
     
     var body: some View {
         VStack {
@@ -31,6 +32,25 @@ struct CapturePreviewPopup: View {
                             .frame(width: 10, height: 10)
                     }
                     .padding(10)
+                    
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Button {
+                                AppDelegate.shared.stopRecording()
+                                popUp.close()
+                            } label: {
+                                Image(systemName: "stop.fill")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 12))
+                                    .frame(width: 30, height: 30)
+                                    .background(Circle().fill(Color.red))
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 20))
+                        }
+                    }
                 }
                 .frame(width: geo.size.width, height: geo.size.height)
             }
@@ -38,13 +58,13 @@ struct CapturePreviewPopup: View {
             
             if screenRecorder.captureType == .display && screenRecorder.availableDisplays.count > 1 {
                 VStack() {
-                        Picker(String(), selection: $screenRecorder.selectedDisplay) {
-                            ForEach(screenRecorder.availableDisplays, id: \.self) { display in
-                                Text(display.displayName)
-                                    .tag(SCDisplay?.some(display))
-                            }
+                    Picker(String(), selection: $screenRecorder.selectedDisplay) {
+                        ForEach(screenRecorder.availableDisplays, id: \.self) { display in
+                            Text(display.displayName)
+                                .tag(SCDisplay?.some(display))
                         }
-                        .frame(maxWidth: .infinity)
+                    }
+                    .frame(maxWidth: .infinity)
                 }
                 .padding()
                 .background(VisualEffectView())
@@ -91,7 +111,7 @@ struct BlinkingRedDot: NSViewRepresentable {
     }
 }
 
-func showCapturePreviewPopup(capturePreview: CapturePreview, screenRecorder: ScreenRecorder, display: SCDisplay? = nil, window: SCWindow? = nil) -> NSWindow {
+func showCapturePreviewPopup(capturePreview: CapturePreview, screenRecorder: ScreenRecorder, display: SCDisplay? = nil, window: SCWindow? = nil) {
     let popup = NSWindow(
         contentRect: NSRect(x: 0, y: 0, width: 450, height: 300),
         styleMask: [.borderless, .fullSizeContentView],
@@ -104,7 +124,7 @@ func showCapturePreviewPopup(capturePreview: CapturePreview, screenRecorder: Scr
     popup.backgroundColor = .clear
     popup.isMovableByWindowBackground = false
     popup.contentView = NSHostingView(
-        rootView: CapturePreviewPopup(capturePreview: capturePreview, screenRecorder: screenRecorder)
+        rootView: CapturePreviewPopup(capturePreview: capturePreview, screenRecorder: screenRecorder, popUp: popup)
     )
     
     let borderThickness: CGFloat = 4
@@ -112,21 +132,7 @@ func showCapturePreviewPopup(capturePreview: CapturePreview, screenRecorder: Scr
     popup.contentView?.layer?.cornerRadius = borderThickness
     popup.contentView?.layer?.borderWidth = borderThickness
     popup.contentView?.layer?.borderColor = NSColor.black.cgColor
-    
-    var targetWidth: CGFloat = 450
-    var targetHeight: CGFloat = 300
-    
-    if let display = display {
-        targetWidth = display.frame.width * 0.25
-        targetHeight = display.frame.height * 0.25
-    } else if let window = window {
-        targetWidth = window.frame.width * 0.25
-        targetHeight = window.frame.height * 0.25
-    }
-    
-    let scaleFactor = min(targetWidth / 450, targetHeight / 300)
-    popup.setContentSize(NSSize(width: 450 * scaleFactor, height: 300 * scaleFactor))
-    
+        
     popup.makeKeyAndOrderFront(nil)
     
     let screenSize = NSScreen.main?.frame.size ?? .zero
@@ -141,8 +147,6 @@ func showCapturePreviewPopup(capturePreview: CapturePreview, screenRecorder: Scr
         context.duration = fadeDuration
         popup.animator().alphaValue = 1.0
     })
-    
-    return popup
 }
 
 struct VisualEffectView: NSViewRepresentable {
