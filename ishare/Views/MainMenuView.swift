@@ -66,7 +66,7 @@ struct MainMenuView: View {
                     } label: {
                         Image(systemName: "menubar.dock.rectangle.badge.record")
                         Label("Record \(display.displayName)", image: String())
-                    }.keyboardShortcut(display.displayID == 1 ? .recordScreen : .noKeybind).disabled(AppDelegate.shared.screenRecorder.isRunning)
+                    }.keyboardShortcut(display.displayID == 1 ? .recordScreen : .noKeybind)//.disabled(AppDelegate.shared.screenRecorder.isRunning)
                 }
                 Divider()
                 ForEach(availableContent.windows, id: \.self) { window in
@@ -75,7 +75,7 @@ struct MainMenuView: View {
                     } label: {
                         Image(systemName: "menubar.dock.rectangle.badge.record")
                         Label("Record \(window.displayName)", image: String())
-                    }.disabled(AppDelegate.shared.screenRecorder.isRunning)
+                    }//.disabled(AppDelegate.shared.screenRecorder.isRunning)
                 }
             }
         }

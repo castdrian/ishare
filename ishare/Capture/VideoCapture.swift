@@ -17,46 +17,49 @@ import ScreenCaptureKit
 func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
     @Default(.showRecordingPreview) var showPreview
     @Default(.recordAudio) var recordAudio
-    
+
     let screenRecorder = AppDelegate.shared.screenRecorder
     screenRecorder?.isAudioCaptureEnabled = recordAudio
-    
+
+    var popupWindow: NSWindow? // Store the reference to the popup window here
+
     if let display = display {
         screenRecorder?.captureType = ScreenRecorder.CaptureType.display
         screenRecorder?.selectedDisplay = display
-        
+
         if showPreview {
-            let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: display)
-            AppDelegate.shared.previewPopup = popupWindow
+            popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: display)
         }
-        
+
     } else if let window = window {
         screenRecorder?.captureType = ScreenRecorder.CaptureType.window
         screenRecorder?.selectedWindow = window
-        
+
         if showPreview {
-            let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, window: window)
-            AppDelegate.shared.previewPopup = popupWindow
+            popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, window: window)
         }
-        
+
     } else if (display == nil) && (window == nil) {
         Task {
             do {
                 let availableContent = try await refreshAvailableContent()
                 screenRecorder?.selectedDisplay = availableContent.displays.first
-                
+
                 if showPreview {
-                    let popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, window: window)
-                    AppDelegate.shared.previewPopup = popupWindow
+                    popupWindow = showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: screenRecorder?.availableDisplays.first)
                 }
             } catch {
                 print("Error refreshing content: \(error)")
             }
         }
     }
-    
+
+    if let popupWindow = popupWindow {
+        AppDelegate.shared.previewPopup = popupWindow
+    }
+
     AppDelegate.shared.toggleIcon(AppDelegate.shared as AnyObject)
-    
+
     Task {
         if ((await screenRecorder?.canRecord) != nil) {
             await screenRecorder?.start()
@@ -64,7 +67,8 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
             BezelNotification.show(messageText: "Missing permission", icon: ToastIcon)
         }
     }
-    
+}
+
 //    Task {
 //        while (screenRecorder?.isRunning ?? false) {
 //            try await Task.sleep(nanoseconds: 100)
@@ -117,4 +121,3 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
     //            NSSound.beep()
     //        }
     //    }
-}
