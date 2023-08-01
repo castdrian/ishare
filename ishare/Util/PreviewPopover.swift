@@ -36,17 +36,20 @@ struct CapturePreviewPopup: View {
             }
             .background(VisualEffectView())
             
-            VStack() {
-                switch screenRecorder.captureType {
-                case .display:
-                    Picker(String(), selection: $screenRecorder.selectedDisplay) {
-                        ForEach(screenRecorder.availableDisplays, id: \.self) { display in
-                            Text(display.displayName)
-                                .tag(SCDisplay?.some(display))
+            if screenRecorder.captureType == .display && screenRecorder.availableDisplays.count > 1 {
+                VStack() {
+                        Picker(String(), selection: $screenRecorder.selectedDisplay) {
+                            ForEach(screenRecorder.availableDisplays, id: \.self) { display in
+                                Text(display.displayName)
+                                    .tag(SCDisplay?.some(display))
+                            }
                         }
-                    }
-                    .frame(maxWidth: .infinity)
-                case .window:
+                        .frame(maxWidth: .infinity)
+                }
+                .padding()
+                .background(VisualEffectView())
+            } else if screenRecorder.captureType == .window {
+                VStack() {
                     Picker(String(), selection: $screenRecorder.selectedWindow) {
                         ForEach(screenRecorder.availableWindows, id: \.self) { window in
                             Text(window.displayName)
@@ -55,9 +58,9 @@ struct CapturePreviewPopup: View {
                     }
                     .frame(maxWidth: .infinity)
                 }
+                .padding()
+                .background(VisualEffectView())
             }
-            .padding()
-            .background(VisualEffectView())
         }
     }
 }
