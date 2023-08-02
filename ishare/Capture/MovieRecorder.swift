@@ -9,6 +9,7 @@ import SwiftUI
 
 import Foundation
 import AVFoundation
+import Defaults
 
 class MovieRecorder {
     private var assetWriter: AVAssetWriter?
@@ -18,6 +19,7 @@ class MovieRecorder {
     private var videoSettings: [String: Any]
     private var audioSettings: [String: Any]
     private(set) var isRecording = false
+    @Default(.recordMP4) var recordMP4
 
     init(audioSettings: [String: Any], videoSettings: [String: Any], videoTransform: CGAffineTransform) {
         self.audioSettings = audioSettings
@@ -37,7 +39,7 @@ class MovieRecorder {
     }
 
     func startRecording(fileURL: URL, height: Int, width: Int) {
-        guard let assetWriter = try? AVAssetWriter(url: fileURL, fileType: .mov) else {
+        guard let assetWriter = try? AVAssetWriter(url: fileURL, fileType: recordMP4 ? .mp4 : .mov) else {
             return
         }
 

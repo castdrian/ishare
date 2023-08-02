@@ -23,11 +23,12 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
     @Default(.recordingFileName) var fileName
     @Default(.uploadType) var uploadType
     @Default(.uploadMedia) var uploadMedia
+    @Default(.recordMP4) var recordMP4
     
     let timestamp = Int(Date().timeIntervalSince1970)
     let uniqueFilename = "\(fileName)-\(timestamp)"
     
-    var path = "\(recordingPath)\(uniqueFilename).mov"
+    var path = "\(recordingPath)\(uniqueFilename).\(recordMP4 ? "mp4" : "mov")"
     path = NSString(string: path).expandingTildeInPath
     
     let fileURL = URL(fileURLWithPath: path)

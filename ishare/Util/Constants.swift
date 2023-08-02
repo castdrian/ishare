@@ -11,6 +11,7 @@ import SwiftUI
 import Defaults
 import Alamofire
 import SwiftyJSON
+import AVFoundation
 import KeyboardShortcuts
 import BezelNotification
 import ScreenCaptureKit
@@ -45,6 +46,7 @@ extension Defaults.Keys {
     static let uploadDestination = Key<UploadDestination>("uploadDestination", default: .builtIn(.IMGUR))
     static let showRecordingPreview = Key<Bool>("showRecordingPreview", default: true)
     static let recordAudio = Key<Bool>("recordAudio", default: true)
+    static let recordMP4 = Key<Bool>("recordMP4", default: true)
 }
 
 extension View {
@@ -448,4 +450,3 @@ class AvailableContentProvider: ObservableObject {
         }
     }
 }
-
