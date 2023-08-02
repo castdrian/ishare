@@ -76,7 +76,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     
     func stopRecording() {
         Task {
-            await screenRecorder.stop()
+           await screenRecorder.stop { result in
+                switch result {
+                case .success(let url):
+                    // Recording stopped successfully, handle the URL
+                    print("Recording stopped successfully. URL: \(url)")
+                    postRecordingTasks(url)
+                case .failure(let error):
+                    // There was an error while stopping the recording, handle the error
+                    print("Error while stopping recording: \(error.localizedDescription)")
+                }
+            }
         }
     }
 }

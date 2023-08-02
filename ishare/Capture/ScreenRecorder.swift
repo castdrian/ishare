@@ -5,13 +5,6 @@
 //  Created by Adrian Castro on 29.07.23.
 //
 
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-A model object that provides the interface to capture screen content and system audio.
-*/
-
 import Foundation
 import ScreenCaptureKit
 import Combine
@@ -135,7 +128,7 @@ class ScreenRecorder: ObservableObject {
             await monitorAvailableContent()
             isSetup = true
         }
-        
+                
         // If the user enables audio capture, start monitoring the audio stream.
         if isAudioCaptureEnabled {
             startAudioMetering()
@@ -166,14 +159,28 @@ class ScreenRecorder: ObservableObject {
     }
     
     /// Stops capturing screen content.
-    func stop() async {
-        guard isRunning else { return }
-        await captureEngine.stopCapture()
-        stopAudioMetering()
-        isRunning = false
-        startTime = Date()
+    func stop(completion: @escaping (Result<URL, Error>) -> Void) {
+        guard isRunning else {
+            completion(.failure(NSError(domain: "CaptureErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Recording is not running"])))
+            return
+        }
+
+        Task {
+            captureEngine.stopCapture { [self] url, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let fileURL = url {
+                    stopAudioMetering()
+                    isRunning = false
+                    startTime = Date()
+                    completion(.success(fileURL))
+                } else {
+                    completion(.failure(NSError(domain: "CaptureErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])))
+                }
+            }
+        }
     }
-    
+
     private func startAudioMetering() {
         audioMeterCancellable = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect().sink { [weak self] _ in
             guard let self = self else { return }

@@ -17,12 +17,9 @@ import ScreenCaptureKit
 func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
     @Default(.showRecordingPreview) var showPreview
     @Default(.recordAudio) var recordAudio
-    @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.recordingPath) var recordingPath
     @Default(.recordingFileName) var fileName
-    @Default(.uploadType) var uploadType
-    @Default(.uploadMedia) var uploadMedia
     @Default(.recordMP4) var recordMP4
     
     let timestamp = Int(Date().timeIntervalSince1970)
@@ -80,55 +77,36 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
     }
 }
 
-//    Task {
-//        while (screenRecorder?.isRunning ?? false) {
-//            try await Task.sleep(nanoseconds: 100)
-//        }
-//
-//        // The recording has finished at this point, continue with the rest of the code
-//        DispatchQueue.main.async {
-//            print("pog recording actually stopped")
-//            BezelNotification.show(messageText: "Recording finished", icon: ToastIcon)
-//        }
-//    }
-//    @Default(.copyToClipboard) var copyToClipboard
-//    @Default(.openInFinder) var openInFinder
-//    @Default(.recordingPath) var recordingPath
-//    @Default(.recordingFileName) var fileName
-//    @Default(.uploadType) var uploadType
-//    @Default(.uploadMedia) var uploadMedia
-//
-//    let timestamp = Int(Date().timeIntervalSince1970)
-//    let uniqueFilename = "\(fileName)-\(timestamp)"
-//
-//    var path = "\(recordingPath)\(uniqueFilename).mov"
-//    path = NSString(string: path).expandingTildeInPath
-//
-//    recordingTask(path: path, type: type, display: display) {
-//        let fileURL = URL(fileURLWithPath: path)
-//
-//        if !FileManager.default.fileExists(atPath: fileURL.path) {
-//            return
-//        }
-//
-//        if copyToClipboard {
-//            let pasteboard = NSPasteboard.general
-//            pasteboard.clearContents()
-//
-//            pasteboard.setString(fileURL.absoluteString, forType: .fileURL)
-//        }
-//
-//        if openInFinder {
-//            NSWorkspace.shared.activateFileViewerSelecting([fileURL])
-//        }
-//
-//        if uploadMedia {
-//            uploadFile(fileURL: fileURL, uploadType: uploadType) {
-//                showToast(fileURL: fileURL)
-//                NSSound.beep()
-//            }
-//        } else {
-//            showToast(fileURL: fileURL)
-//            NSSound.beep()
-//        }
-//    }
+func postRecordingTasks(_ fileURL: URL) {
+    @Default(.copyToClipboard) var copyToClipboard
+    @Default(.openInFinder) var openInFinder
+    @Default(.recordingPath) var recordingPath
+    @Default(.recordingFileName) var fileName
+    @Default(.uploadType) var uploadType
+    @Default(.uploadMedia) var uploadMedia
+    
+    if !FileManager.default.fileExists(atPath: fileURL.path) {
+        return
+    }
+    
+    if copyToClipboard {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        
+        pasteboard.setString(fileURL.absoluteString, forType: .fileURL)
+    }
+    
+    if openInFinder {
+        NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+    }
+    
+    if uploadMedia {
+        uploadFile(fileURL: fileURL, uploadType: uploadType) {
+            showToast(fileURL: fileURL)
+            NSSound.beep()
+        }
+    } else {
+        showToast(fileURL: fileURL)
+        NSSound.beep()
+    }
+}

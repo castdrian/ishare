@@ -33,8 +33,20 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
         headers = HTTPHeaders(requestHeaders)
     }
     
-    let fileFormName = fileURL.pathExtension == "mov" ? "video" : "image"
-    let mimeType = fileURL.pathExtension == "mov" ? "video/mov" : "image/\(fileType)"
+    var fileFormName: String
+    var mimeType: String
+    
+    switch fileURL.pathExtension {
+    case "mp4":
+        fileFormName = "video"
+        mimeType = "video/mp4"
+    case "mov":
+        fileFormName = "video"
+        mimeType = "video/mov"
+    default:
+        fileFormName = "image"
+        mimeType = "image/\(fileType)"
+    }
 
     AF.upload(multipartFormData: { multipartFormData in
         if let formData = specification.formData {

@@ -70,24 +70,27 @@ class CaptureEngine: NSObject, @unchecked Sendable {
         }
     }
 
-    func stopCapture() async {
-        do {
-            try await stream?.stopCapture()
-            continuation?.finish()
-        } catch {
-            continuation?.finish(throwing: error)
-        }
-        powerMeter.processSilence()
-        await self.movie.stopRecording { [self] url in
+    func stopCapture(completion: @escaping (URL?, Error?) -> Void) {
+        Task {
             do {
-                let endTime = Date()
+                try await stream?.stopCapture()
+                continuation?.finish()
+                powerMeter.processSilence()
 
-                let videoEntry = VideoEntry(context: DataController.shared.moc)
-                videoEntry.id = UUID()
-                videoEntry.url = url.description
-                videoEntry.startTime = self.startTime
-                videoEntry.endTime = endTime
-                DataController.shared.save()
+                let _: () = await self.movie.stopRecording { [self] url in
+                    let endTime = Date()
+
+                    let videoEntry = VideoEntry(context: DataController.shared.moc)
+                    videoEntry.id = UUID()
+                    videoEntry.url = url.description
+                    videoEntry.startTime = self.startTime
+                    videoEntry.endTime = endTime
+                    DataController.shared.save()
+
+                    completion(url, nil)
+                }
+            } catch {
+                completion(nil, error)
             }
         }
     }
