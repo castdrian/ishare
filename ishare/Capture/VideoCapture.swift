@@ -84,6 +84,7 @@ func postRecordingTasks(_ fileURL: URL) {
     @Default(.recordingFileName) var fileName
     @Default(.uploadType) var uploadType
     @Default(.uploadMedia) var uploadMedia
+    @Default(.saveToDisk) var saveToDisk
     
     if !FileManager.default.fileExists(atPath: fileURL.path) {
         return
@@ -102,11 +103,29 @@ func postRecordingTasks(_ fileURL: URL) {
     
     if uploadMedia {
         uploadFile(fileURL: fileURL, uploadType: uploadType) {
-            showToast(fileURL: fileURL)
-            NSSound.beep()
+            showToast(fileURL: fileURL) {
+                NSSound.beep()
+                
+                if !saveToDisk {
+                    do {
+                        try FileManager.default.removeItem(at: fileURL)
+                    } catch {
+                        print("Error deleting the file: \(error)")
+                    }
+                }
+            }
         }
     } else {
-        showToast(fileURL: fileURL)
-        NSSound.beep()
+        showToast(fileURL: fileURL) {
+            NSSound.beep()
+            
+            if !saveToDisk {
+                do {
+                    try FileManager.default.removeItem(at: fileURL)
+                } catch {
+                    print("Error deleting the file: \(error)")
+                }
+            }
+        }
     }
 }
