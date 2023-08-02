@@ -1,4 +1,5 @@
 import SwiftUI
+import Defaults
 import AVFoundation
 
 struct ToastPopoverView: View {
@@ -16,15 +17,16 @@ struct ToastPopoverView: View {
             .padding(.vertical, 10)
             .animation(Animation.easeInOut(duration: 1.0), value: thumbnailImage)
             .onTapGesture {
-                        NSWorkspace.shared.selectFile(fileURL.path, inFileViewerRootedAtPath: "")
-                    }
+                NSWorkspace.shared.selectFile(fileURL.path, inFileViewerRootedAtPath: "")
+            }
     }
 }
 
 func showToast(fileURL: URL) {
     var thumbnailImage: NSImage?
+    @Default(.captureFileType) var fileType
     
-    if fileURL.pathExtension == "mov" {
+    if fileURL.pathExtension != fileType.rawValue {
         let asset = AVURLAsset(url: fileURL)
         let imageGenerator = AVAssetImageGenerator(asset: asset)
         imageGenerator.appliesPreferredTrackTransform = true
@@ -63,7 +65,7 @@ func showToast(fileURL: URL) {
     let originX = screenSize.width - toastWindow.frame.width - 20
     let originY = screenSize.height - toastWindow.frame.height - 20
     toastWindow.setFrameOrigin(NSPoint(x: originX, y: originY))
-
+    
     let fadeDuration = 0.2
     toastWindow.alphaValue = 0.0
     
