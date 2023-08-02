@@ -11,7 +11,7 @@ clean and unbloated screen capture utility for macOS
 [![issues - ishare](https://img.shields.io/github/issues/castdrian/ishare)](https://github.com/castdrian/ishare/issues)
 
 star amount for homebrew cask:\
-![](https://progress-bar.dev/23/?width=240)
+![](https://progress-bar.dev/25/?width=240)
 
 <div>
   <a href="https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip" download>
@@ -22,6 +22,12 @@ star amount for homebrew cask:\
 <br>
 
 <a href="https://discord.gg/sX4KYzu5pX"><img src="https://discord.com/api/guilds/844574704698130492/widget.png?style=banner2" alt="Discord Server"></a>
+
+## Features
+- Capture and record screens, windows or a custom region
+- Upload the media files to built-in or custom uploaders
+- Profit
+- ???
 
 ## Custom Uploader Request Specification
 ishare performs a `POST` request to the specified endpoint, containing all configurations that are defined in the custom uploader.\
