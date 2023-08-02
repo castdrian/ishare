@@ -5,6 +5,13 @@
 //  Created by Adrian Castro on 29.07.23.
 //
 
+/*
+See LICENSE folder for this sample’s licensing information.
+
+Abstract:
+A model object that provides the interface to capture screen content and system audio.
+*/
+
 import Foundation
 import ScreenCaptureKit
 import Combine
@@ -26,7 +33,14 @@ class ScreenRecorder: ObservableObject {
     }
     
     private let logger = Logger()
-    
+    private let movie = MovieRecorder(audioSettings: [:], videoSettings: [:], videoTransform: .identity)
+
+    @Published var isTimerRunning = false
+    @Published var startTime =  Date()
+    @Published var timerString = "00:00"
+
+    @Published var recordTimer: Publishers.Autoconnect<Timer.TimerPublisher> = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
     @Published var isRunning = false
     
     // MARK: - Video Properties
@@ -69,6 +83,7 @@ class ScreenRecorder: ObservableObject {
             }
         }
     }
+    
     @Published var isAppAudioExcluded = false { didSet { updateEngine() } }
     @Published private(set) var audioLevelsProvider = AudioLevelsProvider()
     // A value that specifies how often to retrieve calculated audio levels.
@@ -77,7 +92,7 @@ class ScreenRecorder: ObservableObject {
     
     // The object that manages the SCStream.
     private let captureEngine = CaptureEngine()
-    
+
     private var isSetup = false
     
     // Combine subscribers.
@@ -112,7 +127,9 @@ class ScreenRecorder: ObservableObject {
     func start(_ fileURL: URL) async {
         // Exit early if already running.
         guard !isRunning else { return }
-        
+        startTime = Date()
+        recordTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
         if !isSetup {
             // Starting polling for available screen content.
             await monitorAvailableContent()
@@ -129,8 +146,12 @@ class ScreenRecorder: ObservableObject {
             let filter = contentFilter
             // Update the running state.
             isRunning = true
+
             // Start the stream and await new video frames.
-            for try await frame in captureEngine.startCapture(configuration: config, filter: filter, fileURL: fileURL) {
+            for try await frame in captureEngine.startCapture(configuration: config, filter: filter, movie: movie, fileURL: fileURL) {
+                // Update the preview with the new frame.
+                // This call is thread-safe.
+
                 capturePreview.updateFrame(frame)
                 if contentSize != frame.size {
                     // Update the content size if it changed.
@@ -150,6 +171,7 @@ class ScreenRecorder: ObservableObject {
         await captureEngine.stopCapture()
         stopAudioMetering()
         isRunning = false
+        startTime = Date()
     }
     
     private func startAudioMetering() {

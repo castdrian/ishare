@@ -20,6 +20,9 @@
 		3A72B9A32A7699E200B2DEBA /* CapturePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9A22A7699E200B2DEBA /* CapturePreview.swift */; };
 		3A72B9A52A769A7200B2DEBA /* PreviewPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9A42A769A7200B2DEBA /* PreviewPopover.swift */; };
 		3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* App.swift */; };
+		3AB318582A7AD35D00CE8610 /* MovieRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB318572A7AD35D00CE8610 /* MovieRecorder.swift */; };
+		3AB3185A2A7AD52C00CE8610 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB318592A7AD52C00CE8610 /* DataController.swift */; };
+		3AB3185D2A7AD5CB00CE8610 /* Video.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3AB3185B2A7AD5CB00CE8610 /* Video.xcdatamodeld */; };
 		3AB345AB2A5D779500AAEC0E /* ImageCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ImageCapture.swift */; };
 		3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
 		3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */; };
@@ -62,6 +65,9 @@
 		3A9A9FD72A5C84B5007BA5C9 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		3A9A9FE02A5C84B5007BA5C9 /* ishare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ishare.entitlements; sourceTree = "<group>"; };
 		3A9AA0022A5C8E45007BA5C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		3AB318572A7AD35D00CE8610 /* MovieRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRecorder.swift; sourceTree = "<group>"; };
+		3AB318592A7AD52C00CE8610 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		3AB3185C2A7AD5CB00CE8610 /* Video.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Video.xcdatamodel; sourceTree = "<group>"; };
 		3AB345AA2A5D779500AAEC0E /* ImageCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCapture.swift; sourceTree = "<group>"; };
 		3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMenuView.swift; sourceTree = "<group>"; };
@@ -108,11 +114,14 @@
 		3A72B9A62A769EA100B2DEBA /* Capture */ = {
 			isa = PBXGroup;
 			children = (
+				3AB3185B2A7AD5CB00CE8610 /* Video.xcdatamodeld */,
 				3AB345AA2A5D779500AAEC0E /* ImageCapture.swift */,
 				3A59CD5D2A6EE47E00E85161 /* VideoCapture.swift */,
 				3A72B9942A752A0A00B2DEBA /* ScreenRecorder.swift */,
 				3A72B9962A752AD000B2DEBA /* CaptureEngine.swift */,
 				3A72B9982A752B1500B2DEBA /* PowerMeter.swift */,
+				3AB318572A7AD35D00CE8610 /* MovieRecorder.swift */,
+				3AB318592A7AD52C00CE8610 /* DataController.swift */,
 			);
 			path = Capture;
 			sourceTree = "<group>";
@@ -276,6 +285,7 @@
 				3A59CD5E2A6EE47E00E85161 /* VideoCapture.swift in Sources */,
 				3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */,
 				3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */,
+				3AB3185A2A7AD52C00CE8610 /* DataController.swift in Sources */,
 				3A72B9A52A769A7200B2DEBA /* PreviewPopover.swift in Sources */,
 				3A72B9A32A7699E200B2DEBA /* CapturePreview.swift in Sources */,
 				3A72B9992A752B1500B2DEBA /* PowerMeter.swift in Sources */,
@@ -285,7 +295,9 @@
 				3A72B9952A752A0A00B2DEBA /* ScreenRecorder.swift in Sources */,
 				3AB38D082A62C49C00184E0D /* Upload.swift in Sources */,
 				3AB345C82A5F163800AAEC0E /* AppState.swift in Sources */,
+				3AB318582A7AD35D00CE8610 /* MovieRecorder.swift in Sources */,
 				3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */,
+				3AB3185D2A7AD5CB00CE8610 /* Video.xcdatamodeld in Sources */,
 				3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */,
 				3AB345AB2A5D779500AAEC0E /* ImageCapture.swift in Sources */,
 				3AB345C62A5F0C7A00AAEC0E /* Constants.swift in Sources */,
@@ -631,6 +643,19 @@
 			productName = Zip;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		3AB3185B2A7AD5CB00CE8610 /* Video.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3AB3185C2A7AD5CB00CE8610 /* Video.xcdatamodel */,
+			);
+			currentVersion = 3AB3185C2A7AD5CB00CE8610 /* Video.xcdatamodel */;
+			path = Video.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 3A9A9FCC2A5C84B4007BA5C9 /* Project object */;
 }
