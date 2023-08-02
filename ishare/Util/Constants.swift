@@ -11,8 +11,10 @@ import SwiftUI
 import Defaults
 import Alamofire
 import SwiftyJSON
+import AVFoundation
 import KeyboardShortcuts
 import BezelNotification
+import ScreenCaptureKit
 
 extension KeyboardShortcuts.Name {
     static let noKeybind = Self("noKeybind")
@@ -20,13 +22,15 @@ extension KeyboardShortcuts.Name {
     static let captureRegion = Self("captureRegion", default: .init(.p, modifiers: [.option, .command]))
     static let captureWindow = Self("captureWindow", default: .init(.p, modifiers: [.control,.option]))
     static let captureScreen = Self("captureScreen", default: .init(.x, modifiers: [.option, .command]))
-    static let recordRegion = Self("recordRegion", default: .init(.z, modifiers: [.option, .command]))
+    static let recordWindow = Self("recordWindow", default: .init(.z, modifiers: [.option, .command]))
     static let recordScreen = Self("recordScreen", default: .init(.z, modifiers: [.control, .option,]))
 }
 
 extension Defaults.Keys {
+    static let showMainMenu = Key<Bool>("showMainMenu", default: false)
     static let copyToClipboard = Key<Bool>("copyToClipboard", default: true)
     static let openInFinder = Key<Bool>("openInFinder", default: false)
+    static let saveToDisk = Key<Bool>("saveToDisk", default: true)
     static let uploadMedia = Key<Bool>("uploadMedia", default: false)
     static let capturePath = Key<String>("capturePath", default: "~/Pictures/")
     static let recordingPath = Key<String>("recordingPath", default: "~/Pictures/")
@@ -40,6 +44,9 @@ extension Defaults.Keys {
     static let uploadType = Key<UploadType>("uploadType", default: .IMGUR)
     static let menuBarAppIcon = Key<Bool>("menuBarAppIcon", default: true)
     static let uploadDestination = Key<UploadDestination>("uploadDestination", default: .builtIn(.IMGUR))
+    static let showRecordingPreview = Key<Bool>("showRecordingPreview", default: true)
+    static let recordAudio = Key<Bool>("recordAudio", default: true)
+    static let recordMP4 = Key<Bool>("recordMP4", default: true)
 }
 
 extension View {
@@ -256,7 +263,7 @@ func importFile(_ url: URL, completion: @escaping (Bool, Error?) -> Void) {
 struct Contributor: Codable {
     let login: String
     let avatarURL: URL
-
+    
     enum CodingKeys: String, CodingKey {
         case login
         case avatarURL = "avatar_url"
@@ -351,7 +358,7 @@ func importUserDefaults() {
     openPanel.canChooseFiles = true
     openPanel.canChooseDirectories = false
     openPanel.allowedContentTypes = [.propertyList]
-
+    
     openPanel.begin { result in
         if result == .OK, let fileURL = openPanel.url {
             do {
@@ -367,6 +374,78 @@ func importUserDefaults() {
             } catch {
                 print("Error importing UserDefaults: \(error)")
                 BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
+            }
+        }
+    }
+}
+
+let ignoredBundleIdentifiers = [
+    "com.apple.controlcenter",
+    "com.apple.dock",
+    "com.apple.Spotlight",
+    "com.apple.TextInputMenuAgent",
+    "com.knollsoft.Rectangle"
+]
+
+func filterWindows(_ windows: [SCWindow]) -> [SCWindow] {
+    windows
+    // Sort the windows by app name.
+        .sorted { $0.owningApplication?.applicationName ?? "" < $1.owningApplication?.applicationName ?? "" }
+    // Remove windows that don't have an associated .app bundle.
+        .filter { $0.owningApplication != nil && $0.owningApplication?.applicationName != "" }
+    // Remove this app's window from the list.
+        .filter { $0.owningApplication?.bundleIdentifier != Bundle.main.bundleIdentifier }
+        .filter { item in
+            !ignoredBundleIdentifiers.contains(where: { $0 == item.owningApplication?.bundleIdentifier })
+        }
+}
+
+struct AvailableContent {
+    let displays: [SCDisplay]
+    let windows: [SCWindow]
+    let applications: [SCRunningApplication]
+}
+
+func refreshAvailableContent() async throws -> AvailableContent {
+    do {
+        // Retrieve the available screen content to capture.
+        let availableContent = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: true)
+        let availableDisplays = availableContent.displays
+        
+        // Declare availableWindows before its usage
+        var availableWindows = [SCWindow]()
+        
+        let windows = filterWindows(availableContent.windows)
+        if windows != availableWindows {
+            availableWindows = windows
+        }
+        let availableApps = availableContent.applications
+        
+        return AvailableContent(displays: availableDisplays,
+                                windows: availableWindows,
+                                applications: availableApps)
+    } catch {
+        throw error // Rethrow the error to the caller
+    }
+}
+
+@MainActor
+class AvailableContentProvider: ObservableObject {
+    @Published var availableContent: AvailableContent?
+
+    init() {
+        refreshContent()
+    }
+
+    func refreshContent() {
+        Task.detached {
+            do {
+                let content = try await refreshAvailableContent()
+                DispatchQueue.main.async {
+                    self.availableContent = content
+                }
+            } catch {
+                print("Error refreshing content: \(error)")
             }
         }
     }

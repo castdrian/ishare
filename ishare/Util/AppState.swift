@@ -9,11 +9,12 @@ import SwiftUI
 import Defaults
 import KeyboardShortcuts
 
-@MainActor
 final class AppState: ObservableObject {
+    @Default(.showMainMenu) var showMainMenu
+
     init() {
         KeyboardShortcuts.onKeyUp(for: .toggleMainMenu) {
-            // show main menu, sigh
+            self.showMainMenu = true
         }
         KeyboardShortcuts.onKeyUp(for: .captureRegion) {
             captureScreen(type: .REGION)
@@ -24,10 +25,10 @@ final class AppState: ObservableObject {
         KeyboardShortcuts.onKeyUp(for: .captureScreen) {
             captureScreen(type: .SCREEN)
         }
-        KeyboardShortcuts.onKeyUp(for: .recordRegion) {
+        KeyboardShortcuts.onKeyUp(for: .recordWindow) {
         }
         KeyboardShortcuts.onKeyUp(for: .recordScreen) {
-            recordScreen(type: .SCREEN)
+            recordScreen()
         }
     }
 }

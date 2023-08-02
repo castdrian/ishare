@@ -8,6 +8,7 @@
 import BezelNotification
 import SwiftUI
 import Defaults
+import ScreenCaptureKit
 
 enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
     case builtIn(UploadType)
@@ -17,11 +18,14 @@ enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
 struct MainMenuView: View {    
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
+    @Default(.saveToDisk) var saveToDisk
     @Default(.uploadMedia) var uploadMedia
     @Default(.uploadType) var uploadType
     @Default(.activeCustomUploader) var activeCustomUploader
     @Default(.savedCustomUploaders) var savedCustomUploaders
     @Default(.uploadDestination) var uploadDestination
+    
+    @StateObject private var availableContentProvider = AvailableContentProvider()
     
     var body: some View {
         Menu {
@@ -55,35 +59,58 @@ struct MainMenuView: View {
         }
         
         Menu {
-            ForEach(NSScreen.screens.indices, id: \.self) { index in
-                let screen = NSScreen.screens[index]
-                let screenName = screen.localizedName
-                Button {
-                    recordScreen(type: .SCREEN, display: index + 1)
-                } label: {
-                    Image(systemName: "menubar.dock.rectangle.badge.record")
-                    Label("Record \(screenName)", image: String())
-                }.keyboardShortcut(index == 0 ? .recordScreen : .noKeybind)
+            if let availableContent = availableContentProvider.availableContent {
+                ForEach(availableContent.displays, id: \.self) { display in
+                    Button {
+                        recordScreen(display: display)
+                    } label: {
+                        Image(systemName: "menubar.dock.rectangle.badge.record")
+                        Label("Record \(display.displayName)", image: String())
+                    }.keyboardShortcut(display.displayID == 1 ? .recordScreen : .noKeybind).disabled(AppDelegate.shared.screenRecorder.isRunning)
+                }
+                Divider()
+                ForEach(availableContent.windows, id: \.self) { window in
+                    Button {
+                        recordScreen(window: window)
+                    } label: {
+                        Image(systemName: "menubar.dock.rectangle.badge.record")
+                        Label("Record \(window.displayName)", image: String())
+                    }.disabled(AppDelegate.shared.screenRecorder.isRunning)
+                }
             }
-        } label: {
-            Image(systemName: "menubar.dock.rectangle.badge.record")
-            Label("Record", image: String())
         }
+    label: {
+        Image(systemName: "menubar.dock.rectangle.badge.record")
+        Label("Record", image: String())
+    }
         
         Menu {
             Toggle(isOn: $copyToClipboard) {
                 Image(systemName: "clipboard")
-                Label("Copy to clipboard", image: String())
+                Label("Copy to Clipboard", image: String())
             }.toggleStyle(.checkbox)
             
-            Toggle(isOn: $openInFinder){
+            Toggle(isOn: $saveToDisk) {
+                Image(systemName: "internaldrive")
+                Label("Save to Disk", image: String())
+            }
+            .toggleStyle(.checkbox)
+            .onChange(of: saveToDisk) { newValue in
+                if !newValue {
+                    openInFinder = false
+                }
+            }
+            
+            Toggle(isOn: $openInFinder) {
                 Image(systemName: "folder")
                 Label("Open in Finder", image: String())
-            }.toggleStyle(.checkbox)
+            }
+            .toggleStyle(.checkbox)
+            .disabled(!saveToDisk)
             
             Toggle(isOn: $uploadMedia){
                 Image(systemName: "icloud.and.arrow.up")
-                Label("Upload media", image: String())
+                Label("Upload Media", image: String())
             }.toggleStyle(.checkbox)
         } label: {
             Image(systemName: "list.bullet.clipboard")
@@ -91,41 +118,41 @@ struct MainMenuView: View {
         }
         
         Picker(selection: $uploadDestination) {
-                   ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) { uploadType in
-                       Button {} label: {
-                           Image(nsImage: ImgurIcon)
-                           Label(uploadType.rawValue.capitalized, image: String())
-                       }.tag(UploadDestination.builtIn(uploadType))
-                   }
+            ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) { uploadType in
+                Button {} label: {
+                    Image(nsImage: ImgurIcon)
+                    Label(uploadType.rawValue.capitalized, image: String())
+                }.tag(UploadDestination.builtIn(uploadType))
+            }
             if let customUploaders = savedCustomUploaders {
-                       if !customUploaders.isEmpty {
-                           Divider()
-                           ForEach(CustomUploader.allCases, id: \.self) { uploader in
-                               Button {} label: {
-                                   Image(nsImage: AppIcon)
-                                   Label(uploader.name, image: String())
-                               }.tag(UploadDestination.custom(uploader.id))
-                           }
-                       }
-                   }
-               }
-                label: {
-                    Image(systemName: "icloud.and.arrow.up")
-                    Label("Upload Destination", image: String())
+                if !customUploaders.isEmpty {
+                    Divider()
+                    ForEach(CustomUploader.allCases, id: \.self) { uploader in
+                        Button {} label: {
+                            Image(nsImage: AppIcon)
+                            Label(uploader.name, image: String())
+                        }.tag(UploadDestination.custom(uploader.id))
+                    }
                 }
-               .onChange(of: uploadDestination) { newValue in
-                   if case .builtIn(_) = newValue {
-                       activeCustomUploader = nil
-                       uploadType = .IMGUR
-                       BezelNotification.show(messageText: "Selected \(uploadType.rawValue.capitalized)", icon: ToastIcon)
-                   } else if case let .custom(customUploader) = newValue {
-                       activeCustomUploader = customUploader
-                       uploadType = .CUSTOM
-                       BezelNotification.show(messageText: "Selected Custom", icon: ToastIcon)
-                   }
-               }
-               .pickerStyle(MenuPickerStyle())
-                
+            }
+        }
+    label: {
+        Image(systemName: "icloud.and.arrow.up")
+        Label("Upload Destination", image: String())
+    }
+    .onChange(of: uploadDestination) { newValue in
+        if case .builtIn(_) = newValue {
+            activeCustomUploader = nil
+            uploadType = .IMGUR
+            BezelNotification.show(messageText: "Selected \(uploadType.rawValue.capitalized)", icon: ToastIcon)
+        } else if case let .custom(customUploader) = newValue {
+            activeCustomUploader = customUploader
+            uploadType = .CUSTOM
+            BezelNotification.show(messageText: "Selected Custom", icon: ToastIcon)
+        }
+    }
+    .pickerStyle(MenuPickerStyle())
+        
         Button {
             NSApplication.shared.activate(ignoringOtherApps: true)
             NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
@@ -174,7 +201,7 @@ struct MainMenuView: View {
         Button {
             AppDelegate.shared.updaterController.updater.checkForUpdates()
         } label: {
-            Image(systemName: "arrow.down.app")
+            Image(systemName: "arrow.triangle.2.circlepath")
             Label("Check for Updates", image: String())
         }.keyboardShortcut("u")
         
@@ -184,5 +211,11 @@ struct MainMenuView: View {
             Image(systemName: "power.circle")
             Label("Quit", image: String())
         }.keyboardShortcut("q")
+            .onAppear {
+                availableContentProvider.refreshContent()
+                Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
+                    availableContentProvider.refreshContent()
+                }
+            }
     }
 }

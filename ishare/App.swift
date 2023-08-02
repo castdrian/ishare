@@ -8,11 +8,12 @@
 import SwiftUI
 import Defaults
 import Sparkle
-import FinderSync
+import MenuBarExtraAccess
 
 @main
 struct ishare: App {
     @Default(.menuBarAppIcon) var menuBarAppIcon
+    @Default(.showMainMenu) var showMainMenu
     @StateObject private var appState = AppState()
     @NSApplicationDelegateAdaptor private var appDelegate : AppDelegate
     
@@ -23,7 +24,7 @@ struct ishare: App {
     label: {
         menuBarAppIcon ? Image(nsImage: AppIcon) : Image(systemName: "photo.on.rectangle.angled")
     }
-        
+    .menuBarExtraAccess(isPresented: $showMainMenu)
         Settings {
             SettingsMenuView()
         }
@@ -33,8 +34,8 @@ struct ishare: App {
 class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     static private(set) var shared: AppDelegate! = nil
     var isIconShown = false
-    var recordingTask: Process?
     var statusBarItem: NSStatusItem!
+    var screenRecorder: ScreenRecorder!
     var updaterController: SPUStandardUpdaterController!
     
     func application(_ application: NSApplication, open urls: [URL]) {
@@ -45,6 +46,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         AppDelegate.shared = self
+        
+        Task {
+            screenRecorder = ScreenRecorder()
+        }
+        
         updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
         updaterController.updater.checkForUpdatesInBackground()
     }
@@ -69,7 +75,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     }
     
     func stopRecording() {
-        recordingTask?.interrupt()
-        recordingTask = nil
+        Task {
+           await screenRecorder.stop { result in
+                switch result {
+                case .success(let url):
+                    // Recording stopped successfully, handle the URL
+                    print("Recording stopped successfully. URL: \(url)")
+                    postRecordingTasks(url)
+                case .failure(let error):
+                    // There was an error while stopping the recording, handle the error
+                    print("Error while stopping recording: \(error.localizedDescription)")
+                }
+            }
+        }
     }
 }

@@ -81,11 +81,11 @@ struct KeybindSettingsView: View {
                 KeyboardShortcuts.Recorder("Capture Region:", name: .captureRegion)
                 KeyboardShortcuts.Recorder("Capture Window:", name: .captureWindow)
                 KeyboardShortcuts.Recorder("Capture Screen:", name: .captureScreen)
-                KeyboardShortcuts.Recorder("Record Region:", name: .recordRegion)
+                KeyboardShortcuts.Recorder("Record Window:", name: .recordWindow)
                 KeyboardShortcuts.Recorder("Record Screen:", name: .recordScreen)
             }
             Button("Reset") {
-                KeyboardShortcuts.reset([.toggleMainMenu, .captureRegion, .captureWindow, .captureScreen, .recordRegion, .recordScreen])
+                KeyboardShortcuts.reset([.toggleMainMenu, .captureRegion, .captureWindow, .captureScreen, .recordWindow, .recordScreen])
                 BezelNotification.show(messageText: "Reset keybinds", icon: ToastIcon)
             }
         }
@@ -131,11 +131,17 @@ struct CaptureSettingsView: View {
 struct RecordingSettingsView: View {
     @Default(.recordingPath) var recordingPath
     @Default(.recordingFileName) var fileName
+    @Default(.showRecordingPreview) var showPreview
+    @Default(.recordAudio) var recordAudio
+    @Default(.recordMP4) var recordMP4
     
     var body: some View {
         VStack {
+            Toggle("Record as .mp4 instead of .mov", isOn: $recordMP4)
+            Toggle("Show recording preview", isOn: $showPreview)
+            Toggle("Record audio", isOn: $recordAudio)
             HStack {
-                Text("Capture path:")
+                Text("Recording path:")
                 TextField(text: $recordingPath) {}
                 Button("Select directory") {
                     selectFolder { folderURL in
