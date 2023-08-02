@@ -36,9 +36,7 @@ func imgurUpload(_ fileURL: URL, completion: @escaping () -> Void) {
         fileName = "ishare.\(fileType)"
         mimeType = "image/\(fileType)"
     }
-    
-    print(fileFormName, fileName, mimeType)
-    
+        
     AF.upload(multipartFormData: { multipartFormData in
         multipartFormData.append(fileURL, withName: fileFormName, fileName: fileName, mimeType: mimeType)
     }, to: url, method: .post, headers: ["Authorization": "Client-ID " + imgurClientId]).response { response in

@@ -165,16 +165,20 @@ class ScreenRecorder: ObservableObject {
             return
         }
 
-        Task {
-            captureEngine.stopCapture { [self] url, error in
-                if let error = error {
+        captureEngine.stopCapture { [self] url, error in
+            if let error = error {
+                DispatchQueue.main.async {
                     completion(.failure(error))
-                } else if let fileURL = url {
-                    stopAudioMetering()
+                }
+            } else if let fileURL = url {
+                stopAudioMetering()
+                DispatchQueue.main.async { [self] in
                     isRunning = false
                     startTime = Date()
                     completion(.success(fileURL))
-                } else {
+                }
+            } else {
+                DispatchQueue.main.async {
                     completion(.failure(NSError(domain: "CaptureErrorDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: "Unknown error occurred"])))
                 }
             }
