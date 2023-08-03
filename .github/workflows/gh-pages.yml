@@ -38,14 +38,16 @@ jobs:
       - name: Extract Sparkle
         run: tar -xJf Sparkle-2.4.2.tar.xz
       
+      - name: Prepare updates folder
+        run: |
+          mkdir update
+          mv ishare_macOS.zip update/
+      
       - name: Set executable bit for generate_appcast
         run: chmod +x ./bin/generate_appcast
       
       - name: Generate appcast.xml
-        run: |
-          mv ./ishare_macOS.zip ./bin/
-          cd ./bin/
-          ./generate_appcast ishare_macOS.zip
+        run: ./bin/generate_appcast update/
         env:
           ARCHIVES_SOURCE_DIR: .
 
