@@ -35,14 +35,20 @@ jobs:
         run: |
           curl -L -o Sparkle-2.4.2.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz
       
-      - name: Extract Sparkle and list files
-        run: |
-          tar -xJf Sparkle-2.4.2.tar.xz
-          ls -R
+      - name: Extract Sparkle
+        run: tar -xJf Sparkle-2.4.2.tar.xz
       
       - name: Set executable bit for generate_appcast
-        run: chmod +x ./Sparkle-2.4.2/bin/generate_appcast
+        run: chmod +x ./bin/generate_appcast
       
+      - name: Generate appcast.xml
+        run: |
+          mv ./ishare_macOS.zip ./bin/
+          cd ./bin/
+          ./generate_appcast ishare_macOS.zip --no-sign
+        env:
+          ARCHIVES_SOURCE_DIR: .
+
       - name: Archive appcast.xml as artifact
         uses: actions/upload-artifact@v2
         with:
