@@ -35,11 +35,11 @@ jobs:
         run: |
           curl -L -o Sparkle-2.4.2.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz
       
-      - name: Extract Sparkle
+      - name: Extract Sparkle and list files
         run: |
           tar -xJf Sparkle-2.4.2.tar.xz
-          ls -R Sparkle-2.4.2
-
+          ls -R
+      
       - name: Set executable bit for generate_appcast
         run: chmod +x ./Sparkle-2.4.2/bin/generate_appcast
       
