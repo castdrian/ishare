@@ -45,7 +45,7 @@ jobs:
         run: |
           mv ./ishare_macOS.zip ./bin/
           cd ./bin/
-          ./generate_appcast ishare_macOS.zip --no-sign
+          ./generate_appcast ishare_macOS.zip
         env:
           ARCHIVES_SOURCE_DIR: .
 
