@@ -28,6 +28,20 @@ jobs:
         with:
           xcode-select-version: 14.3.1
 
+      - name: Bump bundle version
+        run: |
+          echo "Bumping bundle version"
+          xcrun agvtool next-version -all
+          CURRENT_VERSION=$(xcrun agvtool what-marketing-version -terse1)
+          NEW_VERSION=$(echo $CURRENT_VERSION | awk -F'.' 'BEGIN{OFS="."} {$NF++; print}')
+          xcrun agvtool new-marketing-version $NEW_VERSION
+
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: 'Bump bundle version [skip ci]'
+          
       - name: Build macOS app
         run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS"
 
