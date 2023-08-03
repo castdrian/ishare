@@ -40,16 +40,24 @@ jobs:
       
       - name: Prepare updates folder
         run: |
-          mkdir update
-          mv ishare_macOS.zip update/
+          mkdir updates_folder
+          mv ishare_macOS.zip updates_folder/
       
       - name: Set executable bit for generate_appcast
         run: chmod +x ./bin/generate_appcast
       
+      - name: Generate temporary EdDSA key file
+        run: |
+          echo "$EDDSA_PRIVATE_KEY" > eddsa_key
+      
       - name: Generate appcast.xml
-        run: ./bin/generate_appcast update/
+        run: ./bin/generate_appcast --ed-key-file eddsa_key updates_folder/
         env:
+          EDDSA_PRIVATE_KEY: ${{ secrets.EDDSA_PRIVATE_KEY }}
           ARCHIVES_SOURCE_DIR: .
+      
+      - name: Delete temporary EdDSA key file
+        run: rm eddsa_key
 
       - name: Archive appcast.xml as artifact
         uses: actions/upload-artifact@v2
