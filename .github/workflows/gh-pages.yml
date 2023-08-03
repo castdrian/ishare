@@ -38,7 +38,10 @@ jobs:
         run: chmod +x ./Sparkle-2.4.2/bin/generate_appcast
 
       - name: Generate appcast.xml
-        run: ./Sparkle-2.4.2/bin/generate_appcast ./ishare_macOS.zip --no-sign
+        run: |
+          mv ./ishare_macOS.zip ./Sparkle-2.4.2/bin/
+          cd ./Sparkle-2.4.2/bin/
+          ./generate_appcast ishare_macOS.zip --no-sign
         env:
           ARCHIVES_SOURCE_DIR: .
 
