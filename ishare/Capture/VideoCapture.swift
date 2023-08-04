@@ -13,13 +13,6 @@ import AppKit
 import Cocoa
 import ScreenCaptureKit
 
-enum RecordingFileType: String, CaseIterable, Identifiable, Defaults.Serializable {
-    case MP4 = "mp4"
-    case MOV = "mov"
-    case GIF = "gif"
-    var id: Self { self }
-}
-
 @MainActor
 func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
     @Default(.showRecordingPreview) var showPreview
@@ -27,12 +20,12 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
     @Default(.openInFinder) var openInFinder
     @Default(.recordingPath) var recordingPath
     @Default(.recordingFileName) var fileName
-    @Default(.recordingFileType) var fileType
+    @Default(.recordMP4) var recordMP4
     
     let timestamp = Int(Date().timeIntervalSince1970)
     let uniqueFilename = "\(fileName)-\(timestamp)"
     
-    var path = "\(recordingPath)\(uniqueFilename).\(fileType.rawValue)"
+    var path = "\(recordingPath)\(uniqueFilename).\(recordMP4 ? "mp4" : "mov")"
     path = NSString(string: path).expandingTildeInPath
     
     let fileURL = URL(fileURLWithPath: path)

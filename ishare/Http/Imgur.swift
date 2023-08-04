@@ -31,10 +31,6 @@ func imgurUpload(_ fileURL: URL, completion: @escaping () -> Void) {
         fileFormName = "video"
         fileName = "ishare.mov"
         mimeType = "video/mov"
-    case "gif":
-        fileFormName = "image"
-        fileName = "ishare.gif"
-        mimeType = "image/gif"
     default:
         fileFormName = "image"
         fileName = "ishare.\(fileType)"
