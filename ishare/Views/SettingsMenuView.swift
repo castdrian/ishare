@@ -120,7 +120,7 @@ struct CaptureSettingsView: View {
             }.padding(20)
             
             Picker("File format:", selection: $fileType) {
-                ForEach(FileType.allCases, id: \.self) {
+                ForEach(CaptureFileType.allCases, id: \.self) {
                     Text($0.rawValue.uppercased())
                 }
             }.padding(10)
@@ -133,11 +133,15 @@ struct RecordingSettingsView: View {
     @Default(.recordingFileName) var fileName
     @Default(.showRecordingPreview) var showPreview
     @Default(.recordAudio) var recordAudio
-    @Default(.recordMP4) var recordMP4
+    @Default(.recordingFileType) var fileType
     
     var body: some View {
         VStack {
-            Toggle("Record as .mp4 instead of .mov", isOn: $recordMP4)
+            Picker("File format:", selection: $fileType) {
+                ForEach(RecordingFileType.allCases, id: \.self) {
+                    Text($0.rawValue.uppercased())
+                }
+            }.padding()
             Toggle("Show recording preview", isOn: $showPreview)
             Toggle("Record audio", isOn: $recordAudio)
             HStack {

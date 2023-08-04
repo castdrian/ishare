@@ -15,7 +15,7 @@ enum CaptureType: String {
     case REGION = "-st"
 }
 
-enum FileType: String, CaseIterable, Identifiable, Defaults.Serializable {
+enum CaptureFileType: String, CaseIterable, Identifiable, Defaults.Serializable {
     case PNG = "png"
     case JPG = "jpg"
     case PDF = "pdf"

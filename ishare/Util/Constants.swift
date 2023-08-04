@@ -34,7 +34,8 @@ extension Defaults.Keys {
     static let uploadMedia = Key<Bool>("uploadMedia", default: false)
     static let capturePath = Key<String>("capturePath", default: "~/Pictures/")
     static let recordingPath = Key<String>("recordingPath", default: "~/Pictures/")
-    static let captureFileType = Key<FileType>("captureFileType", default: .PNG)
+    static let captureFileType = Key<CaptureFileType>("captureFileType", default: .PNG)
+    static let recordingFileType = Key<RecordingFileType>("captureFileType", default: .MP4)
     static let captureFileName = Key<String>("captureFileName", default: "ishare")
     static let recordingFileName = Key<String>("recordingFileName", default: "ishare")
     static let imgurClientId = Key<String>("imgurClientId", default: "867afe9433c0a53")
@@ -46,7 +47,6 @@ extension Defaults.Keys {
     static let uploadDestination = Key<UploadDestination>("uploadDestination", default: .builtIn(.IMGUR))
     static let showRecordingPreview = Key<Bool>("showRecordingPreview", default: true)
     static let recordAudio = Key<Bool>("recordAudio", default: true)
-    static let recordMP4 = Key<Bool>("recordMP4", default: true)
 }
 
 extension View {
