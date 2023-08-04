@@ -9,6 +9,15 @@ on:
       - '**.github/workflows/*'
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: macos-13
@@ -54,6 +63,33 @@ jobs:
       - name: Set shortened SHA
         run: echo "SHORT=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
 
+      - name: Download Sparkle
+        run: |
+          curl -L -o Sparkle-2.4.2.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz
+      
+      - name: Extract Sparkle
+        run: tar -xJf Sparkle-2.4.2.tar.xz
+
+      - name: Prepare updates folder
+        run: |
+          mkdir updates
+          mv ./build/ishare_macOS.zip updates/
+      
+      - name: Set executable bit for generate_appcast
+        run: chmod +x ./bin/generate_appcast
+      
+      - name: Generate appcast.xml
+        run: echo "$EDDSA_PRIVATE_KEY" | ./bin/generate_appcast --ed-key-file - --link https://isharemac.app --download-url-prefix https://github.com/castdrian/ishare/releases/latest/download/ updates/
+        env:
+          EDDSA_PRIVATE_KEY: ${{ secrets.EDDSA_PRIVATE_KEY }}
+          ARCHIVES_SOURCE_DIR: .
+
+      - name: Archive appcast.xml as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: appcast
+          path: ./updates/appcast.xml
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
@@ -71,7 +107,36 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/ishare_macOS.zip
+          asset_path: ./updates/ishare_macOS.zip
           asset_name: ishare_macOS.zip
           asset_content_type: application/zip
           
+  pages:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download appcast.xml artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: appcast
+          path: ./
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
