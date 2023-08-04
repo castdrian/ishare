@@ -52,7 +52,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
         }
         
         updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
-        updaterController.updater.checkForUpdatesInBackground()
     }
     
     @objc func toggleIcon(_ sender: AnyObject) {
