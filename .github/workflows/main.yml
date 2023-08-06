@@ -37,13 +37,19 @@ jobs:
         with:
           xcode-select-version: 14.3.1
 
-      - name: Bump bundle version
+      - name: Bump version in Config.xcconfig
         run: |
-          echo "Bumping bundle version"
-          xcrun agvtool next-version -all
-          CURRENT_VERSION=$(xcrun agvtool what-marketing-version -terse1)
-          NEW_VERSION=$(echo $CURRENT_VERSION | awk -F'.' 'BEGIN{OFS="."} {$NF++; print}')
-          xcrun agvtool new-marketing-version $NEW_VERSION
+          CURRENT_BUILD=$(grep BUILD_NUMBER ishare/Config.xcconfig | cut -d ' ' -f 3)
+          NEW_BUILD=$((CURRENT_BUILD + 1))
+          sed -i '' "s/BUILD_NUMBER = $CURRENT_BUILD/BUILD_NUMBER = $NEW_BUILD/" ishare/Config.xcconfig
+      
+          CURRENT_VERSION=$(grep VERSION ishare/Config.xcconfig | cut -d ' ' -f 3)
+          MAJOR_VERSION=$(echo $CURRENT_VERSION | cut -d '.' -f 1)
+          MINOR_VERSION=$(echo $CURRENT_VERSION | cut -d '.' -f 2)
+          PATCH_VERSION=$(echo $CURRENT_VERSION | cut -d '.' -f 3)
+          NEW_PATCH=$((PATCH_VERSION + 1))
+          NEW_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$NEW_PATCH"
+          sed -i '' "s/VERSION = $CURRENT_VERSION/VERSION = $NEW_VERSION/" ishare/Config.xcconfig
 
       - name: Commit & Push changes
         uses: actions-js/push@master
