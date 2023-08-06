@@ -1,17 +1,19 @@
-# ishare
-clean and unbloated screen capture utility for macOS
-
-[![castdrian - ishare](https://img.shields.io/static/v1?label=castdrian&message=ishare&color=blue&logo=github)](https://github.com/castdrian/ishare "Go to GitHub repo")
+[![Sponsor](https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#white)](https://github.com/sponsors/castdrian)
+[![Ko-FI](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/castdrian)
+[![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/sX4KYzu5pX)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/castdrian/ishare)
 [![stars - ishare](https://img.shields.io/github/stars/castdrian/ishare?style=social)](https://github.com/castdrian/ishare)
-[![forks - ishare](https://img.shields.io/github/forks/castdrian/ishare?style=social)](https://github.com/castdrian/ishare)
-
+<br>
 [![Build and Release App](https://github.com/castdrian/ishare/workflows/Build%20and%20Release%20App/badge.svg)](https://github.com/castdrian/ishare/actions?query=workflow:"Build+and+Release+App")
 [![GitHub release](https://img.shields.io/github/release/castdrian/ishare?include_prereleases=&sort=semver&color=blue)](https://github.com/castdrian/ishare/releases/)
 [![License](https://img.shields.io/badge/License-GPL_v3-blue)](#license)
 [![issues - ishare](https://img.shields.io/github/issues/castdrian/ishare)](https://github.com/castdrian/ishare/issues)
 
+# ishare
+clean and unbloated screen capture utility for macOS
+
 star amount for homebrew cask:\
-![](https://progress-bar.dev/25/?width=240)
+![Homebrew](https://progress-bar.dev/27/?width=240)
 
 <div>
   <a href="https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip" download>
@@ -19,9 +21,8 @@ star amount for homebrew cask:\
   </a>
 </div>
 
+(yes this readme is ugly, sorry)
 <br>
-
-<a href="https://discord.gg/sX4KYzu5pX"><img src="https://discord.com/api/guilds/844574704698130492/widget.png?style=banner2" alt="Discord Server"></a>
 
 ## Features
 - Capture and record screens, windows or a custom region
