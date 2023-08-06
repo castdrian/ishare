@@ -49,6 +49,7 @@ jobs:
           PATCH_VERSION=$(echo $CURRENT_VERSION | cut -d '.' -f 3)
           NEW_PATCH=$((PATCH_VERSION + 1))
           NEW_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$NEW_PATCH"
+          echo "VERSION=v$NEW_VERSION" >> $GITHUB_ENV
           sed -i '' "s/VERSION = $CURRENT_VERSION/VERSION = $NEW_VERSION/" ishare/Config.xcconfig
           
       - name: Build macOS app
@@ -72,6 +73,22 @@ jobs:
       - name: Set shortened SHA
         run: echo "SHORT=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
 
+      - name: Get latest release info
+        id: latest_release_info
+        uses: jossef/action-latest-release-info@v1.2.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Changelog
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          commitMode: true
+          failOnError: true
+          fromTag: ${{ steps.latest_release_info.outputs.tag_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Download Sparkle
         run: |
           curl -L -o Sparkle-2.4.2.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz
@@ -83,12 +100,13 @@ jobs:
         run: |
           mkdir updates
           mv ./build/ishare_macOS.zip updates/
+          echo "${{ steps.build_changelog.outputs.changelog }}" > updates/ishare_macOS.txt
       
       - name: Set executable bit for generate_appcast
         run: chmod +x ./bin/generate_appcast
       
       - name: Generate appcast.xml
-        run: echo "$EDDSA_PRIVATE_KEY" | ./bin/generate_appcast --ed-key-file - --link https://isharemac.app --download-url-prefix https://github.com/castdrian/ishare/releases/latest/download/ updates/
+        run: echo "$EDDSA_PRIVATE_KEY" | ./bin/generate_appcast --ed-key-file - --link https://isharemac.app --embed-release-notes --download-url-prefix https://github.com/castdrian/ishare/releases/latest/download/ updates/
         env:
           EDDSA_PRIVATE_KEY: ${{ secrets.EDDSA_PRIVATE_KEY }}
           ARCHIVES_SOURCE_DIR: .
@@ -100,25 +118,15 @@ jobs:
           path: ./updates/appcast.xml
 
       - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION }}
+          body_path: ./updates/ishare_macOS.txt
+          files: ./updates/ishare_macOS.zip
+          fail_on_unmatched_files: true
+          token: ${{ env.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ env.SHORT }}
-          release_name: Commit ${{ env.SHORT }}
-          generate_release_notes: true
-          draft: false
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./updates/ishare_macOS.zip
-          asset_name: ishare_macOS.zip
-          asset_content_type: application/zip
           
   pages:
     environment:
