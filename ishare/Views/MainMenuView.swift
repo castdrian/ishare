@@ -199,6 +199,13 @@ struct MainMenuView: View {
         .keyboardShortcut("a")
         
         Button {
+            NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/castdrian")!)
+        } label: {
+            Image(systemName: "heart.circle")
+            Label("Donate", image: String())
+        }.keyboardShortcut("d")
+        
+        Button {
             AppDelegate.shared.updaterController.updater.checkForUpdates()
         } label: {
             Image(systemName: "arrow.triangle.2.circlepath")
