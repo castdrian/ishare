@@ -60,14 +60,11 @@ jobs:
           sed -i '' "s/VERSION = $CURRENT_VERSION/VERSION = $NEW_VERSION/" ishare/Config.xcconfig
 
       - name: Build Changelog
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v4
+        uses: dlavrenuek/conventional-changelog-action@v1.2.1
+        id: changelog
         with:
-          commitMode: true
-          failOnError: true
-          fromTag: ${{ steps.semver.outputs.current }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          from: ${{ steps.semver.outputs.current }}
+          to: HEAD
           
       - name: Build macOS app
         run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS"
@@ -98,7 +95,7 @@ jobs:
         run: |
           mkdir updates
           mv ./build/ishare_macOS.zip updates/
-          echo "${{ steps.build_changelog.outputs.changelog }}" > updates/ishare_macOS.txt
+          echo "${{ steps.changelog.outputs.body }}" > updates/ishare_macOS.txt
       
       - name: Set executable bit for generate_appcast
         run: chmod +x ./bin/generate_appcast
