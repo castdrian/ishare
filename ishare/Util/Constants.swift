@@ -48,6 +48,7 @@ extension Defaults.Keys {
     static let recordAudio = Key<Bool>("recordAudio", default: true)
     static let recordMP4 = Key<Bool>("recordMP4", default: true)
     static let useHEVC = Key<Bool>("useHEVC", default: false)
+    static let compressVideo = Key<Bool>("compressVideo", default: false)
 }
 
 extension View {
