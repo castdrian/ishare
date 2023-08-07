@@ -41,6 +41,7 @@ jobs:
         id: semver
         uses: ietf-tools/semver-action@v1
         with:
+          skipInvalidTags: true
           noVersionBumpBehavior: "error"
           token: ${{ env.GITHUB_TOKEN }}
         env:
