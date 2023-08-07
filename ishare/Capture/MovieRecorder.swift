@@ -20,6 +20,7 @@ class MovieRecorder {
     private var audioSettings: [String: Any]
     private(set) var isRecording = false
     @Default(.recordMP4) var recordMP4
+    @Default(.useHEVC) var useHEVC
 
     init(audioSettings: [String: Any], videoSettings: [String: Any], videoTransform: CGAffineTransform) {
         self.audioSettings = audioSettings
@@ -59,7 +60,7 @@ class MovieRecorder {
         assetWriter.add(assetWriterAudioInput)
 
         let videoSettings = [
-            AVVideoCodecKey: AVVideoCodecType.h264,
+            AVVideoCodecKey: useHEVC ? AVVideoCodecType.hevc : AVVideoCodecType.h264,
                     AVVideoWidthKey: width,
                     AVVideoHeightKey: height
                 ] as [String : Any]

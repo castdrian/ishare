@@ -134,10 +134,12 @@ struct RecordingSettingsView: View {
     @Default(.showRecordingPreview) var showPreview
     @Default(.recordAudio) var recordAudio
     @Default(.recordMP4) var recordMP4
+    @Default(.useHEVC) var useHEVC
     
     var body: some View {
         VStack {
             Toggle("Record as .mp4 instead of .mov", isOn: $recordMP4)
+            Toggle("Use HEVC", isOn: $useHEVC)
             Toggle("Show recording preview", isOn: $showPreview)
             Toggle("Record audio", isOn: $recordAudio)
             HStack {
