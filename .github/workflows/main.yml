@@ -37,19 +37,23 @@ jobs:
         with:
           xcode-select-version: 14.3.1
 
+      - name: Get Next Version
+        id: semver
+        uses: ietf-tools/semver-action@v1
+        with:
+          noVersionBumpBehavior: "error"
+          token: ${{ env.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Bump version in Config.xcconfig
         run: |
           CURRENT_BUILD=$(grep BUILD_NUMBER ishare/Config.xcconfig | cut -d ' ' -f 3)
           NEW_BUILD=$((CURRENT_BUILD + 1))
           sed -i '' "s/BUILD_NUMBER = $CURRENT_BUILD/BUILD_NUMBER = $NEW_BUILD/" ishare/Config.xcconfig
-      
+          
           CURRENT_VERSION=$(grep VERSION ishare/Config.xcconfig | cut -d ' ' -f 3)
-          MAJOR_VERSION=$(echo $CURRENT_VERSION | cut -d '.' -f 1)
-          MINOR_VERSION=$(echo $CURRENT_VERSION | cut -d '.' -f 2)
-          PATCH_VERSION=$(echo $CURRENT_VERSION | cut -d '.' -f 3)
-          NEW_PATCH=$((PATCH_VERSION + 1))
-          NEW_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$NEW_PATCH"
-          echo "VERSION=v$NEW_VERSION" >> $GITHUB_ENV
+          NEW_VERSION=${{ steps.semver.outputs.nextStrict }}
           sed -i '' "s/VERSION = $CURRENT_VERSION/VERSION = $NEW_VERSION/" ishare/Config.xcconfig
           
       - name: Build macOS app
@@ -69,9 +73,6 @@ jobs:
 
       - name: Archive .app
         run: cd build && zip -r "ishare_macOS.zip" "ishare.app"
-
-      - name: Set shortened SHA
-        run: echo "SHORT=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_ENV
 
       - name: Get latest release info
         id: latest_release_info
@@ -120,7 +121,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ env.VERSION }}
+          tag_name: ${{ steps.semver.outputs.next }}
           body_path: ./updates/ishare_macOS.txt
           files: ./updates/ishare_macOS.zip
           fail_on_unmatched_files: true
