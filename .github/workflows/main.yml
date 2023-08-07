@@ -101,7 +101,7 @@ jobs:
         uses: natescherer/markdown-to-html-with-github-style-action@v1
         with:
            path: RELEASE.md
-           outputpath: ./build/ishare_macOS.html
+           outputpath: ./updates/ishare_macOS.html
       
       - name: Set executable bit for generate_appcast
         run: chmod +x ./bin/generate_appcast
