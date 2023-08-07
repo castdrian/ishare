@@ -95,7 +95,13 @@ jobs:
         run: |
           mkdir updates
           mv ./build/ishare_macOS.zip updates/
-          echo "${{ steps.changelog.outputs.body }}" > updates/ishare_macOS.txt
+          echo "${{ steps.changelog.outputs.body }}" > RELEASE.md
+
+      - name: Convert Markdown to HTML
+        uses: natescherer/markdown-to-html-with-github-style-action@v1
+        with:
+           path: RELEASE.md
+           outputpath: ./build/ishare_macOS.html
       
       - name: Set executable bit for generate_appcast
         run: chmod +x ./bin/generate_appcast
@@ -116,7 +122,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.semver.outputs.next }}
-          body_path: ./updates/ishare_macOS.txt
+          body_path: RELEASE.md
           files: ./updates/ishare_macOS.zip
           fail_on_unmatched_files: true
           token: ${{ env.GITHUB_TOKEN }}
