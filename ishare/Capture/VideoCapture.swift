@@ -128,4 +128,5 @@ func postRecordingTasks(_ fileURL: URL) {
             }
         }
     }
+    shareBasedOnPreferences(fileURL)
 }

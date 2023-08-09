@@ -49,6 +49,7 @@ extension Defaults.Keys {
     static let recordMP4 = Key<Bool>("recordMP4", default: true)
     static let useHEVC = Key<Bool>("useHEVC", default: false)
     static let compressVideo = Key<Bool>("compressVideo", default: false)
+    static let builtInShare = Key<SharingPreferences>("builtInShare", default: .init())
 }
 
 extension View {
@@ -450,5 +451,43 @@ class AvailableContentProvider: ObservableObject {
                 print("Error refreshing content: \(error)")
             }
         }
+    }
+}
+
+func icon(forAppWithName appName: String) -> NSImage? {
+    if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: appName) {
+        return NSWorkspace.shared.icon(forFile: appURL.path)
+    }
+    return nil
+}
+
+let airdropIconPath = Bundle.path(forResource: "AirDrop", ofType: "icns", inDirectory: "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources")
+
+let airdropIcon = NSImage(contentsOfFile: airdropIconPath!)
+
+struct SharingPreferences: Codable, Defaults.Serializable {
+    var airdrop: Bool = false
+    var photos: Bool = false
+    var messages: Bool = false
+    var mail: Bool = false
+}
+
+func shareBasedOnPreferences(_ fileURL: URL) {
+    @Default(.builtInShare) var preferences
+    
+    if preferences.airdrop {
+        NSSharingService(named: .sendViaAirDrop)?.perform(withItems: [fileURL])
+    }
+    
+    if preferences.photos {
+        NSSharingService(named: .addToIPhoto)?.perform(withItems: [fileURL])
+    }
+    
+    if preferences.messages {
+        NSSharingService(named: .composeMessage)?.perform(withItems: [fileURL])
+    }
+    
+    if preferences.mail {
+        NSSharingService(named: .composeEmail)?.perform(withItems: [fileURL])
     }
 }

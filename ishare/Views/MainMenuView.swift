@@ -9,6 +9,7 @@ import BezelNotification
 import SwiftUI
 import Defaults
 import ScreenCaptureKit
+import UniformTypeIdentifiers
 
 enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
     case builtIn(UploadType)
@@ -24,6 +25,7 @@ struct MainMenuView: View {
     @Default(.activeCustomUploader) var activeCustomUploader
     @Default(.savedCustomUploaders) var savedCustomUploaders
     @Default(.uploadDestination) var uploadDestination
+    @Default(.builtInShare) var builtInShare
     
     @StateObject private var availableContentProvider = AvailableContentProvider()
     
@@ -111,6 +113,28 @@ struct MainMenuView: View {
             Toggle(isOn: $uploadMedia){
                 Image(systemName: "icloud.and.arrow.up")
                 Label("Upload Media", image: String())
+            }.toggleStyle(.checkbox)
+            
+            Divider().frame(height: 1).foregroundColor(Color.gray.opacity(0.5))
+
+            Toggle(isOn: $builtInShare.airdrop) {
+                Image(nsImage: airdropIcon ?? NSImage())
+                Label("AirDrop", image: String())
+            }.toggleStyle(.checkbox)
+            
+            Toggle(isOn: $builtInShare.photos) {
+                Image(nsImage: icon(forAppWithName: "com.apple.Photos") ?? NSImage())
+                Label("Photos", image: String())
+            }.toggleStyle(.checkbox)
+            
+            Toggle(isOn: $builtInShare.messages) {
+                Image(nsImage: icon(forAppWithName: "com.apple.MobileSMS") ?? NSImage())
+                Label("Messages", image: String())
+            }.toggleStyle(.checkbox)
+            
+            Toggle(isOn: $builtInShare.mail) {
+                Image(nsImage: icon(forAppWithName: "com.apple.Mail") ?? NSImage())
+                Label("Mail", image: String())
             }.toggleStyle(.checkbox)
         } label: {
             Image(systemName: "list.bullet.clipboard")

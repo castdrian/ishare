@@ -91,4 +91,5 @@ func captureScreen(type: CaptureType, display: Int = 1) -> Void {
             }
         }
     }
+    shareBasedOnPreferences(fileURL)
 }
