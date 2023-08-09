@@ -91,23 +91,24 @@ jobs:
       - name: Extract Sparkle
         run: tar -xJf Sparkle-2.4.2.tar.xz
 
-      - name: Prepare updates folder
+      - name: Prepare update folder
         run: |
-          mkdir updates
-          mv ./build/ishare_macOS.zip updates/
+          mkdir update
+          mv ./build/ishare_macOS.zip update/
           echo "${{ steps.changelog.outputs.body }}" > RELEASE.md
 
       - name: Convert Markdown to HTML
-        uses: natescherer/markdown-to-html-with-github-style-action@v1
+        uses: jaywcjlove/markdown-to-html-cli@main
         with:
-           path: RELEASE.md
-           outputpath: ./updates/ishare_macOS.html
+          source: RELEASE.md
+          output: ./update/ishare_macOS.html
+          corners: false
       
       - name: Set executable bit for generate_appcast
         run: chmod +x ./bin/generate_appcast
       
       - name: Generate appcast.xml
-        run: echo "$EDDSA_PRIVATE_KEY" | ./bin/generate_appcast --ed-key-file - --link https://isharemac.app --embed-release-notes --download-url-prefix https://github.com/castdrian/ishare/releases/latest/download/ updates/
+        run: echo "$EDDSA_PRIVATE_KEY" | ./bin/generate_appcast --ed-key-file - --link https://isharemac.app --embed-release-notes --download-url-prefix https://github.com/castdrian/ishare/releases/latest/download/ update/
         env:
           EDDSA_PRIVATE_KEY: ${{ secrets.EDDSA_PRIVATE_KEY }}
           ARCHIVES_SOURCE_DIR: .
@@ -116,14 +117,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: appcast
-          path: ./updates/appcast.xml
+          path: ./update/appcast.xml
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.semver.outputs.next }}
           body_path: RELEASE.md
-          files: ./updates/ishare_macOS.zip
+          files: ./update/ishare_macOS.zip
           fail_on_unmatched_files: true
           token: ${{ env.GITHUB_TOKEN }}
         env:
