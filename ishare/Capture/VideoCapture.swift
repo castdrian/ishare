@@ -11,10 +11,11 @@ import SwiftUI
 import Defaults
 import AppKit
 import Cocoa
+import AVFoundation
 import ScreenCaptureKit
 
 @MainActor
-func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
+func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil, gif: Bool? = false) {
     @Default(.showRecordingPreview) var showPreview
     @Default(.recordAudio) var recordAudio
     @Default(.openInFinder) var openInFinder
@@ -64,6 +65,10 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
         }
     }
     
+    if gif ?? false {
+        AppDelegate.shared.recordGif = true
+    }
+    
     if !showPreview {
         AppDelegate.shared.toggleIcon(AppDelegate.shared as AnyObject)
     }
@@ -77,7 +82,7 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil) {
     }
 }
 
-func postRecordingTasks(_ fileURL: URL) {
+func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.recordingPath) var recordingPath
@@ -86,6 +91,33 @@ func postRecordingTasks(_ fileURL: URL) {
     @Default(.uploadMedia) var uploadMedia
     @Default(.saveToDisk) var saveToDisk
     
+    func processGif(from url: URL, completion: @escaping (URL?) -> Void) {
+        let semaphore = DispatchSemaphore(value: 0)
+
+        Task {
+            do {
+                let gifURL = try await exportGif(from: url)
+                completion(gifURL)
+            } catch {
+                print("Error processing GIF: \(error)")
+                completion(nil)
+            }
+            semaphore.signal()
+        }
+
+        semaphore.wait()
+    }
+
+    var fileURL = URL
+
+    if recordGif {
+        processGif(from: fileURL) { resultingURL in
+            if let newURL = resultingURL {
+                fileURL = newURL
+            }
+        }
+    }
+
     if !FileManager.default.fileExists(atPath: fileURL.path) {
         return
     }
@@ -128,5 +160,72 @@ func postRecordingTasks(_ fileURL: URL) {
             }
         }
     }
+    AppDelegate.shared.recordGif = false
     shareBasedOnPreferences(fileURL)
+}
+
+func exportGif(from videoURL: URL) async throws -> URL {
+    let asset = AVURLAsset(url: videoURL)
+
+    let duration: CMTime = try await asset.load(.duration)
+    let videoTracks = try await asset.loadTracks(withMediaType: .video)
+    guard let firstVideoTrack = videoTracks.first else {
+        throw NSError(domain: "com.castdrian.ishare", code: 3, userInfo: [NSLocalizedDescriptionKey: "No video track found in the asset"])
+    }
+    let size = try await firstVideoTrack.load(.naturalSize)
+
+    let totalDuration = duration.seconds
+    let frameRate: CGFloat = 30
+    let totalFrames = Int(totalDuration * TimeInterval(frameRate))
+    var timeValues: [NSValue] = []
+
+    for frameNumber in 0..<totalFrames {
+        let time = CMTime(seconds: Double(frameNumber) / Double(frameRate), preferredTimescale: Int32(NSEC_PER_SEC))
+        timeValues.append(NSValue(time: time))
+    }
+
+    let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+
+    let generator = AVAssetImageGenerator(asset: asset)
+    generator.requestedTimeToleranceBefore = CMTime.zero
+    generator.requestedTimeToleranceAfter = CMTime.zero
+    generator.appliesPreferredTrackTransform = true
+    generator.maximumSize = rect.size
+
+    let delayBetweenFrames: TimeInterval = 1.0 / TimeInterval(frameRate)
+    let fileProperties: [String: Any] = [
+        kCGImagePropertyGIFDictionary as String: [
+            kCGImagePropertyGIFLoopCount as String: 0
+        ]
+    ]
+    let frameProperties: [String: Any] = [
+        kCGImagePropertyGIFDictionary as String: [
+            kCGImagePropertyGIFDelayTime: delayBetweenFrames
+        ]
+    ]
+
+    let outputURL = videoURL.deletingPathExtension().appendingPathExtension("gif")
+    let imageDestination = CGImageDestinationCreateWithURL(outputURL as CFURL, UTType.gif.identifier as CFString, totalFrames, nil)!
+    CGImageDestinationSetProperties(imageDestination, fileProperties as CFDictionary)
+
+    return try await withCheckedThrowingContinuation { continuation in
+        generator.generateCGImagesAsynchronously(forTimes: timeValues) { (requestedTime, resultingImage, actualTime, result, error) in
+            if let image = resultingImage {
+                CGImageDestinationAddImage(imageDestination, image, frameProperties as CFDictionary)
+            }
+            if requestedTime == timeValues.last?.timeValue {
+                let success = CGImageDestinationFinalize(imageDestination)
+                if success {
+                    do {
+                        try FileManager.default.removeItem(at: videoURL)
+                        continuation.resume(returning: outputURL)
+                    } catch {
+                        continuation.resume(throwing: NSError(domain: "com.castdrian.ishare", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to delete the original video"]))
+                    }
+                } else {
+                    continuation.resume(throwing: NSError(domain: "com.castdrian.ishare", code: 2, userInfo: [NSLocalizedDescriptionKey: "Gif export failed"]))
+                }
+            }
+        }
+    }
 }

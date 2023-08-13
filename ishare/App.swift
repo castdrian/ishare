@@ -34,6 +34,7 @@ struct ishare: App {
 class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     static private(set) var shared: AppDelegate! = nil
     var isIconShown = false
+    var recordGif = false
     var statusBarItem: NSStatusItem!
     var screenRecorder: ScreenRecorder!
     var updaterController: SPUStandardUpdaterController!
@@ -75,11 +76,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     
     func stopRecording() {
         Task {
-           await screenRecorder.stop { result in
+            await screenRecorder.stop { [self] result in
                 switch result {
                 case .success(let url):
                     print("Recording stopped successfully. URL: \(url)")
-                    postRecordingTasks(url)
+                    postRecordingTasks(url, recordGif)
                 case .failure(let error):
                     print("Error while stopping recording: \(error.localizedDescription)")
                 }
