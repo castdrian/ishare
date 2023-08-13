@@ -22,6 +22,10 @@ struct ToastPopoverView: View {
                     NSWorkspace.shared.selectFile(fileURL.path, inFileViewerRootedAtPath: "")
                 }
             }
+            .onDrag {
+                let itemProvider = NSItemProvider(object: fileURL as NSURL)
+                return itemProvider
+            }
     }
 }
 
@@ -53,6 +57,8 @@ func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
 }
 
 func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage?, completion: (() -> Void)?) {
+    @Default(.toastTimeout) var toastTimeout
+    
     guard let thumbnail = thumbnailImage else {
         return
     }
@@ -67,7 +73,7 @@ func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage?, completion: (
     toastWindow.level = .floating
     toastWindow.isOpaque = false
     toastWindow.backgroundColor = .clear
-    toastWindow.isMovableByWindowBackground = false
+    toastWindow.isMovableByWindowBackground = true
     toastWindow.contentView = NSHostingView(
         rootView: ToastPopoverView(thumbnailImage: thumbnail, fileURL: fileURL)
     )
@@ -85,13 +91,13 @@ func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage?, completion: (
         context.duration = fadeDuration
         toastWindow.animator().alphaValue = 1.0
     }) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(Int(toastTimeout))) {
             NSAnimationContext.runAnimationGroup({ context in
                 context.duration = fadeDuration
                 toastWindow.animator().alphaValue = 0.0
             }) {
                 toastWindow.orderOut(nil)
-                completion?() // Call the completion handler when the toast is finished.
+                completion?()
             }
         }
     }

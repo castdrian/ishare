@@ -22,7 +22,6 @@ extension KeyboardShortcuts.Name {
     static let captureRegion = Self("captureRegion", default: .init(.p, modifiers: [.option, .command]))
     static let captureWindow = Self("captureWindow", default: .init(.p, modifiers: [.control,.option]))
     static let captureScreen = Self("captureScreen", default: .init(.x, modifiers: [.option, .command]))
-    static let recordWindow = Self("recordWindow", default: .init(.z, modifiers: [.option, .command]))
     static let recordScreen = Self("recordScreen", default: .init(.z, modifiers: [.control, .option,]))
 }
 
@@ -50,6 +49,7 @@ extension Defaults.Keys {
     static let useHEVC = Key<Bool>("useHEVC", default: false)
     static let compressVideo = Key<Bool>("compressVideo", default: false)
     static let builtInShare = Key<SharingPreferences>("builtInShare", default: .init())
+    static let toastTimeout = Key<Double>("toastTimeout", default: 2)
 }
 
 extension View {
@@ -127,19 +127,6 @@ extension KeyboardShortcuts.Shortcut {
         return modifiers
     }
     
-}
-
-enum InstalledApp: String {
-    case HOMEBREW
-    case FFMPEG
-}
-
-func checkAppInstallation(_ app: InstalledApp) -> Bool {
-    let fileManager = FileManager.default
-    let homebrewPath = utsname.isAppleSilicon ? "/opt/homebrew/bin/brew" : "/usr/local/bin/brew"
-    let ffmpegPath = utsname.isAppleSilicon ? "/opt/homebrew/bin/ffmpeg" : "/usr/local/bin/ffmpeg"
-    
-    return fileManager.fileExists(atPath: app == InstalledApp.HOMEBREW ? homebrewPath : ffmpegPath)
 }
 
 extension utsname {

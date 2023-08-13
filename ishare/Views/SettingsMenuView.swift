@@ -56,6 +56,7 @@ struct SettingsMenuView: View {
 
 struct GeneralSettingsView: View {
     @Default(.menuBarAppIcon) var menuBarAppIcon
+    @Default(.toastTimeout) var toastTimeout
     
     var body: some View {
         VStack {
@@ -63,11 +64,17 @@ struct GeneralSettingsView: View {
             Toggle("Use app icon in menubar", isOn: $menuBarAppIcon)
             HStack {
                 Button("Export settings") {
-                        exportUserDefaults()
+                    exportUserDefaults()
                 }
                 Button("Import settings") {
-                        importUserDefaults()
+                    importUserDefaults()
                 }
+            }
+            VStack {
+                Text("Toast Timeout: \(Int(toastTimeout)) seconds")
+                    .padding()
+                Slider(value: $toastTimeout, in: 1...10, step: 1)
+                    .frame(width: 200)
             }
         }
     }
@@ -81,11 +88,10 @@ struct KeybindSettingsView: View {
                 KeyboardShortcuts.Recorder("Capture Region:", name: .captureRegion)
                 KeyboardShortcuts.Recorder("Capture Window:", name: .captureWindow)
                 KeyboardShortcuts.Recorder("Capture Screen:", name: .captureScreen)
-                KeyboardShortcuts.Recorder("Record Window:", name: .recordWindow)
                 KeyboardShortcuts.Recorder("Record Screen:", name: .recordScreen)
             }
             Button("Reset") {
-                KeyboardShortcuts.reset([.toggleMainMenu, .captureRegion, .captureWindow, .captureScreen, .recordWindow, .recordScreen])
+                KeyboardShortcuts.reset([.toggleMainMenu, .captureRegion, .captureWindow, .captureScreen, .recordScreen])
                 BezelNotification.show(messageText: "Reset keybinds", icon: ToastIcon)
             }
         }
