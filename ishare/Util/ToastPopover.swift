@@ -6,7 +6,8 @@ struct ToastPopoverView: View {
     let thumbnailImage: NSImage
     let fileURL: URL
     @Default(.saveToDisk) var saveToDisk
-    
+    @State private var isDragging = false
+
     var body: some View {
         Image(nsImage: thumbnailImage)
             .resizable()
@@ -17,14 +18,21 @@ struct ToastPopoverView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 10)
             .animation(Animation.easeInOut(duration: 1.0), value: thumbnailImage)
+            .opacity(isDragging ? 0 : 1)
             .onTapGesture {
                 if saveToDisk {
                     NSWorkspace.shared.selectFile(fileURL.path, inFileViewerRootedAtPath: "")
                 }
             }
             .onDrag {
+                self.isDragging = true
                 let itemProvider = NSItemProvider(object: fileURL as NSURL)
+                itemProvider.suggestedName = fileURL.lastPathComponent
                 return itemProvider
+            }
+            .onDrop(of: [UTType.url], isTargeted: nil) { providers -> Bool in
+                self.isDragging = false
+                return true
             }
     }
 }

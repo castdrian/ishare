@@ -6,7 +6,7 @@
 <br>
 [![Build and Release App](https://github.com/castdrian/ishare/workflows/Build%20and%20Release%20App/badge.svg)](https://github.com/castdrian/ishare/actions?query=workflow:"Build+and+Release+App")
 [![GitHub release](https://img.shields.io/github/release/castdrian/ishare?include_prereleases=&sort=semver&color=blue)](https://github.com/castdrian/ishare/releases/)
-[![License](https://img.shields.io/badge/License-GPL_v3-blue)](#license)
+[![License](https://img.shields.io/badge/License-GPL--3.0-blue)](#license)
 [![issues - ishare](https://img.shields.io/github/issues/castdrian/ishare)](https://github.com/castdrian/ishare/issues)
 
 # ishare
@@ -104,4 +104,4 @@ ishare allows you to script your own plugins that you can use as PMT (Post Media
 
 ## License
 
-Released under [GPL v3](/LICENSE) by [@castdrian](https://github.com/castdrian).
+Released under [GPL-3.0](/LICENSE) by [@castdrian](https://github.com/castdrian).
