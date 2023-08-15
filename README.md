@@ -102,6 +102,9 @@ ishare allows you to script your own plugins that you can use as PMT (Post Media
   TBD
 </details>
 
+## Credits
+- Special thanks to [Inna Strazhnik](https://www.behance.net/strazhnik) for the app icon
+
 ## License
 
 Released under [GPL-3.0](/LICENSE) by [@castdrian](https://github.com/castdrian).

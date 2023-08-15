@@ -104,7 +104,6 @@ func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
             }
             semaphore.signal()
         }
-
         semaphore.wait()
     }
 

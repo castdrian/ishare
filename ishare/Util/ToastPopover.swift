@@ -53,13 +53,11 @@ func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
                 print("Error generating thumbnail: \(error)")
             }
             
-            // Show the toast on the main thread after thumbnail generation is complete.
             DispatchQueue.main.async {
                 showThumbnailAndToast(fileURL: fileURL, thumbnailImage: thumbnailImage, completion: completion)
             }
         }
     } else {
-        // For images, proceed directly to showing the toast without generating the thumbnail.
         showThumbnailAndToast(fileURL: fileURL, thumbnailImage: NSImage(contentsOf: fileURL), completion: completion)
     }
 }
