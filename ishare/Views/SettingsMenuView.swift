@@ -55,13 +55,23 @@ struct SettingsMenuView: View {
 }
 
 struct GeneralSettingsView: View {
-    @Default(.menuBarAppIcon) var menuBarAppIcon
+    @Default(.menuBarIcon) var menubarIcon
     @Default(.toastTimeout) var toastTimeout
     
     var body: some View {
         VStack {
             LaunchAtLogin.Toggle()
-            Toggle("Use app icon in menubar", isOn: $menuBarAppIcon)
+            Picker("MenuBar Icon", selection: $menubarIcon) {
+                ForEach(MenuBarIcon.allCases, id: \.self) { choice in
+                    Button {} label: {
+                        switch choice {
+                            case .DEFAULT: Image(nsImage: GlyphIcon)
+                            case .APPICON: Image(nsImage: AppIcon)
+                            case .SYSTEM: Image(systemName: "photo.on.rectangle.angled")
+                        }
+                    }.tag(choice.id)
+                }
+            }.padding().frame(width: 200)
             HStack {
                 Button("Export settings") {
                     exportUserDefaults()

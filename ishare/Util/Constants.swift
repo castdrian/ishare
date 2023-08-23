@@ -42,7 +42,6 @@ extension Defaults.Keys {
     static let activeCustomUploader = Key<UUID?>("activeCustomUploader", default: nil)
     static let savedCustomUploaders = Key<Set<CustomUploader>?>("savedCustomUploaders")
     static let uploadType = Key<UploadType>("uploadType", default: .IMGUR)
-    static let menuBarAppIcon = Key<Bool>("menuBarAppIcon", default: true)
     static let uploadDestination = Key<UploadDestination>("uploadDestination", default: .builtIn(.IMGUR))
     static let showRecordingPreview = Key<Bool>("showRecordingPreview", default: true)
     static let recordAudio = Key<Bool>("recordAudio", default: true)
@@ -51,6 +50,7 @@ extension Defaults.Keys {
     static let compressVideo = Key<Bool>("compressVideo", default: false)
     static let builtInShare = Key<SharingPreferences>("builtInShare", default: .init())
     static let toastTimeout = Key<Double>("toastTimeout", default: 2)
+    static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT)
 }
 
 extension View {
@@ -290,6 +290,17 @@ let AppIcon: NSImage = {
     return resizedImage
 }()
 
+let GlyphIcon: NSImage = {
+    let appIconImage = NSImage(named: "GlyphIcon")!
+    let ratio = appIconImage.size.height / appIconImage.size.width
+    let newSize = NSSize(width: 18, height: 18 / ratio)
+    let resizedImage = NSImage(size: newSize)
+    resizedImage.lockFocus()
+    appIconImage.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: appIconImage.size), operation: .copy, fraction: 1.0)
+    resizedImage.unlockFocus()
+    return resizedImage
+}()
+
 let ImgurIcon: NSImage = {
     let appIconImage = NSImage(named: "Imgur")!
     let ratio = appIconImage.size.height / appIconImage.size.width
@@ -375,7 +386,8 @@ let ignoredBundleIdentifiers = [
     "com.apple.dock",
     "com.apple.Spotlight",
     "com.apple.TextInputMenuAgent",
-    "com.knollsoft.Rectangle"
+    "com.knollsoft.Rectangle",
+    "com.cloudflare.1dot1dot1dot1.macos"
 ]
 
 func filterWindows(_ windows: [SCWindow]) -> [SCWindow] {
@@ -478,4 +490,11 @@ func shareBasedOnPreferences(_ fileURL: URL) {
     if preferences.mail {
         NSSharingService(named: .composeEmail)?.perform(withItems: [fileURL])
     }
+}
+
+enum MenuBarIcon: Codable, CaseIterable, Identifiable, Defaults.Serializable {
+    case DEFAULT
+    case APPICON
+    case SYSTEM
+    var id: Self { self }
 }

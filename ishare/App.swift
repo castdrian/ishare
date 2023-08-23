@@ -12,7 +12,7 @@ import MenuBarExtraAccess
 
 @main
 struct ishare: App {
-    @Default(.menuBarAppIcon) var menuBarAppIcon
+    @Default(.menuBarIcon) var menubarIcon
     @Default(.showMainMenu) var showMainMenu
     @StateObject private var appState = AppState()
     @NSApplicationDelegateAdaptor private var appDelegate : AppDelegate
@@ -22,7 +22,11 @@ struct ishare: App {
             MainMenuView()
         }
     label: {
-        menuBarAppIcon ? Image(nsImage: AppIcon) : Image(systemName: "photo.on.rectangle.angled")
+        switch menubarIcon {
+            case .DEFAULT: Image(nsImage: GlyphIcon)
+            case .APPICON: Image(nsImage: AppIcon)
+            case .SYSTEM: Image(systemName: "photo.on.rectangle.angled")
+        }
     }
     .menuBarExtraAccess(isPresented: $showMainMenu)
         Settings {
