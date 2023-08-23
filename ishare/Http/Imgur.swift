@@ -49,6 +49,8 @@ func imgurUpload(_ fileURL: URL, completion: @escaping () -> Void) {
                 pasteboard.clearContents()
                 
                 pasteboard.setString(link, forType: .string)
+                
+                addToUploadHistory(link)
                 completion()
             } else {
                 print("Error parsing response or retrieving image link")

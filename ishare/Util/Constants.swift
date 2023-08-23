@@ -51,6 +51,7 @@ extension Defaults.Keys {
     static let builtInShare = Key<SharingPreferences>("builtInShare", default: .init())
     static let toastTimeout = Key<Double>("toastTimeout", default: 2)
     static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT)
+    static let uploadHistory = Key<Array<String>>("uploadHistory", default: [])
 }
 
 extension View {
@@ -497,4 +498,15 @@ enum MenuBarIcon: Codable, CaseIterable, Identifiable, Defaults.Serializable {
     case APPICON
     case SYSTEM
     var id: Self { self }
+}
+
+func addToUploadHistory(_ entry: String) {
+    @Default(.uploadHistory) var uploadHistory
+    
+    uploadHistory.removeAll(where: { $0 == entry })
+    uploadHistory.insert(entry, at: 0)
+
+    if uploadHistory.count > 10 {
+        uploadHistory.removeLast()
+    }
 }

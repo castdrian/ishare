@@ -74,6 +74,7 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
                     pasteboard.clearContents()
                     pasteboard.setString(modifiedLink, forType: .string)
                     
+                    addToUploadHistory(modifiedLink)
                     callback?(nil, URL(string: modifiedLink))
                     completion()
                 } else {

@@ -26,6 +26,7 @@ struct MainMenuView: View {
     @Default(.savedCustomUploaders) var savedCustomUploaders
     @Default(.uploadDestination) var uploadDestination
     @Default(.builtInShare) var builtInShare
+    @Default(.uploadHistory) var uploadHistory
     
     @StateObject private var availableContentProvider = AvailableContentProvider()
     
@@ -205,6 +206,41 @@ struct MainMenuView: View {
         }
         .pickerStyle(MenuPickerStyle())
             
+            if !uploadHistory.isEmpty {
+                Menu {
+                    ForEach(uploadHistory, id: \.self) { item in
+                        Button {
+                            NSPasteboard.general.declareTypes([.string], owner: nil)
+                            NSPasteboard.general.setString(item, forType: .string)
+                            BezelNotification.show(messageText: "Copied URL", icon: ToastIcon)
+                        } label: {
+                            HStack {
+                                if let url = URL(string: item), url.pathExtension.lowercased() == "mp4" || url.pathExtension.lowercased() == "mov" {
+                                    Image(systemName: "video")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 30, height: 30)
+                                } else {
+                                    AsyncImage(url: URL(string: item)) { image in
+                                        image.resizable()
+                                            .scaledToFit()
+                                            .frame(width: 30, height: 30)
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            label: {
+                Image(systemName: "clock.arrow.circlepath")
+                Label("History", image: String())
+            }
+            }
+            
+            Divider()
+            
             Button {
                 NSApplication.shared.activate(ignoringOtherApps: true)
                 NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
@@ -213,7 +249,6 @@ struct MainMenuView: View {
                 Label("Settings", image: String())
             }.keyboardShortcut("s")
             
-            Divider()
             
             Button {
                 NSApplication.shared.activate(ignoringOtherApps: true)
