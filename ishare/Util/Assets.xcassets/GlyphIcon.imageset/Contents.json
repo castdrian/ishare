@@ -1,7 +1,27 @@
 {
   "images" : [
     {
-      "filename" : "download.svg",
+      "filename" : "glyph.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
+      "filename" : "glyph_black.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "glyph_white.svg",
       "idiom" : "universal"
     }
   ],
