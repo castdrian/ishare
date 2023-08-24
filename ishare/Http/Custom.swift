@@ -19,16 +19,16 @@ enum CustomUploadError: Error {
 
 func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error?, URL?) -> Void)? = nil, completion: @escaping () -> Void) {
     @Default(.captureFileType) var fileType
-
+    
     guard specification.isValid() else {
         print("Invalid specification")
         completion()
         return
     }
-
+    
     let url = specification.requestUrl
     var headers: HTTPHeaders?
-
+    
     if let requestHeaders = specification.headers {
         headers = HTTPHeaders(requestHeaders)
     }
@@ -47,14 +47,14 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
         fileFormName = "image"
         mimeType = "image/\(fileType)"
     }
-
+    
     AF.upload(multipartFormData: { multipartFormData in
         if let formData = specification.formData {
             for (key, value) in formData {
                 multipartFormData.append(value.data(using: .utf8)!, withName: key)
             }
         }
-
+        
         let fileData = try? Data(contentsOf: fileURL)
         multipartFormData.append(fileData!, withName: specification.fileFormName ?? fileFormName, fileName: fileURL.lastPathComponent, mimeType: mimeType)
     }, to: url, method: .post, headers: headers).response { response in
@@ -66,13 +66,15 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
                     print("File uploaded successfully. Link: \(link)")
                     
                     var modifiedLink = link
-                    if var url = URL(string: modifiedLink), url.scheme == "http" {
+                    
+                    if var url = URL(string: modifiedLink), url.scheme == "http" || url.scheme == "https" {
                         modifiedLink = modifiedLink.replacingOccurrences(of: "http://", with: "https://")
                         
-                        let fileExtension = url.pathExtension
-                        if !fileExtension.isEmpty {
-                            modifiedLink = modifiedLink.replacingOccurrences(of: ".\(fileExtension)", with: ".\(fileExtension.lowercased())", options: .literal, range: modifiedLink.range(of: ".\(fileExtension)", options: .backwards))
+                        if let fileExtensionRange = modifiedLink.range(of: "\\.[^.]+?$", options: .regularExpression) {
+                            let fileExtension = modifiedLink[fileExtensionRange].lowercased()
+                            modifiedLink.replaceSubrange(fileExtensionRange, with: fileExtension)
                         }
+                        
                         url = URL(string: modifiedLink)!
                     }
                     
@@ -102,7 +104,7 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
 func getNestedJSONValue(json: JSON, keyPath: String) -> JSON? {
     var nestedJSON: JSON? = json
     let nestedKeys = keyPath.components(separatedBy: ".")
-
+    
     for key in nestedKeys {
         if let index = key.firstIndex(of: "[") {
             let arrayKey = String(key[..<index])
@@ -111,11 +113,11 @@ func getNestedJSONValue(json: JSON, keyPath: String) -> JSON? {
         } else {
             nestedJSON = nestedJSON?[key]
         }
-
+        
         if nestedJSON == nil {
             return nil
         }
     }
-
+    
     return nestedJSON
 }
