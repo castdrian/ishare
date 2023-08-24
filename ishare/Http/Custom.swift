@@ -66,8 +66,14 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
                     print("File uploaded successfully. Link: \(link)")
                     
                     var modifiedLink = link
-                    if let url = URL(string: modifiedLink), url.scheme == "http" {
+                    if var url = URL(string: modifiedLink), url.scheme == "http" {
                         modifiedLink = modifiedLink.replacingOccurrences(of: "http://", with: "https://")
+                        
+                        let fileExtension = url.pathExtension
+                        if !fileExtension.isEmpty {
+                            modifiedLink = modifiedLink.replacingOccurrences(of: ".\(fileExtension)", with: ".\(fileExtension.lowercased())", options: .literal, range: modifiedLink.range(of: ".\(fileExtension)", options: .backwards))
+                        }
+                        url = URL(string: modifiedLink)!
                     }
                     
                     let pasteboard = NSPasteboard.general
