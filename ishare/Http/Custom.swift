@@ -56,7 +56,8 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
         }
         
         let fileData = try? Data(contentsOf: fileURL)
-        multipartFormData.append(fileData!, withName: specification.fileFormName ?? fileFormName, fileName: fileURL.lastPathComponent, mimeType: mimeType)
+        let fileNameWithLowercaseExtension = fileURL.deletingPathExtension().appendingPathExtension(fileURL.pathExtension.lowercased()).lastPathComponent
+        multipartFormData.append(fileData!, withName: specification.fileFormName ?? fileFormName, fileName: fileNameWithLowercaseExtension, mimeType: mimeType)
     }, to: url, method: .post, headers: headers).response { response in
         if let data = response.data {
             let json = JSON(data)
