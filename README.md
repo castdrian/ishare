@@ -13,7 +13,7 @@
 clean and unbloated screen capture utility for macOS
 
 star amount for homebrew cask:\
-![Homebrew](https://progress-bar.dev/41/?width=240)
+![Homebrew](https://progress-bar.dev/45/?width=240)
 
 <div>
   <a href="https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip" download>

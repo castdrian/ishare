@@ -221,13 +221,24 @@ struct MainMenuView: View {
                                         .scaledToFit()
                                         .frame(width: 30, height: 30)
                                 } else {
-                                    AsyncImage(url: URL(string: item)) { image in
-                                        image.resizable()
-                                            .scaledToFit()
-                                            .frame(width: 30, height: 30)
-                                    } placeholder: {
-                                        ProgressView()
+                                    AsyncImage(url: URL(string: item)) { phase in
+                                        switch phase {
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 30, height: 30)
+                                        case .failure:
+                                            Image(systemName: "exclamationmark.triangle.fill")
+                                                .foregroundColor(.red)
+                                        case .empty:
+                                            ProgressView()
+                                                .frame(width: 30, height: 30)
+                                        @unknown default:
+                                            EmptyView()
+                                        }
                                     }
+                                    .frame(width: 30, height: 30)
                                 }
                             }
                         }
