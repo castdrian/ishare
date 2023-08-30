@@ -38,6 +38,7 @@
 		3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */; };
 		3ADDAEDA2A659A0B00C42406 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDAED92A659A0B00C42406 /* Assets.xcassets */; };
 		3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADDAEE22A65D00F00C42406 /* Zip */; };
+		3AEFA5672A9FC15800F485B4 /* PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -80,6 +81,7 @@
 		3AB38D072A62C49C00184E0D /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
 		3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploaderSettings.swift; sourceTree = "<group>"; };
 		3ADDAED92A659A0B00C42406 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Util/Assets.xcassets; sourceTree = "<group>"; };
+		3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 				3AB345C52A5F0C7A00AAEC0E /* Constants.swift */,
 				3AB38D032A62B56B00184E0D /* CustomUploader.swift */,
 				3A72B9A42A769A7200B2DEBA /* PreviewPopover.swift */,
+				3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				3AB38D082A62C49C00184E0D /* Upload.swift in Sources */,
 				3AB345C82A5F163800AAEC0E /* AppState.swift in Sources */,
 				3AB318582A7AD35D00CE8610 /* MovieRecorder.swift in Sources */,
+				3AEFA5672A9FC15800F485B4 /* PreviewImage.swift in Sources */,
 				3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */,
 				3AB3185D2A7AD5CB00CE8610 /* Video.xcdatamodeld in Sources */,
 				3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */,

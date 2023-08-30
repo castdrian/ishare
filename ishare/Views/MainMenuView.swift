@@ -221,11 +221,10 @@ struct MainMenuView: View {
                                         .scaledToFit()
                                         .frame(width: 30, height: 30)
                                 } else {
-                                    AsyncImage(url: URL(string: item)) { phase in
+                                    PreviewImage(url: URL(string: item)) { phase in
                                         switch phase {
-                                        case .success(let image):
-                                            image
-                                                .resizable()
+                                        case .success(let nsImage):
+                                            Image(nsImage: nsImage)                                                .resizable()
                                                 .scaledToFit()
                                                 .frame(width: 30, height: 30)
                                         case .failure:
@@ -234,8 +233,6 @@ struct MainMenuView: View {
                                         case .empty:
                                             ProgressView()
                                                 .frame(width: 30, height: 30)
-                                        @unknown default:
-                                            EmptyView()
                                         }
                                     }
                                     .frame(width: 30, height: 30)
