@@ -43,16 +43,19 @@ class CaptureEngine: NSObject, @unchecked Sendable {
     private var continuation: AsyncThrowingStream<CapturedFrame, Error>.Continuation?
 
     private var startTime = Date()
+    private var streamOutput: CaptureEngineStreamOutput?
 
     /// - Tag: StartCapture
     func startCapture(configuration: SCStreamConfiguration, filter: SCContentFilter, movie: MovieRecorder, fileURL: URL) -> AsyncThrowingStream<CapturedFrame, Error> {
         AsyncThrowingStream<CapturedFrame, Error> { continuation in
             // The stream output object.
-            let streamOutput = CaptureEngineStreamOutput(continuation: continuation)
-            streamOutput.movie = movie
-            streamOutput.capturedFrameHandler = { continuation.yield($0) }
-            streamOutput.pcmBufferHandler = { self.powerMeter.process(buffer: $0) }
-            self.movie = streamOutput.movie!
+            let output = CaptureEngineStreamOutput(continuation: continuation)
+            streamOutput = output
+
+            streamOutput!.movie = movie
+            streamOutput!.capturedFrameHandler = { continuation.yield($0) }
+            streamOutput!.pcmBufferHandler = { self.powerMeter.process(buffer: $0) }
+            self.movie = streamOutput!.movie!
             self.startTime = Date()
             self.movie.startRecording(fileURL: fileURL, height: Int(configuration.height), width: Int(configuration.width))
 
@@ -60,8 +63,8 @@ class CaptureEngine: NSObject, @unchecked Sendable {
                 stream = SCStream(filter: filter, configuration: configuration, delegate: streamOutput)
 
                 // Add a stream output to capture screen content.
-                try stream?.addStreamOutput(streamOutput, type: .screen, sampleHandlerQueue: videoSampleBufferQueue)
-                try stream?.addStreamOutput(streamOutput, type: .audio, sampleHandlerQueue: audioSampleBufferQueue)
+                try stream?.addStreamOutput(streamOutput!, type: .screen, sampleHandlerQueue: videoSampleBufferQueue)
+                try stream?.addStreamOutput(streamOutput!, type: .audio, sampleHandlerQueue: audioSampleBufferQueue)
 
                 stream?.startCapture()
             } catch {
