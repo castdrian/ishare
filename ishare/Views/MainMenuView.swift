@@ -16,7 +16,7 @@ enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
     case custom(UUID?)
 }
 
-struct MainMenuView: View {    
+struct MainMenuView: View {
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.saveToDisk) var saveToDisk
@@ -249,14 +249,23 @@ struct MainMenuView: View {
             
             Divider()
             
-            Button {
-                NSApplication.shared.activate(ignoringOtherApps: true)
-                NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-            } label: {
-                Image(systemName: "gearshape")
-                Label("Settings", image: String())
-            }.keyboardShortcut("s")
-            
+            if #available(macOS 14.0, *) {
+                SettingsLink {
+                    HStack {
+                        Image(systemName: "gearshape")
+                        Text("Settings")
+                    }
+                }.keyboardShortcut("s")
+            }
+            else {
+                Button(action: {
+                    NSApplication.shared.activate(ignoringOtherApps: true)
+                    NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                }) {
+                    Image(systemName: "gearshape")
+                    Text("Settings")
+                }.keyboardShortcut("s")
+            }
             
             Button {
                 NSApplication.shared.activate(ignoringOtherApps: true)
@@ -320,6 +329,5 @@ struct MainMenuView: View {
                     }
                 }
         }
-        
     }
 }

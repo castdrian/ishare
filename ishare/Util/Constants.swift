@@ -510,3 +510,20 @@ func addToUploadHistory(_ entry: String) {
         uploadHistory.removeLast()
     }
 }
+
+struct ExcludedAppsView: View {
+    @Environment(\.presentationMode) var presentationMode
+    @StateObject private var availableContentProvider = AvailableContentProvider()
+
+    var body: some View {
+        VStack {
+            if let availableContent = availableContentProvider.availableContent {
+                ForEach(availableContent.applications, id: \.self) { app in
+                    Button(app.applicationName) {
+                        print(app.bundleIdentifier)
+                    }
+                }
+            }
+        }
+    }
+}
