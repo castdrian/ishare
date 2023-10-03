@@ -10,9 +10,9 @@
 [![issues - ishare](https://img.shields.io/github/issues/castdrian/ishare)](https://github.com/castdrian/ishare/issues)
 
 # ishare
-clean and unbloated screen capture utility for macOS
+a clean and unbloated screen capture utility for macOS.
 
-star amount for homebrew cask:\
+⭐ stars amount for homebrew cask 🍺 : \
 ![Homebrew](https://progress-bar.dev/49/?width=240)
 
 <div>
@@ -24,19 +24,21 @@ star amount for homebrew cask:\
 (yes this readme is ugly, sorry)
 <br>
 
-## Features
+## 📷 Features
 - Capture and record screens, windows or a custom region
 - Upload the media files to built-in or custom uploaders
 - Profit
 - ???
 
-## Custom Uploader Request Specification
+## 📤 Custom Uploader Request Specification 
 ishare performs a `POST` request to the specified endpoint, containing all configurations that are defined in the custom uploader.\
 The screencapture or recording that was taken is appended to the multipart/form-data body under the `image` or `video` key respectively (can be overriden).
 
-## Custom Uploader Specification
+## 📤/⚙️ Custom Uploader Specification
 
-The ishare custom uploader spec allows you to define the configuration for uploading files to a custom endpoint.\
+The ishare custom uploader spec allows you to define the configuration for uploading files to a custom endpoint.
+These can be created by yourself or existing projetcs ShareX compatibles such as [Zipline](https://zipline.diced.sh/), [ass](https://github.com/tycrek/ass#readme), etc.\
+
 ishare is configured to support and open `.iscu` files by default.
 
 <details>
@@ -62,6 +64,8 @@ ishare is configured to support and open `.iscu` files by default.
 - **responseProp** (string):\
   The property name in the response JSON that contains the uploaded file URL. Replace `"url"` with the actual json accessors that lead to the property returned in the response.
 
+Please note that for now, the custom uploader editor is broken. Please create one and export/edit the .iscu file generated directly with your favorite IDE.
+
 </details>
 
 <details>
@@ -84,7 +88,7 @@ In this example, the custom uploader is configured to upload files to `example.c
 
 </details>
 
-## Post Media Task Plugin Specification
+## 🔄 Post Media Task Plugin Specification
 
 ishare allows you to script your own plugins that you can use as PMT (Post Media Task).
 
@@ -102,9 +106,9 @@ ishare allows you to script your own plugins that you can use as PMT (Post Media
   TBD
 </details>
 
-## Credits
+## 👍 Credits
 - Special thanks to [Inna Strazhnik](https://www.behance.net/strazhnik) for the app icon
 
-## License
+## 📄 License
 
 Released under [GPL-3.0](/LICENSE) by [@castdrian](https://github.com/castdrian).
