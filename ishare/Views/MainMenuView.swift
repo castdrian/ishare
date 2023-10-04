@@ -9,6 +9,7 @@ import BezelNotification
 import SwiftUI
 import Defaults
 import ScreenCaptureKit
+import SettingsAccess
 import UniformTypeIdentifiers
 
 enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
@@ -251,11 +252,13 @@ struct MainMenuView: View {
             
             if #available(macOS 14.0, *) {
                 SettingsLink {
-                    HStack {
-                        Image(systemName: "gearshape")
-                        Text("Settings")
-                    }
-                }.keyboardShortcut("s")
+                    Image(systemName: "gearshape")
+                    Text("Settings")
+                } preAction: {
+                    NSApp.activate(ignoringOtherApps: true)
+                } postAction: {
+                }
+                .keyboardShortcut("s")           
             }
             else {
                 Button(action: {

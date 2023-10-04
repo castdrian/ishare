@@ -10,6 +10,7 @@ import ScreenCaptureKit
 import Combine
 import OSLog
 import SwiftUI
+import Defaults
 
 /// A provider of audio levels from the captured samples.
 class AudioLevelsProvider: ObservableObject {
@@ -288,7 +289,9 @@ class ScreenRecorder: ObservableObject {
     }
     
     private func filterWindows(_ windows: [SCWindow]) -> [SCWindow] {
-        windows
+        @Default(.ignoredBundleIdentifiers) var ignoredBundleIdentifiers
+
+        return windows
         // Sort the windows by app name.
             .sorted { $0.owningApplication?.applicationName ?? "" < $1.owningApplication?.applicationName ?? "" }
         // Remove windows that don't have an associated .app bundle.

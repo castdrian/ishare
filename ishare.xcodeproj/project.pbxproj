@@ -12,6 +12,7 @@
 		3A17C07C2A61A2510012F285 /* Imgur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17C07B2A61A2510012F285 /* Imgur.swift */; };
 		3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */ = {isa = PBXBuildFile; productRef = 3A59057D2A73EF5C00109892 /* BezelNotification */; };
 		3A59CD5E2A6EE47E00E85161 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A59CD5D2A6EE47E00E85161 /* VideoCapture.swift */; };
+		3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3A6D1E982ACB004000882366 /* SettingsAccess */; };
 		3A72B9932A7505CF00B2DEBA /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3A72B9922A7505CF00B2DEBA /* Sparkle */; };
 		3A72B9952A752A0A00B2DEBA /* ScreenRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9942A752A0A00B2DEBA /* ScreenRecorder.swift */; };
 		3A72B9972A752AD000B2DEBA /* CaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9962A752AD000B2DEBA /* CaptureEngine.swift */; };
@@ -98,6 +99,7 @@
 				3A0679E12A648C0F0088DE6A /* SwiftyJSON in Frameworks */,
 				3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */,
 				3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */,
+				3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +222,7 @@
 				3A59057D2A73EF5C00109892 /* BezelNotification */,
 				3A72B9922A7505CF00B2DEBA /* Sparkle */,
 				3A72B9A02A7594F900B2DEBA /* MenuBarExtraAccess */,
+				3A6D1E982ACB004000882366 /* SettingsAccess */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
@@ -259,6 +262,7 @@
 				3A59057C2A73EF5C00109892 /* XCRemoteSwiftPackageReference "BezelNotification" */,
 				3A72B9912A7505CF00B2DEBA /* XCRemoteSwiftPackageReference "Sparkle" */,
 				3A72B99F2A7594F900B2DEBA /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */,
+				3A6D1E972ACB004000882366 /* XCRemoteSwiftPackageReference "SettingsAccess" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
 			projectDirPath = "";
@@ -564,6 +568,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		3A6D1E972ACB004000882366 /* XCRemoteSwiftPackageReference "SettingsAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/orchetect/SettingsAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		3A72B9912A7505CF00B2DEBA /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
@@ -629,6 +641,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3A59057C2A73EF5C00109892 /* XCRemoteSwiftPackageReference "BezelNotification" */;
 			productName = BezelNotification;
+		};
+		3A6D1E982ACB004000882366 /* SettingsAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A6D1E972ACB004000882366 /* XCRemoteSwiftPackageReference "SettingsAccess" */;
+			productName = SettingsAccess;
 		};
 		3A72B9922A7505CF00B2DEBA /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;

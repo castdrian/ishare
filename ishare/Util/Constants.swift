@@ -52,6 +52,7 @@ extension Defaults.Keys {
     static let toastTimeout = Key<Double>("toastTimeout", default: 2)
     static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT)
     static let uploadHistory = Key<Array<String>>("uploadHistory", default: [])
+    static let ignoredBundleIdentifiers = Key<Array<String>>("ignoredApps", default: [])
 }
 
 extension View {
@@ -382,17 +383,10 @@ func importUserDefaults() {
     }
 }
 
-let ignoredBundleIdentifiers = [
-    "com.apple.controlcenter",
-    "com.apple.dock",
-    "com.apple.Spotlight",
-    "com.apple.TextInputMenuAgent",
-    "com.knollsoft.Rectangle",
-    "com.cloudflare.1dot1dot1dot1.macos"
-]
-
 func filterWindows(_ windows: [SCWindow]) -> [SCWindow] {
-    windows
+    @Default(.ignoredBundleIdentifiers) var ignoredBundleIdentifiers
+
+    return windows
     // Sort the windows by app name.
         .sorted { $0.owningApplication?.applicationName ?? "" < $1.owningApplication?.applicationName ?? "" }
     // Remove windows that don't have an associated .app bundle.
@@ -513,17 +507,42 @@ func addToUploadHistory(_ entry: String) {
 
 struct ExcludedAppsView: View {
     @Environment(\.presentationMode) var presentationMode
-    @StateObject private var availableContentProvider = AvailableContentProvider()
+    @Default(.ignoredBundleIdentifiers) var ignoredBundleIdentifiers
 
     var body: some View {
-        VStack {
-            if let availableContent = availableContentProvider.availableContent {
-                ForEach(availableContent.applications, id: \.self) { app in
-                    Button(app.applicationName) {
-                        print(app.bundleIdentifier)
+            VStack {
+                Text("Select apps to exclude")
+                    .font(.title)
+
+                Divider()
+                
+                ScrollView {
+                    ForEach(NSWorkspace.shared.runningApplications.sorted { $0.localizedName ?? "" < $1.localizedName ?? "" }.filter { $0.bundleIdentifier != Bundle.main.bundleIdentifier }, id: \.self) { app in
+                        Toggle(isOn: Binding(
+                            get: {
+                                ignoredBundleIdentifiers.contains(app.bundleIdentifier ?? "")
+                            },
+                            set: { newValue in
+                                if newValue {
+                                    ignoredBundleIdentifiers.append(app.bundleIdentifier ?? "")
+                                } else {
+                                    ignoredBundleIdentifiers.removeAll { $0 == app.bundleIdentifier }
+                                }
+                            }
+                        )) {
+                            Text(app.localizedName ?? app.bundleIdentifier ?? "unknown")
+                        }
+                        .toggleStyle(.checkbox)
                     }
                 }
+                
+                Spacer()
+
+                Button("Close") {
+                    presentationMode.wrappedValue.dismiss()
+                }
+                .padding(.bottom)
             }
-        }
+            .padding()
     }
 }

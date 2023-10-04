@@ -11,6 +11,7 @@ import LaunchAtLogin
 import KeyboardShortcuts
 import BezelNotification
 import UniformTypeIdentifiers
+import ScreenCaptureKit
 
 struct SettingsMenuView: View {
     var body: some View {
@@ -113,7 +114,6 @@ struct CaptureSettingsView: View {
     @Default(.capturePath) var capturePath
     @Default(.captureFileType) var fileType
     @Default(.captureFileName) var fileName
-    @State private var isExcludedAppSheetPresented = false
     
     var body: some View {
         VStack {
@@ -142,13 +142,6 @@ struct CaptureSettingsView: View {
                     Text($0.rawValue.uppercased())
                 }
             }.padding(10)
-            
-            Button("Excluded applications") {
-                isExcludedAppSheetPresented.toggle()
-            }
-        }
-        .sheet(isPresented: $isExcludedAppSheetPresented) {
-            ExcludedAppsView()
         }
     }
 }
@@ -161,6 +154,8 @@ struct RecordingSettingsView: View {
     @Default(.recordMP4) var recordMP4
     @Default(.useHEVC) var useHEVC
     @Default(.compressVideo) var compressVideo
+    
+    @State private var isExcludedAppSheetPresented = false
     
     var body: some View {
         VStack {
@@ -189,6 +184,13 @@ struct RecordingSettingsView: View {
                     BezelNotification.show(messageText: "Reset filename", icon: ToastIcon)
                 }
             }.padding(20)
+            
+            Button("Excluded applications") {
+                isExcludedAppSheetPresented.toggle()
+            }
+            .sheet(isPresented: $isExcludedAppSheetPresented) {
+                ExcludedAppsView()
+            }
         }
     }
 }
