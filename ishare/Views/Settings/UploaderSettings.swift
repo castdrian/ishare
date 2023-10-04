@@ -193,98 +193,128 @@ struct AddCustomUploaderView: View {
 
     @State private var uploaderName = ""
     @State private var requestUrl = ""
-    @State private var headers: [String: String] = [:]
-    @State private var formData: [String: String] = [:]
     @State private var fileFormName = ""
     @State private var responseProp = ""
+    @State private var header: [CustomEntryModel] = []
+    @State private var formData: [CustomEntryModel] = []
 
     var body: some View {
-        VStack {
-            HStack {
-                Text("Name:")
-                TextField("Name", text: $uploaderName)
-            }
-            .padding()
-
-            HStack {
-                Text("Request URL:")
-                TextField("Request URL", text: $requestUrl)
-            }
-            .padding()
-
-            HStack {
-                Text("Response Property:")
-                TextField("Response Property", text: $responseProp)
-            }
-            .padding()
-
-            Section(header: Text("Headers (optional)")) {
-                ForEach(Array(headers.keys), id: \.self) { key in
-                    HStack {
-                        Text("Header Name:")
-                        TextField("Header Name", text: Binding(
-                            get: { key },
-                            set: { newKey in headers[newKey] = headers.removeValue(forKey: key) }
-                        ))
-
-                        Text("Header Value:")
-                        TextField("Header Value", text: Binding(
-                            get: { headers[key] ?? "" },
-                            set: { headers[key] = $0 }
-                        ))
-                    }
-                    .padding(.horizontal)
+        ScrollView {
+            VStack {
+                HStack {
+                    Text("Name:")
+                    TextField("Name", text: $uploaderName)
                 }
-
+                .padding()
+                
+                HStack {
+                    Text("Request URL:")
+                    TextField("Request URL", text: $requestUrl)
+                }
+                .padding()
+                
+                HStack {
+                    Text("Response Property:")
+                    TextField("Response Property", text: $responseProp)
+                }
+                .padding()
+                
+                HeaderView()
+                
+                FormDataView()
+                
                 Button(action: {
-                    headers[""] = ""
+                    saveCustomUploader()
                 }) {
-                    Text("Add Header")
+                    Text("Save")
                 }
                 .padding()
             }
-
-            Section(header: Text("Form Data (optional)")) {
-                ForEach(Array(formData.keys), id: \.self) { key in
-                    HStack {
-                        Text("Field Name:")
-                        TextField("Field Name", text: Binding(
-                            get: { key },
-                            set: { newKey in formData[newKey] = formData.removeValue(forKey: key) }
-                        ))
-
-                        Text("Field Value:")
-                        TextField("Field Value", text: Binding(
-                            get: { formData[key] ?? "" },
-                            set: { formData[key] = $0 }
-                        ))
+        }
+    }
+    
+    private func HeaderView() -> some View {
+        Section(header: Text("Header (optional)")) {
+            ForEach(header.indices, id: \.self) { index in
+                HStack(spacing: 10) {
+                    Text("Header Name: \(header[index].key)")
+                    Text("Header Value: \(header[index].value)")
+                    
+                    Button(action: {
+                        header.remove(at: index)
+                    }) {
+                        Image(systemName: "minus.circle")
                     }
-                    .padding(.horizontal)
                 }
-
-                Button(action: {
-                    formData[""] = ""
-                }) {
-                    Text("Add Field")
-                }
-                .padding()
+                
             }
-
+            
+            ForEach(header) { entry in
+                if (entry == header.last) {
+                    CustomEntryView(entry: $header[header.firstIndex(of: entry)!])
+                        .padding(.horizontal)
+                }
+            }
+            
             Button(action: {
-                saveCustomUploader()
+                header.append(CustomEntryModel(key: "", value: ""))
             }) {
-                Text("Save")
+                Text("Add Header")
+            }
+            .padding()
+        }
+    }
+    
+    private func FormDataView() -> some View {
+        Section(header: Text("Form Data (optional)")) {
+            ForEach(formData.indices, id: \.self) { index in
+                HStack(spacing: 10) {
+                    Text("Form Data Name: \(formData[index].key)")
+                    Text("Form Data Value: \(formData[index].value)")
+                    
+                    Button(action: {
+                        formData.remove(at: index)
+                    }) {
+                        Image(systemName: "minus.circle")
+                    }
+                }
+                
+            }
+            
+            ForEach(formData) { entry in
+                if (entry == formData.last) {
+                    CustomEntryView(entry: $formData[formData.firstIndex(of: entry)!])
+                        .padding(.horizontal)
+                }
+            }
+            
+            Button(action: {
+                formData.append(CustomEntryModel(key: "", value: ""))
+            }) {
+                Text("Add FormData")
             }
             .padding()
         }
     }
 
     private func saveCustomUploader() {
+        var headerData: [String: String] {
+            return header.reduce(into: [String: String]()) { result, entry in
+                result[entry.key] = entry.value
+            }
+        }
+
+        var formDataModel: [String: String] {
+            return formData.reduce(into: [String: String]()) { result, entry in
+                result[entry.key] = entry.value
+            }
+        }
+        
         let uploader = CustomUploader(
             name: uploaderName,
             requestUrl: requestUrl,
-            headers: headers.isEmpty ? nil : headers,
-            formData: formData.isEmpty ? nil : formData,
+            headers: header.count == 0 ? nil : headerData,
+            formData: formData.count == 0 ? nil : formDataModel,
             fileFormName: fileFormName.isEmpty ? nil : fileFormName,
             responseProp: responseProp
         )
@@ -298,6 +328,23 @@ struct AddCustomUploaderView: View {
         }
 
         presentationMode.wrappedValue.dismiss()
+    }
+
+    private struct CustomEntryView: View {
+        @Binding var entry: CustomEntryModel
+        
+        var body: some View {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text("Name")
+                    TextField("Name", text: $entry.key)
+                }
+                VStack(alignment: .leading) {
+                    Text("Value")
+                    TextField("Value", text: $entry.value)
+                }
+            }
+        }
     }
 }
 
@@ -398,4 +445,15 @@ struct ImportError: Identifiable {
     var localizedDescription: String {
         error.localizedDescription
     }
+}
+
+struct CustomEntryModel: Identifiable, Equatable {
+    let id = UUID()
+    var key: String
+    var value: String
+}
+
+
+#Preview {
+    AddCustomUploaderView()
 }
