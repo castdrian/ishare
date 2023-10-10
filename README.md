@@ -1,72 +1,130 @@
-[![Sponsor](https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#white)](https://github.com/sponsors/castdrian)
-[![Ko-FI](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/castdrian)
-[![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/sX4KYzu5pX)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/castdrian/ishare)
-[![stars - ishare](https://img.shields.io/github/stars/castdrian/ishare?style=social)](https://github.com/castdrian/ishare)
-<br>
-[![Build and Release App](https://github.com/castdrian/ishare/workflows/Build%20and%20Release%20App/badge.svg)](https://github.com/castdrian/ishare/actions?query=workflow:"Build+and+Release+App")
-[![GitHub release](https://img.shields.io/github/release/castdrian/ishare?include_prereleases=&sort=semver&color=blue)](https://github.com/castdrian/ishare/releases/)
-[![License](https://img.shields.io/badge/License-GPL--3.0-blue)](#license)
-[![issues - ishare](https://img.shields.io/github/issues/castdrian/ishare)](https://github.com/castdrian/ishare/issues)
+<p align="center">
+  <img src="/ishare/Util/Assets.xcassets/AppIcon.appiconset/AppIcon-128.png" alt="ishare logo" width="100">
+  <h1 align="center">ishare</h1>
+  <p align="center">The definitive screen capture utility for macOS, designed with simplicity and efficiency in mind.</p>
+</p>
 
-# ishare
-clean and unbloated screen capture utility for macOS
+<p align="center">
+  <a href="https://github.com/sponsors/castdrian">
+    <img src="https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#white" alt="Sponsor">
+  </a>
+  <a href="https://ko-fi.com/castdrian">
+    <img src="https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Ko-FI">
+  </a>
+  <a href="https://discord.gg/sX4KYzu5pX">
+    <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
+  </a>
+  <a href="https://github.com/castdrian/ishare">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
+</p>
 
-star amount for homebrew cask:\
-![Homebrew](https://progress-bar.dev/49/?width=240)
+<p align="center">
+  <a href="https://github.com/castdrian/ishare/actions?query=workflow:'Build+and+Release+App'">
+    <img src="https://github.com/castdrian/ishare/workflows/Build%20and%20Release%20App/badge.svg" alt="Build and Release App">
+  </a>
+  <a href="https://github.com/castdrian/ishare/releases/">
+    <img src="https://img.shields.io/github/release/castdrian/ishare?include_prereleases=&sort=semver&color=blue" alt="GitHub release">
+  </a>
+  <a href="#license">
+    <img src="https://img.shields.io/badge/License-GPL--3.0-blue" alt="License">
+  </a>
+  <a href="https://github.com/castdrian/ishare/issues">
+    <img src="https://img.shields.io/github/issues/castdrian/ishare" alt="issues">
+  </a>
+  <a href="https://github.com/castdrian/ishare">
+    <img src="https://img.shields.io/github/stars/castdrian/ishare?style=social" alt="stars">
+  </a>
+</p>
+<p align="center">
+  <sub align="center">Homebrew cask star goal</sub>
+  <p align="center">
+    <img src="https://progress-bar.dev/49/?width=500" alt="Homebrew cask star goal progress">
+  </p>
+</p>
 
-<div>
+---
+
+<p align="center">
   <a href="https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip" download>
     <img src="https://www.dmo-app.com/wp-content/uploads/2022/05/mac-download-button-1.png" alt="Download Latest Release" width="200">
   </a>
-</div>
+</p>
 
-(yes this readme is ugly, sorry)
-<br>
+## 🚀 Features
+1. **Versatile Screen Capture**: 
+    - **Custom Region**: Instantly and easily define and capture specific portions of your screen.
+    - **Window Capture**: Capture individual application windows without any clutter.
+    - **Entire Display Capture**: Snapshot your whole screen with a single action.
 
-## Features
-- Capture and record screens, windows or a custom region
-- Upload the media files to built-in or custom uploaders
-- Profit
-- ???
+2. **Flexible Screen Recording**:
+    - **Video Recording**: Record videos of entire screens or specific windows.
+    - **GIF Recording**: Capture your moments in GIF format, perfect for quick shares.
+    - **Customizable Codecs and Compression**: Fine-tune the parameters of the output video files.
 
-## Custom Uploader Request Specification
-ishare performs a `POST` request to the specified endpoint, containing all configurations that are defined in the custom uploader.\
-The screencapture or recording that was taken is appended to the multipart/form-data body under the `image` or `video` key respectively (can be overriden).
+3. **Easy Uploading**:
+    - **Custom Upload Destinations**: Define your own server or service to upload your media.
+    - **Built-in Imgur Uploader**: Quickly upload your results to Imgur automatically.
 
-## Custom Uploader Specification
+4. **High Customizability**:
+    - **Custom Keybinds**: Set keyboard shortcuts that match your workflow.
+    - **File Format Preferences**: Choose the formats for your screenshots (e.g. PNG, JPG) and recordings.
+    - **Custom File Naming**: Define your own prefix for filenames, so you always know which app took the shot.
+    - **Custom Save Path**: Decide where exactly on your system you want to save your captures and recordings.
+    - **Application Exclusions**: Exclude specific apps from being recorded.
 
-The ishare custom uploader spec allows you to define the configuration for uploading files to a custom endpoint.\
-ishare is configured to support and open `.iscu` files by default.
+5. **Automatic Updates**: Always stay on the cutting edge with built-in automatic updates.
+
+6. **Coming Soon - Post Media Task Plugins**: Expand the capabilities of the app with plugins that can process your media after capture.
+
+![ishare_menu](https://github.com/iGerman00/ishare/assets/36676880/3a546afb-90ee-4b85-8b38-6029ccd67565)
+
+## 📤 Custom Uploader Requests
+
+With ishare, you can easily set up your own custom uploader. Here's a simple guide:
+
+1. **Endpoint and Method**: When you use a custom uploader, ishare will send a `POST` request to the endpoint you provide.
+  
+2. **Configurations**: All the settings you've defined for your custom uploader will be included in this request.
+  
+3. **Adding Your Media**:
+   - For screenshots: They'll be added to the request body as `multipart/form-data` under the `image` key.
+   - For recordings: They'll be under the `video` key.
+
+   (P.S. If you'd like, you can change these default key names)
+
+## 🛠 Custom Uploader Setup
+
+If you're looking to integrate a custom endpoint for uploads using ishare, you're in the right place! By default, ishare supports and opens `.iscu` files for configuration. They are text files containing JSON data and you can make your own:
 
 <details>
   <summary>
-    Specification Details
+    📝 Specification
   </summary>
   
-  - **name** (string):\
-  The name of the custom uploader. Use this value to identify the uploader instance or provide a user-friendly name.
+- **name** (string):\
+  What would you like to call your custom uploader? This is its display name, making it easy to identify.
   
 - **requestUrl** (string):\
-  The URL where the files should be uploaded. Replace `example.com/upload` with the actual URL of the upload endpoint.
+  Where should ishare send the files? In the example, swap out `example.com/upload` with your specific upload URL.
   
 - **headers** (optional, object):\
-  Additional headers to include in the request. It should be a dictionary of key-value pairs, where each key represents the header name and the value represents the header value.
+  Need to send any extra headers? Add them here as key-value pairs, with the key being the header name and the value being its associated data.
   
 - **formData** (optional, object):\
-  Additional form data to be included in the request payload. It should be a dictionary of key-value pairs, where each key represents the form field name and the value represents the form field value.
+  If you need extra form fields in the upload, specify them here. Similarly, use key-value pairs where the key is the form field name and the value is the field content.
 
 - **fileFormName** (optional, string):\
-  Optional override for the value used as in the file name field for the multipart/form-data request.
+  Want a different file name for the `multipart/form-data` request? Specify it here.
   
 - **responseProp** (string):\
-  The property name in the response JSON that contains the uploaded file URL. Replace `"url"` with the actual json accessors that lead to the property returned in the response.
+  Once the file is uploaded, where can we find its URL in the response? Swap out `"url"` for the specific JSON property path.
 
 </details>
 
 <details>
   <summary>
-    Example
+    🌟 Example Configuration
   </summary>
   
 ```json
@@ -80,31 +138,16 @@ ishare is configured to support and open `.iscu` files by default.
 }
 ```
 
-In this example, the custom uploader is configured to upload files to `example.com/upload`. It includes an authorization header, a form field and a file form name override. The uploaded file URL is expected to be available in the specified property of the response JSON.
+Above is an example custom uploader for ishare. It sends uploads to `example.com/upload`, uses an authorization header, and includes additional form data. In the response, it expects to receive JSON with the property `"url"` containing the URL of your upload.
 
 </details>
 
 ## Post Media Task Plugin Specification
 
-ishare allows you to script your own plugins that you can use as PMT (Post Media Task).
+Soon, ishare will allow you to script your own plugins that you can use as PMTs (Post Media Tasks).
 
-<details>
-  <summary>
-    Specification Details
-  </summary>
-  TBD
-</details>
-
-<details>
-  <summary>
-    Example
-  </summary>
-  TBD
-</details>
-
-## Credits
+## 🙌 Credits
 - Special thanks to [Inna Strazhnik](https://www.behance.net/strazhnik) for the app icon
 
-## License
-
-Released under [GPL-3.0](/LICENSE) by [@castdrian](https://github.com/castdrian).
+## 📜 License
+Released under [GPL-3.0](/LICENSE) by [@castdrian](https://github.com/castdrian)
