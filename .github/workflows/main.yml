@@ -35,9 +35,9 @@ jobs:
           p12-password: ${{ secrets.P12_PASSWORD }}
 
       - name: Xcode Select Version
-        uses: mobiledevops/xcode-select-version-action@v1
+        uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-select-version: 15.0.0
+          xcode-version: '15.0.0'
 
       - name: Get Next Version
         id: semver
