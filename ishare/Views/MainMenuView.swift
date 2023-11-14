@@ -63,57 +63,59 @@ struct MainMenuView: View {
                 Label("Capture", image: String())
             }
             
-            Menu {
-                if let availableContent = availableContentProvider.availableContent {
-                    ForEach(availableContent.displays, id: \.self) { display in
-                        Button {
-                            recordScreen(display: display)
-                        } label: {
-                            Image(systemName: "menubar.dock.rectangle.badge.record")
-                            Label("Record \(display.displayName)", image: String())
-                        }.keyboardShortcut(display.displayID == 1 ? .recordScreen : .noKeybind).disabled(AppDelegate.shared.screenRecorder.isRunning)
-                    }
-                    Divider()
-                    ForEach(availableContent.windows, id: \.self) { window in
-                        Button {
-                            recordScreen(window: window)
-                        } label: {
-                            Image(systemName: "menubar.dock.rectangle.badge.record")
-                            Label("Record \(window.displayName)", image: String())
-                        }.disabled(AppDelegate.shared.screenRecorder.isRunning)
-                    }
-                }
-            }
-        label: {
-            Image(systemName: "menubar.dock.rectangle.badge.record")
-            Label("Record", image: String())
-        }
-            
-            Menu {
-                if let availableContent = availableContentProvider.availableContent {
-                    ForEach(availableContent.displays, id: \.self) { display in
-                        Button {
-                            recordScreen(display: display, gif: true)
-                        } label: {
-                            Image(systemName: "menubar.dock.rectangle.badge.record")
-                            Label("Record \(display.displayName)", image: String())
-                        }.keyboardShortcut(display.displayID == 1 ? .recordGif : .noKeybind).disabled(AppDelegate.shared.screenRecorder.isRunning)
-                    }
-                    Divider()
-                    ForEach(availableContent.windows, id: \.self) { window in
-                        Button {
-                            recordScreen(window: window, gif: true)
-                        } label: {
-                            Image(systemName: "menubar.dock.rectangle.badge.record")
-                            Label("Record \(window.displayName)", image: String())
-                        }.disabled(AppDelegate.shared.screenRecorder.isRunning)
+            if #available(macOS 13.0, *) {
+                Menu {
+                    if let availableContent = availableContentProvider.availableContent {
+                        ForEach(availableContent.displays, id: \.self) { display in
+                            Button {
+                                recordScreen(display: display)
+                            } label: {
+                                Image(systemName: "menubar.dock.rectangle.badge.record")
+                                Label("Record \(display.displayName)", image: String())
+                            }.keyboardShortcut(display.displayID == 1 ? .recordScreen : .noKeybind).disabled(AppDelegate.shared.screenRecorder.isRunning)
+                        }
+                        Divider()
+                        ForEach(availableContent.windows, id: \.self) { window in
+                            Button {
+                                recordScreen(window: window)
+                            } label: {
+                                Image(systemName: "menubar.dock.rectangle.badge.record")
+                                Label("Record \(window.displayName)", image: String())
+                            }.disabled(AppDelegate.shared.screenRecorder.isRunning)
+                        }
                     }
                 }
+            label: {
+                Image(systemName: "menubar.dock.rectangle.badge.record")
+                Label("Record", image: String())
             }
-        label: {
-            Image(systemName: "photo.stack")
-            Label("Record GIF", image: String())
-        }
+                
+                Menu {
+                    if let availableContent = availableContentProvider.availableContent {
+                        ForEach(availableContent.displays, id: \.self) { display in
+                            Button {
+                                recordScreen(display: display, gif: true)
+                            } label: {
+                                Image(systemName: "menubar.dock.rectangle.badge.record")
+                                Label("Record \(display.displayName)", image: String())
+                            }.keyboardShortcut(display.displayID == 1 ? .recordGif : .noKeybind).disabled(AppDelegate.shared.screenRecorder.isRunning)
+                        }
+                        Divider()
+                        ForEach(availableContent.windows, id: \.self) { window in
+                            Button {
+                                recordScreen(window: window, gif: true)
+                            } label: {
+                                Image(systemName: "menubar.dock.rectangle.badge.record")
+                                Label("Record \(window.displayName)", image: String())
+                            }.disabled(AppDelegate.shared.screenRecorder.isRunning)
+                        }
+                    }
+                }
+            label: {
+                Image(systemName: "photo.stack")
+                Label("Record GIF", image: String())
+            }
+            }
         }
         VStack {
             Menu {

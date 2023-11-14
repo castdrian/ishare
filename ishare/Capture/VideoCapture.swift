@@ -14,6 +14,7 @@ import Cocoa
 import AVFoundation
 import ScreenCaptureKit
 
+@available(macOS 13.0, *)
 @MainActor
 func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil, gif: Bool? = false) {
     @Default(.showRecordingPreview) var showPreview
@@ -32,32 +33,32 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil, gif: Bool?
     let fileURL = URL(fileURLWithPath: path)
     
     let screenRecorder = AppDelegate.shared.screenRecorder
-    screenRecorder?.isAudioCaptureEnabled = recordAudio
+    screenRecorder.isAudioCaptureEnabled = recordAudio
     
     if let display = display {
-        screenRecorder?.captureType = ScreenRecorder.CaptureType.display
-        screenRecorder?.selectedDisplay = display
+        screenRecorder.captureType = ScreenRecorder.CaptureType.display
+        screenRecorder.selectedDisplay = display
         
         if showPreview {
-            showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: display)
+            showCapturePreviewPopup(capturePreview: screenRecorder.capturePreview, screenRecorder: screenRecorder, display: display)
         }
         
     } else if let window = window {
-        screenRecorder?.captureType = ScreenRecorder.CaptureType.window
-        screenRecorder?.selectedWindow = window
+        screenRecorder.captureType = ScreenRecorder.CaptureType.window
+        screenRecorder.selectedWindow = window
         
         if showPreview {
-            showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, window: window)
+            showCapturePreviewPopup(capturePreview: screenRecorder.capturePreview, screenRecorder: screenRecorder, window: window)
         }
         
     } else if (display == nil) && (window == nil) {
         Task {
             do {
                 let availableContent = try await refreshAvailableContent()
-                screenRecorder?.selectedDisplay = availableContent.displays.first
+                screenRecorder.selectedDisplay = availableContent.displays.first
                 
                 if showPreview {
-                    showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: screenRecorder?.availableDisplays.first)
+                    showCapturePreviewPopup(capturePreview: screenRecorder.capturePreview, screenRecorder: screenRecorder, display: screenRecorder.availableDisplays.first)
                 }
             } catch {
                 print("Error refreshing content: \(error)")
@@ -74,8 +75,8 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil, gif: Bool?
     }
     
     Task {
-        if ((await screenRecorder?.canRecord) != nil) {
-            await screenRecorder?.start(fileURL)
+        if (await screenRecorder.canRecord) {
+            await screenRecorder.start(fileURL)
         } else {
             BezelNotification.show(messageText: "Missing permission", icon: ToastIcon)
         }

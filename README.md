@@ -39,7 +39,7 @@
 <p align="center">
   <sub align="center">Homebrew cask star goal</sub>
   <p align="center">
-    <img src="https://progress-bar.dev/49/?width=500" alt="Homebrew cask star goal progress">
+    <img src="https://progress-bar.dev/67/?width=500" alt="Homebrew cask star goal progress">
   </p>
 </p>
 

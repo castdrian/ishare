@@ -7,11 +7,11 @@
 
 import SwiftUI
 import Defaults
-import LaunchAtLogin
 import KeyboardShortcuts
 import BezelNotification
 import UniformTypeIdentifiers
 import ScreenCaptureKit
+import LaunchAtLogin
 
 struct SettingsMenuView: View {
     var body: some View {
@@ -123,7 +123,11 @@ struct CaptureSettingsView: View {
                 Button("Select directory") {
                     selectFolder { folderURL in
                         if let url = folderURL {
-                            capturePath = url.path()
+                            if #available(macOS 13.0, *) {
+                                capturePath = url.path()
+                            } else {
+                                capturePath = url.path
+                            }
                         }
                     }
                 }
@@ -170,7 +174,11 @@ struct RecordingSettingsView: View {
                 Button("Select directory") {
                     selectFolder { folderURL in
                         if let url = folderURL {
-                            recordingPath = url.path()
+                            if #available(macOS 13.0, *) {
+                                recordingPath = url.path()
+                            } else {
+                                recordingPath = url.path
+                            }
                         }
                     }
                 }

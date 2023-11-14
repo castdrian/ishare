@@ -17,6 +17,7 @@ class AudioLevelsProvider: ObservableObject {
     @Published var audioLevels = AudioLevels.zero
 }
 
+@available(macOS 13.0, *)
 @MainActor
 class ScreenRecorder: ObservableObject {
     

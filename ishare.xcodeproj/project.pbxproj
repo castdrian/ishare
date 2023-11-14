@@ -21,13 +21,13 @@
 		3A72B9A32A7699E200B2DEBA /* CapturePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9A22A7699E200B2DEBA /* CapturePreview.swift */; };
 		3A72B9A52A769A7200B2DEBA /* PreviewPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9A42A769A7200B2DEBA /* PreviewPopover.swift */; };
 		3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* App.swift */; };
+		3AACDE882B02066B0003A56A /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3AACDE872B02066B0003A56A /* LaunchAtLogin */; };
 		3AB318582A7AD35D00CE8610 /* MovieRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB318572A7AD35D00CE8610 /* MovieRecorder.swift */; };
 		3AB3185A2A7AD52C00CE8610 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB318592A7AD52C00CE8610 /* DataController.swift */; };
 		3AB3185D2A7AD5CB00CE8610 /* Video.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3AB3185B2A7AD5CB00CE8610 /* Video.xcdatamodeld */; };
 		3AB345AB2A5D779500AAEC0E /* ImageCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ImageCapture.swift */; };
 		3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
 		3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */; };
-		3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */; };
 		3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345BB2A5EBA5400AAEC0E /* Defaults */; };
 		3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */; };
 		3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */; };
@@ -98,7 +98,7 @@
 				3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */,
 				3A0679E12A648C0F0088DE6A /* SwiftyJSON in Frameworks */,
 				3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */,
-				3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */,
+				3AACDE882B02066B0003A56A /* LaunchAtLogin in Frameworks */,
 				3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,6 +205,7 @@
 				3A9A9FD02A5C84B5007BA5C9 /* Sources */,
 				3A9A9FD12A5C84B5007BA5C9 /* Frameworks */,
 				3A9A9FD22A5C84B5007BA5C9 /* Resources */,
+				3A6A62B22B02022100FB47E5 /* ShellScript */,
 				3A1E39C42A66915700F6CBBF /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -213,7 +214,6 @@
 			);
 			name = ishare;
 			packageProductDependencies = (
-				3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */,
 				3AB345BB2A5EBA5400AAEC0E /* Defaults */,
 				3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */,
 				3A17C0782A61A20E0012F285 /* Alamofire */,
@@ -223,6 +223,7 @@
 				3A72B9922A7505CF00B2DEBA /* Sparkle */,
 				3A72B9A02A7594F900B2DEBA /* MenuBarExtraAccess */,
 				3A6D1E982ACB004000882366 /* SettingsAccess */,
+				3AACDE872B02066B0003A56A /* LaunchAtLogin */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
@@ -253,7 +254,6 @@
 			);
 			mainGroup = 3A9A9FCB2A5C84B4007BA5C9;
 			packageReferences = (
-				3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 				3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */,
 				3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				3A17C0772A61A20E0012F285 /* XCRemoteSwiftPackageReference "Alamofire" */,
@@ -263,6 +263,7 @@
 				3A72B9912A7505CF00B2DEBA /* XCRemoteSwiftPackageReference "Sparkle" */,
 				3A72B99F2A7594F900B2DEBA /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */,
 				3A6D1E972ACB004000882366 /* XCRemoteSwiftPackageReference "SettingsAccess" */,
+				3AACDE862B02066B0003A56A /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
 			projectDirPath = "";
@@ -283,6 +284,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3A6A62B22B02022100FB47E5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3A9A9FD02A5C84B5007BA5C9 /* Sources */ = {
@@ -361,7 +383,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -376,7 +398,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -431,7 +453,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -440,7 +462,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.3;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -475,6 +497,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = "${VERSION}";
 				PRODUCT_BUNDLE_IDENTIFIER = com.castdrian.ishare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -511,6 +534,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
 				MARKETING_VERSION = "${VERSION}";
 				PRODUCT_BUNDLE_IDENTIFIER = com.castdrian.ishare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -592,9 +616,9 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
+		3AACDE862B02066B0003A56A /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -657,9 +681,9 @@
 			package = 3A72B99F2A7594F900B2DEBA /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */;
 			productName = MenuBarExtraAccess;
 		};
-		3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */ = {
+		3AACDE872B02066B0003A56A /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
+			package = 3AACDE862B02066B0003A56A /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
 			productName = LaunchAtLogin;
 		};
 		3AB345BB2A5EBA5400AAEC0E /* Defaults */ = {

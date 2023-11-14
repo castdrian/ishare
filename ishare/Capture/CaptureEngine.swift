@@ -24,6 +24,7 @@ struct CapturedFrame {
 }
 
 /// An object that wraps an instance of `SCStream`, and returns its results as an `AsyncThrowingStream`.
+@available(macOS 13.0, *)
 class CaptureEngine: NSObject, @unchecked Sendable {
     
     private let logger = Logger()
