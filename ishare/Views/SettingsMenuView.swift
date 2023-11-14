@@ -14,6 +14,8 @@ import ScreenCaptureKit
 import LaunchAtLogin
 
 struct SettingsMenuView: View {
+    @Default(.aussieMode) var aussieMode
+
     var body: some View {
         TabView {
             GeneralSettingsView()
@@ -48,20 +50,22 @@ struct SettingsMenuView: View {
             
             AdvancedSettingsView()
                 .tabItem {
-                    Label("Advanced", systemImage: "hammer.circle")
+                    Label("Advanced", systemImage: "hammer.circle").rotationEffect(aussieMode ? .degrees(180) : .zero)
                 }
         }
-        .frame(width: 550, height: 350)
+        .frame(width: 550, height: 350).rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 }
 
 struct GeneralSettingsView: View {
     @Default(.menuBarIcon) var menubarIcon
     @Default(.toastTimeout) var toastTimeout
+    @Default(.aussieMode) var aussieMode
     
     var body: some View {
         VStack {
             LaunchAtLogin.Toggle()
+            Toggle("I am in Australia", isOn: $aussieMode)
             Picker("MenuBar Icon", selection: $menubarIcon) {
                 ForEach(MenuBarIcon.allCases, id: \.self) { choice in
                     Button {} label: {

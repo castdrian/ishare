@@ -53,6 +53,7 @@ extension Defaults.Keys {
     static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT)
     static let uploadHistory = Key<Array<String>>("uploadHistory", default: [])
     static let ignoredBundleIdentifiers = Key<Array<String>>("ignoredApps", default: [])
+    static let aussieMode = Key<Bool>("aussieMode", default: false)
 }
 
 extension View {
