@@ -265,7 +265,11 @@ struct MainMenuView: View {
             else {
                 Button(action: {
                     NSApplication.shared.activate(ignoringOtherApps: true)
-                    NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                    if #available(macOS 13.0, *) {
+                        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+                    } else {
+                        NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+                    }
                 }) {
                     Image(systemName: "gearshape")
                     Text("Settings")
