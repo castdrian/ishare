@@ -8,6 +8,11 @@
 import Foundation
 import Defaults
 
+enum RequestBodyType: String, Codable {
+    case multipartFormData = "multipartFormData"
+    case binary = "binary"
+}
+
 struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable, Defaults.Serializable {
     var id: UUID
     let name: String
@@ -16,8 +21,9 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
     let formData: [String: String]?
     let fileFormName: String?
     let responseProp: String
-    
-    init(id: UUID = UUID(), name: String, requestUrl: String, headers: [String: String]?, formData: [String: String]?, fileFormName: String?, responseProp: String) {
+    let requestBodyType: RequestBodyType?
+
+    init(id: UUID = UUID(), name: String, requestUrl: String, headers: [String: String]?, formData: [String: String]?, fileFormName: String?, responseProp: String, requestBodyType: RequestBodyType? = nil) {
         self.id = id
         self.name = name
         self.requestUrl = requestUrl
@@ -25,6 +31,7 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         self.formData = formData
         self.fileFormName = fileFormName
         self.responseProp = responseProp
+        self.requestBodyType = requestBodyType
     }
     
     init(from decoder: Decoder) throws {
@@ -36,6 +43,7 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         formData = try container.decodeIfPresent([String: String].self, forKey: .formData)
         fileFormName = try container.decodeIfPresent(String.self, forKey: .fileFormName)
         responseProp = try container.decode(String.self, forKey: .responseProp)
+        requestBodyType = try container.decodeIfPresent(RequestBodyType.self, forKey: .requestBodyType)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -46,6 +54,7 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         case formData
         case fileFormName
         case responseProp
+        case requestBodyType
     }
     
     static var allCases: [CustomUploader] {

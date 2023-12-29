@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import BezelNotification
 
 struct HistoryGridView: View {
     var uploadHistory: [String]
@@ -60,14 +61,18 @@ struct ContextMenuWrapper<Content: View>: View {
             }
             .contextMenu {
                 Button("Copy URL") {
-                    // Action for the first menu item
+                    NSPasteboard.general.declareTypes([.string], owner: nil)
+                    NSPasteboard.general.setString(item, forType: .string)
+                    BezelNotification.show(messageText: "Copied URL", icon: ToastIcon)
                 }
                 Button("Open in Browser") {
-                    // Action for the second menu item
+                    if let url = URL(string: item) {
+                        NSWorkspace.shared.open(url)
+                    }
                 }
-                Button("Delete") {
-                    // Action for the third menu item
-                }
+//                Button("Delete") {
+//                    // Action for the third menu item
+//                }
             }
     }
 }

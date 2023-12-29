@@ -116,9 +116,12 @@ If you're looking to integrate a custom endpoint for uploads using ishare, you'r
 
 - **fileFormName** (optional, string):\
   Want a different file name for the `multipart/form-data` request? Specify it here.
-  
+
 - **responseProp** (string):\
   Once the file is uploaded, where can we find its URL in the response? Swap out `"url"` for the specific JSON property path.
+
+- **requestBodyType** (optional, string):\
+  How should the request body be sent? Choose between `"multipartFormData"` and `"binary"`. If not specified, `multipartFormData` is the default.
 
 </details>
 
@@ -134,7 +137,8 @@ If you're looking to integrate a custom endpoint for uploads using ishare, you'r
   "headers": { "Authorization": "Basic 0123456789" },
   "formData": { "key": "value" },
   "fileFormName": "image",
-  "responseProp": "url"
+  "responseProp": "url",
+  "requestBodyType": "multiPartFormData"
 }
 ```
 
