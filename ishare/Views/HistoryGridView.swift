@@ -8,21 +8,21 @@
 import Foundation
 import SwiftUI
 import BezelNotification
+import Alamofire
 
 struct HistoryGridView: View {
-    var uploadHistory: [HistoryItem]
-
+    @State var uploadHistory: [HistoryItem]
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100, maximum: .infinity), spacing: 3)], spacing: 3) {
                 ForEach(uploadHistory, id: \.self) { item in
                     if let urlStr = item.fileUrl, let url = URL(string: urlStr), url.pathExtension.lowercased() == "mp4" || url.pathExtension.lowercased() == "mov" {
-                        ContextMenuWrapper(item: urlStr) {
+                        ContextMenuWrapper(uploadHistory: $uploadHistory, item: item) {
                             VideoThumbnailView(url: url)
                                 .frame(width: 100, height: 100)
                         }
                     } else {
-                        ContextMenuWrapper(item: item.fileUrl ?? "") {
+                        ContextMenuWrapper(uploadHistory: $uploadHistory, item: item) {
                             HistoryItemView(urlString: item.fileUrl ?? "")
                                 .frame(width: 100, height: 100)
                         }
@@ -33,52 +33,59 @@ struct HistoryGridView: View {
         .frame(minWidth: 600, minHeight: 400)
     }
 }
-struct ContextMenuWrapper<Content: View>: View {
-    @State private var isHovered = false
-    let content: Content
-    let item: String
 
-    init(item: String, @ViewBuilder content: () -> Content) {
+struct ContextMenuWrapper<Content: View>: View {
+    @Binding var uploadHistory: [HistoryItem]
+    let content: Content
+    let item: HistoryItem
+    
+    init(uploadHistory: Binding<[HistoryItem]>, item: HistoryItem, @ViewBuilder content: () -> Content) {
+        self._uploadHistory = uploadHistory
         self.item = item
         self.content = content()
     }
-
+    
     var body: some View {
         content
-            .scaleEffect(isHovered ? 1.05 : 1.0) // Scale effect on hover
-            .shadow(color: isHovered ? .gray : .clear, radius: 10) // Shadow effect
-            .background(isHovered ? Color.gray.opacity(0.2) : Color.clear) // Background color change
-            .cornerRadius(8) // Rounded corners
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(isHovered ? Color.gray : Color.clear, lineWidth: 2) // Border
-            )
-            .onHover { hovering in
-                withAnimation {
-                    isHovered = hovering
-                }
-            }
             .contextMenu {
                 Button("Copy URL") {
                     NSPasteboard.general.declareTypes([.string], owner: nil)
-                    NSPasteboard.general.setString(item, forType: .string)
+                    NSPasteboard.general.setString(item.fileUrl ?? "", forType: .string)
                     BezelNotification.show(messageText: "Copied URL", icon: ToastIcon)
                 }
                 Button("Open in Browser") {
-                    if let url = URL(string: item) {
+                    if let url = URL(string: item.fileUrl ?? "") {
                         NSWorkspace.shared.open(url)
                     }
                 }
-//                Button("Delete") {
-//                    // Action for the third menu item
-//                }
+                Button("Delete") {
+                    print(item.deletionUrl ?? "nop")
+                    if let deletionUrl = item.deletionUrl {
+                        performDeletionRequest(deletionUrl: deletionUrl) { result in
+                            DispatchQueue.main.async {
+                                switch result {
+                                case .success(let message):
+                                    print(message)
+                                    if let index = uploadHistory.firstIndex(of: item) {
+                                        uploadHistory.remove(at: index)
+                                        BezelNotification.show(messageText: "Deleted", icon: ToastIcon)
+                                    }
+                                case .failure(let error):
+                                    print("Deletion error: \(error.localizedDescription)")
+                                }
+                            }
+                        }
+                    }
+                }
             }
     }
 }
 
+// ... Rest of your views ...
+
 struct VideoThumbnailView: View {
     var url: URL
-
+    
     var body: some View {
         Image(systemName: "video")
             .resizable()
@@ -89,7 +96,7 @@ struct VideoThumbnailView: View {
 
 struct HistoryItemView: View {
     var urlString: String
-
+    
     var body: some View {
         if let url = URL(string: urlString) {
             AsyncImage(url: url) { image in

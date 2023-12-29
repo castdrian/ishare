@@ -97,6 +97,22 @@ func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders, specif
     }
 }
 
+func performDeletionRequest(deletionUrl: String, completion: @escaping (Result<String, Error>) -> Void) {
+    guard let url = URL(string: deletionUrl) else {
+        completion(.failure(CustomUploadError.responseParsing))
+        return
+    }
+
+    AF.request(url, method: .get).response { response in
+        switch response.result {
+        case .success:
+            completion(.success("Deleted file successfully"))
+        case .failure(let error):
+            completion(.failure(error))
+        }
+    }
+}
+
 func handleResponse(data: Data, specification: CustomUploader, callback: ((Error?, URL?) -> Void)?, completion: @escaping () -> Void) {
     let json = JSON(data)
     print(json)

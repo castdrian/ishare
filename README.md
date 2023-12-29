@@ -79,72 +79,80 @@
 
 ![ishare_menu](https://github.com/iGerman00/ishare/assets/36676880/3a546afb-90ee-4b85-8b38-6029ccd67565)
 
-## 📤 Custom Uploader Requests
-
-With ishare, you can easily set up your own custom uploader. Here's a simple guide:
-
-1. **Endpoint and Method**: When you use a custom uploader, ishare will send a `POST` request to the endpoint you provide.
-  
-2. **Configurations**: All the settings you've defined for your custom uploader will be included in this request.
-  
-3. **Adding Your Media**:
-   - For screenshots: They'll be added to the request body as `multipart/form-data` under the `image` key.
-   - For recordings: They'll be under the `video` key.
-
-   (P.S. If you'd like, you can change these default key names)
 
 ## 🛠 Custom Uploader Setup
 
 If you're looking to integrate a custom endpoint for uploads using ishare, you're in the right place! By default, ishare supports and opens `.iscu` files for configuration. They are text files containing JSON data and you can make your own:
 
-<details>
-  <summary>
-    📝 Specification
-  </summary>
-  
-- **name** (string):\
-  What would you like to call your custom uploader? This is its display name, making it easy to identify.
-  
-- **requestUrl** (string):\
-  Where should ishare send the files? In the example, swap out `example.com/upload` with your specific upload URL.
-  
-- **headers** (optional, object):\
-  Need to send any extra headers? Add them here as key-value pairs, with the key being the header name and the value being its associated data.
-  
-- **formData** (optional, object):\
-  If you need extra form fields in the upload, specify them here. Similarly, use key-value pairs where the key is the form field name and the value is the field content.
-
-- **fileFormName** (optional, string):\
-  Want a different file name for the `multipart/form-data` request? Specify it here.
-
-- **responseProp** (string):\
-  Once the file is uploaded, where can we find its URL in the response? Swap out `"url"` for the specific JSON property path.
-
-- **requestBodyType** (optional, string):\
-  How should the request body be sent? Choose between `"multipartFormData"` and `"binary"`. If not specified, `multipartFormData` is the default.
-
-</details>
+**Note:** Version 2.0.0 introduces breaking changes. Follow the migration guide for updates and consider reinstallation if you encounter issues post-update.
 
 <details>
   <summary>
-    🌟 Example Configuration
+    📝 Specification (Version 2.0.0)
   </summary>
-  
+
+  The custom uploader specification in version 2.0.0 has the following structure:
+
 ```json
 {
-  "name": "ishare custom uploader",
-  "requestUrl": "example.com/upload",
-  "headers": { "Authorization": "Basic 0123456789" },
-  "formData": { "key": "value" },
-  "fileFormName": "image",
-  "responseProp": "url",
-  "requestBodyType": "multiPartFormData"
+    "name": "Custom Uploader Name",
+    "requestUrl": "https://your-upload-url.com/upload",
+    "headers": { // optional
+        "Authorization": "Bearer YOUR_AUTH_TOKEN"
+    },
+    "formData": { // optional
+        "additionalData": "value"
+    },
+    "fileFormName": "file", // optional
+    "requestBodyType": "multipartFormData", // optional, choice of multipartFormData and binary
+    "responseURL": "https://your-upload-url.com/{{jsonproperty}}",
+    "deletionURL": "https://your-upload-url.com/delete/{{jsonproperty}}" // optional
 }
 ```
 
-Above is an example custom uploader for ishare. It sends uploads to `example.com/upload`, uses an authorization header, and includes additional form data. In the response, it expects to receive JSON with the property `"url"` containing the URL of your upload.
+This new specification allows for more dynamic URL construction and handling deletion URLs.
 
 </details>
+
+## ⚙️ Migration Guide from Previous Specification
+<details>
+<summary>Click to expand</summary>
+
+### Key Changes in Specification
+- `responseURL` replaces `responseProp`.
+- New optional field `deletionURL`.
+- Updated URL templating syntax.
+
+### Migration Steps
+1. Replace `responseProp` with `responseURL`, ensuring the URL includes placeholders for dynamic values.
+2. If your service supports deletion, add the `deletionURL` field.
+3. Update URL placeholders to match the new syntax. For instance, `{fileId}` replaces `{responsePropName}`.
+
+### Example Migration
+Previous spec:
+
+```json
+{
+    "name": "uploader",
+    "requestUrl": "https://uploader.com/upload",
+    "responseProp": "fileUrl"
+}
+```
+
+New spec:
+```json
+{
+    "name": "uploader",
+    "requestUrl": "https://uploader.com/upload",
+    "responseURL": "{{fileUrl}}" // can be concatenated: "https://uploader.com/{{property}}"
+}
+```
+</details>
+
+## Compatible Uploader Services
+ishare is confirmed to be compatible with the following uploader services:
+- [chibisafe](https://github.com/chibisafe/chibisafe)
+- [lumen](https://github.com/ChecksumDev/lumen)
 
 ## Post Media Task Plugin Specification
 
