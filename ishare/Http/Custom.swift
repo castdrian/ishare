@@ -99,6 +99,7 @@ func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders, specif
 
 func handleResponse(data: Data, specification: CustomUploader, callback: ((Error?, URL?) -> Void)?, completion: @escaping () -> Void) {
     let json = JSON(data)
+    print(json)
     
     let fileUrl = constructUrl(from: specification.responseURL, using: json)
     let deletionUrl = constructUrl(from: specification.deletionURL, using: json)
@@ -120,27 +121,40 @@ func handleResponse(data: Data, specification: CustomUploader, callback: ((Error
 
 func constructUrl(from format: String?, using json: JSON) -> String {
     guard let format = format else { return "" }
-    var url = format
-    let pattern = "\\{([a-zA-Z0-9_\\[\\].]+)\\}"
-    
-    let regex = try? NSRegularExpression(pattern: pattern, options: [])
-    let nsrange = NSRange(url.startIndex..<url.endIndex, in: url)
-    
-    regex?.enumerateMatches(in: url, options: [], range: nsrange) { match, _, _ in
-        if let match = match, let range = Range(match.range(at: 1), in: url) {
-            let keyPath = String(url[range])
-            let replacement = getNestedJSONValue(json: json, keyPath: keyPath) ?? ""
-            url = url.replacingOccurrences(of: "{\(keyPath)}", with: replacement)
+    let (taggedUrl, tags) = tagPlaceholders(in: format)
+    var url = taggedUrl
+
+    for (tag, key) in tags {
+        if let replacement = json[key].string {
+            url = url.replacingOccurrences(of: tag, with: replacement)
         }
     }
-    
+
     return url
+}
+
+func tagPlaceholders(in url: String) -> (taggedUrl: String, tags: [(String, String)]) {
+    var taggedUrl = url
+    var tags: [(String, String)] = []
+    let pattern = "\\{\\{([a-zA-Z0-9_]+)\\}\\}"
+    let regex = try? NSRegularExpression(pattern: pattern, options: [])
+    let nsrange = NSRange(url.startIndex..<url.endIndex, in: url)
+
+    regex?.enumerateMatches(in: url, options: [], range: nsrange) { match, _, _ in
+        if let match = match, let range = Range(match.range(at: 1), in: url) {
+            let key = String(url[range])
+            let tag = "%%\(key)_TAG%%"
+            tags.append((tag, key))
+            taggedUrl = taggedUrl.replacingOccurrences(of: "{{\(key)}}", with: tag)
+        }
+    }
+    return (taggedUrl, tags)
 }
 
 func getNestedJSONValue(json: JSON, keyPath: String) -> String? {
     var nestedJSON: JSON? = json
     let nestedKeys = keyPath.components(separatedBy: ".")
-    
+
     for key in nestedKeys {
         if let index = key.firstIndex(of: "[") {
             let arrayKey = String(key[..<index])
@@ -149,12 +163,12 @@ func getNestedJSONValue(json: JSON, keyPath: String) -> String? {
         } else {
             nestedJSON = nestedJSON?[key]
         }
-        
+
         if nestedJSON == nil {
             return nil
         }
     }
-    
+
     return nestedJSON?.stringValue
 }
 
