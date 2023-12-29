@@ -17,6 +17,27 @@ enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
     case custom(UUID?)
 }
 
+class HistoryWindowController: NSWindowController {
+    convenience init(contentView: NSView) {
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 600, height: 400),
+            styleMask: [.titled, .closable],
+            backing: .buffered, defer: false)
+        window.center()
+        window.contentView = contentView
+        self.init(window: window)
+    }
+
+    override func windowDidLoad() {
+        super.windowDidLoad()
+    }
+}
+
+class WindowHolder {
+    static let shared = WindowHolder()
+    var historyWindowController: HistoryWindowController?
+}
+
 struct MainMenuView: View {
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
@@ -30,6 +51,23 @@ struct MainMenuView: View {
     @Default(.uploadHistory) var uploadHistory
     
     @StateObject private var availableContentProvider = AvailableContentProvider()
+    
+    private func openHistoryWindow() {
+        if WindowHolder.shared.historyWindowController == nil {
+            let historyView = HistoryGridView(uploadHistory: uploadHistory)
+            let hostingController = NSHostingController(rootView: historyView)
+            let windowController = HistoryWindowController(contentView: hostingController.view)
+            windowController.window?.title = "History"
+
+            windowController.showWindow(nil)
+            NSApp.activate(ignoringOtherApps: true)
+
+            WindowHolder.shared.historyWindowController = windowController
+        } else {
+            WindowHolder.shared.historyWindowController?.window?.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+        }
+    }
     
     var body: some View {
         VStack {
@@ -211,7 +249,16 @@ struct MainMenuView: View {
             
             if !uploadHistory.isEmpty {
                 Menu {
-                    ForEach(uploadHistory, id: \.self) { item in
+                    Button {
+                        openHistoryWindow()
+                    } label: {
+                        Image(systemName: "clock.arrow.circlepath")
+                        Label("Open History Window", image: String())
+                    }
+                    
+                    Divider()
+                    
+                    ForEach(uploadHistory.prefix(10), id: \.self) { item in
                         Button {
                             NSPasteboard.general.declareTypes([.string], owner: nil)
                             NSPasteboard.general.setString(item, forType: .string)

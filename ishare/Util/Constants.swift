@@ -501,7 +501,7 @@ func addToUploadHistory(_ entry: String) {
     uploadHistory.removeAll(where: { $0 == entry })
     uploadHistory.insert(entry, at: 0)
 
-    if uploadHistory.count > 10 {
+    if uploadHistory.count > 50 {
         uploadHistory.removeLast()
     }
 }

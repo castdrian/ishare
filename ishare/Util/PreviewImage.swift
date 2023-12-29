@@ -34,7 +34,7 @@ struct PreviewImage<Content: View>: View {
                 return
             }
             let config = URLSessionConfiguration.default
-            config.httpMaximumConnectionsPerHost = 10
+            config.httpMaximumConnectionsPerHost = 100
             let session = URLSession(configuration: config)
             let task = session.dataTask(with: url) { data, _, _ in
                 if let data = data, let uiImage = NSImage(data: data) {
