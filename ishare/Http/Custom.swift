@@ -19,20 +19,22 @@ enum CustomUploadError: Error {
 
 func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error?, URL?) -> Void)? = nil, completion: @escaping () -> Void) {
     @Default(.captureFileType) var fileType
-
+    
     guard specification.isValid() else {
         print("Invalid specification")
         completion()
         return
     }
-
+    
     let url = URL(string: specification.requestUrl)!
     var headers = HTTPHeaders(specification.headers ?? [:])
-
+    let fileName = fileURL.lastPathComponent
+    headers.add(name: "x-file-name", value: fileName)
+    
     switch specification.requestBodyType {
     case .multipartFormData, .none:
         uploadMultipartFormData(fileURL: fileURL, url: url, headers: headers, specification: specification, callback: callback, completion: completion)
-
+        
     case .binary:
         uploadBinaryData(fileURL: fileURL, url: url, headers: &headers, specification: specification, callback: callback, completion: completion)
     }
@@ -41,7 +43,7 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
 func uploadMultipartFormData(fileURL: URL, url: URL, headers: HTTPHeaders, specification: CustomUploader, callback: ((Error?, URL?) -> Void)?, completion: @escaping () -> Void) {
     var fileFormName: String
     var mimeType: String
-
+    
     switch fileURL.pathExtension {
     case "mp4":
         fileFormName = "video"
@@ -53,16 +55,17 @@ func uploadMultipartFormData(fileURL: URL, url: URL, headers: HTTPHeaders, speci
         fileFormName = "image"
         mimeType = "image/\(fileURL.pathExtension)"
     }
-
+    
     AF.upload(multipartFormData: { multipartFormData in
         if let formData = specification.formData {
             for (key, value) in formData {
                 multipartFormData.append(value.data(using: .utf8)!, withName: key)
             }
         }
-
+        
         if let fileData = try? Data(contentsOf: fileURL) {
-            multipartFormData.append(fileData, withName: specification.fileFormName ?? fileFormName, fileName: fileURL.lastPathComponent, mimeType: mimeType)
+            let lowercasedFileName = fileNameWithLowercaseExtension(from: fileURL)
+            multipartFormData.append(fileData, withName: specification.fileFormName ?? fileFormName, fileName: lowercasedFileName, mimeType: mimeType)
         }
     }, to: url, method: .post, headers: headers).response { response in
         if let data = response.data {
@@ -80,10 +83,10 @@ func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders, specif
         completion()
         return
     }
-
+    
     let mimeType = mimeTypeForPathExtension(fileURL.pathExtension)
     headers.add(name: "Content-Type", value: mimeType)
-
+    
     AF.upload(fileData, to: url, method: .post, headers: headers).response { response in
         if let data = response.data {
             handleResponse(data: data, specification: specification, callback: callback, completion: completion)
@@ -96,31 +99,48 @@ func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders, specif
 
 func handleResponse(data: Data, specification: CustomUploader, callback: ((Error?, URL?) -> Void)?, completion: @escaping () -> Void) {
     let json = JSON(data)
-    if let nestedValue = getNestedJSONValue(json: json, keyPath: specification.responseProp) {
-        if let link = nestedValue.string {
-            print("File uploaded successfully. Link: \(link)")
-            let pasteboard = NSPasteboard.general
-            pasteboard.clearContents()
-            pasteboard.setString(link, forType: .string)
-            addToUploadHistory(link)
-            callback?(nil, URL(string: link))
-            completion()
-        } else {
-            print("Error parsing response or retrieving file link")
-            callback?(CustomUploadError.responseParsing, nil)
-            completion()
-        }
+    
+    let fileUrl = constructUrl(from: specification.responseURL, using: json)
+    let deletionUrl = constructUrl(from: specification.deletionURL, using: json)
+    
+    // Continue with callback and completion
+    if let fileUrl = URL(string: fileUrl) {
+        let historyItem = HistoryItem(fileUrl: fileUrl.absoluteString, deletionUrl: deletionUrl)
+        addToUploadHistory(historyItem)
+        
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(fileUrl.absoluteString, forType: .string)
+        callback?(nil, fileUrl)
     } else {
-        print("Error retrieving response data")
-        callback?(CustomUploadError.responseRetrieval, nil)
-        completion()
+        callback?(CustomUploadError.responseParsing, nil)
     }
+    completion()
 }
 
-func getNestedJSONValue(json: JSON, keyPath: String) -> JSON? {
+func constructUrl(from format: String?, using json: JSON) -> String {
+    guard let format = format else { return "" }
+    var url = format
+    let pattern = "\\{([a-zA-Z0-9_\\[\\].]+)\\}"
+    
+    let regex = try? NSRegularExpression(pattern: pattern, options: [])
+    let nsrange = NSRange(url.startIndex..<url.endIndex, in: url)
+    
+    regex?.enumerateMatches(in: url, options: [], range: nsrange) { match, _, _ in
+        if let match = match, let range = Range(match.range(at: 1), in: url) {
+            let keyPath = String(url[range])
+            let replacement = getNestedJSONValue(json: json, keyPath: keyPath) ?? ""
+            url = url.replacingOccurrences(of: "{\(keyPath)}", with: replacement)
+        }
+    }
+    
+    return url
+}
+
+func getNestedJSONValue(json: JSON, keyPath: String) -> String? {
     var nestedJSON: JSON? = json
     let nestedKeys = keyPath.components(separatedBy: ".")
-
+    
     for key in nestedKeys {
         if let index = key.firstIndex(of: "[") {
             let arrayKey = String(key[..<index])
@@ -129,13 +149,19 @@ func getNestedJSONValue(json: JSON, keyPath: String) -> JSON? {
         } else {
             nestedJSON = nestedJSON?[key]
         }
-
+        
         if nestedJSON == nil {
             return nil
         }
     }
+    
+    return nestedJSON?.stringValue
+}
 
-    return nestedJSON
+func fileNameWithLowercaseExtension(from url: URL) -> String {
+    let fileName = url.deletingPathExtension().lastPathComponent
+    let fileExtension = url.pathExtension.lowercased()
+    return fileExtension.isEmpty ? fileName : "\(fileName).\(fileExtension)"
 }
 
 func mimeTypeForPathExtension(_ ext: String) -> String {

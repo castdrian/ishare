@@ -51,7 +51,7 @@ extension Defaults.Keys {
     static let builtInShare = Key<SharingPreferences>("builtInShare", default: .init())
     static let toastTimeout = Key<Double>("toastTimeout", default: 2)
     static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT)
-    static let uploadHistory = Key<Array<String>>("uploadHistory", default: [])
+    static let uploadHistory = Key<[HistoryItem]>("uploadHistory", default: [])
     static let ignoredBundleIdentifiers = Key<Array<String>>("ignoredApps", default: [])
     static let aussieMode = Key<Bool>("aussieMode", default: false)
 }
@@ -495,12 +495,19 @@ enum MenuBarIcon: Codable, CaseIterable, Identifiable, Defaults.Serializable {
     var id: Self { self }
 }
 
-func addToUploadHistory(_ entry: String) {
-    @Default(.uploadHistory) var uploadHistory
-    
-    uploadHistory.removeAll(where: { $0 == entry })
-    uploadHistory.insert(entry, at: 0)
+struct HistoryItem: Codable, Hashable, Defaults.Serializable {
+    var fileUrl: String?
+    var deletionUrl: String?
+    var id: Self { self }
+}
 
+func addToUploadHistory(_ item: HistoryItem) {
+    @Default(.uploadHistory) var uploadHistory
+
+    // Add new history item at the beginning of the array
+    uploadHistory.insert(item, at: 0)
+
+    // Limit the history size
     if uploadHistory.count > 50 {
         uploadHistory.removeLast()
     }

@@ -10,20 +10,20 @@ import SwiftUI
 import BezelNotification
 
 struct HistoryGridView: View {
-    var uploadHistory: [String]
+    var uploadHistory: [HistoryItem]
 
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100, maximum: .infinity), spacing: 3)], spacing: 3) {
                 ForEach(uploadHistory, id: \.self) { item in
-                    if let url = URL(string: item), url.pathExtension.lowercased() == "mp4" || url.pathExtension.lowercased() == "mov" {
-                        ContextMenuWrapper(item: item) {
+                    if let urlStr = item.fileUrl, let url = URL(string: urlStr), url.pathExtension.lowercased() == "mp4" || url.pathExtension.lowercased() == "mov" {
+                        ContextMenuWrapper(item: urlStr) {
                             VideoThumbnailView(url: url)
                                 .frame(width: 100, height: 100)
                         }
                     } else {
-                        ContextMenuWrapper(item: item) {
-                            HistoryItemView(urlString: item)
+                        ContextMenuWrapper(item: item.fileUrl ?? "") {
+                            HistoryItemView(urlString: item.fileUrl ?? "")
                                 .frame(width: 100, height: 100)
                         }
                     }
@@ -33,7 +33,6 @@ struct HistoryGridView: View {
         .frame(minWidth: 600, minHeight: 400)
     }
 }
-
 struct ContextMenuWrapper<Content: View>: View {
     @State private var isHovered = false
     let content: Content

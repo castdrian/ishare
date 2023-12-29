@@ -261,17 +261,16 @@ struct MainMenuView: View {
                     ForEach(uploadHistory.prefix(10), id: \.self) { item in
                         Button {
                             NSPasteboard.general.declareTypes([.string], owner: nil)
-                            NSPasteboard.general.setString(item, forType: .string)
+                            NSPasteboard.general.setString(item.fileUrl ?? "", forType: .string)
                             BezelNotification.show(messageText: "Copied URL", icon: ToastIcon)
                         } label: {
                             HStack {
-                                if let url = URL(string: item), url.pathExtension.lowercased() == "mp4" || url.pathExtension.lowercased() == "mov" {
+                                if let urlStr = item.fileUrl, let url = URL(string: urlStr), url.pathExtension.lowercased() == "mp4" || url.pathExtension.lowercased() == "mov" {
                                     Image(systemName: "video")
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 30, height: 30)
-                                } else {
-                                    PreviewImage(url: URL(string: item)) { phase in
+                            } else {                                                                   PreviewImage(url: URL(string: item.fileUrl ?? "")) { phase in
                                         switch phase {
                                         case .success(let nsImage):
                                             Image(nsImage: nsImage)                                                .resizable()

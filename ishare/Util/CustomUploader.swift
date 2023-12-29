@@ -20,18 +20,20 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
     let headers: [String: String]?
     let formData: [String: String]?
     let fileFormName: String?
-    let responseProp: String
     let requestBodyType: RequestBodyType?
-
-    init(id: UUID = UUID(), name: String, requestUrl: String, headers: [String: String]?, formData: [String: String]?, fileFormName: String?, responseProp: String, requestBodyType: RequestBodyType? = nil) {
+    let responseURL: String
+    let deletionURL: String?
+    
+    init(id: UUID = UUID(), name: String, requestUrl: String, headers: [String: String]?, formData: [String: String]?, fileFormName: String?, requestBodyType: RequestBodyType? = nil, responseURL: String, deletionURL: String? = nil) {
         self.id = id
         self.name = name
         self.requestUrl = requestUrl
         self.headers = headers
         self.formData = formData
         self.fileFormName = fileFormName
-        self.responseProp = responseProp
         self.requestBodyType = requestBodyType
+        self.responseURL = responseURL
+        self.deletionURL = deletionURL
     }
     
     init(from decoder: Decoder) throws {
@@ -42,8 +44,9 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         headers = try container.decodeIfPresent([String: String].self, forKey: .headers)
         formData = try container.decodeIfPresent([String: String].self, forKey: .formData)
         fileFormName = try container.decodeIfPresent(String.self, forKey: .fileFormName)
-        responseProp = try container.decode(String.self, forKey: .responseProp)
         requestBodyType = try container.decodeIfPresent(RequestBodyType.self, forKey: .requestBodyType)
+        responseURL = try container.decode(String.self, forKey: .responseURL)
+        deletionURL = try container.decodeIfPresent(String.self, forKey: .deletionURL)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -53,8 +56,9 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         case headers
         case formData
         case fileFormName
-        case responseProp
         case requestBodyType
+        case responseURL
+        case deletionURL
     }
     
     static var allCases: [CustomUploader] {
@@ -80,9 +84,9 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
     }
     
     func isValid() -> Bool {
-        guard !requestUrl.isEmpty else {
-            return false
-        }
+        guard !requestUrl.isEmpty, !responseURL.isEmpty else {
+                    return false
+                }
         
         if let headers = headers {
             guard headers as Codable is [String: String] else {
@@ -100,10 +104,6 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
             guard !fileFormName.isEmpty else {
                 return false
             }
-        }
-        
-        guard !responseProp.isEmpty else {
-            return false
         }
         
         return true

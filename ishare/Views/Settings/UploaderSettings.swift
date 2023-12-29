@@ -193,8 +193,9 @@ struct AddCustomUploaderView: View {
 
     @State private var uploaderName = ""
     @State private var requestUrl = ""
+    @State private var responseURL = ""
+    @State private var deletionURL = ""
     @State private var fileFormName = ""
-    @State private var responseProp = ""
     @State private var header: [CustomEntryModel] = []
     @State private var formData: [CustomEntryModel] = []
 
@@ -214,8 +215,14 @@ struct AddCustomUploaderView: View {
                 .padding()
                 
                 HStack {
-                    Text("Response Property:")
-                    TextField("Response Property", text: $responseProp)
+                    Text("Response URL:")
+                    TextField("Response URL", text: $responseURL)
+                }
+                .padding()
+
+                HStack {
+                    Text("Deletion URL (optional):")
+                    TextField("Deletion URL", text: $deletionURL)
                 }
                 .padding()
                 
@@ -316,7 +323,9 @@ struct AddCustomUploaderView: View {
             headers: header.count == 0 ? nil : headerData,
             formData: formData.count == 0 ? nil : formDataModel,
             fileFormName: fileFormName.isEmpty ? nil : fileFormName,
-            responseProp: responseProp
+            responseURL: responseURL,
+            deletionURL: deletionURL.isEmpty ? nil : deletionURL
+
         )
 
         if var uploaders = savedCustomUploaders {
