@@ -265,31 +265,13 @@ struct Contributor: Codable {
     }
 }
 
-func fetchContributors(completion: @escaping ([Contributor]?) -> Void) {
-    guard let contributorsURL = URL(string: "https://api.github.com/repos/castdrian/ishare/contributors") else {
-        completion(nil)
-        return
-    }
-    
-    AF.request(contributorsURL).responseDecodable(of: [Contributor].self) { response in
-        switch response.result {
-        case .success(let contributors):
-            completion(contributors)
-        case .failure(let error):
-            print("Failed to fetch contributors: \(error)")
-            BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
-            completion(nil)
-        }
-    }
-}
-
 let AppIcon: NSImage = {
-    let appIconImage = NSImage(named: "AppIcon")!
-    let ratio = appIconImage.size.height / appIconImage.size.width
+    let appIconImage = NSImage(named: "AppIcon")
+    let ratio = (appIconImage?.size.height)! / (appIconImage?.size.width)!
     let newSize = NSSize(width: 18, height: 18 / ratio)
     let resizedImage = NSImage(size: newSize)
     resizedImage.lockFocus()
-    appIconImage.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: appIconImage.size), operation: .copy, fraction: 1.0)
+    appIconImage?.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: appIconImage!.size), operation: .copy, fraction: 1.0)
     resizedImage.unlockFocus()
     return resizedImage
 }()
@@ -306,23 +288,23 @@ let GlyphIcon: NSImage = {
 }()
 
 let ImgurIcon: NSImage = {
-    let appIconImage = NSImage(named: "Imgur")!
-    let ratio = appIconImage.size.height / appIconImage.size.width
+    let appIconImage = NSImage(named: "Imgur")
+    let ratio = (appIconImage?.size.height)! / (appIconImage?.size.width)!
     let newSize = NSSize(width: 18, height: 18 / ratio)
     let resizedImage = NSImage(size: newSize)
     resizedImage.lockFocus()
-    appIconImage.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: appIconImage.size), operation: .copy, fraction: 1.0)
+    appIconImage?.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: appIconImage!.size), operation: .copy, fraction: 1.0)
     resizedImage.unlockFocus()
     return resizedImage
 }()
 
 let ToastIcon: NSImage = {
-    let toastIconImage = NSImage(named: "AppIcon")!
-    let ratio = toastIconImage.size.height / toastIconImage.size.width
+    let toastIconImage = NSImage(named: "AppIcon")
+    let ratio = (toastIconImage?.size.height)! / (toastIconImage?.size.width)!
     let newSize = NSSize(width: 100, height: 100 / ratio)
     let resizedImage = NSImage(size: newSize)
     resizedImage.lockFocus()
-    toastIconImage.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: toastIconImage.size), operation: .copy, fraction: 1.0)
+    toastIconImage?.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: toastIconImage!.size), operation: .copy, fraction: 1.0)
     resizedImage.unlockFocus()
     return resizedImage
 }()

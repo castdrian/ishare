@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'README.md'
+      - '**/*.md'
       - '**.github/workflows/*'
   workflow_dispatch:
 
@@ -61,7 +61,7 @@ jobs:
           sed -i '' "s/VERSION = $CURRENT_VERSION/VERSION = $NEW_VERSION/" ishare/Config.xcconfig
 
       - name: Build Changelog
-        uses: dlavrenuek/conventional-changelog-action@v1.2.1
+        uses: dlavrenuek/conventional-changelog-action@v5
         id: changelog
         with:
           from: ${{ steps.semver.outputs.current }}
@@ -103,7 +103,7 @@ jobs:
         with:
           source: RELEASE.md
           output: ./update/ishare_macOS.html
-          corners: false
+          github-corners: false
       
       - name: Set executable bit for generate_appcast
         run: chmod +x ./bin/generate_appcast
@@ -115,7 +115,7 @@ jobs:
           ARCHIVES_SOURCE_DIR: .
 
       - name: Archive appcast.xml as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: appcast
           path: ./update/appcast.xml
@@ -142,7 +142,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Download appcast.xml artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: appcast
           path: ./

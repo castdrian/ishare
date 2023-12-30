@@ -27,7 +27,7 @@ class HistoryWindowController: NSWindowController {
         window.contentView = contentView
         self.init(window: window)
     }
-
+    
     override func windowDidLoad() {
         super.windowDidLoad()
     }
@@ -44,10 +44,10 @@ func openHistoryWindow(uploadHistory: [HistoryItem]) {
         let hostingController = NSHostingController(rootView: historyView)
         let windowController = HistoryWindowController(contentView: hostingController.view)
         windowController.window?.title = "History"
-
+        
         windowController.showWindow(nil)
         NSApp.activate(ignoringOtherApps: true)
-
+        
         WindowHolder.shared.historyWindowController = windowController
     } else {
         WindowHolder.shared.historyWindowController?.window?.makeKeyAndOrderFront(nil)
@@ -270,21 +270,21 @@ struct MainMenuView: View {
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 30, height: 30)
-                            } else {                                                                   PreviewImage(url: URL(string: item.fileUrl ?? "")) { phase in
-                                        switch phase {
-                                        case .success(let nsImage):
-                                            Image(nsImage: nsImage)                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(width: 30, height: 30)
-                                        case .failure:
-                                            Image(systemName: "exclamationmark.triangle.fill")
-                                                .foregroundColor(.red)
-                                        case .empty:
-                                            ProgressView()
-                                                .frame(width: 30, height: 30)
-                                        }
+                                } else {                                                                   PreviewImage(url: URL(string: item.fileUrl ?? "")) { phase in
+                                    switch phase {
+                                    case .success(let nsImage):
+                                        Image(nsImage: nsImage)                                                .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 30, height: 30)
+                                    case .failure:
+                                        Image(systemName: "exclamationmark.triangle.fill")
+                                            .foregroundColor(.red)
+                                    case .empty:
+                                        ProgressView()
+                                            .frame(width: 30, height: 30)
                                     }
-                                    .frame(width: 30, height: 30)
+                                }
+                                .frame(width: 30, height: 30)
                                 }
                             }
                         }
@@ -306,7 +306,7 @@ struct MainMenuView: View {
                     NSApp.activate(ignoringOtherApps: true)
                 } postAction: {
                 }
-                .keyboardShortcut("s")           
+                .keyboardShortcut("s")
             }
             else {
                 Button(action: {
@@ -325,32 +325,11 @@ struct MainMenuView: View {
             Button {
                 NSApplication.shared.activate(ignoringOtherApps: true)
                 
-                fetchContributors { contributors in
-                    if let contributors = contributors {
-                        var credits = "isharemac.app\n\nContributors: "
-                        
-                        for (index, contributor) in contributors.enumerated() {
-                            if index == contributors.count - 1 {
-                                credits += contributor.login
-                            } else {
-                                credits += "\(contributor.login), "
-                            }
-                        }
-                        
-                        let creditsAttributedString = NSAttributedString(string: credits, attributes: [
-                            NSAttributedString.Key.font: NSFont.boldSystemFont(ofSize: NSFont.smallSystemFontSize)
-                        ])
-                        
-                        let options: [NSApplication.AboutPanelOptionKey: Any] = [
-                            NSApplication.AboutPanelOptionKey.credits: creditsAttributedString,
-                            NSApplication.AboutPanelOptionKey(rawValue: "Copyright"): "© \(Calendar.current.component(.year, from: Date())) ADRIAN CASTRO"
-                        ]
-                        
-                        NSApplication.shared.orderFrontStandardAboutPanel(options: options)
-                    } else {
-                        print("Failed to fetch contributors")
-                    }
-                }
+                let options: [NSApplication.AboutPanelOptionKey: Any] = [
+                    NSApplication.AboutPanelOptionKey(rawValue: "Copyright"): "© \(Calendar.current.component(.year, from: Date())) ADRIAN CASTRO"
+                ]
+                
+                NSApplication.shared.orderFrontStandardAboutPanel(options: options)
             } label: {
                 Image(systemName: "info.circle")
                 Label("About ishare", image: String())
