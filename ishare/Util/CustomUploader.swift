@@ -36,29 +36,30 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         self.deletionURL = deletionURL
     }
     
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
-        name = try container.decode(String.self, forKey: .name)
-        requestURL = try container.decode(String.self, forKey: .requestURL)
-        headers = try container.decodeIfPresent([String: String].self, forKey: .headers)
-        formData = try container.decodeIfPresent([String: String].self, forKey: .formData)
-        fileFormName = try container.decodeIfPresent(String.self, forKey: .fileFormName)
-        requestBodyType = try container.decodeIfPresent(RequestBodyType.self, forKey: .requestBodyType)
-        responseURL = try container.decode(String.self, forKey: .responseURL)
-        deletionURL = try container.decodeIfPresent(String.self, forKey: .deletionURL)
-    }
-    
     enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case requestURL
-        case headers
-        case formData
-        case fileFormName
-        case requestBodyType
-        case responseURL
-        case deletionURL
+            case id
+            case name
+            case requestURL = "requesturl"
+            case headers
+            case formData = "formdata"
+            case fileFormName = "fileformname"
+            case requestBodyType = "requestbodytype"
+            case responseURL = "responseurl"
+            case deletionURL = "deletionurl"
+        }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: DynamicCodingKey.self)
+        
+        id = try container.decodeDynamicIfPresent(UUID.self, forKey: DynamicCodingKey(stringValue: "id")!) ?? UUID()
+        name = try container.decodeDynamic(String.self, forKey: DynamicCodingKey(stringValue: "name")!)
+        requestURL = try container.decodeDynamic(String.self, forKey: DynamicCodingKey(stringValue: "requesturl")!)
+        headers = try container.decodeDynamicIfPresent([String: String].self, forKey: DynamicCodingKey(stringValue: "headers")!)
+        formData = try container.decodeDynamicIfPresent([String: String].self, forKey: DynamicCodingKey(stringValue: "formdata")!)
+        fileFormName = try container.decodeDynamicIfPresent(String.self, forKey: DynamicCodingKey(stringValue: "fileformname")!)
+        requestBodyType = try container.decodeDynamicIfPresent(RequestBodyType.self, forKey: DynamicCodingKey(stringValue: "requestbodytype")!)
+        responseURL = try container.decodeDynamic(String.self, forKey: DynamicCodingKey(stringValue: "responseurl")!)
+        deletionURL = try container.decodeDynamicIfPresent(String.self, forKey: DynamicCodingKey(stringValue: "deletionurl")!)
     }
     
     static var allCases: [CustomUploader] {
@@ -74,8 +75,22 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
     }
     
     static func fromJSON(_ json: Data) throws -> CustomUploader {
+        // Convert JSON data to a dictionary
+        guard let jsonObject = try JSONSerialization.jsonObject(with: json, options: []) as? [String: Any] else {
+            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "Invalid JSON structure"))
+        }
+
+        // Convert all keys in the dictionary to lowercase
+        let lowercasedKeysJsonObject = jsonObject.reduce(into: [String: Any]()) { (result, element) in
+            result[element.key.lowercased()] = element.value
+        }
+
+        // Encode the modified dictionary back to Data
+        let modifiedJsonData = try JSONSerialization.data(withJSONObject: lowercasedKeysJsonObject, options: [])
+
+        // Decode using the modified JSON data
         let decoder = JSONDecoder()
-        return try decoder.decode(CustomUploader.self, from: json)
+        return try decoder.decode(CustomUploader.self, from: modifiedJsonData)
     }
     
     func toJSON() throws -> Data {
@@ -110,7 +125,7 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
     }
 }
 
-struct DynamicCodingKeys: CodingKey {
+struct DynamicCodingKey: CodingKey {
     var stringValue: String
     var intValue: Int?
 
@@ -123,29 +138,25 @@ struct DynamicCodingKeys: CodingKey {
         self.intValue = intValue
     }
 
-    static func key(named name: String) -> DynamicCodingKeys {
-        return DynamicCodingKeys(stringValue: name)!
+    static func key(named name: String) -> DynamicCodingKey {
+        return DynamicCodingKey(stringValue: name)!
     }
 }
 
 extension KeyedDecodingContainer {
-    func decode<T: Decodable>(_ type: T.Type, forKey key: DynamicCodingKeys) throws -> T {
-        let allKeys = self.allKeys.map { $0.stringValue.lowercased() }
-        if let matchingKey = allKeys.first(where: { $0.lowercased() == key.stringValue.lowercased() }) {
-            let dynamicKey = DynamicCodingKeys(stringValue: matchingKey)!
-            return try self.decode(T.self, forKey: dynamicKey)
-        } else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: self.codingPath, debugDescription: "No key found for \(key.stringValue)"))
+    func decodeDynamic<T: Decodable>(_ type: T.Type, forKey key: DynamicCodingKey) throws -> T {
+        let keyString = key.stringValue.lowercased()
+        guard let dynamicKey = allKeys.first(where: { $0.stringValue.lowercased() == keyString }) else {
+            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: codingPath, debugDescription: "No value associated with key \(keyString)"))
         }
+        return try self.decode(T.self, forKey: dynamicKey)
     }
 
-    func decodeIfPresent<T: Decodable>(_ type: T.Type, forKey key: DynamicCodingKeys) throws -> T? {
-        let allKeys = self.allKeys.map { $0.stringValue.lowercased() }
-        if let matchingKey = allKeys.first(where: { $0.lowercased() == key.stringValue.lowercased() }) {
-            let dynamicKey = DynamicCodingKeys(stringValue: matchingKey)!
-            return try self.decodeIfPresent(T.self, forKey: dynamicKey)
-        } else {
+    func decodeDynamicIfPresent<T: Decodable>(_ type: T.Type, forKey key: DynamicCodingKey) throws -> T? {
+        let keyString = key.stringValue.lowercased()
+        guard let dynamicKey = allKeys.first(where: { $0.stringValue.lowercased() == keyString }) else {
             return nil
         }
+        return try self.decodeIfPresent(T.self, forKey: dynamicKey)
     }
 }
