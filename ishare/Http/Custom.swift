@@ -115,7 +115,6 @@ func performDeletionRequest(deletionUrl: String, completion: @escaping (Result<S
 
 func handleResponse(data: Data, specification: CustomUploader, callback: ((Error?, URL?) -> Void)?, completion: @escaping () -> Void) {
     let json = JSON(data)
-    print(json)
     
     let fileUrl = constructUrl(from: specification.responseURL, using: json)
     let deletionUrl = constructUrl(from: specification.deletionURL, using: json)
@@ -139,20 +138,30 @@ func constructUrl(from format: String?, using json: JSON) -> String {
     guard let format = format else { return "" }
     let (taggedUrl, tags) = tagPlaceholders(in: format)
     var url = taggedUrl
+    
+    print(taggedUrl)
 
     for (tag, keyPath) in tags {
+        print(tag)
+        print(keyPath)
+        
         if let replacement = getNestedJSONValue(json: json, keyPath: keyPath) {
+            print(replacement)
+            print(keyPath)
             url = url.replacingOccurrences(of: tag, with: replacement)
+            print("url")
+            print(url)
         }
     }
-
+    
     return url
 }
 
 func tagPlaceholders(in url: String) -> (taggedUrl: String, tags: [(String, String)]) {
     var taggedUrl = url
     var tags: [(String, String)] = []
-    let pattern = "\\{\\{([a-zA-Z0-9_]+)\\}\\}"
+
+    let pattern = "\\{\\{([a-zA-Z0-9_]+(\\[[0-9]+\\])?)\\}\\}"
     let regex = try? NSRegularExpression(pattern: pattern, options: [])
     let nsrange = NSRange(url.startIndex..<url.endIndex, in: url)
 
@@ -168,24 +177,30 @@ func tagPlaceholders(in url: String) -> (taggedUrl: String, tags: [(String, Stri
 }
 
 func getNestedJSONValue(json: JSON, keyPath: String) -> String? {
-    var nestedJSON: JSON? = json
-    let nestedKeys = keyPath.components(separatedBy: ".")
+    var currentJSON = json
+    let keyPathElements = keyPath.components(separatedBy: ".")
 
-    for key in nestedKeys {
-        if let index = key.firstIndex(of: "[") {
-            let arrayKey = String(key[..<index])
-            let arrayIndex = Int(key[key.index(index, offsetBy: 1)..<key.index(before: key.endIndex)]) ?? 0
-            nestedJSON = nestedJSON?[arrayKey][arrayIndex]
-        } else {
-            nestedJSON = nestedJSON?[key]
+    for element in keyPathElements {
+        // Splitting the element to handle nested arrays and objects
+        let subElements = element.split(whereSeparator: { $0 == "[" || $0 == "]" }).map(String.init)
+
+        for subElement in subElements {
+            if let index = Int(subElement) {
+                // Access array by index
+                currentJSON = currentJSON[index]
+            } else {
+                // Access object by key
+                currentJSON = currentJSON[subElement]
+            }
         }
 
-        if nestedJSON == nil {
-            return nil
+        // Check if the JSON element is valid
+        if currentJSON == JSON.null {
+            return "failed to extract json value for \(element)"
         }
     }
 
-    return nestedJSON?.stringValue
+    return currentJSON.stringValue
 }
 
 func fileNameWithLowercaseExtension(from url: URL) -> String {
