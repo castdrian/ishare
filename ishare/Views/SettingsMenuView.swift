@@ -61,6 +61,7 @@ struct GeneralSettingsView: View {
     @Default(.menuBarIcon) var menubarIcon
     @Default(.toastTimeout) var toastTimeout
     @Default(.aussieMode) var aussieMode
+    @Default(.uploadHistory) var uploadHistory
     
     var body: some View {
         VStack {
@@ -78,11 +79,15 @@ struct GeneralSettingsView: View {
                 }
             }.padding().frame(width: 200)
             HStack {
-                Button("Export settings") {
+                Button("Export Settings") {
                     exportUserDefaults()
                 }
-                Button("Import settings") {
+                Button("Import Settings") {
                     importUserDefaults()
+                }
+                Button("Clear History") {
+                    uploadHistory = []
+                    BezelNotification.show(messageText: "Cleared history", icon: ToastIcon)
                 }
             }
             VStack {
