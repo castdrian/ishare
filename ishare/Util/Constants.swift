@@ -24,6 +24,7 @@ extension KeyboardShortcuts.Name {
     static let captureScreen = Self("captureScreen", default: .init(.x, modifiers: [.option, .command]))
     static let recordScreen = Self("recordScreen", default: .init(.z, modifiers: [.control, .option]))
     static let recordGif = Self("recordGif", default: .init(.g, modifiers: [.control, .option]))
+    static let openHistoryWindow = Self("openHistoryWindow", default: .init(.k, modifiers: [.command, .option]))
 }
 
 extension Defaults.Keys {

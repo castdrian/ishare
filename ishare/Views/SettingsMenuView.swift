@@ -100,6 +100,7 @@ struct KeybindSettingsView: View {
         VStack {
             Form {
                 KeyboardShortcuts.Recorder("Open Main Menu:", name: .toggleMainMenu)
+                KeyboardShortcuts.Recorder("Open History Window:", name: .openHistoryWindow)
                 KeyboardShortcuts.Recorder("Capture Region:", name: .captureRegion)
                 KeyboardShortcuts.Recorder("Capture Window:", name: .captureWindow)
                 KeyboardShortcuts.Recorder("Capture Screen:", name: .captureScreen)
@@ -107,7 +108,7 @@ struct KeybindSettingsView: View {
                 KeyboardShortcuts.Recorder("Record GIF:", name: .recordGif)
             }
             Button("Reset") {
-                KeyboardShortcuts.reset([.toggleMainMenu, .captureRegion, .captureWindow, .captureScreen, .recordScreen, .recordGif])
+                KeyboardShortcuts.reset([.toggleMainMenu,.openHistoryWindow, .captureRegion, .captureWindow, .captureScreen, .recordScreen, .recordGif])
                 BezelNotification.show(messageText: "Reset keybinds", icon: ToastIcon)
             }
         }

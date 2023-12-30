@@ -38,6 +38,23 @@ class WindowHolder {
     var historyWindowController: HistoryWindowController?
 }
 
+func openHistoryWindow(uploadHistory: [HistoryItem]) {
+    if WindowHolder.shared.historyWindowController == nil {
+        let historyView = HistoryGridView(uploadHistory: uploadHistory)
+        let hostingController = NSHostingController(rootView: historyView)
+        let windowController = HistoryWindowController(contentView: hostingController.view)
+        windowController.window?.title = "History"
+
+        windowController.showWindow(nil)
+        NSApp.activate(ignoringOtherApps: true)
+
+        WindowHolder.shared.historyWindowController = windowController
+    } else {
+        WindowHolder.shared.historyWindowController?.window?.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+}
+
 struct MainMenuView: View {
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
@@ -51,23 +68,6 @@ struct MainMenuView: View {
     @Default(.uploadHistory) var uploadHistory
     
     @StateObject private var availableContentProvider = AvailableContentProvider()
-    
-    private func openHistoryWindow() {
-        if WindowHolder.shared.historyWindowController == nil {
-            let historyView = HistoryGridView(uploadHistory: uploadHistory)
-            let hostingController = NSHostingController(rootView: historyView)
-            let windowController = HistoryWindowController(contentView: hostingController.view)
-            windowController.window?.title = "History"
-
-            windowController.showWindow(nil)
-            NSApp.activate(ignoringOtherApps: true)
-
-            WindowHolder.shared.historyWindowController = windowController
-        } else {
-            WindowHolder.shared.historyWindowController?.window?.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
-        }
-    }
     
     var body: some View {
         VStack {
@@ -250,11 +250,11 @@ struct MainMenuView: View {
             if !uploadHistory.isEmpty {
                 Menu {
                     Button {
-                        openHistoryWindow()
+                        openHistoryWindow(uploadHistory: uploadHistory)
                     } label: {
                         Image(systemName: "clock.arrow.circlepath")
                         Label("Open History Window", image: String())
-                    }
+                    }.keyboardShortcut(.openHistoryWindow)
                     
                     Divider()
                     

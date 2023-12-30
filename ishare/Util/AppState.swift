@@ -11,10 +11,14 @@ import KeyboardShortcuts
 
 final class AppState: ObservableObject {
     @Default(.showMainMenu) var showMainMenu
+    @Default(.uploadHistory) var uploadHistory
 
     init() {
-        KeyboardShortcuts.onKeyUp(for: .toggleMainMenu) {
-            self.showMainMenu = true
+        KeyboardShortcuts.onKeyUp(for: .toggleMainMenu) { [self] in
+            showMainMenu = true
+        }
+        KeyboardShortcuts.onKeyUp(for: .openHistoryWindow) { [self] in
+            openHistoryWindow(uploadHistory: uploadHistory)
         }
         KeyboardShortcuts.onKeyUp(for: .captureRegion) {
             captureScreen(type: .REGION)
