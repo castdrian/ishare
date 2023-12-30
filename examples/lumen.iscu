@@ -1,0 +1,11 @@
+{
+  "name": "lumen",
+  "requestUrl": "http://localhost:8080/upload",
+  "headers": {
+    "x-api-key": "API_KEY"
+  },
+  "requestBodyType": "binary",
+  "responseURL": "http://localhost:8080/{{id}}.{{ext}}?key={{key}}&nonce={{nonce}}",
+  "deletionURL": "http://localhost:8080/{{id}}.{{ext}}/delete?key={{key}}&nonce={{nonce}}&api_key=API_KEY"
+}
+

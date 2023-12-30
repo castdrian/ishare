@@ -1,0 +1,9 @@
+{
+  "name": "chibisafe",
+  "requestUrl": "https://chibisafe.moe/api/upload",
+  "headers": { 
+    "x-api-key": "API_KEY" 
+  },
+  "fileFormName": "file[]",
+  "responseURL": "{{url}}"
+}
