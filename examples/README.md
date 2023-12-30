@@ -1,4 +1,4 @@
-# iShare Examples
+# ishare examples
 
 This folder contains example uploader files for ishare.
 
