@@ -96,7 +96,7 @@ If you're looking to integrate a custom endpoint for uploads using ishare, you'r
 ```jsonc
 {
     "name": "Custom Uploader Name",
-    "requestUrl": "https://uploader.com/upload",
+    "requestURL": "https://uploader.com/upload",
     "headers": { // optional
         "Authorization": "Bearer YOUR_AUTH_TOKEN"
     },
@@ -145,7 +145,7 @@ Before:
 ```json
 {
     "name": "uploader",
-    "requestUrl": "https://uploader.com/upload",
+    "requestURL": "https://uploader.com/upload",
     "responseProp": "fileUrl"
 }
 ```
@@ -154,7 +154,7 @@ After:
 ```jsonc
 {
     "name": "uploader",
-    "requestUrl": "https://uploader.com/upload",
+    "requestURL": "https://uploader.com/upload",
     "responseURL": "{{fileUrl}}" // also supported: "https://uploader.com/{{fileId}}"
 }
 ```

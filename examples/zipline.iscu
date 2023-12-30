@@ -1,6 +1,6 @@
 {
 	"name": "Zipline",
-	"requestUrl": "https://your-zipline-host.com/api/upload",
+	"requestURL": "https://your-zipline-host.com/api/upload",
 	"headers": {
 		"Authorization": "YOUR.TOKEN",
 	},
