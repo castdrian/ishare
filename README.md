@@ -149,14 +149,13 @@ New spec:
 ```
 </details>
 
-## Compatible Uploader Services
+## 📤 Compatible Uploader Services
 ishare is confirmed to be compatible with the following uploader services:
 - [chibisafe](https://github.com/chibisafe/chibisafe)
 - [lumen](https://github.com/ChecksumDev/lumen)
 
-## Post Media Task Plugin Specification
-
-Soon, ishare will allow you to script your own plugins that you can use as PMTs (Post Media Tasks).
+## 🤝 Contributors
+[![Contributors](https://contrib.rocks/image?repo=castdrian/ishare)](https://github.com/castdrian/ishare/graphs/contributors)
 
 ## 🙌 Credits
 - Special thanks to [Inna Strazhnik](https://www.behance.net/strazhnik) for the app icon
