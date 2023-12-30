@@ -140,8 +140,8 @@ func constructUrl(from format: String?, using json: JSON) -> String {
     let (taggedUrl, tags) = tagPlaceholders(in: format)
     var url = taggedUrl
 
-    for (tag, key) in tags {
-        if let replacement = json[key].string {
+    for (tag, keyPath) in tags {
+        if let replacement = getNestedJSONValue(json: json, keyPath: keyPath) {
             url = url.replacingOccurrences(of: tag, with: replacement)
         }
     }
