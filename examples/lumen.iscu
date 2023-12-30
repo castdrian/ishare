@@ -1,6 +1,6 @@
 {
   "name": "lumen",
-  "requestUrl": "http://localhost:8080/upload",
+  "requestURL": "http://localhost:8080/upload",
   "headers": {
     "x-api-key": "API_KEY"
   },

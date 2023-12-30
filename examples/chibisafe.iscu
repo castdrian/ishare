@@ -1,6 +1,6 @@
 {
   "name": "chibisafe",
-  "requestUrl": "https://chibisafe.moe/api/upload",
+  "requestURL": "https://chibisafe.moe/api/upload",
   "headers": { 
     "x-api-key": "API_KEY" 
   },

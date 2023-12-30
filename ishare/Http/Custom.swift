@@ -26,7 +26,7 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
         return
     }
     
-    let url = URL(string: specification.requestUrl)!
+    let url = URL(string: specification.requestURL)!
     var headers = HTTPHeaders(specification.headers ?? [:])
     let fileName = fileURL.lastPathComponent
     headers.add(name: "x-file-name", value: fileName)

@@ -52,7 +52,8 @@
 </p>
 
 ## 🚀 Features
-1. **Versatile Screen Capture**: 
+
+1. **Versatile Screen Capture**:
     - **Custom Region**: Instantly and easily define and capture specific portions of your screen.
     - **Window Capture**: Capture individual application windows without any clutter.
     - **Entire Display Capture**: Snapshot your whole screen with a single action.
@@ -79,7 +80,6 @@
 
 ![ishare_menu](https://github.com/iGerman00/ishare/assets/36676880/3a546afb-90ee-4b85-8b38-6029ccd67565)
 
-
 ## 🛠 Custom Uploader Setup
 
 If you're looking to integrate a custom endpoint for uploads using ishare, you're in the right place! By default, ishare supports and opens `.iscu` files for configuration. They are text files containing JSON data and you can make your own:
@@ -96,7 +96,7 @@ If you're looking to integrate a custom endpoint for uploads using ishare, you'r
 ```json
 {
     "name": "Custom Uploader Name",
-    "requestUrl": "https://your-upload-url.com/upload",
+    "requestURL": "https://your-upload-url.com/upload",
     "headers": { // optional
         "Authorization": "Bearer YOUR_AUTH_TOKEN"
     },
@@ -115,20 +115,24 @@ This new specification allows for more dynamic URL construction and handling del
 </details>
 
 ## ⚙️ Migration Guide from Previous Specification
+
 <details>
 <summary>Click to expand</summary>
 
 ### Key Changes in Specification
+
 - `responseURL` replaces `responseProp`.
 - New optional field `deletionURL`.
 - Updated URL templating syntax.
 
 ### Migration Steps
+
 1. Replace `responseProp` with `responseURL`, ensuring the URL includes placeholders for dynamic values.
 2. If your service supports deletion, add the `deletionURL` field.
 3. Update URL placeholders to match the new syntax. For instance, `{fileId}` replaces `{responsePropName}`.
 
 ### Example Migration
+
 Previous spec:
 
 ```json
@@ -140,25 +144,32 @@ Previous spec:
 ```
 
 New spec:
+
 ```json
 {
     "name": "uploader",
-    "requestUrl": "https://uploader.com/upload",
+    "requestURL": "https://uploader.com/upload",
     "responseURL": "{{fileUrl}}" // can be concatenated: "https://uploader.com/{{property}}"
 }
 ```
+
 </details>
 
 ## 📤 Compatible Uploader Services
+
 ishare is confirmed to be compatible with the following uploader services:
+
 - [chibisafe](https://github.com/chibisafe/chibisafe)
 - [lumen](https://github.com/ChecksumDev/lumen)
 
 ## 🤝 Contributors
+
 [![Contributors](https://contrib.rocks/image?repo=castdrian/ishare)](https://github.com/castdrian/ishare/graphs/contributors)
 
 ## 🙌 Credits
+
 - Special thanks to [Inna Strazhnik](https://www.behance.net/strazhnik) for the app icon
 
 ## 📜 License
+
 Released under [GPL-3.0](/LICENSE) by [@castdrian](https://github.com/castdrian)

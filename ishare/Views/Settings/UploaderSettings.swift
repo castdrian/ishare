@@ -192,7 +192,7 @@ struct AddCustomUploaderView: View {
     @Default(.savedCustomUploaders) var savedCustomUploaders
 
     @State private var uploaderName = ""
-    @State private var requestUrl = ""
+    @State private var requestURL = ""
     @State private var responseURL = ""
     @State private var deletionURL = ""
     @State private var fileFormName = ""
@@ -210,7 +210,7 @@ struct AddCustomUploaderView: View {
                 
                 HStack {
                     Text("Request URL:")
-                    TextField("Request URL", text: $requestUrl)
+                    TextField("Request URL", text: $requestURL)
                 }
                 .padding()
                 
@@ -319,7 +319,7 @@ struct AddCustomUploaderView: View {
         
         let uploader = CustomUploader(
             name: uploaderName,
-            requestUrl: requestUrl,
+            requestURL: requestURL,
             headers: header.count == 0 ? nil : headerData,
             formData: formData.count == 0 ? nil : formDataModel,
             fileFormName: fileFormName.isEmpty ? nil : fileFormName,
@@ -461,7 +461,6 @@ struct CustomEntryModel: Identifiable, Equatable {
     var key: String
     var value: String
 }
-
 
 #Preview {
     AddCustomUploaderView()
