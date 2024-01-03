@@ -1,8 +1,8 @@
 {
-	"name": "Zipline",
+	"name": "zipline",
 	"requestURL": "https://your-zipline-host.com/api/upload",
 	"headers": {
-		"Authorization": "YOUR.TOKEN",
+		"Authorization": "YOUR_TOKEN",
 	},
 	"responseURL": "{{files[0]}}",
 	"fileFormName": "file"
