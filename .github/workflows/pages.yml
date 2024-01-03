@@ -30,7 +30,7 @@ jobs:
           fetch-depth: 0
 
       - name: Check if only README.md changed
-        id: check-file
+        if: github.event_name == 'push'
         run: |
           git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -v 'README.md' > changes.txt
           if [ -s changes.txt ]; then
