@@ -86,6 +86,7 @@ If you're looking to integrate a custom endpoint for uploads using ishare, you'r
 
 **Note:** Version 2.0.0 introduces breaking changes. Follow the migration guide for updates and consider reinstallation if you encounter issues post-update.
 
+<div markdown="1">
 <details>
   <summary>
     📝 Specification (2.0.0 and newer)
@@ -115,8 +116,10 @@ This new specification allows for more dynamic URL construction and handles dele
 For `responseURL` and `deletionURL`, JSON properties that are derived from the response payload can be defined as `{{jsonProperty}}`. There is support for nesting (`upload.url`) and arrays (`files[0].url`).  
 
 </details>
+</div>
 
 ## ⚙️ Migration from Previous Specification
+<div markdown="1">
 <details>
 <summary>Click to expand</summary>
 
@@ -159,6 +162,7 @@ After:
 }
 ```
 </details>
+</div>
 
 ## 📤 Compatible Uploader Services
 ishare is confirmed to be compatible with the following uploader services:
