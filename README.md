@@ -75,10 +75,7 @@
 
 5. **Automatic Updates**: Always stay on the cutting edge with built-in automatic updates.
 
-6. **Coming Soon - Post Media Task Plugins**: Expand the capabilities of the app with plugins that can process your media after capture.
-
 ![ishare_menu](https://github.com/iGerman00/ishare/assets/36676880/3a546afb-90ee-4b85-8b38-6029ccd67565)
-
 
 ## 🛠 Custom Uploader Setup
 
@@ -86,15 +83,14 @@ If you're looking to integrate a custom endpoint for uploads using ishare, you'r
 
 **Note:** Version 2.0.0 introduces breaking changes. Follow the migration guide for updates and consider reinstallation if you encounter issues post-update.
 
-<div markdown="1">
-<details>
+<details markdown="block">
   <summary>
     📝 Specification (2.0.0 and newer)
   </summary>
 
   The custom uploader specification since version 2.0.0 has the following structure:
 
-```jsonc
+```json
 {
     "name": "Custom Uploader Name",
     "requestURL": "https://uploader.com/upload",
@@ -114,13 +110,10 @@ If you're looking to integrate a custom endpoint for uploads using ishare, you'r
 
 This new specification allows for more dynamic URL construction and handles deletion URLs.  
 For `responseURL` and `deletionURL`, JSON properties that are derived from the response payload can be defined as `{{jsonProperty}}`. There is support for nesting (`upload.url`) and arrays (`files[0].url`).  
-
 </details>
-</div>
 
 ## ⚙️ Migration from Previous Specification
-<div markdown="1">
-<details>
+<details markdown="block">
 <summary>Click to expand</summary>
 
 ### Key changes
@@ -154,7 +147,7 @@ Before:
 ```
 
 After:
-```jsonc
+```json
 {
     "name": "uploader",
     "requestURL": "https://uploader.com/upload",
@@ -162,7 +155,6 @@ After:
 }
 ```
 </details>
-</div>
 
 ## 📤 Compatible Uploader Services
 ishare is confirmed to be compatible with the following uploader services:
