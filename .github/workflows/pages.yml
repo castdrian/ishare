@@ -1,0 +1,63 @@
+name: Deploy README to GitHub Pages
+
+on:
+  push:
+    branches:
+        - main
+    paths:
+      - 'README.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+  
+jobs:
+  deploy:
+    environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check if only README.md changed
+        id: check-file
+        run: |
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -v 'README.md' > changes.txt
+          if [ -s changes.txt ]; then
+            echo "Other files changed."
+            echo "stop=1" >> $GITHUB_ENV
+          fi
+
+      - name: Download and Save appcast.xml
+        if: env.stop != 1
+        run: |
+          curl -o ./appcast.xml https://isharemac.app/appcast.xml
+          echo "File downloaded and saved as appcast.xml"
+
+      - name: Setup Pages
+        if: env.stop != 1
+        uses: actions/configure-pages@v3
+        
+      - name: Build with Jekyll
+        if: env.stop != 1
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+          
+      - name: Upload artifact
+        if: env.stop != 1
+        uses: actions/upload-pages-artifact@v2
+
+      - name: Deploy to GitHub Pages
+        if: env.stop != 1
+        id: deployment
+        uses: actions/deploy-pages@v2
