@@ -30,9 +30,7 @@ final class AppState: ObservableObject {
             captureScreen(type: .SCREEN)
         }
         KeyboardShortcuts.onKeyUp(for: .recordScreen) {
-            if #available(macOS 13.0, *) {
-                recordScreen()
-            }
+            recordScreen()
         }
     }
 }

@@ -9,7 +9,6 @@ import SwiftUI
 import AppKit
 import ScreenCaptureKit
 
-@available(macOS 13.0, *)
 struct CapturePreviewPopup: View {
     let capturePreview: CapturePreview
     @ObservedObject var screenRecorder: ScreenRecorder
@@ -112,7 +111,6 @@ struct BlinkingRedDot: NSViewRepresentable {
     }
 }
 
-@available(macOS 13.0, *)
 func showCapturePreviewPopup(capturePreview: CapturePreview, screenRecorder: ScreenRecorder, display: SCDisplay? = nil, window: SCWindow? = nil) {
     let popup = NSWindow(
         contentRect: NSRect(x: 0, y: 0, width: 450, height: 300),

@@ -18,46 +18,29 @@ struct ishare: App {
     @NSApplicationDelegateAdaptor private var appDelegate : AppDelegate
     
     var body: some Scene {
-        if #available(macOS 13.0, *) {
-            MenuBarExtra() {
-                MainMenuView()
-            }
-            label: {
-                switch menubarIcon {
-                    case .DEFAULT: Image(nsImage: GlyphIcon)
-                    case .APPICON: Image(nsImage: AppIcon)
-                    case .SYSTEM: Image(systemName: "photo.on.rectangle.angled")
-                }
-            }
-            .menuBarExtraAccess(isPresented: $showMainMenu)
-                Settings {
-                    SettingsMenuView()
-                }
+        MenuBarExtra() {
+            MainMenuView()
+        }
+    label: {
+        switch menubarIcon {
+            case .DEFAULT: Image(nsImage: GlyphIcon)
+            case .APPICON: Image(nsImage: AppIcon)
+            case .SYSTEM: Image(systemName: "photo.on.rectangle.angled")
+        }
+    }
+    .menuBarExtraAccess(isPresented: $showMainMenu)
+        Settings {
+            SettingsMenuView()
         }
     }
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
-    @Default(.menuBarIcon) var menubarIcon
     static private(set) var shared: AppDelegate! = nil
     var isIconShown = false
     var recordGif = false
     var statusBarItem: NSStatusItem!
-    var legacyMainMenuStatusBarItem: NSStatusItem!
-    var popover: NSPopover!
-        
-    var _screenRecorder: Any? = nil
-
-    @available(macOS 13.0, *)
-    var screenRecorder: ScreenRecorder {
-        get {
-            return _screenRecorder as! ScreenRecorder
-        }
-        set {
-            _screenRecorder = newValue
-        }
-    }
-
+    var screenRecorder: ScreenRecorder!
     var updaterController: SPUStandardUpdaterController!
     
     func application(_ application: NSApplication, open urls: [URL]) {
@@ -69,45 +52,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         AppDelegate.shared = self
         
-        if #available(macOS 13.0, *) {
-            Task {
-                screenRecorder = ScreenRecorder()
-            }
-        } else {
-            legacyMainMenuStatusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-            
-            let mainMenuView = MainMenuView()
-            
-            popover = NSPopover()
-            popover.contentSize = NSSize(width: 250, height: 350)
-            popover.behavior = .transient
-            popover.contentViewController = NSHostingController(rootView: mainMenuView)
-            
-            if let button = legacyMainMenuStatusBarItem.button {
-                button.action = #selector(showPopover(_:))
-                button.image = switch menubarIcon {
-                    case .DEFAULT: GlyphIcon
-                    case .APPICON: AppIcon
-                    case .SYSTEM: NSImage(systemSymbolName: "photo.on.rectangle.angled", accessibilityDescription: "Main Menu Icon")
-                }
-            }
+        Task {
+            screenRecorder = ScreenRecorder()
         }
-                
+        
         updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
     }
     
-    @objc func showPopover(_ sender: AnyObject?) {
-        if let button = self.legacyMainMenuStatusBarItem.button
-        {
-            if self.popover.isShown {
-                self.popover.performClose(sender)
-            } else {
-                self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-            }
-        }
-    }
-    
-    @available(macOS 13.0, *)
     @objc func toggleIcon(_ sender: AnyObject) {
         isIconShown.toggle()
         
@@ -127,7 +78,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
         }
     }
     
-    @available(macOS 13.0, *)
     func stopRecording() {
         Task {
             await screenRecorder.stop { [self] result in
@@ -142,4 +92,3 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
         }
     }
 }
-
