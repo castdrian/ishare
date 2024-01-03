@@ -1,0 +1,9 @@
+{
+  "name": "discord",
+  "requestURL": "WEBHOOK_URL",
+  "formData": {
+    "username": "ishare",
+    "avatar_url": "https://raw.githubusercontent.com/castdrian/ishare/main/ishare/Util/Assets.xcassets/AppIcon.appiconset/AppIcon-256.png"
+  },
+  "responseURL": "{{attachments[0].url}}"
+}
