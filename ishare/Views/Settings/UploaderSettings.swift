@@ -108,12 +108,11 @@ struct UploaderSettingsView: View {
         savedCustomUploaders = uploaders
 
         if uploader.id == activeCustomUploader {
-            savedCustomUploaders = nil
             activeCustomUploader = nil
             uploadType = .IMGUR
         }
     }
-    
+
     private func testCustomUploader(_ uploader: CustomUploader) {
         let image = NSImage(named: "AppIcon")
         guard let imageData = image?.tiffRepresentation else { return }
