@@ -30,36 +30,43 @@ jobs:
           fetch-depth: 0
 
       - name: Check if only README.md changed
-        if: github.event_name == 'push'
         run: |
-          git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -v 'README.md' > changes.txt
-          if [ -s changes.txt ]; then
-            echo "Other files changed."
-            echo "stop=1" >> $GITHUB_ENV
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manually triggered - skipping file check."
+            echo "only_readme_changed=true" >> $GITHUB_ENV
+          else
+            FILE_LIST=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -v 'README.md')
+            if [ -z "$FILE_LIST" ]; then
+              echo "Only README.md changed."
+              echo "only_readme_changed=true" >> $GITHUB_ENV
+            else
+              echo "Other files changed."
+              echo "only_readme_changed=false" >> $GITHUB_ENV
+            fi
           fi
 
       - name: Download and Save appcast.xml
-        if: env.stop != 1
+        if: env.only_readme_changed == 'true'
         run: |
           curl -o ./appcast.xml https://isharemac.app/appcast.xml
           echo "File downloaded and saved as appcast.xml"
 
       - name: Setup Pages
-        if: env.stop != 1
+        if: env.only_readme_changed == 'true'
         uses: actions/configure-pages@v3
         
       - name: Build with Jekyll
-        if: env.stop != 1
+        if: env.only_readme_changed == 'true'
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
           
       - name: Upload artifact
-        if: env.stop != 1
+        if: env.only_readme_changed == 'true'
         uses: actions/upload-pages-artifact@v2
 
       - name: Deploy to GitHub Pages
-        if: env.stop != 1
+        if: env.only_readme_changed == 'true'
         id: deployment
         uses: actions/deploy-pages@v2
