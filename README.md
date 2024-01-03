@@ -52,7 +52,8 @@
 </p>
 
 ## 🚀 Features
-1. **Versatile Screen Capture**: 
+
+1. **Versatile Screen Capture**:
     - **Custom Region**: Instantly and easily define and capture specific portions of your screen.
     - **Window Capture**: Capture individual application windows without any clutter.
     - **Entire Display Capture**: Snapshot your whole screen with a single action.
@@ -106,6 +107,7 @@ If you're looking to integrate a custom endpoint for uploads using ishare, you'r
     "deletionURL": "https://uploader.com/{{jsonproperty}}" // optional
 }
 ```
+
 <sup>All properties are case insensitive.</sup>
 
 This new specification allows for more dynamic URL construction and handles deletion URLs.  
@@ -113,29 +115,36 @@ For `responseURL` and `deletionURL`, JSON properties that are derived from the r
 </details>
 
 ## ⚙️ Migration from Previous Specification
+
 <details markdown="block">
 <summary>Click to expand</summary>
 
 ### Key changes
+
 - `responseURL` replaces `responseProp`.
 - New optional field `deletionURL`.
 - Updated URL templating syntax.
 
 ### Migration steps
+
 1. Replace `responseProp` with `responseURL`, ensuring the URL includes placeholders for dynamic values.
 2. If your service provides a deletion link, add the `deletionURL` field.
 3. Update URL placeholders to match the new syntax:  
 
-For example, 
+For example,
+
 ```json
 "responseProp": "fileId"
 ```
+
 Turns into:
+
 ```json
 "responseURL": "{{fileId}}"
 ```
 
 ### Example migration
+
 Before:
 
 ```json
@@ -147,6 +156,7 @@ Before:
 ```
 
 After:
+
 ```json
 {
     "name": "uploader",
@@ -154,19 +164,25 @@ After:
     "responseURL": "{{fileUrl}}" // also supported: "https://uploader.com/{{fileId}}"
 }
 ```
+
 </details>
 
 ## 📤 Compatible Uploader Services
+
 ishare is confirmed to be compatible with the following uploader services:
+
 - [chibisafe](https://github.com/chibisafe/chibisafe)
 - [lumen](https://github.com/ChecksumDev/lumen)
 - [zipline](https://github.com/diced/zipline)
 
 ## 🤝 Contributors
+
 [![Contributors](https://contrib.rocks/image?repo=castdrian/ishare)](https://github.com/castdrian/ishare/graphs/contributors)
 
 ## 🙌 Credits
+
 - Special thanks to [Inna Strazhnik](https://www.behance.net/strazhnik) for the app icon
 
 ## 📜 License
+
 Released under [GPL-3.0](/LICENSE) by [@castdrian](https://github.com/castdrian)
