@@ -67,7 +67,12 @@ func uploadMultipartFormData(fileURL: URL, url: URL, headers: HTTPHeaders, speci
             let lowercasedFileName = fileNameWithLowercaseExtension(from: fileURL)
             multipartFormData.append(fileData, withName: specification.fileFormName ?? fileFormName, fileName: lowercasedFileName, mimeType: mimeType)
         }
-    }, to: url, method: .post, headers: headers).response { response in
+    }, to: url, method: .post, headers: headers)
+    .uploadProgress { progress in
+        UploadManager.shared.updateProgress(fraction: progress.fractionCompleted)
+    }
+    .response { response in
+        UploadManager.shared.uploadCompleted()
         if let data = response.data {
             handleResponse(data: data, specification: specification, callback: callback, completion: completion)
         } else {
@@ -87,14 +92,19 @@ func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders, specif
     let mimeType = mimeTypeForPathExtension(fileURL.pathExtension)
     headers.add(name: "Content-Type", value: mimeType)
     
-    AF.upload(fileData, to: url, method: .post, headers: headers).response { response in
-        if let data = response.data {
-            handleResponse(data: data, specification: specification, callback: callback, completion: completion)
-        } else {
-            callback?(CustomUploadError.responseRetrieval, nil)
-            completion()
+    AF.upload(fileData, to: url, method: .post, headers: headers)
+        .uploadProgress { progress in
+            UploadManager.shared.updateProgress(fraction: progress.fractionCompleted)
         }
-    }
+        .response { response in
+            UploadManager.shared.uploadCompleted()
+            if let data = response.data {
+                handleResponse(data: data, specification: specification, callback: callback, completion: completion)
+            } else {
+                callback?(CustomUploadError.responseRetrieval, nil)
+                completion()
+            }
+        }
 }
 
 func performDeletionRequest(deletionUrl: String, completion: @escaping (Result<String, Error>) -> Void) {
@@ -102,7 +112,7 @@ func performDeletionRequest(deletionUrl: String, completion: @escaping (Result<S
         completion(.failure(CustomUploadError.responseParsing))
         return
     }
-
+    
     AF.request(url, method: .get).response { response in
         switch response.result {
         case .success:
@@ -139,18 +149,9 @@ func constructUrl(from format: String?, using json: JSON) -> String {
     let (taggedUrl, tags) = tagPlaceholders(in: format)
     var url = taggedUrl
     
-    print(taggedUrl)
-
     for (tag, keyPath) in tags {
-        print(tag)
-        print(keyPath)
-        
         if let replacement = getNestedJSONValue(json: json, keyPath: keyPath) {
-            print(replacement)
-            print(keyPath)
             url = url.replacingOccurrences(of: tag, with: replacement)
-            print("url")
-            print(url)
         }
     }
     
@@ -160,11 +161,11 @@ func constructUrl(from format: String?, using json: JSON) -> String {
 func tagPlaceholders(in url: String) -> (taggedUrl: String, tags: [(String, String)]) {
     var taggedUrl = url
     var tags: [(String, String)] = []
-
+    
     let pattern = "\\{\\{([a-zA-Z0-9_]+(\\[[0-9]+\\])?)\\}\\}"
     let regex = try? NSRegularExpression(pattern: pattern, options: [])
     let nsrange = NSRange(url.startIndex..<url.endIndex, in: url)
-
+    
     regex?.enumerateMatches(in: url, options: [], range: nsrange) { match, _, _ in
         if let match = match, let range = Range(match.range(at: 1), in: url) {
             let key = String(url[range])
@@ -179,11 +180,11 @@ func tagPlaceholders(in url: String) -> (taggedUrl: String, tags: [(String, Stri
 func getNestedJSONValue(json: JSON, keyPath: String) -> String? {
     var currentJSON = json
     let keyPathElements = keyPath.components(separatedBy: ".")
-
+    
     for element in keyPathElements {
         // Splitting the element to handle nested arrays and objects
         let subElements = element.split(whereSeparator: { $0 == "[" || $0 == "]" }).map(String.init)
-
+        
         for subElement in subElements {
             if let index = Int(subElement) {
                 // Access array by index
@@ -193,13 +194,13 @@ func getNestedJSONValue(json: JSON, keyPath: String) -> String? {
                 currentJSON = currentJSON[subElement]
             }
         }
-
+        
         // Check if the JSON element is valid
         if currentJSON == JSON.null {
             return "failed to extract json value for \(element)"
         }
     }
-
+    
     return currentJSON.stringValue
 }
 

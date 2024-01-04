@@ -39,6 +39,7 @@
 		3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */; };
 		3ADDAEDA2A659A0B00C42406 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDAED92A659A0B00C42406 /* Assets.xcassets */; };
 		3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADDAEE22A65D00F00C42406 /* Zip */; };
+		3AE7312A2B47052E006F10F7 /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE731292B47052E006F10F7 /* UploadManager.swift */; };
 		3AEFA5672A9FC15800F485B4 /* PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */; };
 		3AF7F0212B3EF16B000117DD /* HistoryGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7F0202B3EF16B000117DD /* HistoryGridView.swift */; };
 /* End PBXBuildFile section */
@@ -83,6 +84,7 @@
 		3AB38D072A62C49C00184E0D /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
 		3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploaderSettings.swift; sourceTree = "<group>"; };
 		3ADDAED92A659A0B00C42406 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Util/Assets.xcassets; sourceTree = "<group>"; };
+		3AE731292B47052E006F10F7 /* UploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImage.swift; sourceTree = "<group>"; };
 		3AF7F0202B3EF16B000117DD /* HistoryGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryGridView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,6 +116,7 @@
 				3A17C07B2A61A2510012F285 /* Imgur.swift */,
 				3AB38D052A62C35C00184E0D /* Custom.swift */,
 				3AB38D072A62C49C00184E0D /* Upload.swift */,
+				3AE731292B47052E006F10F7 /* UploadManager.swift */,
 			);
 			path = Http;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				3A72B9972A752AD000B2DEBA /* CaptureEngine.swift in Sources */,
 				3A72B9952A752A0A00B2DEBA /* ScreenRecorder.swift in Sources */,
 				3AF7F0212B3EF16B000117DD /* HistoryGridView.swift in Sources */,
+				3AE7312A2B47052E006F10F7 /* UploadManager.swift in Sources */,
 				3AB38D082A62C49C00184E0D /* Upload.swift in Sources */,
 				3AB345C82A5F163800AAEC0E /* AppState.swift in Sources */,
 				3AB318582A7AD35D00CE8610 /* MovieRecorder.swift in Sources */,

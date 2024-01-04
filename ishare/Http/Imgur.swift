@@ -39,7 +39,12 @@ func imgurUpload(_ fileURL: URL, completion: @escaping () -> Void) {
         
     AF.upload(multipartFormData: { multipartFormData in
         multipartFormData.append(fileURL, withName: fileFormName, fileName: fileName, mimeType: mimeType)
-    }, to: url, method: .post, headers: ["Authorization": "Client-ID " + imgurClientId]).response { response in
+    }, to: url, method: .post, headers: ["Authorization": "Client-ID " + imgurClientId])
+    .uploadProgress { progress in
+        UploadManager.shared.updateProgress(fraction: progress.fractionCompleted)
+    }
+    .response { response in
+        UploadManager.shared.uploadCompleted()
         if let data = response.data {
             let json = JSON(data)
             if let link = json["data"]["link"].string {
