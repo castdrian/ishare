@@ -1,7 +1,8 @@
 <p align="center">
-  <img src="/ishare/Util/Assets.xcassets/AppIcon.appiconset/AppIcon-128.png" alt="ishare logo" width="100">
-  <h1 align="center">ishare</h1>
-  <p align="center">The definitive screen capture utility for macOS, designed with simplicity and efficiency in mind.</p>
+  <h1>
+    ishare <img src="/ishare/Util/Assets.xcassets/AppIcon.appiconset/AppIcon-128.png" alt="ishare logo" height="25" style="vertical-align: middle;">
+  </h1>
+  <p>The definitive screen capture utility for macOS, designed with simplicity and efficiency in mind.</p>
 </p>
 
 <p align="center">
@@ -96,7 +97,7 @@
 
 ## 🛠 Custom Uploader Setup
 
-If you're looking to integrate a custom endpoint for uploads using ishare, you're in the right place! By default, ishare supports and opens `.iscu` files for configuration. They are text files containing JSON data and you can make your own:
+By default, ishare supports and opens `.iscu` files for configuration. They are text files containing JSON data according to the `iscu` spec:
 
 **Note:** Version 2.0.0 introduces breaking changes. Follow the migration guide for updates and consider reinstallation if you encounter issues post-update.
 
