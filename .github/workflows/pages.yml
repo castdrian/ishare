@@ -35,8 +35,8 @@ jobs:
             echo "Manually triggered - skipping file check."
             echo "only_readme_changed=true" >> $GITHUB_ENV
           else
-            FILE_LIST=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -v 'README.md')
-            if [ -z "$FILE_LIST" ]; then
+            FILE_LIST=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
+            if [ "$FILE_LIST" = "README.md" ]; then
               echo "Only README.md changed."
               echo "only_readme_changed=true" >> $GITHUB_ENV
             else
