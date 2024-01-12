@@ -113,13 +113,28 @@ func performDeletionRequest(deletionUrl: String, completion: @escaping (Result<S
         return
     }
     
-    AF.request(url, method: .get).response { response in
-        switch response.result {
-        case .success:
-            completion(.success("Deleted file successfully"))
-        case .failure(let error):
-            completion(.failure(error))
+    @Default(.activeCustomUploader) var activeCustomUploader
+    var uploader = CustomUploader.allCases.first(where: { $0.id == activeCustomUploader })
+    var headers = HTTPHeaders(uploader?.headers ?? [:])
+
+    func sendRequest(with method: HTTPMethod) {
+        AF.request(url, method: method, headers: headers).response { response in
+            switch response.result {
+            case .success:
+                completion(.success("Deleted file successfully"))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
+    }
+
+    switch uploader?.deleteRequestType {
+    case .GET:
+        sendRequest(with: .get)
+    case .DELETE:
+        sendRequest(with: .delete)
+    case nil:
+        sendRequest(with: .get)
     }
 }
 

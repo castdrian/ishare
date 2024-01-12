@@ -5,5 +5,7 @@
     "x-api-key": "API_KEY" 
   },
   "fileFormName": "file[]",
-  "responseURL": "{{url}}"
+  "responseURL": "{{url}}",
+  "deletionURL": "{{deleteUrl}}",
+  "deleteRequestType": "DELETE"
 }

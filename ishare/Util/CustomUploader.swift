@@ -13,6 +13,11 @@ enum RequestBodyType: String, Codable {
     case binary = "binary"
 }
 
+enum DeleteRequestType: String, Codable {
+    case GET = "get"
+    case DELETE = "delete"
+}
+
 struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable, Defaults.Serializable {
     var id: UUID
     let name: String
@@ -23,8 +28,9 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
     let requestBodyType: RequestBodyType?
     let responseURL: String
     let deletionURL: String?
+    let deleteRequestType: DeleteRequestType?
     
-    init(id: UUID = UUID(), name: String, requestURL: String, headers: [String: String]?, formData: [String: String]?, fileFormName: String?, requestBodyType: RequestBodyType? = nil, responseURL: String, deletionURL: String? = nil) {
+    init(id: UUID = UUID(), name: String, requestURL: String, headers: [String: String]?, formData: [String: String]?, fileFormName: String?, requestBodyType: RequestBodyType? = nil, responseURL: String, deletionURL: String? = nil, deleteRequestType: DeleteRequestType? = nil) {
         self.id = id
         self.name = name
         self.requestURL = requestURL
@@ -34,6 +40,7 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         self.requestBodyType = requestBodyType
         self.responseURL = responseURL
         self.deletionURL = deletionURL
+        self.deleteRequestType = deleteRequestType
     }
     
     enum CodingKeys: String, CodingKey {
@@ -46,6 +53,7 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
             case requestBodyType = "requestbodytype"
             case responseURL = "responseurl"
             case deletionURL = "deletionurl"
+            case deleteRequestType = "deleterequesttype"
         }
 
     init(from decoder: Decoder) throws {
@@ -60,6 +68,7 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         requestBodyType = try container.decodeDynamicIfPresent(RequestBodyType.self, forKey: DynamicCodingKey(stringValue: "requestbodytype")!)
         responseURL = try container.decodeDynamic(String.self, forKey: DynamicCodingKey(stringValue: "responseurl")!)
         deletionURL = try container.decodeDynamicIfPresent(String.self, forKey: DynamicCodingKey(stringValue: "deletionurl")!)
+        deleteRequestType = try container.decodeDynamicIfPresent(DeleteRequestType.self, forKey: DynamicCodingKey(stringValue: "deleterequesttype")!)
     }
     
     static var allCases: [CustomUploader] {

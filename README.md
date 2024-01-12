@@ -106,7 +106,7 @@ By default, ishare supports and opens `.iscu` files for configuration. They are 
     📝 Specification (2.0.0 and newer)
   </summary>
 
-  The custom uploader specification since version 2.0.0 has the following structure:
+  The custom uploader specification since version 2.0.0+ has the following structure:
 
 ```json
 {
@@ -121,7 +121,8 @@ By default, ishare supports and opens `.iscu` files for configuration. They are 
     "fileFormName": "file", // optional
     "requestBodyType": "multipartFormData", // optional, can be "multipartFormData" or "binary"
     "responseURL": "https://uploader.com/{{jsonproperty}}",
-    "deletionURL": "https://uploader.com/{{jsonproperty}}" // optional
+    "deletionURL": "https://uploader.com/{{jsonproperty}}", // optional
+    "deleteRequestType": "DELETE" // optional, can be "DELETE" or "GET"
 }
 ```
 
