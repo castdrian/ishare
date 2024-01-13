@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   release:
-    runs-on: macos-13
+    runs-on: macos-13-xlarge
 
     steps:
       - name: Checkout code
