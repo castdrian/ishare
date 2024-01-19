@@ -34,39 +34,23 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
     switch specification.requestBodyType {
     case .multipartFormData, .none:
         uploadMultipartFormData(fileURL: fileURL, url: url, headers: headers, specification: specification, callback: callback, completion: completion)
-        
     case .binary:
         uploadBinaryData(fileURL: fileURL, url: url, headers: &headers, specification: specification, callback: callback, completion: completion)
     }
 }
 
 func uploadMultipartFormData(fileURL: URL, url: URL, headers: HTTPHeaders, specification: CustomUploader, callback: ((Error?, URL?) -> Void)?, completion: @escaping () -> Void) {
-    var fileFormName: String
-    var mimeType: String
-    
-    switch fileURL.pathExtension {
-    case "mp4":
-        fileFormName = "video"
-        mimeType = "video/mp4"
-    case "mov":
-        fileFormName = "video"
-        mimeType = "video/mov"
-    default:
-        fileFormName = "image"
-        mimeType = "image/\(fileURL.pathExtension)"
-    }
-    
     AF.upload(multipartFormData: { multipartFormData in
         if let formData = specification.formData {
             for (key, value) in formData {
                 multipartFormData.append(value.data(using: .utf8)!, withName: key)
             }
         }
-        
-        if let fileData = try? Data(contentsOf: fileURL) {
-            let lowercasedFileName = fileNameWithLowercaseExtension(from: fileURL)
-            multipartFormData.append(fileData, withName: specification.fileFormName ?? fileFormName, fileName: lowercasedFileName, mimeType: mimeType)
-        }
+
+        let mimeType = mimeTypeForPathExtension(fileURL.pathExtension)
+        let lowercasedFileName = fileNameWithLowercaseExtension(from: fileURL)
+        multipartFormData.append(fileURL, withName: specification.fileFormName ?? "file", fileName: lowercasedFileName, mimeType: mimeType)
+
     }, to: url, method: .post, headers: headers)
     .uploadProgress { progress in
         UploadManager.shared.updateProgress(fraction: progress.fractionCompleted)
@@ -83,16 +67,10 @@ func uploadMultipartFormData(fileURL: URL, url: URL, headers: HTTPHeaders, speci
 }
 
 func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders, specification: CustomUploader, callback: ((Error?, URL?) -> Void)?, completion: @escaping () -> Void) {
-    guard let fileData = try? Data(contentsOf: fileURL) else {
-        callback?(CustomUploadError.fileReadError, nil)
-        completion()
-        return
-    }
-    
     let mimeType = mimeTypeForPathExtension(fileURL.pathExtension)
     headers.add(name: "Content-Type", value: mimeType)
-    
-    AF.upload(fileData, to: url, method: .post, headers: headers)
+
+    AF.upload(fileURL, to: url, method: .post, headers: headers)
         .uploadProgress { progress in
             UploadManager.shared.updateProgress(fraction: progress.fractionCompleted)
         }
@@ -114,8 +92,8 @@ func performDeletionRequest(deletionUrl: String, completion: @escaping (Result<S
     }
     
     @Default(.activeCustomUploader) var activeCustomUploader
-    var uploader = CustomUploader.allCases.first(where: { $0.id == activeCustomUploader })
-    var headers = HTTPHeaders(uploader?.headers ?? [:])
+    let uploader = CustomUploader.allCases.first(where: { $0.id == activeCustomUploader })
+    let headers = HTTPHeaders(uploader?.headers ?? [:])
 
     func sendRequest(with method: HTTPMethod) {
         AF.request(url, method: method, headers: headers).response { response in
