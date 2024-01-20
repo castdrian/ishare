@@ -32,5 +32,8 @@ final class AppState: ObservableObject {
         KeyboardShortcuts.onKeyUp(for: .recordScreen) {
             recordScreen()
         }
+        KeyboardShortcuts.onKeyUp(for: .recordGif) {
+            recordScreen(gif: true)
+        }
     }
 }

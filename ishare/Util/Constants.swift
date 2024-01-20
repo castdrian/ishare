@@ -44,7 +44,6 @@ extension Defaults.Keys {
     static let savedCustomUploaders = Key<Set<CustomUploader>?>("savedCustomUploaders")
     static let uploadType = Key<UploadType>("uploadType", default: .IMGUR)
     static let uploadDestination = Key<UploadDestination>("uploadDestination", default: .builtIn(.IMGUR))
-    static let showRecordingPreview = Key<Bool>("showRecordingPreview", default: true)
     static let recordAudio = Key<Bool>("recordAudio", default: true)
     static let recordMP4 = Key<Bool>("recordMP4", default: true)
     static let useHEVC = Key<Bool>("useHEVC", default: false)
@@ -362,72 +361,6 @@ func importUserDefaults() {
             } catch {
                 print("Error importing UserDefaults: \(error)")
                 BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
-            }
-        }
-    }
-}
-
-func filterWindows(_ windows: [SCWindow]) -> [SCWindow] {
-    @Default(.ignoredBundleIdentifiers) var ignoredBundleIdentifiers
-
-    return windows
-    // Sort the windows by app name.
-        .sorted { $0.owningApplication?.applicationName ?? "" < $1.owningApplication?.applicationName ?? "" }
-    // Remove windows that don't have an associated .app bundle.
-        .filter { $0.owningApplication != nil && $0.owningApplication?.applicationName != "" }
-    // Remove this app's window from the list.
-        .filter { $0.owningApplication?.bundleIdentifier != Bundle.main.bundleIdentifier }
-        .filter { item in
-            !ignoredBundleIdentifiers.contains(where: { $0 == item.owningApplication?.bundleIdentifier })
-        }
-}
-
-struct AvailableContent {
-    let displays: [SCDisplay]
-    let windows: [SCWindow]
-    let applications: [SCRunningApplication]
-}
-
-func refreshAvailableContent() async throws -> AvailableContent {
-    do {
-        // Retrieve the available screen content to capture.
-        let availableContent = try await SCShareableContent.excludingDesktopWindows(true, onScreenWindowsOnly: true)
-        let availableDisplays = availableContent.displays
-        
-        // Declare availableWindows before its usage
-        var availableWindows = [SCWindow]()
-        
-        let windows = filterWindows(availableContent.windows)
-        if windows != availableWindows {
-            availableWindows = windows
-        }
-        let availableApps = availableContent.applications
-        
-        return AvailableContent(displays: availableDisplays,
-                                windows: availableWindows,
-                                applications: availableApps)
-    } catch {
-        throw error // Rethrow the error to the caller
-    }
-}
-
-@MainActor
-class AvailableContentProvider: ObservableObject {
-    @Published var availableContent: AvailableContent?
-
-    init() {
-        refreshContent()
-    }
-
-    func refreshContent() {
-        Task.detached {
-            do {
-                let content = try await refreshAvailableContent()
-                DispatchQueue.main.async {
-                    self.availableContent = content
-                }
-            } catch {
-                print("Error refreshing content: \(error)")
             }
         }
     }

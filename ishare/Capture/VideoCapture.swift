@@ -15,8 +15,7 @@ import AVFoundation
 import ScreenCaptureKit
 
 @MainActor
-func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil, gif: Bool? = false) {
-    @Default(.showRecordingPreview) var showPreview
+func recordScreen(gif: Bool? = false) {
     @Default(.recordAudio) var recordAudio
     @Default(.openInFinder) var openInFinder
     @Default(.recordingPath) var recordingPath
@@ -34,43 +33,8 @@ func recordScreen(display: SCDisplay? = nil, window: SCWindow? = nil, gif: Bool?
     let screenRecorder = AppDelegate.shared.screenRecorder
     screenRecorder?.isAudioCaptureEnabled = recordAudio
     
-    if let display = display {
-        screenRecorder?.captureType = ScreenRecorder.CaptureType.display
-        screenRecorder?.selectedDisplay = display
-        
-        if showPreview {
-            showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: display)
-        }
-        
-    } else if let window = window {
-        screenRecorder?.captureType = ScreenRecorder.CaptureType.window
-        screenRecorder?.selectedWindow = window
-        
-        if showPreview {
-            showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, window: window)
-        }
-        
-    } else if (display == nil) && (window == nil) {
-        Task {
-            do {
-                let availableContent = try await refreshAvailableContent()
-                screenRecorder?.selectedDisplay = availableContent.displays.first
-                
-                if showPreview {
-                    showCapturePreviewPopup(capturePreview: screenRecorder!.capturePreview, screenRecorder: screenRecorder!, display: screenRecorder?.availableDisplays.first)
-                }
-            } catch {
-                print("Error refreshing content: \(error)")
-            }
-        }
-    }
-    
     if gif ?? false {
         AppDelegate.shared.recordGif = true
-    }
-    
-    if !showPreview {
-        AppDelegate.shared.toggleIcon(AppDelegate.shared as AnyObject)
     }
     
     Task {

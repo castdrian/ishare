@@ -67,8 +67,6 @@ struct MainMenuView: View {
     @Default(.builtInShare) var builtInShare
     @Default(.uploadHistory) var uploadHistory
     
-    @StateObject private var availableContentProvider = AvailableContentProvider()
-    
     var body: some View {
         VStack {
             Menu {
@@ -101,58 +99,21 @@ struct MainMenuView: View {
                 Label("Capture", image: String())
             }
             
-            Menu {
-                if let availableContent = availableContentProvider.availableContent {
-                    ForEach(availableContent.displays, id: \.self) { display in
-                        Button {
-                            recordScreen(display: display)
-                        } label: {
-                            Image(systemName: "menubar.dock.rectangle.badge.record")
-                            Label("Record \(display.displayName)", image: String())
-                        }.keyboardShortcut(display.displayID == 1 ? .recordScreen : .noKeybind).disabled(AppDelegate.shared.screenRecorder.isRunning)
-                    }
-                    Divider()
-                    ForEach(availableContent.windows, id: \.self) { window in
-                        Button {
-                            recordScreen(window: window)
-                        } label: {
-                            Image(systemName: "menubar.dock.rectangle.badge.record")
-                            Label("Record \(window.displayName)", image: String())
-                        }.disabled(AppDelegate.shared.screenRecorder.isRunning)
-                    }
-                }
+            Button {
+                recordScreen()
             }
         label: {
             Image(systemName: "menubar.dock.rectangle.badge.record")
             Label("Record", image: String())
-        }
+        }.keyboardShortcut(.recordScreen).disabled(AppDelegate.shared?.screenRecorder?.isRunning ?? false)
             
-            Menu {
-                if let availableContent = availableContentProvider.availableContent {
-                    ForEach(availableContent.displays, id: \.self) { display in
-                        Button {
-                            recordScreen(display: display, gif: true)
-                        } label: {
-                            Image(systemName: "menubar.dock.rectangle.badge.record")
-                            Label("Record \(display.displayName)", image: String())
-                        }.keyboardShortcut(display.displayID == 1 ? .recordGif : .noKeybind).disabled(AppDelegate.shared.screenRecorder.isRunning)
-                    }
-                    Divider()
-                    ForEach(availableContent.windows, id: \.self) { window in
-                        Button {
-                            recordScreen(window: window, gif: true)
-                        } label: {
-                            Image(systemName: "menubar.dock.rectangle.badge.record")
-                            Label("Record \(window.displayName)", image: String())
-                        }.disabled(AppDelegate.shared.screenRecorder.isRunning)
-                    }
-                }
+            Button {
+                recordScreen(gif: true)
             }
         label: {
             Image(systemName: "photo.stack")
             Label("Record GIF", image: String())
-        }
-        }
+        }.keyboardShortcut(.recordGif).disabled(AppDelegate.shared?.screenRecorder?.isRunning ?? false)        }
         VStack {
             Menu {
                 Toggle(isOn: $copyToClipboard) {
@@ -165,8 +126,8 @@ struct MainMenuView: View {
                     Label("Save to Disk", image: String())
                 }
                 .toggleStyle(.checkbox)
-                .onChange(of: saveToDisk) { newValue in
-                    if !newValue {
+                .onChange(of: saveToDisk) {
+                    if !saveToDisk {
                         openInFinder = false
                     }
                 }
@@ -232,12 +193,12 @@ struct MainMenuView: View {
             Image(systemName: "icloud.and.arrow.up")
             Label("Upload Destination", image: String())
         }
-        .onChange(of: uploadDestination) { newValue in
-            if case .builtIn(_) = newValue {
+        .onChange(of: uploadDestination) {
+            if case .builtIn(_) = uploadDestination {
                 activeCustomUploader = nil
                 uploadType = .IMGUR
                 BezelNotification.show(messageText: "Selected \(uploadType.rawValue.capitalized)", icon: ToastIcon)
-            } else if case let .custom(customUploader) = newValue {
+            } else if case let .custom(customUploader) = uploadDestination {
                 activeCustomUploader = customUploader
                 uploadType = .CUSTOM
                 BezelNotification.show(messageText: "Selected Custom", icon: ToastIcon)
@@ -350,12 +311,6 @@ struct MainMenuView: View {
                 Image(systemName: "power.circle")
                 Label("Quit", image: String())
             }.keyboardShortcut("q")
-                .onAppear {
-                    availableContentProvider.refreshContent()
-                    Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
-                        availableContentProvider.refreshContent()
-                    }
-                }
         }
     }
 }

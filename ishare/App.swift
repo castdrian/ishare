@@ -37,9 +37,7 @@ struct ishare: App {
 
 class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     static private(set) var shared: AppDelegate! = nil
-    var isIconShown = false
     var recordGif = false
-    var statusBarItem: NSStatusItem!
     var screenRecorder: ScreenRecorder!
     var updaterController: SPUStandardUpdaterController!
     
@@ -57,25 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
         }
         
         updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
-    }
-    
-    @objc func toggleIcon(_ sender: AnyObject) {
-        isIconShown.toggle()
-        
-        if isIconShown {
-            statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-            if let button = statusBarItem.button {
-                button.action = #selector(toggleIcon)
-                button.image = NSImage(systemSymbolName: "stop.fill", accessibilityDescription: "Stop Icon")
-            }
-        } else {
-            NSStatusBar.system.removeStatusItem(statusBarItem)
-            statusBarItem = nil
-        }
-        
-        if !isIconShown {
-            stopRecording()
-        }
     }
     
     func stopRecording() {
