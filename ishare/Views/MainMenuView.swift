@@ -74,14 +74,14 @@ struct MainMenuView: View {
                     captureScreen(type: .REGION)
                 } label: {
                     Image(systemName: "uiwindow.split.2x1")
-                    Label("Capture Region", image: String())
+                    Text("Capture Region")
                 }.keyboardShortcut(.captureRegion)
                 
                 Button {
                     captureScreen(type: .WINDOW)
                 } label: {
                     Image(systemName: "macwindow.on.rectangle")
-                    Label("Capture Window", image: String())
+                    Text("Capture Window")
                 }.keyboardShortcut(.captureWindow)
                 
                 ForEach(NSScreen.screens.indices, id: \.self) { index in
@@ -91,12 +91,12 @@ struct MainMenuView: View {
                         captureScreen(type: .SCREEN, display: index + 1)
                     } label: {
                         Image(systemName: "macwindow")
-                        Label("Capture \(screenName)", image: String())
+                        Text("Capture \(screenName)")
                     }.keyboardShortcut(index == 0 ? .captureScreen : .noKeybind)
                 }
             } label: {
                 Image(systemName: "photo.on.rectangle.angled")
-                Label("Capture", image: String())
+                Text("Capture")
             }
             
             Button {
@@ -104,7 +104,7 @@ struct MainMenuView: View {
             }
         label: {
             Image(systemName: "menubar.dock.rectangle.badge.record")
-            Label("Record", image: String())
+            Text("Record")
         }.keyboardShortcut(.recordScreen).disabled(AppDelegate.shared?.screenRecorder?.isRunning ?? false)
             
             Button {
@@ -112,18 +112,18 @@ struct MainMenuView: View {
             }
         label: {
             Image(systemName: "photo.stack")
-            Label("Record GIF", image: String())
+            Text("Record GIF")
         }.keyboardShortcut(.recordGif).disabled(AppDelegate.shared?.screenRecorder?.isRunning ?? false)        }
         VStack {
             Menu {
                 Toggle(isOn: $copyToClipboard) {
                     Image(systemName: "clipboard")
-                    Label("Copy to Clipboard", image: String())
+                    Text("Copy to Clipboard")
                 }.toggleStyle(.checkbox)
                 
                 Toggle(isOn: $saveToDisk) {
                     Image(systemName: "internaldrive")
-                    Label("Save to Disk", image: String())
+                    Text("Save to Disk")
                 }
                 .toggleStyle(.checkbox)
                 .onChange(of: saveToDisk) {
@@ -134,47 +134,47 @@ struct MainMenuView: View {
                 
                 Toggle(isOn: $openInFinder) {
                     Image(systemName: "folder")
-                    Label("Open in Finder", image: String())
+                    Text("Open in Finder")
                 }
                 .toggleStyle(.checkbox)
                 .disabled(!saveToDisk)
                 
                 Toggle(isOn: $uploadMedia){
                     Image(systemName: "icloud.and.arrow.up")
-                    Label("Upload Media", image: String())
+                    Text("Upload Media")
                 }.toggleStyle(.checkbox)
                 
                 Divider().frame(height: 1).foregroundColor(Color.gray.opacity(0.5))
                 
                 Toggle(isOn: $builtInShare.airdrop) {
                     Image(nsImage: airdropIcon ?? NSImage())
-                    Label("AirDrop", image: String())
+                    Text("AirDrop")
                 }.toggleStyle(.checkbox)
                 
                 Toggle(isOn: $builtInShare.photos) {
                     Image(nsImage: icon(forAppWithName: "com.apple.Photos") ?? NSImage())
-                    Label("Photos", image: String())
+                    Text("Photos")
                 }.toggleStyle(.checkbox)
                 
                 Toggle(isOn: $builtInShare.messages) {
                     Image(nsImage: icon(forAppWithName: "com.apple.MobileSMS") ?? NSImage())
-                    Label("Messages", image: String())
+                    Text("Messages")
                 }.toggleStyle(.checkbox)
                 
                 Toggle(isOn: $builtInShare.mail) {
                     Image(nsImage: icon(forAppWithName: "com.apple.Mail") ?? NSImage())
-                    Label("Mail", image: String())
+                    Text("Mail")
                 }.toggleStyle(.checkbox)
             } label: {
                 Image(systemName: "list.bullet.clipboard")
-                Label("Post Media Tasks", image: String())
+                Text("Post Media Tasks")
             }
             
             Picker(selection: $uploadDestination) {
                 ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) { uploadType in
                     Button {} label: {
                         Image(nsImage: ImgurIcon)
-                        Label(uploadType.rawValue.capitalized, image: String())
+                        Text(uploadType.rawValue.capitalized)
                     }.tag(UploadDestination.builtIn(uploadType))
                 }
                 if let customUploaders = savedCustomUploaders {
@@ -183,7 +183,7 @@ struct MainMenuView: View {
                         ForEach(CustomUploader.allCases, id: \.self) { uploader in
                             Button {} label: {
                                 Image(nsImage: AppIcon)
-                                Label(uploader.name, image: String())
+                                Text(uploader.name)
                             }.tag(UploadDestination.custom(uploader.id))
                         }
                     }
@@ -191,7 +191,7 @@ struct MainMenuView: View {
             }
         label: {
             Image(systemName: "icloud.and.arrow.up")
-            Label("Upload Destination", image: String())
+            Text("Upload Destination")
         }
         .onChange(of: uploadDestination) {
             if case .builtIn(_) = uploadDestination {
@@ -212,7 +212,7 @@ struct MainMenuView: View {
                         openHistoryWindow(uploadHistory: uploadHistory)
                     } label: {
                         Image(systemName: "clock.arrow.circlepath")
-                        Label("Open History Window", image: String())
+                        Text("Open History Window")
                     }.keyboardShortcut(.openHistoryWindow)
                     
                     Divider()
@@ -251,7 +251,7 @@ struct MainMenuView: View {
                 }
             label: {
                 Image(systemName: "clock.arrow.circlepath")
-                Label("History", image: String())
+                Text("History")
             }
             }
             
@@ -287,7 +287,7 @@ struct MainMenuView: View {
                 NSApplication.shared.orderFrontStandardAboutPanel(options: options)
             } label: {
                 Image(systemName: "info.circle")
-                Label("About ishare", image: String())
+                Text("About ishare")
             }
             .keyboardShortcut("a")
             
@@ -295,21 +295,21 @@ struct MainMenuView: View {
                 NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/castdrian")!)
             } label: {
                 Image(systemName: "heart.circle")
-                Label("Donate", image: String())
+                Text("Donate")
             }.keyboardShortcut("d")
             
             Button {
                 AppDelegate.shared.updaterController.updater.checkForUpdates()
             } label: {
                 Image(systemName: "arrow.triangle.2.circlepath")
-                Label("Check for Updates", image: String())
+                Text("Check for Updates")
             }.keyboardShortcut("u")
             
             Button {
                 NSApplication.shared.terminate(nil)
             } label: {
                 Image(systemName: "power.circle")
-                Label("Quit", image: String())
+                Text("Quit")
             }.keyboardShortcut("q")
         }
     }
