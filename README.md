@@ -37,12 +37,6 @@
     <img src="https://img.shields.io/github/stars/castdrian/ishare?style=social" alt="stars">
   </a>
 </p>
-<p align="center">
-  <sub align="center">Homebrew cask star goal</sub>
-  <p align="center">
-    <img src="https://progress-bar.dev/84/?width=500" alt="Homebrew cask star goal progress">
-  </p>
-</p>
 
 ---
 
