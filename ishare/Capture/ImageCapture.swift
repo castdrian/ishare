@@ -12,7 +12,7 @@ import AppKit
 enum CaptureType: String {
     case SCREEN = "-t"
     case WINDOW = "-wt"
-    case REGION = "-st"
+    case REGION = "-it"
 }
 
 enum FileType: String, CaseIterable, Identifiable, Defaults.Serializable {
