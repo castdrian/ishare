@@ -1,13 +1,13 @@
 name: Build and Release App
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '**/*.md'
-      - '**.github/workflows/*'
-      - '**examples/*'
+#  push:
+#    branches:
+#      - main
+#    paths-ignore:
+#      - '**/*.md'
+#      - '**.github/workflows/*'
+#      - '**examples/*'
   workflow_dispatch:
 
 permissions:
