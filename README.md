@@ -41,6 +41,11 @@
 ---
 
 <p align="center">
+   <a href="https://apps.apple.com/app/ishare-screen-capture/id6499066314" download>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/640px-Download_on_the_App_Store_Badge.svg.png" alt="Download ishare" width="200">
+  </a>
+</p>
+<p align="center">
   <a href="https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip" download>
     <img src="https://www.dmo-app.com/wp-content/uploads/2022/05/mac-download-button-1.png" alt="Download Latest Release" width="200">
   </a>
