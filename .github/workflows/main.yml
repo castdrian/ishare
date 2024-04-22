@@ -83,14 +83,15 @@ jobs:
       - name: Export .app from .xcarchive
         run: cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
 
-      - name: "Notarize Release Build"
-        uses: BoundfoxStudios/action-xcode-notarize@v1
+      - name: Notarize Release Build
+        uses: lando/notarize-action@v2
         with:
           product-path: "build/ishare.app"
           appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
           appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
+          appstore-connect-team-id: L988J7YMK5
 
-      - name: "Staple Release Build"
+      - name: Staple Release Build
         uses: BoundfoxStudios/action-xcode-staple@v1
         with:
           product-path: "build/ishare.app"
