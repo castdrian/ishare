@@ -69,7 +69,9 @@ jobs:
           to: HEAD
           
       - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare (external)" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "generic/platform=macOS,name=Any Mac" CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO OTHER_CODE_SIGN_FLAGS=--timestamp | xcbeautify
+        run: |
+            xcodebuild archive -scheme "ishare (external)" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "generic/platform=macOS,name=Any Mac" CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO OTHER_CODE_SIGN_FLAGS=--timestamp | xcbeautify
+            cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
 
       - name: Commit & Push changes
         uses: EndBug/add-and-commit@v9
@@ -80,9 +82,16 @@ jobs:
           message: 'Bump version [skip ci]'
           push: true
 
+      - name: Code Sign
+        uses: lando/code-sign-action@v2
+        with:
+          file: build/ishare.app
+          certificate-data: ${{ secrets.P12_CERTIFICATE_BASE64 }}
+          certificate-password: ${{ secrets.P12_PASSWORD }}
+          apple-team-id: L988J7YMK5
+
       - name: Archive and Notarize .app
         run: |
-            cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
             cd build
             npm install --global create-dmg
             create-dmg "ishare.app" --overwrite
