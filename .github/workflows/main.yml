@@ -87,7 +87,7 @@ jobs:
             codesign -s "Developer ID Application: ADRIAN FERNANDEZ CASTRO (L988J7YMK5)" --deep ishare.app
             npm install --global create-dmg
             create-dmg "ishare.app" --overwrite
-            DMG_FILE=$(ls *.dmg)  # Finds the first .dmg file in the current directory
+            DMG_FILE=$(ls *.dmg)
             echo "DMG_FILE=$DMG_FILE" >> $GITHUB_ENV
             xcrun notarytool submit "$DMG_FILE" --wait --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "L988J7YMK5"
             xcrun stapler staple "$DMG_FILE"
