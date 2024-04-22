@@ -14,7 +14,6 @@
 		3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */ = {isa = PBXBuildFile; productRef = 3A59057D2A73EF5C00109892 /* BezelNotification */; };
 		3A59CD5E2A6EE47E00E85161 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A59CD5D2A6EE47E00E85161 /* VideoCapture.swift */; };
 		3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3A6D1E982ACB004000882366 /* SettingsAccess */; };
-		3A72B9932A7505CF00B2DEBA /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3A72B9922A7505CF00B2DEBA /* Sparkle */; };
 		3A72B9952A752A0A00B2DEBA /* ScreenRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9942A752A0A00B2DEBA /* ScreenRecorder.swift */; };
 		3A72B9972A752AD000B2DEBA /* CaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9962A752AD000B2DEBA /* CaptureEngine.swift */; };
 		3A72B9992A752B1500B2DEBA /* PowerMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9982A752B1500B2DEBA /* PowerMeter.swift */; };
@@ -36,6 +35,40 @@
 		3AB38D062A62C35C00184E0D /* Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D052A62C35C00184E0D /* Custom.swift */; };
 		3AB38D082A62C49C00184E0D /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D072A62C49C00184E0D /* Upload.swift */; };
 		3AB38D0B2A62F28700184E0D /* UploaderSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */; };
+		3ABDF38E2BD5FB2A0045BDE5 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
+		3ABDF38F2BD5FB2A0045BDE5 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* App.swift */; };
+		3ABDF3902BD5FB2A0045BDE5 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A59CD5D2A6EE47E00E85161 /* VideoCapture.swift */; };
+		3ABDF3912BD5FB2A0045BDE5 /* ContentSharingPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A25F99E2B5B47E000AEF3AA /* ContentSharingPickerManager.swift */; };
+		3ABDF3922BD5FB2A0045BDE5 /* UploaderSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */; };
+		3ABDF3932BD5FB2A0045BDE5 /* Imgur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A17C07B2A61A2510012F285 /* Imgur.swift */; };
+		3ABDF3942BD5FB2A0045BDE5 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB318592A7AD52C00CE8610 /* DataController.swift */; };
+		3ABDF3952BD5FB2A0045BDE5 /* PowerMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9982A752B1500B2DEBA /* PowerMeter.swift */; };
+		3ABDF3962BD5FB2A0045BDE5 /* CustomUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D032A62B56B00184E0D /* CustomUploader.swift */; };
+		3ABDF3972BD5FB2A0045BDE5 /* Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D052A62C35C00184E0D /* Custom.swift */; };
+		3ABDF3982BD5FB2A0045BDE5 /* CaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9962A752AD000B2DEBA /* CaptureEngine.swift */; };
+		3ABDF3992BD5FB2A0045BDE5 /* ScreenRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9942A752A0A00B2DEBA /* ScreenRecorder.swift */; };
+		3ABDF39A2BD5FB2A0045BDE5 /* HistoryGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7F0202B3EF16B000117DD /* HistoryGridView.swift */; };
+		3ABDF39B2BD5FB2A0045BDE5 /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE731292B47052E006F10F7 /* UploadManager.swift */; };
+		3ABDF39C2BD5FB2A0045BDE5 /* Upload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB38D072A62C49C00184E0D /* Upload.swift */; };
+		3ABDF39D2BD5FB2A0045BDE5 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C72A5F163800AAEC0E /* AppState.swift */; };
+		3ABDF39E2BD5FB2A0045BDE5 /* MovieRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB318572A7AD35D00CE8610 /* MovieRecorder.swift */; };
+		3ABDF39F2BD5FB2A0045BDE5 /* PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */; };
+		3ABDF3A02BD5FB2A0045BDE5 /* SettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */; };
+		3ABDF3A12BD5FB2A0045BDE5 /* Video.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3AB3185B2A7AD5CB00CE8610 /* Video.xcdatamodeld */; };
+		3ABDF3A22BD5FB2A0045BDE5 /* ToastPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */; };
+		3ABDF3A32BD5FB2A0045BDE5 /* ImageCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ImageCapture.swift */; };
+		3ABDF3A42BD5FB2A0045BDE5 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C52A5F0C7A00AAEC0E /* Constants.swift */; };
+		3ABDF3A62BD5FB2A0045BDE5 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF3852BD5FB2A0045BDE5 /* Zip */; };
+		3ABDF3A72BD5FB2A0045BDE5 /* MenuBarExtraAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF3892BD5FB2A0045BDE5 /* MenuBarExtraAccess */; };
+		3ABDF3A82BD5FB2A0045BDE5 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF37D2BD5FB2A0045BDE5 /* Defaults */; };
+		3ABDF3A92BD5FB2A0045BDE5 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF3812BD5FB2A0045BDE5 /* Alamofire */; };
+		3ABDF3AA2BD5FB2A0045BDE5 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF37F2BD5FB2A0045BDE5 /* KeyboardShortcuts */; };
+		3ABDF3AB2BD5FB2A0045BDE5 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF3832BD5FB2A0045BDE5 /* SwiftyJSON */; };
+		3ABDF3AC2BD5FB2A0045BDE5 /* BezelNotification in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF3872BD5FB2A0045BDE5 /* BezelNotification */; };
+		3ABDF3AD2BD5FB2A0045BDE5 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF37B2BD5FB2A0045BDE5 /* LaunchAtLogin */; };
+		3ABDF3AE2BD5FB2A0045BDE5 /* SettingsAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF38B2BD5FB2A0045BDE5 /* SettingsAccess */; };
+		3ABDF3B02BD5FB2A0045BDE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDAED92A659A0B00C42406 /* Assets.xcassets */; };
+		3ABDF3B82BD5FB730045BDE5 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF3B72BD5FB730045BDE5 /* Sparkle */; };
 		3ADDAEDA2A659A0B00C42406 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDAED92A659A0B00C42406 /* Assets.xcassets */; };
 		3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADDAEE22A65D00F00C42406 /* Zip */; };
 		3AE7312A2B47052E006F10F7 /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE731292B47052E006F10F7 /* UploadManager.swift */; };
@@ -45,6 +78,16 @@
 
 /* Begin PBXCopyFilesBuildPhase section */
 		3A1E39C42A66915700F6CBBF /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3ABDF3B12BD5FB2A0045BDE5 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -81,6 +124,7 @@
 		3AB38D052A62C35C00184E0D /* Custom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Custom.swift; sourceTree = "<group>"; };
 		3AB38D072A62C49C00184E0D /* Upload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Upload.swift; sourceTree = "<group>"; };
 		3AB38D0A2A62F28700184E0D /* UploaderSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploaderSettings.swift; sourceTree = "<group>"; };
+		3ABDF3B52BD5FB2A0045BDE5 /* ishare (external).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ishare (external).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ADDAED92A659A0B00C42406 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Util/Assets.xcassets; sourceTree = "<group>"; };
 		3AE731292B47052E006F10F7 /* UploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImage.swift; sourceTree = "<group>"; };
@@ -94,7 +138,6 @@
 			files = (
 				3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */,
 				3A72B9A12A7594F900B2DEBA /* MenuBarExtraAccess in Frameworks */,
-				3A72B9932A7505CF00B2DEBA /* Sparkle in Frameworks */,
 				3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */,
 				3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */,
 				3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */,
@@ -102,6 +145,23 @@
 				3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */,
 				3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */,
 				3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3ABDF3A52BD5FB2A0045BDE5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3ABDF3A62BD5FB2A0045BDE5 /* Zip in Frameworks */,
+				3ABDF3A72BD5FB2A0045BDE5 /* MenuBarExtraAccess in Frameworks */,
+				3ABDF3A82BD5FB2A0045BDE5 /* Defaults in Frameworks */,
+				3ABDF3A92BD5FB2A0045BDE5 /* Alamofire in Frameworks */,
+				3ABDF3AA2BD5FB2A0045BDE5 /* KeyboardShortcuts in Frameworks */,
+				3ABDF3B82BD5FB730045BDE5 /* Sparkle in Frameworks */,
+				3ABDF3AB2BD5FB2A0045BDE5 /* SwiftyJSON in Frameworks */,
+				3ABDF3AC2BD5FB2A0045BDE5 /* BezelNotification in Frameworks */,
+				3ABDF3AD2BD5FB2A0045BDE5 /* LaunchAtLogin in Frameworks */,
+				3ABDF3AE2BD5FB2A0045BDE5 /* SettingsAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +200,7 @@
 			children = (
 				3A9A9FD62A5C84B5007BA5C9 /* ishare */,
 				3A9A9FD52A5C84B5007BA5C9 /* Products */,
+				3ABDF3252BD5EE880045BDE5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				3A9A9FD42A5C84B5007BA5C9 /* ishare.app */,
+				3ABDF3B52BD5FB2A0045BDE5 /* ishare (external).app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -198,6 +260,13 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		3ABDF3252BD5EE880045BDE5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -223,12 +292,41 @@
 				3A0679E02A648C0F0088DE6A /* SwiftyJSON */,
 				3ADDAEE22A65D00F00C42406 /* Zip */,
 				3A59057D2A73EF5C00109892 /* BezelNotification */,
-				3A72B9922A7505CF00B2DEBA /* Sparkle */,
 				3A72B9A02A7594F900B2DEBA /* MenuBarExtraAccess */,
 				3A6D1E982ACB004000882366 /* SettingsAccess */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3ABDF37A2BD5FB2A0045BDE5 /* ishare (external) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3ABDF3B22BD5FB2A0045BDE5 /* Build configuration list for PBXNativeTarget "ishare (external)" */;
+			buildPhases = (
+				3ABDF38D2BD5FB2A0045BDE5 /* Sources */,
+				3ABDF3A52BD5FB2A0045BDE5 /* Frameworks */,
+				3ABDF3AF2BD5FB2A0045BDE5 /* Resources */,
+				3ABDF3B12BD5FB2A0045BDE5 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ishare (external)";
+			packageProductDependencies = (
+				3ABDF37B2BD5FB2A0045BDE5 /* LaunchAtLogin */,
+				3ABDF37D2BD5FB2A0045BDE5 /* Defaults */,
+				3ABDF37F2BD5FB2A0045BDE5 /* KeyboardShortcuts */,
+				3ABDF3812BD5FB2A0045BDE5 /* Alamofire */,
+				3ABDF3832BD5FB2A0045BDE5 /* SwiftyJSON */,
+				3ABDF3852BD5FB2A0045BDE5 /* Zip */,
+				3ABDF3872BD5FB2A0045BDE5 /* BezelNotification */,
+				3ABDF3892BD5FB2A0045BDE5 /* MenuBarExtraAccess */,
+				3ABDF38B2BD5FB2A0045BDE5 /* SettingsAccess */,
+				3ABDF3B72BD5FB730045BDE5 /* Sparkle */,
+			);
+			productName = ishare;
+			productReference = 3ABDF3B52BD5FB2A0045BDE5 /* ishare (external).app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -238,7 +336,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					3A9A9FD32A5C84B5007BA5C9 = {
@@ -272,6 +370,7 @@
 			projectRoot = "";
 			targets = (
 				3A9A9FD32A5C84B5007BA5C9 /* ishare */,
+				3ABDF37A2BD5FB2A0045BDE5 /* ishare (external) */,
 			);
 		};
 /* End PBXProject section */
@@ -282,6 +381,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3ADDAEDA2A659A0B00C42406 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3ABDF3AF2BD5FB2A0045BDE5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3ABDF3B02BD5FB2A0045BDE5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -315,6 +422,36 @@
 				3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */,
 				3AB345AB2A5D779500AAEC0E /* ImageCapture.swift in Sources */,
 				3AB345C62A5F0C7A00AAEC0E /* Constants.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3ABDF38D2BD5FB2A0045BDE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3ABDF38E2BD5FB2A0045BDE5 /* MainMenuView.swift in Sources */,
+				3ABDF38F2BD5FB2A0045BDE5 /* App.swift in Sources */,
+				3ABDF3902BD5FB2A0045BDE5 /* VideoCapture.swift in Sources */,
+				3ABDF3912BD5FB2A0045BDE5 /* ContentSharingPickerManager.swift in Sources */,
+				3ABDF3922BD5FB2A0045BDE5 /* UploaderSettings.swift in Sources */,
+				3ABDF3932BD5FB2A0045BDE5 /* Imgur.swift in Sources */,
+				3ABDF3942BD5FB2A0045BDE5 /* DataController.swift in Sources */,
+				3ABDF3952BD5FB2A0045BDE5 /* PowerMeter.swift in Sources */,
+				3ABDF3962BD5FB2A0045BDE5 /* CustomUploader.swift in Sources */,
+				3ABDF3972BD5FB2A0045BDE5 /* Custom.swift in Sources */,
+				3ABDF3982BD5FB2A0045BDE5 /* CaptureEngine.swift in Sources */,
+				3ABDF3992BD5FB2A0045BDE5 /* ScreenRecorder.swift in Sources */,
+				3ABDF39A2BD5FB2A0045BDE5 /* HistoryGridView.swift in Sources */,
+				3ABDF39B2BD5FB2A0045BDE5 /* UploadManager.swift in Sources */,
+				3ABDF39C2BD5FB2A0045BDE5 /* Upload.swift in Sources */,
+				3ABDF39D2BD5FB2A0045BDE5 /* AppState.swift in Sources */,
+				3ABDF39E2BD5FB2A0045BDE5 /* MovieRecorder.swift in Sources */,
+				3ABDF39F2BD5FB2A0045BDE5 /* PreviewImage.swift in Sources */,
+				3ABDF3A02BD5FB2A0045BDE5 /* SettingsMenuView.swift in Sources */,
+				3ABDF3A12BD5FB2A0045BDE5 /* Video.xcdatamodeld in Sources */,
+				3ABDF3A22BD5FB2A0045BDE5 /* ToastPopover.swift in Sources */,
+				3ABDF3A32BD5FB2A0045BDE5 /* ImageCapture.swift in Sources */,
+				3ABDF3A42BD5FB2A0045BDE5 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,6 +622,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = dev.adrian.ishare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -523,6 +661,84 @@
 				PRODUCT_BUNDLE_IDENTIFIER = dev.adrian.ishare;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		3ABDF3B32BD5FB2A0045BDE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ishare/ishare.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "${BUILD_NUMBER}";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = L988J7YMK5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTING_SEARCH_PATHS = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ishare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ishare;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = "${VERSION}";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.adrian.ishare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				"SWIFT_ACTIVE_COMPILATION_CONDITIONS[arch=*]" = NOT_APP_STORE;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3ABDF3B42BD5FB2A0045BDE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ishare/ishare.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "${BUILD_NUMBER}";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = L988J7YMK5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = NO;
+				ENABLE_TESTING_SEARCH_PATHS = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ishare/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ishare;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = "${VERSION}";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.adrian.ishare;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				"SWIFT_ACTIVE_COMPILATION_CONDITIONS[arch=*]" = NOT_APP_STORE;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -545,6 +761,15 @@
 			buildConfigurations = (
 				3A9A9FFA2A5C84B5007BA5C9 /* Debug */,
 				3A9A9FFB2A5C84B5007BA5C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3ABDF3B22BD5FB2A0045BDE5 /* Build configuration list for PBXNativeTarget "ishare (external)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3ABDF3B32BD5FB2A0045BDE5 /* Debug */,
+				3ABDF3B42BD5FB2A0045BDE5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -624,6 +849,78 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		3ABDF37C2BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		3ABDF37E2BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		3ABDF3802BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		3ABDF3822BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		3ABDF3842BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		3ABDF3862BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "Zip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Zip.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		3ABDF3882BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "BezelNotification" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/BlueHuskyStudios/BezelNotification.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		3ABDF38A2BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/orchetect/MenuBarExtraAccess.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		3ABDF38C2BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "SettingsAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/orchetect/SettingsAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		3ADDAEE12A65D00F00C42406 /* XCRemoteSwiftPackageReference "Zip" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/marmelroy/Zip.git";
@@ -655,11 +952,6 @@
 			package = 3A6D1E972ACB004000882366 /* XCRemoteSwiftPackageReference "SettingsAccess" */;
 			productName = SettingsAccess;
 		};
-		3A72B9922A7505CF00B2DEBA /* Sparkle */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3A72B9912A7505CF00B2DEBA /* XCRemoteSwiftPackageReference "Sparkle" */;
-			productName = Sparkle;
-		};
 		3A72B9A02A7594F900B2DEBA /* MenuBarExtraAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3A72B99F2A7594F900B2DEBA /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */;
@@ -679,6 +971,56 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
+		};
+		3ABDF37B2BD5FB2A0045BDE5 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABDF37C2BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
+			productName = LaunchAtLogin;
+		};
+		3ABDF37D2BD5FB2A0045BDE5 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABDF37E2BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
+		3ABDF37F2BD5FB2A0045BDE5 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABDF3802BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+		3ABDF3812BD5FB2A0045BDE5 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABDF3822BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		3ABDF3832BD5FB2A0045BDE5 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABDF3842BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		3ABDF3852BD5FB2A0045BDE5 /* Zip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABDF3862BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "Zip" */;
+			productName = Zip;
+		};
+		3ABDF3872BD5FB2A0045BDE5 /* BezelNotification */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABDF3882BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "BezelNotification" */;
+			productName = BezelNotification;
+		};
+		3ABDF3892BD5FB2A0045BDE5 /* MenuBarExtraAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABDF38A2BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */;
+			productName = MenuBarExtraAccess;
+		};
+		3ABDF38B2BD5FB2A0045BDE5 /* SettingsAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ABDF38C2BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "SettingsAccess" */;
+			productName = SettingsAccess;
+		};
+		3ABDF3B72BD5FB730045BDE5 /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A72B9912A7505CF00B2DEBA /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 		3ADDAEE22A65D00F00C42406 /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;

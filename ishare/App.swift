@@ -7,8 +7,10 @@
 
 import SwiftUI
 import Defaults
-import Sparkle
 import MenuBarExtraAccess
+#if NOT_APP_STORE
+import Sparkle
+#endif
 
 @main
 struct ishare: App {
@@ -23,9 +25,9 @@ struct ishare: App {
         }
     label: {
         switch menubarIcon {
-            case .DEFAULT: Image(nsImage: GlyphIcon)
-            case .APPICON: Image(nsImage: AppIcon)
-            case .SYSTEM: Image(systemName: "photo.on.rectangle.angled")
+        case .DEFAULT: Image(nsImage: GlyphIcon)
+        case .APPICON: Image(nsImage: AppIcon)
+        case .SYSTEM: Image(systemName: "photo.on.rectangle.angled")
         }
     }
     .menuBarExtraAccess(isPresented: $showMainMenu)
@@ -35,6 +37,7 @@ struct ishare: App {
     }
 }
 
+#if NOT_APP_STORE
 class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     static private(set) var shared: AppDelegate! = nil
     var recordGif = false
@@ -71,3 +74,38 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
         }
     }
 }
+#else
+class AppDelegate: NSObject, NSApplicationDelegate {
+    static private(set) var shared: AppDelegate! = nil
+    var recordGif = false
+    var screenRecorder: ScreenRecorder!
+    
+    func application(_ application: NSApplication, open urls: [URL]) {
+        if urls.count == 1 {
+            importIscu(urls.first!)
+        }
+    }
+    
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        AppDelegate.shared = self
+        
+        Task {
+            screenRecorder = ScreenRecorder()
+        }
+    }
+    
+    func stopRecording() {
+        Task {
+            await screenRecorder.stop { [self] result in
+                switch result {
+                case .success(let url):
+                    print("Recording stopped successfully. URL: \(url)")
+                    postRecordingTasks(url, recordGif)
+                case .failure(let error):
+                    print("Error while stopping recording: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+}
+#endif

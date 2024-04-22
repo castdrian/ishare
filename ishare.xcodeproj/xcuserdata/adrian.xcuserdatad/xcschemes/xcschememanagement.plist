@@ -9,21 +9,26 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>2</integer>
 		</dict>
 		<key>Playground (Playground) 2.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>3</integer>
 		</dict>
 		<key>Playground (Playground).xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
+		</dict>
+		<key>ishare (external).xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
 		</dict>
 		<key>ishare.xcscheme_^#shared#^_</key>
 		<dict>
@@ -39,6 +44,11 @@
 			<true/>
 		</dict>
 		<key>3A9A9FD32A5C84B5007BA5C9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3ABDF2E82BD5EE250045BDE5</key>
 		<dict>
 			<key>primary</key>
 			<true/>

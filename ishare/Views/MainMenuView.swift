@@ -11,6 +11,9 @@ import Defaults
 import ScreenCaptureKit
 import SettingsAccess
 import UniformTypeIdentifiers
+#if NOT_APP_STORE
+import Sparkle
+#endif
 
 enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
     case builtIn(UploadType)
@@ -291,6 +294,7 @@ struct MainMenuView: View {
             }
             .keyboardShortcut("a")
             
+#if NOT_APP_STORE
             Button {
                 NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/castdrian")!)
             } label: {
@@ -304,6 +308,8 @@ struct MainMenuView: View {
                 Image(systemName: "arrow.triangle.2.circlepath")
                 Text("Check for Updates")
             }.keyboardShortcut("u")
+            
+#endif
             
             Button {
                 NSApplication.shared.terminate(nil)
