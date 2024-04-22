@@ -84,7 +84,8 @@ jobs:
         run: |
             cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
             cd build
-            codesign -s "Developer ID Application: ADRIAN FERNANDEZ CASTRO (L988J7YMK5)" --verbose --force --deep --timestamp --options runtime ishare.app
+            codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app/Contents/Resources/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/LaunchAtLoginHelper-with-runtime.zip/LaunchAtLoginHelper.app
+            codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app
             npm install --global create-dmg
             create-dmg "ishare.app" --overwrite
             DMG_FILE=$(ls *.dmg)
