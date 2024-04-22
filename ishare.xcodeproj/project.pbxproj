@@ -20,7 +20,7 @@
 		3A72B9A12A7594F900B2DEBA /* MenuBarExtraAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3A72B9A02A7594F900B2DEBA /* MenuBarExtraAccess */; };
 		3A88C3232BD631D600EEDCE3 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 3A88C3222BD631D600EEDCE3 /* Defaults */; };
 		3A88C3252BD6320100EEDCE3 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 3A88C3242BD6320100EEDCE3 /* KeyboardShortcuts */; };
-		3A88C3272BD6321A00EEDCE3 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3A88C3262BD6321A00EEDCE3 /* LaunchAtLogin */; };
+		3A88C32A2BD6E4CE00EEDCE3 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3A88C3292BD6E4CE00EEDCE3 /* LaunchAtLogin */; };
 		3A9A9FD82A5C84B5007BA5C9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9A9FD72A5C84B5007BA5C9 /* App.swift */; };
 		3AB318582A7AD35D00CE8610 /* MovieRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB318572A7AD35D00CE8610 /* MovieRecorder.swift */; };
 		3AB3185A2A7AD52C00CE8610 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB318592A7AD52C00CE8610 /* DataController.swift */; };
@@ -136,7 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3A88C3272BD6321A00EEDCE3 /* LaunchAtLogin in Frameworks */,
+				3A88C32A2BD6E4CE00EEDCE3 /* LaunchAtLogin in Frameworks */,
 				3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */,
 				3A88C3252BD6320100EEDCE3 /* KeyboardShortcuts in Frameworks */,
 				3A72B9A12A7594F900B2DEBA /* MenuBarExtraAccess in Frameworks */,
@@ -293,7 +293,7 @@
 				3A6D1E982ACB004000882366 /* SettingsAccess */,
 				3A88C3222BD631D600EEDCE3 /* Defaults */,
 				3A88C3242BD6320100EEDCE3 /* KeyboardShortcuts */,
-				3A88C3262BD6321A00EEDCE3 /* LaunchAtLogin */,
+				3A88C3292BD6E4CE00EEDCE3 /* LaunchAtLogin */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
@@ -361,9 +361,9 @@
 				3A72B9912A7505CF00B2DEBA /* XCRemoteSwiftPackageReference "Sparkle" */,
 				3A72B99F2A7594F900B2DEBA /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */,
 				3A6D1E972ACB004000882366 /* XCRemoteSwiftPackageReference "SettingsAccess" */,
-				3A88C31E2BD62A6700EEDCE3 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 				3A88C31F2BD62AA600EEDCE3 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				3A88C3212BD631D600EEDCE3 /* XCRemoteSwiftPackageReference "Defaults" */,
+				3A88C3282BD6E4CE00EEDCE3 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
 			projectDirPath = "";
@@ -829,14 +829,6 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		3A88C31E2BD62A6700EEDCE3 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.1;
-			};
-		};
 		3A88C31F2BD62AA600EEDCE3 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
@@ -851,6 +843,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 8.2.0;
+			};
+		};
+		3A88C3282BD6E4CE00EEDCE3 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
 			};
 		};
 		3ABDF37C2BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
@@ -971,9 +971,9 @@
 			package = 3A88C31F2BD62AA600EEDCE3 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
 		};
-		3A88C3262BD6321A00EEDCE3 /* LaunchAtLogin */ = {
+		3A88C3292BD6E4CE00EEDCE3 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3A88C31E2BD62A6700EEDCE3 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			package = 3A88C3282BD6E4CE00EEDCE3 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
 			productName = LaunchAtLogin;
 		};
 		3ABDF37B2BD5FB2A0045BDE5 /* LaunchAtLogin */ = {
