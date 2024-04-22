@@ -84,7 +84,7 @@ jobs:
         run: |
             cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
             cd build
-            codesign -s "Developer ID Application: ADRIAN FERNANDEZ CASTRO (L988J7YMK5)" --deep ishare.app
+            codesign -s "Developer ID Application: ADRIAN FERNANDEZ CASTRO (L988J7YMK5)" --force --deep ishare.app
             npm install --global create-dmg
             create-dmg "ishare.app" --overwrite
             DMG_FILE=$(ls *.dmg)
