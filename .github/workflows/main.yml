@@ -84,6 +84,8 @@ jobs:
         run: |
             cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
             cd build
+            codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater
+            codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate
             codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app
             npm install --global create-dmg
             create-dmg "ishare.app" --overwrite
