@@ -69,7 +69,7 @@ jobs:
           to: HEAD
           
       - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare (external)" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "generic/platform=macOS,name=Any Mac" CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO | xcbeautify
+        run: xcodebuild archive -scheme "ishare (external)" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "generic/platform=macOS,name=Any Mac" | xcbeautify
 
       - name: Commit & Push changes
         uses: EndBug/add-and-commit@v9
@@ -80,16 +80,16 @@ jobs:
           message: 'Bump version [skip ci]'
           push: true
 
-      - name: Archive and Notarize .app
+      - name: Sign, Package and Notarize .app
         run: |
             cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
             cd build
-            codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader
-            codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer
-            codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater
-            codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate
-            codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app/Contents/MacOS/ishare (external)
-            codesign -s "Developer ID Application" -f --timestamp -o runtime ishare.app
+            codesign -s "Developer ID Application" -f --timestamp -o runtime "ishare.app/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Downloader.xpc/Contents/MacOS/Downloader"
+            codesign -s "Developer ID Application" -f --timestamp -o runtime "ishare.app/Contents/Frameworks/Sparkle.framework/Versions/B/XPCServices/Installer.xpc/Contents/MacOS/Installer"
+            codesign -s "Developer ID Application" -f --timestamp -o runtime "ishare.app/Contents/Frameworks/Sparkle.framework/Versions/B/Updater.app/Contents/MacOS/Updater"
+            codesign -s "Developer ID Application" -f --timestamp -o runtime "ishare.app/Contents/Frameworks/Sparkle.framework/Versions/B/Autoupdate"
+            codesign -s "Developer ID Application" -f --timestamp -o runtime "ishare.app/Contents/MacOS/ishare (external)"
+            codesign -s "Developer ID Application" -f --timestamp -o runtime "ishare.app"
             npm install --global create-dmg
             create-dmg "ishare.app" --overwrite
             DMG_FILE=$(ls *.dmg)
