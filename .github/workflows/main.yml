@@ -82,28 +82,31 @@ jobs:
 
       - name: Archive and Notarize .app
         run: |
-          cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
-          cd build
-          zip -r "ishare_macOS.zip" "ishare.app"
-          xcrun notarytool submit "ishare_macOS.zip" --wait --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "L988J7YMK5"
-          xcrun stapler staple "ishare_macOS.zip"
+            cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
+            cd build
+            npm install --global create-dmg
+            create-dmg "ishare.app" --overwrite
+            DMG_FILE=$(ls *.dmg)  # Finds the first .dmg file in the current directory
+            echo "DMG_FILE=$DMG_FILE" >> $GITHUB_ENV
+            xcrun notarytool submit "$DMG_FILE" --wait --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "L988J7YMK5"
+            xcrun stapler staple "$DMG_FILE"
 
       - name: Configure Sparkle
         run: |
-          curl -L -o Sparkle-2.4.2.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz
-          tar -xJf Sparkle-2.4.2.tar.xz
-          mkdir update
-          mv ./build/ishare_macOS.zip update/
-          echo "${{ steps.changelog.outputs.body }}" > RELEASE.md
-          chmod +x ./bin/generate_appcast
+            curl -L -o Sparkle-2.4.2.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz
+            tar -xJf Sparkle-2.4.2.tar.xz
+            mkdir update
+            mv ./build/$DMG_FILE update/
+            echo "${{ steps.changelog.outputs.body }}" > RELEASE.md
+            chmod +x ./bin/generate_appcast
 
       - name: Convert Markdown to HTML
         uses: jaywcjlove/markdown-to-html-cli@main
         with:
-          source: RELEASE.md
-          output: ./update/ishare_macOS.html
-          github-corners: false
-      
+            source: RELEASE.md
+            output: ./update/${DMG_FILE%.dmg}.html
+            github-corners: false
+        
       - name: Generate appcast.xml
         run: echo "$EDDSA_PRIVATE_KEY" | ./bin/generate_appcast --ed-key-file - --link https://isharemac.app --embed-release-notes --download-url-prefix https://github.com/castdrian/ishare/releases/latest/download/ update/
         env:
@@ -121,7 +124,7 @@ jobs:
         with:
           tag_name: ${{ steps.semver.outputs.next }}
           body_path: RELEASE.md
-          files: ./update/ishare_macOS.zip
+          files: ./update/$DMG_FILE
           fail_on_unmatched_files: true
           token: ${{ env.GITHUB_TOKEN }}
         env:
