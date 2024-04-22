@@ -1,13 +1,13 @@
 {
-  "originHash" : "457379c019910912d45c64f6cf194185cf499a36d1e88eb6d8948ac28538815f",
+  "originHash" : "d5cfb771afb4237eb92eadb7dd18858985a16703a12299c9148d002d84ab96e3",
   "pins" : [
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
-        "revision" : "bc268c28fb170f494de9e9927c371b8342979ece",
-        "version" : "5.7.1"
+        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
+        "version" : "5.9.1"
       }
     },
     {
@@ -22,10 +22,10 @@
     {
       "identity" : "defaults",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/sindresorhus/Defaults",
+      "location" : "git@github.com:sindresorhus/Defaults.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "23e0a4497e844db64e12740e2ab4a632857d3de6"
+        "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa",
+        "version" : "8.2.0"
       }
     },
     {
@@ -33,17 +33,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
       "state" : {
-        "revision" : "de5b143889b9aa90a997b18e311527095dfb28e0",
-        "version" : "1.12.0"
+        "revision" : "09e4a10ed6b65b3a40fe07b6bf0c84809313efc4",
+        "version" : "2.0.0"
       }
     },
     {
-      "identity" : "launchatlogin-modern",
+      "identity" : "launchatlogin",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/sindresorhus/LaunchAtLogin-Modern",
+      "location" : "https://github.com/sindresorhus/LaunchAtLogin",
       "state" : {
-        "branch" : "main",
-        "revision" : "9c41991631605c8ccfe0347bbcb5c659169f2ec5"
+        "revision" : "22923d335429bfd38c52435505b06a10bcc520fd",
+        "version" : "5.0.1"
       }
     },
     {

@@ -25,9 +25,6 @@
 		3AB345AB2A5D779500AAEC0E /* ImageCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345AA2A5D779500AAEC0E /* ImageCapture.swift */; };
 		3AB345B12A5E7D4100AAEC0E /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B02A5E7D4100AAEC0E /* MainMenuView.swift */; };
 		3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345B52A5E8E6300AAEC0E /* SettingsMenuView.swift */; };
-		3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */; };
-		3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345BB2A5EBA5400AAEC0E /* Defaults */; };
-		3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */; };
 		3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C32A5EEB8D00AAEC0E /* ToastPopover.swift */; };
 		3AB345C62A5F0C7A00AAEC0E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C52A5F0C7A00AAEC0E /* Constants.swift */; };
 		3AB345C82A5F163800AAEC0E /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB345C72A5F163800AAEC0E /* AppState.swift */; };
@@ -69,6 +66,7 @@
 		3ABDF3AE2BD5FB2A0045BDE5 /* SettingsAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF38B2BD5FB2A0045BDE5 /* SettingsAccess */; };
 		3ABDF3B02BD5FB2A0045BDE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDAED92A659A0B00C42406 /* Assets.xcassets */; };
 		3ABDF3B82BD5FB730045BDE5 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3ABDF3B72BD5FB730045BDE5 /* Sparkle */; };
+		3ACC06302BD6295400B9CE8B /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 3ACC062F2BD6295400B9CE8B /* Defaults */; };
 		3ADDAEDA2A659A0B00C42406 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDAED92A659A0B00C42406 /* Assets.xcassets */; };
 		3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADDAEE22A65D00F00C42406 /* Zip */; };
 		3AE7312A2B47052E006F10F7 /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE731292B47052E006F10F7 /* UploadManager.swift */; };
@@ -138,12 +136,10 @@
 			files = (
 				3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */,
 				3A72B9A12A7594F900B2DEBA /* MenuBarExtraAccess in Frameworks */,
-				3AB345BC2A5EBA5400AAEC0E /* Defaults in Frameworks */,
 				3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */,
-				3AB345C22A5ED5B800AAEC0E /* KeyboardShortcuts in Frameworks */,
+				3ACC06302BD6295400B9CE8B /* Defaults in Frameworks */,
 				3A0679E12A648C0F0088DE6A /* SwiftyJSON in Frameworks */,
 				3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */,
-				3AB345B92A5EB95E00AAEC0E /* LaunchAtLogin in Frameworks */,
 				3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,15 +281,13 @@
 			);
 			name = ishare;
 			packageProductDependencies = (
-				3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */,
-				3AB345BB2A5EBA5400AAEC0E /* Defaults */,
-				3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */,
 				3A17C0782A61A20E0012F285 /* Alamofire */,
 				3A0679E02A648C0F0088DE6A /* SwiftyJSON */,
 				3ADDAEE22A65D00F00C42406 /* Zip */,
 				3A59057D2A73EF5C00109892 /* BezelNotification */,
 				3A72B9A02A7594F900B2DEBA /* MenuBarExtraAccess */,
 				3A6D1E982ACB004000882366 /* SettingsAccess */,
+				3ACC062F2BD6295400B9CE8B /* Defaults */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
@@ -354,9 +348,6 @@
 			);
 			mainGroup = 3A9A9FCB2A5C84B4007BA5C9;
 			packageReferences = (
-				3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
-				3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */,
-				3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				3A17C0772A61A20E0012F285 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				3A0679DF2A648C0F0088DE6A /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				3ADDAEE12A65D00F00C42406 /* XCRemoteSwiftPackageReference "Zip" */,
@@ -364,6 +355,9 @@
 				3A72B9912A7505CF00B2DEBA /* XCRemoteSwiftPackageReference "Sparkle" */,
 				3A72B99F2A7594F900B2DEBA /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */,
 				3A6D1E972ACB004000882366 /* XCRemoteSwiftPackageReference "SettingsAccess" */,
+				3ACC062E2BD6295400B9CE8B /* XCRemoteSwiftPackageReference "Defaults" */,
+				3A88C31E2BD62A6700EEDCE3 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				3A88C31F2BD62AA600EEDCE3 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
 			projectDirPath = "";
@@ -829,28 +823,20 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
+		3A88C31E2BD62A6700EEDCE3 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
 			};
 		};
-		3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/Defaults";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+		3A88C31F2BD62AA600EEDCE3 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 2.0.0;
 			};
 		};
 		3ABDF37C2BD5FB2A0045BDE5 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
@@ -925,6 +911,14 @@
 				minimumVersion = 1.2.0;
 			};
 		};
+		3ACC062E2BD6295400B9CE8B /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:sindresorhus/Defaults.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.2.0;
+			};
+		};
 		3ADDAEE12A65D00F00C42406 /* XCRemoteSwiftPackageReference "Zip" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/marmelroy/Zip.git";
@@ -960,21 +954,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3A72B99F2A7594F900B2DEBA /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */;
 			productName = MenuBarExtraAccess;
-		};
-		3AB345B82A5EB95E00AAEC0E /* LaunchAtLogin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AB345B72A5EB95E00AAEC0E /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
-			productName = LaunchAtLogin;
-		};
-		3AB345BB2A5EBA5400AAEC0E /* Defaults */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AB345BA2A5EBA5400AAEC0E /* XCRemoteSwiftPackageReference "Defaults" */;
-			productName = Defaults;
-		};
-		3AB345C12A5ED5B800AAEC0E /* KeyboardShortcuts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AB345C02A5ED5B800AAEC0E /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
-			productName = KeyboardShortcuts;
 		};
 		3ABDF37B2BD5FB2A0045BDE5 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1025,6 +1004,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3A72B9912A7505CF00B2DEBA /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
+		};
+		3ACC062F2BD6295400B9CE8B /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3ACC062E2BD6295400B9CE8B /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
 		};
 		3ADDAEE22A65D00F00C42406 /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;
