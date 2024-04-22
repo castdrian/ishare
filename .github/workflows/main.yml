@@ -81,7 +81,7 @@ jobs:
           push: true
           
       - name: Export .app from .xcarchive
-        run: cp -R "build/ishare.xcarchive/Products/Applications/ishare.app" "build/"
+        run: cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
 
       - name: "Notarize Release Build"
         uses: BoundfoxStudios/action-xcode-notarize@v1
