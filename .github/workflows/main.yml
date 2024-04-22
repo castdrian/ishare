@@ -130,7 +130,7 @@ jobs:
         with:
           tag_name: ${{ steps.semver.outputs.next }}
           body_path: RELEASE.md
-          files: ./update/$DMG_FILE
+          files: ./update/*.dmg
           fail_on_unmatched_files: true
           token: ${{ env.GITHUB_TOKEN }}
         env:
