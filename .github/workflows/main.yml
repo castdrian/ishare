@@ -69,7 +69,7 @@ jobs:
           to: HEAD
           
       - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare (external)" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS"
+        run: xcodebuild archive -scheme "ishare (external)" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS" | xcbeautify
 
       - name: Commit & Push changes
         uses: EndBug/add-and-commit@v9
@@ -79,38 +79,23 @@ jobs:
           fetch: false
           message: 'Bump version [skip ci]'
           push: true
-          
-      - name: Export .app from .xcarchive
-        run: cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
 
-      - name: Notarize Release Build
-        uses: lando/notarize-action@v2
-        with:
-          product-path: "build/ishare.app"
-          appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
-          appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
-          appstore-connect-team-id: L988J7YMK5
+      - name: Archive and Notarize .app
+        run: |
+          cp -R "build/ishare.xcarchive/Products/Applications/"*.app "build/ishare.app"
+          cd build
+          zip -r "ishare_macOS.zip" "ishare.app"
+          xcrun notarytool submit "ishare_macOS.zip" --wait --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "L988J7YMK5"
+          xcrun stapler staple "ishare_macOS.zip"
 
-      - name: Staple Release Build
-        uses: BoundfoxStudios/action-xcode-staple@v1
-        with:
-          product-path: "build/ishare.app"
-
-      - name: Archive .app
-        run: cd build && zip -r "ishare_macOS.zip" "ishare.app"
-
-      - name: Download Sparkle
+      - name: Configure Sparkle
         run: |
           curl -L -o Sparkle-2.4.2.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz
-      
-      - name: Extract Sparkle
-        run: tar -xJf Sparkle-2.4.2.tar.xz
-
-      - name: Prepare update folder
-        run: |
+          tar -xJf Sparkle-2.4.2.tar.xz
           mkdir update
           mv ./build/ishare_macOS.zip update/
           echo "${{ steps.changelog.outputs.body }}" > RELEASE.md
+          chmod +x ./bin/generate_appcast
 
       - name: Convert Markdown to HTML
         uses: jaywcjlove/markdown-to-html-cli@main
@@ -118,9 +103,6 @@ jobs:
           source: RELEASE.md
           output: ./update/ishare_macOS.html
           github-corners: false
-      
-      - name: Set executable bit for generate_appcast
-        run: chmod +x ./bin/generate_appcast
       
       - name: Generate appcast.xml
         run: echo "$EDDSA_PRIVATE_KEY" | ./bin/generate_appcast --ed-key-file - --link https://isharemac.app --embed-release-notes --download-url-prefix https://github.com/castdrian/ishare/releases/latest/download/ update/
@@ -135,7 +117,7 @@ jobs:
           path: ./update/appcast.xml
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.semver.outputs.next }}
           body_path: RELEASE.md
@@ -153,7 +135,7 @@ jobs:
     needs: release
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download appcast.xml artifact
         uses: actions/download-artifact@v4
