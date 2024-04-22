@@ -1,13 +1,13 @@
 name: Build and Release App
 
 on:
-#  push:
-#    branches:
-#      - main
-#    paths-ignore:
-#      - '**/*.md'
-#      - '**.github/workflows/*'
-#      - '**examples/*'
+  push:
+     branches:
+       - main
+     paths-ignore:
+       - '**/*.md'
+       - '**.github/workflows/*'
+       - '**examples/*'
   workflow_dispatch:
 
 permissions:
@@ -32,13 +32,8 @@ jobs:
       - name: Setup Certificate
         uses: apple-actions/import-codesign-certs@v2
         with: 
-          p12-file-base64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          p12-file-base64: ${{ secrets.P12_CERTIFICATE_BASE64 }}
           p12-password: ${{ secrets.P12_PASSWORD }}
-
-      - name: Xcode Select Version
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: '15.0.1'
 
       - name: Get Next Version
         id: semver
@@ -69,7 +64,7 @@ jobs:
           to: HEAD
           
       - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS"
+        run: xcodebuild archive -scheme "ishare (external)" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "platform=macOS"
 
       - name: Commit & Push changes
         uses: EndBug/add-and-commit@v9
@@ -82,6 +77,18 @@ jobs:
           
       - name: Export .app from .xcarchive
         run: cp -R "build/ishare.xcarchive/Products/Applications/ishare.app" "build/"
+
+      - name: "Notarize Release Build"
+        uses: BoundfoxStudios/action-xcode-notarize@v1
+        with:
+          product-path: "build/ishare.app"
+          appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
+          appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
+
+      - name: "Staple Release Build"
+        uses: BoundfoxStudios/action-xcode-staple@v1
+        with:
+          product-path: "build/ishare.app"
 
       - name: Archive .app
         run: cd build && zip -r "ishare_macOS.zip" "ishare.app"
