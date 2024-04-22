@@ -102,7 +102,7 @@ jobs:
             curl -L -o Sparkle-2.4.2.tar.xz https://github.com/sparkle-project/Sparkle/releases/download/2.4.2/Sparkle-2.4.2.tar.xz
             tar -xJf Sparkle-2.4.2.tar.xz
             mkdir update
-            mv ./build/$DMG_FILE update/
+            mv "./build/$DMG_FILE" update/
             echo "${{ steps.changelog.outputs.body }}" > RELEASE.md
             chmod +x ./bin/generate_appcast
 
