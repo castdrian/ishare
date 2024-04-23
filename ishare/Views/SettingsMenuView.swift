@@ -16,7 +16,7 @@ import ScreenCaptureKit
 
 struct SettingsMenuView: View {
     @Default(.aussieMode) var aussieMode
-    
+
     let appVersionString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
     
     var body: some View {
@@ -24,22 +24,22 @@ struct SettingsMenuView: View {
             VStack {
                 List {
                     NavigationLink(destination: GeneralSettingsView()) {
-                        Label("General", systemImage: "gearshape")
+                        Label("General", systemImage: "gearshape").rotationEffect(aussieMode ? .degrees(180) : .zero)
                     }
                     NavigationLink(destination: UploaderSettingsView()) {
-                        Label("Uploaders", systemImage: "icloud.and.arrow.up")
+                        Label("Uploaders", systemImage: "icloud.and.arrow.up").rotationEffect(aussieMode ? .degrees(180) : .zero)
                     }
                     NavigationLink(destination: KeybindSettingsView()) {
-                        Label("Keybinds", systemImage: "command.circle")
+                        Label("Keybinds", systemImage: "command.circle").rotationEffect(aussieMode ? .degrees(180) : .zero)
                     }
                     NavigationLink(destination: CaptureSettingsView()) {
-                        Label("Image files", systemImage: "photo")
+                        Label("Image files", systemImage: "photo").rotationEffect(aussieMode ? .degrees(180) : .zero)
                     }
                     NavigationLink(destination: RecordingSettingsView()) {
-                        Label("Video files", systemImage: "menubar.dock.rectangle.badge.record")
+                        Label("Video files", systemImage: "menubar.dock.rectangle.badge.record").rotationEffect(aussieMode ? .degrees(180) : .zero)
                     }
                     NavigationLink(destination: AdvancedSettingsView()) {
-                        Label("Advanced", systemImage: "hammer.circle")
+                        Label("Advanced", systemImage: "hammer.circle").rotationEffect(aussieMode ? .degrees(180) : .zero)
                     }
                 }
                 .listStyle(SidebarListStyle())
@@ -52,6 +52,7 @@ struct SettingsMenuView: View {
                         Text("GitHub")
                     }
                 }
+                .rotationEffect(aussieMode ? .degrees(180) : .zero)
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .center)
             }
@@ -60,7 +61,6 @@ struct SettingsMenuView: View {
             GeneralSettingsView() // default view
         }
         .frame(minWidth: 600, maxWidth: 600, minHeight: 300, maxHeight: 300)
-        .rotationEffect(aussieMode ? .degrees(180) : .zero)
         .navigationTitle("Settings")
     }
 }
@@ -89,7 +89,6 @@ struct GeneralSettingsView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
-            Text("ishare").font(.largeTitle).frame(maxWidth: .infinity).padding(-10)
             
             HStack() {
                 VStack(alignment: .leading) {
@@ -100,7 +99,7 @@ struct GeneralSettingsView: View {
                 Spacer()
                 
                 VStack {
-                    Text("Menu Icon")
+                    Text("Menu Bar Icon")
                     
                     HStack {
                         ForEach(MenuBarIcon.allCases, id: \.self) { choice in
@@ -165,11 +164,13 @@ struct GeneralSettingsView: View {
             .padding(0)
             .frame(maxWidth: .infinity)
         }
-        .padding()
+        .padding().rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 }
 
 struct KeybindSettingsView: View {
+    @Default(.aussieMode) var aussieMode
+    
     var body: some View {
         Spacer()
         
@@ -193,7 +194,7 @@ struct KeybindSettingsView: View {
                 .foregroundColor(.red)
                 .frame(maxWidth: .infinity)
         }
-        .padding()
+        .padding().rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 }
 
@@ -201,6 +202,7 @@ struct CaptureSettingsView: View {
     @Default(.capturePath) var capturePath
     @Default(.captureFileType) var fileType
     @Default(.captureFileName) var fileName
+    @Default(.aussieMode) var aussieMode
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -241,7 +243,7 @@ struct CaptureSettingsView: View {
                 }.labelsHidden()
             }.padding()
             
-        }.padding()
+        }.padding().rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 }
 
@@ -252,6 +254,7 @@ struct RecordingSettingsView: View {
     @Default(.recordMP4) var recordMP4
     @Default(.useHEVC) var useHEVC
     @Default(.compressVideo) var compressVideo
+    @Default(.aussieMode) var aussieMode
     
     @State private var isExcludedAppSheetPresented = false
     
@@ -311,7 +314,7 @@ struct RecordingSettingsView: View {
                 .sheet(isPresented: $isExcludedAppSheetPresented) {
                     ExcludedAppsView().frame(maxHeight: 500)
                 }
-        }
+        }.rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 }
 
@@ -319,6 +322,7 @@ struct AdvancedSettingsView: View {
     @State private var showingAlert: Bool = false
     @Default(.imgurClientId) var imgurClientId
     @Default(.captureBinary) var captureBinary
+    @Default(.aussieMode) var aussieMode
     
     var body: some View {
         VStack{
@@ -350,7 +354,7 @@ struct AdvancedSettingsView: View {
                 }
             }
             Spacer()
-        }.padding()
+        }.padding().rotationEffect(aussieMode ? .degrees(180) : .zero)
             .alert(Text("Advanced Settings"),
                    isPresented: $showingAlert,
                    actions: {

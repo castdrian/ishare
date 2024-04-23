@@ -13,6 +13,7 @@ struct UploaderSettingsView: View {
     @Default(.activeCustomUploader) var activeCustomUploader
     @Default(.savedCustomUploaders) var savedCustomUploaders
     @Default(.uploadType) var uploadType
+    @Default(.aussieMode) var aussieMode
     
     @State private var isAddSheetPresented = false
     @State private var isImportSheetPresented = false
@@ -115,6 +116,7 @@ struct UploaderSettingsView: View {
             }
             .padding(.bottom)
         }
+        .rotationEffect(aussieMode ? .degrees(180) : .zero)
         .sheet(isPresented: $isAddSheetPresented) {
             AddCustomUploaderView()
                 .frame(minWidth: 450)
