@@ -3,6 +3,7 @@
 //  ishare
 //
 //  Created by Adrian Castro on 15.07.23.
+//  UI reworked by iGerman on 22.04.24.
 //
 
 import SwiftUI
@@ -19,9 +20,16 @@ struct UploaderSettingsView: View {
     var body: some View {
         VStack {
             if let uploaders = savedCustomUploaders {
-                Text("Saved Custom Uploaders:")
-                    .font(.headline)
-                    .padding(.top)
+                if (uploaders.isEmpty) {
+                    HStack(alignment: .center) {
+                        VStack {
+                            Text("You have no saved uploaders")
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .font(.largeTitle)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
                 
                 ForEach(uploaders.sorted(by: { $0.name < $1.name }), id: \.self) { uploader in
                     HStack {
@@ -34,6 +42,9 @@ struct UploaderSettingsView: View {
                             deleteCustomUploader(uploader)
                         }) {
                             Image(systemName: "trash")
+                                .resizable()
+                                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                                .frame(width: 12, height: 12)
                         }
                         .buttonStyle(BorderlessButtonStyle())
                         .help("Delete Uploader")
@@ -42,6 +53,9 @@ struct UploaderSettingsView: View {
                             testCustomUploader(uploader)
                         }) {
                             Image(systemName: "icloud.and.arrow.up")
+                                .resizable()
+                                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                                .frame(width: 12, height: 12)
                         }
                         .buttonStyle(BorderlessButtonStyle())
                         .help("Test Uploader")
@@ -50,6 +64,9 @@ struct UploaderSettingsView: View {
                             editCustomUploader(uploader) // Edit button added
                         }) {
                             Image(systemName: "pencil")
+                                .resizable()
+                                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                                .frame(width: 12, height: 12)
                         }
                         .buttonStyle(BorderlessButtonStyle())
                         .help("Edit Uploader")
@@ -58,47 +75,53 @@ struct UploaderSettingsView: View {
                             exportUploader(uploader) // Export button added
                         }) {
                             Image(systemName: "square.and.arrow.up")
+                                .resizable()
+                                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
+                                .frame(width: 12, height: 12)
                         }
                         .buttonStyle(BorderlessButtonStyle())
                         .help("Export Uploader")
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 4)
+                }.padding(.top)
+            }
+            
+            Divider().padding(.horizontal)
+            Spacer()
+            
+            HStack {
+                Button(action: {
+                    isAddSheetPresented.toggle()
+                }) {
+                    Text("Create")
                 }
-            } else {
-                Text("No saved custom uploaders")
-                    .foregroundColor(.secondary)
+                .buttonStyle(DefaultButtonStyle())
+                
+                Button(action: {
+                    isImportSheetPresented.toggle()
+                }) {
+                    Text("Import")
+                }
+                .buttonStyle(DefaultButtonStyle())
+                
+                Button(action: {
+                    clearAllUploaders()
+                }) {
+                    Text("Clear All")
+                        .foregroundColor(.red)
+                }
+                .buttonStyle(DefaultButtonStyle())
             }
-            
-            Divider()
-            
-            Button(action: {
-                isAddSheetPresented.toggle()
-            }) {
-                Text("Add Custom Uploader")
-            }
-            .buttonStyle(DefaultButtonStyle())
-            
-            Button(action: {
-                isImportSheetPresented.toggle()
-            }) {
-                Text("Import Custom Uploader")
-            }
-            .buttonStyle(DefaultButtonStyle())
-            
-            Button(action: {
-                clearAllUploaders()
-            }) {
-                Text("Clear All Uploaders")
-                    .foregroundColor(.red)
-            }
-            .buttonStyle(DefaultButtonStyle())
+            .padding(.bottom)
         }
         .sheet(isPresented: $isAddSheetPresented) {
             AddCustomUploaderView()
+                .frame(minWidth: 450)
         }
         .sheet(isPresented: $isImportSheetPresented) {
             ImportCustomUploaderView()
+                .frame(minWidth: 350)
         }
     }
     
@@ -200,106 +223,137 @@ struct AddCustomUploaderView: View {
     
     var body: some View {
         ScrollView {
-            VStack {
-                HStack {
-                    Text("Name:")
-                    TextField("Name", text: $uploaderName)
-                }
+            Text("Create Custom Uploader")
+                .font(.title)
                 .padding()
-                
-                HStack {
-                    Text("Request URL:")
-                    TextField("Request URL", text: $requestURL)
+            Divider().padding(.horizontal)
+            
+            VStack(alignment: .leading) {
+                Group {
+                    InputField(label: "Name*", text: $uploaderName)
+                    HStack{
+                        InputField(label: "Request URL*", text: $requestURL)
+                        InputField(label: "Response URL*", text: $responseURL)
+                    }
+                    HStack{
+                        InputField(label: "Deletion URL", text: $deletionURL)
+                        InputField(label: "File Form Name", text: $fileFormName)
+                    }
                 }
-                .padding()
+                .padding(.bottom)
                 
-                HStack {
-                    Text("Response URL:")
-                    TextField("Response URL", text: $responseURL)
-                }
-                .padding()
-                
-                HStack {
-                    Text("Deletion URL (optional):")
-                    TextField("Deletion URL", text: $deletionURL)
-                }
-                .padding()
-                
+                Divider().padding(.vertical)
                 HeaderView()
-                
+                Divider().padding(.vertical)
                 FormDataView()
+                Divider().padding(.vertical)
+                
+                Text("*required").font(.footnote).frame(maxWidth: .infinity, alignment: .leading).opacity(0.5)
                 
                 Button(action: {
                     saveCustomUploader()
                 }) {
                     Text("Save")
+                        .frame(maxWidth: .infinity)
                 }
                 .padding()
             }
+            .padding()
         }
     }
     
-    private func HeaderView() -> some View {
-        Section(header: Text("Header (optional)")) {
-            ForEach(header.indices, id: \.self) { index in
-                HStack(spacing: 10) {
-                    Text("Header Name: \(header[index].key)")
-                    Text("Header Value: \(header[index].value)")
-                    
-                    Button(action: {
-                        header.remove(at: index)
-                    }) {
-                        Image(systemName: "minus.circle")
-                    }
-                }
-                
+    private struct InputField: View {
+        let label: String
+        @Binding var text: String
+        
+        var body: some View {
+            VStack(alignment: .leading) {
+                TextField(label, text: $text)
+                    .padding(.top, 4)
             }
-            
-            ForEach(header) { entry in
-                if (entry == header.last) {
-                    CustomEntryView(entry: $header[header.firstIndex(of: entry)!])
-                        .padding(.horizontal)
-                }
-            }
-            
-            Button(action: {
-                header.append(CustomEntryModel(key: "", value: ""))
-            }) {
-                Text("Add Header")
-            }
-            .padding()
         }
+    }
+    
+    
+    private func HeaderView() -> some View {
+        EntryListView(title: "Headers", entries: $header)
     }
     
     private func FormDataView() -> some View {
-        Section(header: Text("Form Data (optional)")) {
-            ForEach(formData.indices, id: \.self) { index in
-                HStack(spacing: 10) {
-                    Text("Form Data Name: \(formData[index].key)")
-                    Text("Form Data Value: \(formData[index].value)")
-                    
-                    Button(action: {
-                        formData.remove(at: index)
-                    }) {
-                        Image(systemName: "minus.circle")
+        EntryListView(title: "Form Data", entries: $formData)
+    }
+    
+    struct EntryListView: View {
+        let title: String
+        @Binding var entries: [CustomEntryModel]
+        
+        var body: some View {
+            Section(header: HStack {
+                Text(title)
+                    .font(.headline)
+                Spacer()
+                Button(action: {
+                    entries.append(CustomEntryModel(key: "", value: ""))
+                }) {
+                    Image(systemName: "plus")
+                }
+            }) {
+                ForEach(entries) { entry in
+                    if (entry == entries.last) {
+                        CustomEntryView(entry: $entries[entries.firstIndex(of: entry)!])
+                            .padding(.horizontal)
                     }
                 }
                 
-            }
-            
-            ForEach(formData) { entry in
-                if (entry == formData.last) {
-                    CustomEntryView(entry: $formData[formData.firstIndex(of: entry)!])
-                        .padding(.horizontal)
+                if (!entries.isEmpty) {
+                    Divider()
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("Name").frame(maxWidth: .infinity)
+                        }
+                        Divider()
+                        VStack(alignment: .leading) {
+                            Text("Value").frame(maxWidth: .infinity)
+                        }
+                        Button(action: {}) {
+                            Image(systemName: "minus.circle")
+                        }.opacity(0)
+                            .disabled(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                    }
+                    .frame(maxWidth: .infinity)
+                    Divider()
+                } else {
+                    //                    Text("None").frame(maxWidth: .infinity)
+                }
+                
+                ForEach(entries.indices, id: \.self) { index in
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text((entries[index].key))
+                                .padding(1)
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .font(.system(.body, design: .monospaced))
+                        }
+                        Divider()
+                        VStack(alignment: .leading) {
+                            Text((entries[index].value))
+                                .padding(1)
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .font(.system(.body, design: .monospaced))
+                        }
+                        Button(action: {
+                            entries.remove(at: index)
+                        }) {
+                            Image(systemName: "minus.circle").foregroundColor(.red)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    Rectangle()
+                        .frame(width: .infinity, height: 1)
+                        .opacity(0.1)
+                        .padding(0)
                 }
             }
-            
-            Button(action: {
-                formData.append(CustomEntryModel(key: "", value: ""))
-            }) {
-                Text("Add FormData")
-            }
-            .padding()
         }
     }
     
@@ -344,11 +398,9 @@ struct AddCustomUploaderView: View {
         var body: some View {
             HStack {
                 VStack(alignment: .leading) {
-                    Text("Name")
                     TextField("Name", text: $entry.key)
                 }
                 VStack(alignment: .leading) {
-                    Text("Value")
                     TextField("Value", text: $entry.value)
                 }
             }
@@ -389,17 +441,40 @@ struct ImportCustomUploaderView: View {
             
             Divider()
             
-            Button(action: {
-                selectFile { fileURL in
-                    if let url = fileURL {
-                        selectedFileURLs.append(url)
-                        importUploader()
+            // Drag and Drop Receptacle
+            RoundedRectangle(cornerRadius: 12)
+                .frame(height: 150)
+                .foregroundColor(.gray.opacity(0.2))
+                .overlay(
+                    VStack {
+                        Image(systemName: "arrow.down.doc")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                            .foregroundColor(.gray)
+                        Text("Drag and drop .iscu files here or click to select")
+                            .foregroundColor(.gray)
+                    }
+                )
+                .onTapGesture {
+                    selectFile { fileURL in
+                        if let url = fileURL {
+                            selectedFileURLs.append(url)
+                            importUploader()
+                        }
                     }
                 }
-            }) {
-                Text("Select File")
-            }
-            .buttonStyle(DefaultButtonStyle())
+                .onDrop(of: ["public.file-url"], isTargeted: nil) { providers in
+                    providers.first?.loadItem(forTypeIdentifier: "public.file-url", options: nil) { item, error in
+                        if let data = item as? Data, let url = URL(dataRepresentation: data, relativeTo: nil) {
+                            DispatchQueue.main.async {
+                                selectedFileURLs.append(url)
+                                importUploader()
+                            }
+                        }
+                    }
+                    return true
+                }
             
             if let fileURL = selectedFileURLs.first {
                 Text("Selected File: \(fileURL.lastPathComponent)")
@@ -411,7 +486,7 @@ struct ImportCustomUploaderView: View {
             Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }
-            .padding(.bottom)
+            .padding()
         }
         .padding()
         .alert(item: $importError) { error in
@@ -469,5 +544,5 @@ struct CustomEntryModel: Identifiable, Equatable {
 }
 
 #Preview {
-    AddCustomUploaderView()
+    UploaderSettingsView()
 }

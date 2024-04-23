@@ -3,6 +3,7 @@
 //  ishare
 //
 //  Created by Adrian Castro on 12.07.23.
+//  UI reworked by iGerman on 22.04.24.
 //
 
 import SwiftUI
@@ -15,42 +16,55 @@ import ScreenCaptureKit
 
 struct SettingsMenuView: View {
     @Default(.aussieMode) var aussieMode
-
+    
+    let appVersionString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+    
     var body: some View {
-        TabView {
-            GeneralSettingsView()
-                .tabItem {
-                    Label("General", systemImage: "gearshape")
+        NavigationView {
+            VStack {
+                List {
+                    NavigationLink(destination: GeneralSettingsView()) {
+                        Label("General", systemImage: "gearshape")
+                    }
+                    NavigationLink(destination: UploaderSettingsView()) {
+                        Label("Uploaders", systemImage: "icloud.and.arrow.up")
+                    }
+                    NavigationLink(destination: KeybindSettingsView()) {
+                        Label("Keybinds", systemImage: "command.circle")
+                    }
+                    NavigationLink(destination: CaptureSettingsView()) {
+                        Label("Image files", systemImage: "photo")
+                    }
+                    NavigationLink(destination: RecordingSettingsView()) {
+                        Label("Video files", systemImage: "menubar.dock.rectangle.badge.record")
+                    }
+                    NavigationLink(destination: AdvancedSettingsView()) {
+                        Label("Advanced", systemImage: "hammer.circle")
+                    }
                 }
+                .listStyle(SidebarListStyle())
+                
+                Spacer()
+                Divider().padding(.horizontal)
+                VStack {
+                    Text("v" + appVersionString)
+                    Link(destination: URL(string: "https://github.com/castdrian/ishare")!) {
+                        Text("GitHub")
+                    }
+                }
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .center)
+            }
+            .frame(minWidth: 150, idealWidth: 200, maxWidth: 300, maxHeight: .infinity)
             
-            UploaderSettingsView()
-                .tabItem {
-                    Label("Uploaders", systemImage: "icloud.and.arrow.up")
-                }
-            
-            KeybindSettingsView()
-                .tabItem {
-                    Label("Keybinds", systemImage: "command.circle")
-                }
-            
-            CaptureSettingsView()
-                .tabItem {
-                    Label("Captures", systemImage: "photo")
-                }
-            
-            RecordingSettingsView()
-                .tabItem {
-                    Label("Recordings", systemImage: "menubar.dock.rectangle.badge.record")
-                }
-            
-            AdvancedSettingsView()
-                .tabItem {
-                    Label("Advanced", systemImage: "hammer.circle").rotationEffect(aussieMode ? .degrees(180) : .zero)
-                }
+            GeneralSettingsView() // default view
         }
-        .frame(width: 550, height: 350).rotationEffect(aussieMode ? .degrees(180) : .zero)
+        .frame(minWidth: 600, maxWidth: 600, minHeight: 300, maxHeight: 300)
+        .rotationEffect(aussieMode ? .degrees(180) : .zero)
+        .navigationTitle("Settings")
     }
 }
+
 
 struct GeneralSettingsView: View {
     @Default(.menuBarIcon) var menubarIcon
@@ -58,21 +72,82 @@ struct GeneralSettingsView: View {
     @Default(.aussieMode) var aussieMode
     @Default(.uploadHistory) var uploadHistory
     
+    let appImage = NSImage(named: "AppIcon") ?? AppIcon
+    
+    struct MenuButtonStyle: ButtonStyle {
+        var backgroundColor: Color
+        
+        func makeBody(configuration: Self.Configuration) -> some View {
+            configuration.label
+                .font(.headline)
+                .padding(10)
+                .background(backgroundColor)
+                .cornerRadius(5)
+        }
+    }
+    
     var body: some View {
-        VStack {
-            LaunchAtLogin.Toggle()
-            Toggle("I am in Australia", isOn: $aussieMode)
-            Picker("MenuBar Icon", selection: $menubarIcon) {
-                ForEach(MenuBarIcon.allCases, id: \.self) { choice in
-                    Button {} label: {
-                        switch choice {
-                            case .DEFAULT: Image(nsImage: GlyphIcon)
-                            case .APPICON: Image(nsImage: AppIcon)
-                            case .SYSTEM: Image(systemName: "photo.on.rectangle.angled")
+        VStack(alignment: .leading) {
+            Spacer()
+            Text("ishare").font(.largeTitle).frame(maxWidth: .infinity).padding(-10)
+            
+            HStack() {
+                VStack(alignment: .leading) {
+                    LaunchAtLogin.Toggle()
+                    Toggle("Land down under", isOn: $aussieMode)
+                }.padding(25)
+                
+                Spacer()
+                
+                VStack {
+                    Text("Menu Icon")
+                    
+                    HStack {
+                        ForEach(MenuBarIcon.allCases, id: \.self) { choice in
+                            Button(action: {
+                                self.menubarIcon = choice
+                            }) {
+                                switch choice {
+                                case .DEFAULT:
+                                    Image(nsImage: GlyphIcon)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 20, height: 5)
+                                case .APPICON:
+                                    Image(nsImage: AppIcon)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 20, height: 5)
+                                case .SYSTEM:
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 20, height: 5)
+                                }
+                            }
+                            .buttonStyle(
+                                MenuButtonStyle(
+                                    backgroundColor:
+                                        self.menubarIcon == choice ? .accentColor : .clear                      )
+                            )
                         }
-                    }.tag(choice.id)
+                    }
                 }
-            }.padding().frame(width: 200)
+            }.padding(25)
+            
+            
+            Spacer()
+            
+            VStack(alignment: .leading) {
+                Text("Toast Timeout: \(Int(toastTimeout)) seconds")
+                Slider(value: $toastTimeout, in: 1...10, step: 1)
+                    .frame(maxWidth: .infinity)
+            }
+            .padding(.bottom)
+            
+            Spacer()
+            
+            
             HStack {
                 Button("Export Settings") {
                     exportUserDefaults()
@@ -80,38 +155,45 @@ struct GeneralSettingsView: View {
                 Button("Import Settings") {
                     importUserDefaults()
                 }
-                Button("Clear History") {
+                Button(action: {
                     uploadHistory = []
                     BezelNotification.show(messageText: "Cleared history", icon: ToastIcon)
+                }) {
+                    Text("Clear History").foregroundColor(.red)
                 }
             }
-            VStack {
-                Text("Toast Timeout: \(Int(toastTimeout)) seconds")
-                    .padding()
-                Slider(value: $toastTimeout, in: 1...10, step: 1)
-                    .frame(width: 200)
-            }
+            .padding(0)
+            .frame(maxWidth: .infinity)
         }
+        .padding()
     }
 }
 
 struct KeybindSettingsView: View {
     var body: some View {
-        VStack {
-            Form {
-                KeyboardShortcuts.Recorder("Open Main Menu:", name: .toggleMainMenu)
-                KeyboardShortcuts.Recorder("Open History Window:", name: .openHistoryWindow)
-                KeyboardShortcuts.Recorder("Capture Region:", name: .captureRegion)
-                KeyboardShortcuts.Recorder("Capture Window:", name: .captureWindow)
-                KeyboardShortcuts.Recorder("Capture Screen:", name: .captureScreen)
-                KeyboardShortcuts.Recorder("Record Screen:", name: .recordScreen)
-                KeyboardShortcuts.Recorder("Record GIF:", name: .recordGif)
-            }
-            Button("Reset") {
-                KeyboardShortcuts.reset([.toggleMainMenu,.openHistoryWindow, .captureRegion, .captureWindow, .captureScreen, .recordScreen, .recordGif])
-                BezelNotification.show(messageText: "Reset keybinds", icon: ToastIcon)
-            }
+        Spacer()
+        
+        Form {
+            KeyboardShortcuts.Recorder("Open Main Menu:", name: .toggleMainMenu)
+            KeyboardShortcuts.Recorder("Open History Window:", name: .openHistoryWindow)
+            KeyboardShortcuts.Recorder("Capture Region:", name: .captureRegion)
+            KeyboardShortcuts.Recorder("Capture Window:", name: .captureWindow)
+            KeyboardShortcuts.Recorder("Capture Screen:", name: .captureScreen)
+            KeyboardShortcuts.Recorder("Record Screen:", name: .recordScreen)
+            KeyboardShortcuts.Recorder("Record GIF:", name: .recordGif)
         }
+        
+        Spacer()
+        
+        Button(action: {
+            KeyboardShortcuts.reset([.toggleMainMenu, .openHistoryWindow, .captureRegion, .captureWindow, .captureScreen, .recordScreen, .recordGif])
+            BezelNotification.show(messageText: "Reset keybinds", icon: ToastIcon)
+        }) {
+            Text("Reset All Keybinds")
+                .foregroundColor(.red)
+                .frame(maxWidth: .infinity)
+        }
+        .padding()
     }
 }
 
@@ -121,33 +203,45 @@ struct CaptureSettingsView: View {
     @Default(.captureFileName) var fileName
     
     var body: some View {
-        VStack {
-            HStack {
-                Text("Capture path:")
-                TextField(text: $capturePath) {}
-                Button("Select directory") {
-                    selectFolder { folderURL in
-                        if let url = folderURL {
-                            capturePath = url.path()
+        VStack(alignment: .leading) {
+            VStack(alignment: .leading) {
+                Text("Image path:").font(.headline)
+                HStack {
+                    TextField(text: $capturePath) {}
+                    Button(action: {
+                        selectFolder { folderURL in
+                            if let url = folderURL {
+                                capturePath = url.path()
+                            }
                         }
+                    }) {
+                        Image(systemName: "folder.fill")
+                    }.help("Pick a folder")
+                }
+            }.padding()
+            
+            VStack(alignment: .leading) {
+                Text("File prefix:").font(.headline)
+                HStack {
+                    TextField(String(), text: $fileName)
+                    Button(action: {
+                        fileName = Defaults.Keys.captureFileName.defaultValue
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                    }.help("Set to default")
+                }
+            }.padding()
+            
+            VStack(alignment: .leading) {
+                Text("Format:").font(.headline)
+                Picker("Format:", selection: $fileType) {
+                    ForEach(FileType.allCases, id: \.self) {
+                        Text($0.rawValue.uppercased())
                     }
-                }
-            }.padding(10)
+                }.labelsHidden()
+            }.padding()
             
-            HStack {
-                Text("File name:")
-                TextField(String(), text: $fileName)
-                Button("Default") {
-                    fileName = Defaults.Keys.captureFileName.defaultValue
-                }
-            }.padding(20)
-            
-            Picker("File format:", selection: $fileType) {
-                ForEach(FileType.allCases, id: \.self) {
-                    Text($0.rawValue.uppercased())
-                }
-            }.padding(10)
-        }
+        }.padding()
     }
 }
 
@@ -163,41 +257,64 @@ struct RecordingSettingsView: View {
     
     var body: some View {
         VStack {
-            Toggle("Record as .mp4 instead of .mov", isOn: $recordMP4)
-            Toggle("Use HEVC", isOn: $useHEVC)
-            Toggle("Apply heavy compression", isOn: $compressVideo)
-            Toggle("Record audio", isOn: $recordAudio)
-            HStack {
-                Text("Recording path:")
-                TextField(text: $recordingPath) {}
-                Button("Select directory") {
-                    selectFolder { folderURL in
-                        if let url = folderURL {
-                            recordingPath = url.path()
-                        }
-                    }
-                }
-            }.padding(10)
+            Spacer()
             
-            HStack {
-                Text("File name:")
-                TextField(String(), text: $fileName)
-                Button("Default") {
-                    fileName = Defaults.Keys.recordingFileName.defaultValue
-                    BezelNotification.show(messageText: "Reset filename", icon: ToastIcon)
+            HStack(spacing: 25) {
+                VStack(alignment: .leading) {
+                    Toggle("Record .mp4 instead of .mov", isOn: $recordMP4)
+                    Toggle("Use HEVC", isOn: $useHEVC)
                 }
-            }.padding(20)
+                
+                VStack(alignment: .leading) {
+                    Toggle("Apply heavy compression", isOn: $compressVideo)
+                    Toggle("Record audio", isOn: $recordAudio)
+                }
+            }.padding(.horizontal)
+            
+            Spacer()
+            
+            VStack(alignment: .leading) {
+                Text("Video path:").font(.headline)
+                HStack {
+                    TextField(text: $recordingPath) {}
+                    Button(action: {
+                        selectFolder { folderURL in
+                            if let url = folderURL {
+                                recordingPath = url.path()
+                            }
+                        }
+                    }) {
+                        Image(systemName: "folder.fill")
+                    }.help("Pick a folder")
+                }
+            }.padding(.horizontal)
+            
+            Spacer()
+            
+            VStack(alignment: .leading) {
+                Text("File prefix:").font(.headline)
+                HStack {
+                    TextField(String(), text: $fileName)
+                    Button(action: {
+                        fileName = Defaults.Keys.recordingFileName.defaultValue
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                    }.help("Set to default")
+                }
+            }.padding(.horizontal)
+            
+            Spacer()
             
             Button("Excluded applications") {
                 isExcludedAppSheetPresented.toggle()
-            }
-            .sheet(isPresented: $isExcludedAppSheetPresented) {
-                ExcludedAppsView()
-            }
+            }.padding()
+                .sheet(isPresented: $isExcludedAppSheetPresented) {
+                    ExcludedAppsView().frame(maxHeight: 500)
+                }
         }
     }
 }
-    
+
 struct AdvancedSettingsView: View {
     @State private var showingAlert: Bool = false
     @Default(.imgurClientId) var imgurClientId
@@ -205,34 +322,51 @@ struct AdvancedSettingsView: View {
     
     var body: some View {
         VStack{
-            HStack {
-                Text("Imgur Client ID:")
-                TextField(String(), text: $imgurClientId)
-                Button("Default") {
-                    imgurClientId = Defaults.Keys.imgurClientId.defaultValue
+            Spacer()
+            VStack(alignment: .leading) {
+                Text("Imgur Client ID:").font(.headline)
+                HStack {
+                    TextField(String(), text: $imgurClientId)
+                    Button(action: {
+                        imgurClientId = Defaults.Keys.imgurClientId.defaultValue
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                    }.help("Set to default")
                 }
-            }.padding(20)
-            HStack {
-                Text("Screencapture binary:")
-                TextField(String(), text: $captureBinary)
-                Button("Default") {
-                    captureBinary = Defaults.Keys.captureBinary.defaultValue
-                    BezelNotification.show(messageText: "Reset captureBinary", icon: ToastIcon)
-                }
-            }.padding(20)
-            
-        }.alert(Text("Advanced Settings"),
-                isPresented: $showingAlert,
-                actions: {
-            Button("I understand") {
-                showingAlert = false
             }
-        }, message: {
-            Text("Warning! Only modify these settings if you know what you're doing!")
-        }
-        )
-        .onAppear{
-            showingAlert = true
-        }
+            Spacer()
+            VStack {
+                VStack(alignment: .leading) {
+                    Text("Screencapture binary:").font(.headline)
+                    HStack {
+                        TextField(String(), text: $captureBinary)
+                        Button(action: {
+                            captureBinary = Defaults.Keys.captureBinary.defaultValue
+                            BezelNotification.show(messageText: "Reset captureBinary", icon: ToastIcon)
+                        }){
+                            Image(systemName: "arrow.clockwise")
+                        }.help("Set to default")
+                    }
+                }
+            }
+            Spacer()
+        }.padding()
+            .alert(Text("Advanced Settings"),
+                   isPresented: $showingAlert,
+                   actions: {
+                Button("I understand") {
+                    showingAlert = false
+                }
+            }, message: {
+                Text("Warning! Only modify these settings if you know what you're doing!")
+            }
+            )
+            .onAppear{
+                showingAlert = true
+            }
     }
+}
+
+#Preview {
+    SettingsMenuView()
 }
