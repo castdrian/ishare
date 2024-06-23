@@ -43,7 +43,7 @@ class WindowHolder {
 
 func openHistoryWindow(uploadHistory: [HistoryItem]) {
     if WindowHolder.shared.historyWindowController == nil {
-        let historyView = HistoryGridView(uploadHistory: uploadHistory)
+        let historyView = HistoryGridView()
         let hostingController = NSHostingController(rootView: historyView)
         let windowController = HistoryWindowController(contentView: hostingController.view)
         windowController.window?.title = "History"

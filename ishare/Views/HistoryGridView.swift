@@ -9,20 +9,21 @@ import Foundation
 import SwiftUI
 import BezelNotification
 import Alamofire
+import Defaults
 
 struct HistoryGridView: View {
-    @State var uploadHistory: [HistoryItem]
+    @Default(.uploadHistory) var uploadHistory
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100, maximum: .infinity), spacing: 3)], spacing: 3) {
                 ForEach(uploadHistory, id: \.self) { item in
                     if let urlStr = item.fileUrl, let url = URL(string: urlStr), url.pathExtension.lowercased() == "mp4" || url.pathExtension.lowercased() == "mov" {
-                        ContextMenuWrapper(uploadHistory: $uploadHistory, item: item) {
+                        ContextMenuWrapper(item: item) {
                             VideoThumbnailView(url: url)
                                 .frame(width: 100, height: 100)
                         }
                     } else {
-                        ContextMenuWrapper(uploadHistory: $uploadHistory, item: item) {
+                        ContextMenuWrapper(item: item) {
                             HistoryItemView(urlString: item.fileUrl ?? "")
                                 .frame(width: 100, height: 100)
                         }
@@ -35,12 +36,11 @@ struct HistoryGridView: View {
 }
 
 struct ContextMenuWrapper<Content: View>: View {
-    @Binding var uploadHistory: [HistoryItem]
+    @Default(.uploadHistory) var uploadHistory
     let content: Content
     let item: HistoryItem
     
-    init(uploadHistory: Binding<[HistoryItem]>, item: HistoryItem, @ViewBuilder content: () -> Content) {
-        self._uploadHistory = uploadHistory
+    init(item: HistoryItem, @ViewBuilder content: () -> Content) {
         self.item = item
         self.content = content()
     }
@@ -72,6 +72,10 @@ struct ContextMenuWrapper<Content: View>: View {
                                     }
                                 case .failure(let error):
                                     print("Deletion error: \(error.localizedDescription)")
+                                    if let index = uploadHistory.firstIndex(of: item) {
+                                        uploadHistory.remove(at: index)
+                                        BezelNotification.show(messageText: "Deleted", icon: ToastIcon)
+                                    }
                                 }
                             }
                         }
@@ -80,8 +84,6 @@ struct ContextMenuWrapper<Content: View>: View {
             }
     }
 }
-
-// ... Rest of your views ...
 
 struct VideoThumbnailView: View {
     var url: URL
