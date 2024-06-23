@@ -139,18 +139,29 @@ struct UploaderSettingsView: View {
     }
     
     private func testCustomUploader(_ uploader: CustomUploader) {
-        let image = NSImage(named: "AppIcon")
-        guard let imageData = image?.tiffRepresentation else { return }
+        guard let iconImage = NSImage(named: NSImage.applicationIconName) else {
+            print("Failed to get app icon image")
+            return
+        }
+
+        guard let tiffData = iconImage.tiffRepresentation,
+              let bitmapImage = NSBitmapImageRep(data: tiffData),
+              let pngData = bitmapImage.representation(using: .png, properties: [:]) else {
+            print("Failed to convert image to PNG data")
+            return
+        }
+
         let fileManager = FileManager.default
         let temporaryDirectory = fileManager.temporaryDirectory
-        let fileURL = temporaryDirectory.appendingPathComponent("appIconImage.jpg")
+        let fileURL = temporaryDirectory.appendingPathComponent("appIconImage.png")
+
         do {
-            try imageData.write(to: fileURL)
+            try pngData.write(to: fileURL)
         } catch {
             print("Failed to write image file: \(error)")
             return
         }
-        
+
         let callback: ((Error?, URL?) -> Void) = { error, finalURL in
             if let error = error {
                 print("Upload error: \(error)")
@@ -172,14 +183,15 @@ struct UploaderSettingsView: View {
                 }
             }
         }
-        
+
         customUpload(fileURL: fileURL, specification: uploader, callback: callback) {}
-        
-        // Clean up temp
-        do {
-            try FileManager.default.removeItem(at: fileURL)
-        } catch {
-            print("Failed to delete temporary file: \(error)")
+
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+            do {
+                try FileManager.default.removeItem(at: fileURL)
+            } catch {
+                print("Failed to delete temporary file: \(error)")
+            }
         }
     }
     
@@ -324,8 +336,6 @@ struct AddCustomUploaderView: View {
                     }
                     .frame(maxWidth: .infinity)
                     Divider()
-                } else {
-                    //                    Text("None").frame(maxWidth: .infinity)
                 }
                 
                 ForEach(entries.indices, id: \.self) { index in

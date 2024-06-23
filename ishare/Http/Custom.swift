@@ -57,6 +57,7 @@ func uploadMultipartFormData(fileURL: URL, url: URL, headers: HTTPHeaders, speci
     }
     .response { response in
         UploadManager.shared.uploadCompleted()
+        print(response)
         if let data = response.data {
             handleResponse(data: data, specification: specification, callback: callback, completion: completion)
         } else {
@@ -122,7 +123,6 @@ func handleResponse(data: Data, specification: CustomUploader, callback: ((Error
     let fileUrl = constructUrl(from: specification.responseURL, using: json)
     let deletionUrl = constructUrl(from: specification.deletionURL, using: json)
     
-    // Continue with callback and completion
     if let fileUrl = URL(string: fileUrl) {
         let historyItem = HistoryItem(fileUrl: fileUrl.absoluteString, deletionUrl: deletionUrl)
         addToUploadHistory(historyItem)
