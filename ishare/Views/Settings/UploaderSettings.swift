@@ -17,11 +17,12 @@ struct UploaderSettingsView: View {
     
     @State private var isAddSheetPresented = false
     @State private var isImportSheetPresented = false
-    
+    @State private var editingUploader: CustomUploader?
+
     var body: some View {
         VStack {
             if let uploaders = savedCustomUploaders {
-                if (uploaders.isEmpty) {
+                if uploaders.isEmpty {
                     HStack(alignment: .center) {
                         VStack {
                             Text("You have no saved uploaders")
@@ -30,62 +31,63 @@ struct UploaderSettingsView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
+                } else {
+                    ForEach(uploaders.sorted(by: { $0.name < $1.name }), id: \.self) { uploader in
+                        HStack {
+                            Text(uploader.name)
+                                .font(.subheadline)
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                deleteCustomUploader(uploader)
+                            }) {
+                                Image(systemName: "trash")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 12, height: 12)
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .help("Delete Uploader")
+                            
+                            Button(action: {
+                                testCustomUploader(uploader)
+                            }) {
+                                Image(systemName: "icloud.and.arrow.up")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 12, height: 12)
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .help("Test Uploader")
+                            
+                            Button(action: {
+                                editingUploader = uploader
+                                isAddSheetPresented.toggle()
+                            }) {
+                                Image(systemName: "pencil")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 12, height: 12)
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .help("Edit Uploader")
+                            
+                            Button(action: {
+                                exportUploader(uploader)
+                            }) {
+                                Image(systemName: "square.and.arrow.up")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 12, height: 12)
+                            }
+                            .buttonStyle(BorderlessButtonStyle())
+                            .help("Export Uploader")
+                        }
+                        .padding(.horizontal)
+                        .padding(.vertical, 4)
+                    }.padding(.top)
                 }
-                
-                ForEach(uploaders.sorted(by: { $0.name < $1.name }), id: \.self) { uploader in
-                    HStack {
-                        Text(uploader.name)
-                            .font(.subheadline)
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            deleteCustomUploader(uploader)
-                        }) {
-                            Image(systemName: "trash")
-                                .resizable()
-                                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                                .frame(width: 12, height: 12)
-                        }
-                        .buttonStyle(BorderlessButtonStyle())
-                        .help("Delete Uploader")
-                        
-                        Button(action: {
-                            testCustomUploader(uploader)
-                        }) {
-                            Image(systemName: "icloud.and.arrow.up")
-                                .resizable()
-                                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                                .frame(width: 12, height: 12)
-                        }
-                        .buttonStyle(BorderlessButtonStyle())
-                        .help("Test Uploader")
-                        
-                        Button(action: {
-                            editCustomUploader(uploader) // Edit button added
-                        }) {
-                            Image(systemName: "pencil")
-                                .resizable()
-                                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                                .frame(width: 12, height: 12)
-                        }
-                        .buttonStyle(BorderlessButtonStyle())
-                        .help("Edit Uploader")
-                        
-                        Button(action: {
-                            exportUploader(uploader) // Export button added
-                        }) {
-                            Image(systemName: "square.and.arrow.up")
-                                .resizable()
-                                .aspectRatio(contentMode: /*@START_MENU_TOKEN@*/.fill/*@END_MENU_TOKEN@*/)
-                                .frame(width: 12, height: 12)
-                        }
-                        .buttonStyle(BorderlessButtonStyle())
-                        .help("Export Uploader")
-                    }
-                    .padding(.horizontal)
-                    .padding(.vertical, 4)
-                }.padding(.top)
             }
             
             Divider().padding(.horizontal)
@@ -93,6 +95,7 @@ struct UploaderSettingsView: View {
             
             HStack {
                 Button(action: {
+                    editingUploader = nil
                     isAddSheetPresented.toggle()
                 }) {
                     Text("Create")
@@ -118,7 +121,7 @@ struct UploaderSettingsView: View {
         }
         .rotationEffect(aussieMode ? .degrees(180) : .zero)
         .sheet(isPresented: $isAddSheetPresented) {
-            AddCustomUploaderView()
+            AddCustomUploaderView(uploader: $editingUploader)
                 .frame(minWidth: 450)
         }
         .sheet(isPresented: $isImportSheetPresented) {
@@ -201,10 +204,6 @@ struct UploaderSettingsView: View {
         uploadType = .IMGUR
     }
     
-    private func editCustomUploader(_ uploader: CustomUploader) {
-        isAddSheetPresented.toggle()
-    }
-    
     private func exportUploader(_ uploader: CustomUploader) {
         let data = try! JSONEncoder().encode(uploader)
         let savePanel = NSSavePanel()
@@ -226,18 +225,19 @@ struct UploaderSettingsView: View {
 struct AddCustomUploaderView: View {
     @Environment(\.presentationMode) var presentationMode
     @Default(.savedCustomUploaders) var savedCustomUploaders
-    
-    @State private var uploaderName = ""
-    @State private var requestURL = ""
-    @State private var responseURL = ""
-    @State private var deletionURL = ""
-    @State private var fileFormName = ""
+    @Binding var uploader: CustomUploader?
+
+    @State private var uploaderName: String = ""
+    @State private var requestURL: String = ""
+    @State private var responseURL: String = ""
+    @State private var deletionURL: String = ""
+    @State private var fileFormName: String = ""
     @State private var header: [CustomEntryModel] = []
     @State private var formData: [CustomEntryModel] = []
-    
+
     var body: some View {
         ScrollView {
-            Text("Create Custom Uploader")
+            Text(uploader == nil ? "Create Custom Uploader" : "Edit Custom Uploader")
                 .font(.title)
                 .padding()
             Divider().padding(.horizontal)
@@ -274,6 +274,17 @@ struct AddCustomUploaderView: View {
             }
             .padding()
         }
+        .onAppear {
+            if let uploader = uploader {
+                uploaderName = uploader.name
+                requestURL = uploader.requestURL
+                responseURL = uploader.responseURL
+                deletionURL = uploader.deletionURL ?? ""
+                fileFormName = uploader.fileFormName ?? ""
+                header = uploader.headers?.map { CustomEntryModel(key: $0.key, value: $0.value) } ?? []
+                formData = uploader.formData?.map { CustomEntryModel(key: $0.key, value: $0.value) } ?? []
+            }
+        }
     }
     
     private struct InputField: View {
@@ -287,7 +298,6 @@ struct AddCustomUploaderView: View {
             }
         }
     }
-    
     
     private func HeaderView() -> some View {
         EntryListView(title: "Headers", entries: $header)
@@ -313,13 +323,13 @@ struct AddCustomUploaderView: View {
                 }
             }) {
                 ForEach(entries) { entry in
-                    if (entry == entries.last) {
+                    if entry == entries.last {
                         CustomEntryView(entry: $entries[entries.firstIndex(of: entry)!])
                             .padding(.horizontal)
                     }
                 }
                 
-                if (!entries.isEmpty) {
+                if !entries.isEmpty {
                     Divider()
                     HStack {
                         VStack(alignment: .leading) {
@@ -332,7 +342,7 @@ struct AddCustomUploaderView: View {
                         Button(action: {}) {
                             Image(systemName: "minus.circle")
                         }.opacity(0)
-                            .disabled(/*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                            .disabled(true)
                     }
                     .frame(maxWidth: .infinity)
                     Divider()
@@ -382,23 +392,22 @@ struct AddCustomUploaderView: View {
             }
         }
         
-        let uploader = CustomUploader(
+        let newUploader = CustomUploader(
             name: uploaderName,
             requestURL: requestURL,
-            headers: header.count == 0 ? nil : headerData,
-            formData: formData.count == 0 ? nil : formDataModel,
+            headers: header.isEmpty ? nil : headerData,
+            formData: formData.isEmpty ? nil : formDataModel,
             fileFormName: fileFormName.isEmpty ? nil : fileFormName,
             responseURL: responseURL,
             deletionURL: deletionURL.isEmpty ? nil : deletionURL
-            
         )
         
         if var uploaders = savedCustomUploaders {
-            uploaders.remove(uploader)
-            uploaders.insert(uploader)
+            uploaders.remove(newUploader)
+            uploaders.insert(newUploader)
             savedCustomUploaders = uploaders
         } else {
-            savedCustomUploaders = Set([uploader])
+            savedCustomUploaders = Set([newUploader])
         }
         
         presentationMode.wrappedValue.dismiss()
