@@ -35,8 +35,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "*required"
+            "state" : "translated",
+            "value" : "*Pflichtfeld"
           }
         },
         "el" : {
@@ -213,8 +213,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "About ishare"
+            "state" : "translated",
+            "value" : "Über ishare"
           }
         },
         "el" : {
@@ -391,8 +391,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Advanced"
+            "state" : "translated",
+            "value" : "Erweitert"
           }
         },
         "el" : {
@@ -569,8 +569,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Advanced Settings"
+            "state" : "translated",
+            "value" : "Erweiterte Einstellungen"
           }
         },
         "el" : {
@@ -747,7 +747,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "AirDrop"
           }
         },
@@ -925,8 +925,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Apply heavy compression"
+            "state" : "translated",
+            "value" : "Verwende starke Komprimierung"
           }
         },
         "el" : {
@@ -1103,8 +1103,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Cancel"
+            "state" : "translated",
+            "value" : "Abbrechen"
           }
         },
         "el" : {
@@ -1281,8 +1281,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Capture"
+            "state" : "translated",
+            "value" : "Erfassen"
           }
         },
         "el" : {
@@ -1459,8 +1459,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Capture %@"
+            "state" : "translated",
+            "value" : "Erfasse %@"
           }
         },
         "el" : {
@@ -1637,8 +1637,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Capture Region"
+            "state" : "translated",
+            "value" : "Erfasse Region"
           }
         },
         "el" : {
@@ -1815,8 +1815,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Capture Region:"
+            "state" : "translated",
+            "value" : "Erfasse Region:"
           }
         },
         "el" : {
@@ -1993,8 +1993,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Capture Screen:"
+            "state" : "translated",
+            "value" : "Erfasse Bildschirm:"
           }
         },
         "el" : {
@@ -2171,8 +2171,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Capture Window"
+            "state" : "translated",
+            "value" : "Erfasse Fenster"
           }
         },
         "el" : {
@@ -2349,8 +2349,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Capture Window:"
+            "state" : "translated",
+            "value" : "Erfasse Fenster:"
           }
         },
         "el" : {
@@ -2527,8 +2527,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Clear All"
+            "state" : "translated",
+            "value" : "Lösche alle"
           }
         },
         "el" : {
@@ -2705,8 +2705,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Clear History"
+            "state" : "translated",
+            "value" : "Lösche Chronik"
           }
         },
         "el" : {
@@ -2883,8 +2883,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Close"
+            "state" : "translated",
+            "value" : "Schließen"
           }
         },
         "el" : {
@@ -3061,8 +3061,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Copy to Clipboard"
+            "state" : "translated",
+            "value" : "In die Zwischenablage kopieren"
           }
         },
         "el" : {
@@ -3239,8 +3239,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Copy URL"
+            "state" : "translated",
+            "value" : "URL kopieren"
           }
         },
         "el" : {
@@ -3417,8 +3417,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Create"
+            "state" : "translated",
+            "value" : "Erstellen"
           }
         },
         "el" : {
@@ -3595,8 +3595,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Create Custom Uploader"
+            "state" : "translated",
+            "value" : "Erstelle eigenen Hochladedienst"
           }
         },
         "el" : {
@@ -3773,8 +3773,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Delete"
+            "state" : "translated",
+            "value" : "Löschen"
           }
         },
         "el" : {
@@ -3951,8 +3951,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Delete Uploader"
+            "state" : "translated",
+            "value" : "Hochladedienst löschen"
           }
         },
         "el" : {
@@ -4129,8 +4129,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Drag and drop .iscu files here or click to select"
+            "state" : "translated",
+            "value" : "Ziehe und lege .iscu Dateien hier ab oder klicke zum Auswählen"
           }
         },
         "el" : {
@@ -4307,8 +4307,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Edit Custom Uploader"
+            "state" : "translated",
+            "value" : "Bearbeite eigenen Hochladedienst"
           }
         },
         "el" : {
@@ -4485,8 +4485,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Edit Uploader"
+            "state" : "translated",
+            "value" : "Bearbeite Hochladedienst"
           }
         },
         "el" : {
@@ -4663,8 +4663,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Error"
+            "state" : "translated",
+            "value" : "Fehler"
           }
         },
         "el" : {
@@ -4841,8 +4841,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Excluded applications"
+            "state" : "translated",
+            "value" : "Ausgenommene Anwendungen"
           }
         },
         "el" : {
@@ -5019,8 +5019,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Export Settings"
+            "state" : "translated",
+            "value" : "Einstellungen exportieren"
           }
         },
         "el" : {
@@ -5197,8 +5197,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Export Uploader"
+            "state" : "translated",
+            "value" : "Hochladedienst exportieren"
           }
         },
         "el" : {
@@ -5375,8 +5375,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "File prefix:"
+            "state" : "translated",
+            "value" : "Dateipräfix:"
           }
         },
         "el" : {
@@ -5553,7 +5553,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "Format:"
           }
         },
@@ -5731,8 +5731,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "General"
+            "state" : "translated",
+            "value" : "Allgemein"
           }
         },
         "el" : {
@@ -5909,7 +5909,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "GitHub"
           }
         },
@@ -6087,8 +6087,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "History"
+            "state" : "translated",
+            "value" : "Chronik"
           }
         },
         "el" : {
@@ -6265,8 +6265,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "I understand"
+            "state" : "translated",
+            "value" : "Ich verstehe"
           }
         },
         "el" : {
@@ -6443,8 +6443,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Image files"
+            "state" : "translated",
+            "value" : "Fotodateien"
           }
         },
         "el" : {
@@ -6621,8 +6621,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Image path:"
+            "state" : "translated",
+            "value" : "Fotopfad:"
           }
         },
         "el" : {
@@ -6799,7 +6799,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "Imgur Client ID:"
           }
         },
@@ -6977,8 +6977,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Import"
+            "state" : "translated",
+            "value" : "Importieren"
           }
         },
         "el" : {
@@ -7155,8 +7155,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Import Custom Uploader"
+            "state" : "translated",
+            "value" : "Importiere eigenen Hochladedienst"
           }
         },
         "el" : {
@@ -7333,8 +7333,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Import Settings"
+            "state" : "translated",
+            "value" : "Importiere Einstellungen"
           }
         },
         "el" : {
@@ -7511,8 +7511,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Keybinds"
+            "state" : "translated",
+            "value" : "Tastaturkürzel"
           }
         },
         "el" : {
@@ -7689,8 +7689,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Land down under"
+            "state" : "translated",
+            "value" : "Kopfüberland"
           }
         },
         "el" : {
@@ -7867,7 +7867,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "Mail"
           }
         },
@@ -8045,8 +8045,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Menu Bar Icon"
+            "state" : "translated",
+            "value" : "Menüleisten-Icon"
           }
         },
         "el" : {
@@ -8223,8 +8223,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Messages"
+            "state" : "translated",
+            "value" : "Nachrichten"
           }
         },
         "el" : {
@@ -8401,7 +8401,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "Name"
           }
         },
@@ -8579,7 +8579,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
+            "state" : "translated",
             "value" : "OK"
           }
         },
@@ -8757,8 +8757,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Open History Window"
+            "state" : "translated",
+            "value" : "Chronik anzeigen"
           }
         },
         "el" : {
@@ -8935,8 +8935,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Open History Window:"
+            "state" : "translated",
+            "value" : "Chronik Anzeigen:"
           }
         },
         "el" : {
@@ -9113,8 +9113,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Open in Browser"
+            "state" : "translated",
+            "value" : "Im Browser öffnen"
           }
         },
         "el" : {
@@ -9291,8 +9291,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Open in Finder"
+            "state" : "translated",
+            "value" : "In Finder öffnen"
           }
         },
         "el" : {
@@ -9469,8 +9469,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Open Main Menu:"
+            "state" : "translated",
+            "value" : "Hauptmenü öffnen:"
           }
         },
         "el" : {
@@ -9647,8 +9647,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Photos"
+            "state" : "translated",
+            "value" : "Fotos"
           }
         },
         "el" : {
@@ -9825,8 +9825,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Pick a folder"
+            "state" : "translated",
+            "value" : "Wähle einen Ordner"
           }
         },
         "el" : {
@@ -10003,8 +10003,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Post Media Tasks"
+            "state" : "translated",
+            "value" : "Abschlussaufgaben"
           }
         },
         "el" : {
@@ -10181,8 +10181,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Quit"
+            "state" : "translated",
+            "value" : "Beenden"
           }
         },
         "el" : {
@@ -10359,8 +10359,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Record"
+            "state" : "translated",
+            "value" : "Aufnehmen"
           }
         },
         "el" : {
@@ -10537,8 +10537,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Record .mp4 instead of .mov"
+            "state" : "translated",
+            "value" : ".mp4 anstelle von .mov aufnehmen"
           }
         },
         "el" : {
@@ -10715,8 +10715,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Record audio"
+            "state" : "translated",
+            "value" : "Audio aufnehmen"
           }
         },
         "el" : {
@@ -10893,8 +10893,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Record GIF"
+            "state" : "translated",
+            "value" : "GIF aufnehmen"
           }
         },
         "el" : {
@@ -11071,8 +11071,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Record GIF:"
+            "state" : "translated",
+            "value" : "GIF aufnehmen:"
           }
         },
         "el" : {
@@ -11249,8 +11249,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Record Screen:"
+            "state" : "translated",
+            "value" : "Bildschirm aufnehmen:"
           }
         },
         "el" : {
@@ -11427,8 +11427,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Reset All Keybinds"
+            "state" : "translated",
+            "value" : "Tastaturkürzel zurücksetzen"
           }
         },
         "el" : {
@@ -11605,8 +11605,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Save"
+            "state" : "translated",
+            "value" : "Speichern"
           }
         },
         "el" : {
@@ -11783,8 +11783,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Save to Disk"
+            "state" : "translated",
+            "value" : "Auf Festplatte Speichern"
           }
         },
         "el" : {
@@ -11961,8 +11961,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Screencapture binary:"
+            "state" : "translated",
+            "value" : "Ausführbare Datei des Aufnahmeprogramms:"
           }
         },
         "el" : {
@@ -12139,8 +12139,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Select apps to exclude"
+            "state" : "translated",
+            "value" : "Wähle ausgenomme Anwendungen"
           }
         },
         "el" : {
@@ -12317,8 +12317,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Selected File: %@"
+            "state" : "translated",
+            "value" : "Ausgewählte Datei: %@"
           }
         },
         "el" : {
@@ -12495,8 +12495,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Set to default"
+            "state" : "translated",
+            "value" : "Zurücksetzen"
           }
         },
         "el" : {
@@ -12673,8 +12673,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Settings"
+            "state" : "translated",
+            "value" : "Einstellungen"
           }
         },
         "el" : {
@@ -12851,8 +12851,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Test Uploader"
+            "state" : "translated",
+            "value" : "Hochladedienst testen"
           }
         },
         "el" : {
@@ -13029,8 +13029,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Toast Timeout: %lld seconds"
+            "state" : "translated",
+            "value" : "Toast Timeout: %lld Sekunden"
           }
         },
         "el" : {
@@ -13207,8 +13207,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Upload Destination"
+            "state" : "translated",
+            "value" : "Hochladeziel"
           }
         },
         "el" : {
@@ -13385,8 +13385,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Upload Media"
+            "state" : "translated",
+            "value" : "Medien Hochladen"
           }
         },
         "el" : {
@@ -13563,8 +13563,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Uploaders"
+            "state" : "translated",
+            "value" : "Hochladedienste"
           }
         },
         "el" : {
@@ -13741,8 +13741,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Use HEVC"
+            "state" : "translated",
+            "value" : "Verwende HEVC"
           }
         },
         "el" : {
@@ -13919,8 +13919,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Value"
+            "state" : "translated",
+            "value" : "Wert"
           }
         },
         "el" : {
@@ -14097,8 +14097,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Video files"
+            "state" : "translated",
+            "value" : "Videodateien"
           }
         },
         "el" : {
@@ -14275,8 +14275,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Video path:"
+            "state" : "translated",
+            "value" : "Videopfad:"
           }
         },
         "el" : {
@@ -14453,8 +14453,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Warning! Only modify these settings if you know what you're doing!"
+            "state" : "translated",
+            "value" : "Warnung! Ändere diese Werte nur wenn du weißt was du tust!"
           }
         },
         "el" : {
@@ -14631,8 +14631,8 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "You have no saved uploaders"
+            "state" : "translated",
+            "value" : "Du hast keine gespeicherten Hochladedienste"
           }
         },
         "el" : {
