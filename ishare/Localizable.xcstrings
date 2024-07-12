@@ -1,0 +1,255 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "*required" : {
+
+    },
+    "About ishare" : {
+
+    },
+    "Advanced" : {
+
+    },
+    "Advanced Settings" : {
+
+    },
+    "AirDrop" : {
+
+    },
+    "Apply heavy compression" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Capture" : {
+
+    },
+    "Capture %@" : {
+
+    },
+    "Capture Region" : {
+
+    },
+    "Capture Region:" : {
+
+    },
+    "Capture Screen:" : {
+
+    },
+    "Capture Window" : {
+
+    },
+    "Capture Window:" : {
+
+    },
+    "Clear All" : {
+
+    },
+    "Clear History" : {
+
+    },
+    "Close" : {
+
+    },
+    "Copy to Clipboard" : {
+
+    },
+    "Copy URL" : {
+
+    },
+    "Create" : {
+
+    },
+    "Create Custom Uploader" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Delete Uploader" : {
+
+    },
+    "Drag and drop .iscu files here or click to select" : {
+
+    },
+    "Edit Custom Uploader" : {
+
+    },
+    "Edit Uploader" : {
+
+    },
+    "Error" : {
+
+    },
+    "Excluded applications" : {
+
+    },
+    "Export Settings" : {
+
+    },
+    "Export Uploader" : {
+
+    },
+    "File prefix:" : {
+
+    },
+    "Format:" : {
+
+    },
+    "General" : {
+
+    },
+    "GitHub" : {
+
+    },
+    "History" : {
+
+    },
+    "I understand" : {
+
+    },
+    "Image files" : {
+
+    },
+    "Image path:" : {
+
+    },
+    "Imgur Client ID:" : {
+
+    },
+    "Import" : {
+
+    },
+    "Import Custom Uploader" : {
+
+    },
+    "Import Settings" : {
+
+    },
+    "Keybinds" : {
+
+    },
+    "Land down under" : {
+
+    },
+    "Mail" : {
+
+    },
+    "Menu Bar Icon" : {
+
+    },
+    "Messages" : {
+
+    },
+    "Name" : {
+
+    },
+    "OK" : {
+
+    },
+    "Open History Window" : {
+
+    },
+    "Open History Window:" : {
+
+    },
+    "Open in Browser" : {
+
+    },
+    "Open in Finder" : {
+
+    },
+    "Open Main Menu:" : {
+
+    },
+    "Photos" : {
+
+    },
+    "Pick a folder" : {
+
+    },
+    "Post Media Tasks" : {
+
+    },
+    "Quit" : {
+
+    },
+    "Record" : {
+
+    },
+    "Record .mp4 instead of .mov" : {
+
+    },
+    "Record audio" : {
+
+    },
+    "Record GIF" : {
+
+    },
+    "Record GIF:" : {
+
+    },
+    "Record Screen:" : {
+
+    },
+    "Reset All Keybinds" : {
+
+    },
+    "Save" : {
+
+    },
+    "Save to Disk" : {
+
+    },
+    "Screencapture binary:" : {
+
+    },
+    "Select apps to exclude" : {
+
+    },
+    "Selected File: %@" : {
+
+    },
+    "Set to default" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Test Uploader" : {
+
+    },
+    "Toast Timeout: %lld seconds" : {
+
+    },
+    "Upload Destination" : {
+
+    },
+    "Upload Media" : {
+
+    },
+    "Uploaders" : {
+
+    },
+    "Use HEVC" : {
+
+    },
+    "Value" : {
+
+    },
+    "Video files" : {
+
+    },
+    "Video path:" : {
+
+    },
+    "Warning! Only modify these settings if you know what you're doing!" : {
+
+    },
+    "You have no saved uploaders" : {
+
+    }
+  },
+  "version" : "1.0"
+}

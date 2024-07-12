@@ -58,7 +58,7 @@ struct SettingsMenuView: View {
             }
             .frame(minWidth: 150, idealWidth: 200, maxWidth: 300, maxHeight: .infinity)
             
-            GeneralSettingsView() // default view
+            GeneralSettingsView()
         }
         .frame(minWidth: 600, maxWidth: 600, minHeight: 300, maxHeight: 300)
         .navigationTitle("Settings")
