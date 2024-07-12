@@ -47,9 +47,11 @@
 </p>
 <p align="center">
   <a href="https://github.com/castdrian/ishare/releases/latest/download/ishare_macOS.zip" download>
-    <img src="https://www.dmo-app.com/wp-content/uploads/2022/05/mac-download-button-1.png" alt="Download Latest Release" width="200">
+    <img src="https://i.imgur.com/EthZVfR.png" alt="Download Latest Release" width="200">
   </a>
 </p>
+
+[Translate on Crowdin](https://crowdin.com/project/isharemac)
 
 ## 🚀 Features
 
