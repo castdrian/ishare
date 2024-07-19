@@ -25,6 +25,8 @@
 	<string>https://isharemac.app/appcast.xml</string>
 	<key>SUPublicEDKey</key>
 	<string>iehPcJsCkc5hgiz6Ehb3X4USID60fQbIAFLNfWhA+44=</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

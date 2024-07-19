@@ -28,32 +28,32 @@ extension KeyboardShortcuts.Name {
 }
 
 extension Defaults.Keys {
-    static let showMainMenu = Key<Bool>("showMainMenu", default: false)
-    static let copyToClipboard = Key<Bool>("copyToClipboard", default: true)
-    static let openInFinder = Key<Bool>("openInFinder", default: false)
-    static let saveToDisk = Key<Bool>("saveToDisk", default: true)
-    static let uploadMedia = Key<Bool>("uploadMedia", default: false)
-    static let capturePath = Key<String>("capturePath", default: "~/Pictures/")
-    static let recordingPath = Key<String>("recordingPath", default: "~/Pictures/")
-    static let captureFileType = Key<FileType>("captureFileType", default: .PNG)
-    static let captureFileName = Key<String>("captureFileName", default: "ishare")
-    static let recordingFileName = Key<String>("recordingFileName", default: "ishare")
-    static let imgurClientId = Key<String>("imgurClientId", default: "867afe9433c0a53")
-    static let captureBinary = Key<String>("captureBinary", default: "/usr/sbin/screencapture")
-    static let activeCustomUploader = Key<UUID?>("activeCustomUploader", default: nil)
-    static let savedCustomUploaders = Key<Set<CustomUploader>?>("savedCustomUploaders")
-    static let uploadType = Key<UploadType>("uploadType", default: .IMGUR)
-    static let uploadDestination = Key<UploadDestination>("uploadDestination", default: .builtIn(.IMGUR))
-    static let recordAudio = Key<Bool>("recordAudio", default: true)
-    static let recordMP4 = Key<Bool>("recordMP4", default: true)
-    static let useHEVC = Key<Bool>("useHEVC", default: false)
-    static let compressVideo = Key<Bool>("compressVideo", default: false)
-    static let builtInShare = Key<SharingPreferences>("builtInShare", default: .init())
-    static let toastTimeout = Key<Double>("toastTimeout", default: 2)
-    static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT)
-    static let uploadHistory = Key<[HistoryItem]>("uploadHistory", default: [])
-    static let ignoredBundleIdentifiers = Key<Array<String>>("ignoredApps", default: [])
-    static let aussieMode = Key<Bool>("aussieMode", default: false)
+    static let showMainMenu = Key<Bool>("showMainMenu", default: false, iCloud: true)
+    static let copyToClipboard = Key<Bool>("copyToClipboard", default: true, iCloud: true)
+    static let openInFinder = Key<Bool>("openInFinder", default: false, iCloud: true)
+    static let saveToDisk = Key<Bool>("saveToDisk", default: true, iCloud: true)
+    static let uploadMedia = Key<Bool>("uploadMedia", default: false, iCloud: true)
+    static let capturePath = Key<String>("capturePath", default: "~/Pictures/", iCloud: true)
+    static let recordingPath = Key<String>("recordingPath", default: "~/Pictures/", iCloud: true)
+    static let captureFileType = Key<FileType>("captureFileType", default: .PNG, iCloud: true)
+    static let captureFileName = Key<String>("captureFileName", default: "ishare", iCloud: true)
+    static let recordingFileName = Key<String>("recordingFileName", default: "ishare", iCloud: true)
+    static let imgurClientId = Key<String>("imgurClientId", default: "867afe9433c0a53", iCloud: true)
+    static let captureBinary = Key<String>("captureBinary", default: "/usr/sbin/screencapture", iCloud: true)
+    static let activeCustomUploader = Key<UUID?>("activeCustomUploader", default: nil, iCloud: true)
+    static let savedCustomUploaders = Key<Set<CustomUploader>?>("savedCustomUploaders", iCloud: true)
+    static let uploadType = Key<UploadType>("uploadType", default: .IMGUR, iCloud: true)
+    static let uploadDestination = Key<UploadDestination>("uploadDestination", default: .builtIn(.IMGUR), iCloud: true)
+    static let recordAudio = Key<Bool>("recordAudio", default: true, iCloud: true)
+    static let recordMP4 = Key<Bool>("recordMP4", default: true, iCloud: true)
+    static let useHEVC = Key<Bool>("useHEVC", default: false, iCloud: true)
+    static let compressVideo = Key<Bool>("compressVideo", default: false, iCloud: true)
+    static let builtInShare = Key<SharingPreferences>("builtInShare", default: .init(), iCloud: true)
+    static let toastTimeout = Key<Double>("toastTimeout", default: 2, iCloud: true)
+    static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT, iCloud: true)
+    static let uploadHistory = Key<[HistoryItem]>("uploadHistory", default: [], iCloud: true)
+    static let ignoredBundleIdentifiers = Key<Array<String>>("ignoredApps", default: [], iCloud: true)
+    static let aussieMode = Key<Bool>("aussieMode", default: false, iCloud: true)
 }
 
 extension View {
@@ -307,64 +307,6 @@ let ToastIcon: NSImage = {
     resizedImage.unlockFocus()
     return resizedImage
 }()
-
-func exportUserDefaults() {
-    let settings = UserDefaults.standard.dictionaryRepresentation()
-    let data: Data
-    do {
-        data = try PropertyListSerialization.data(fromPropertyList: settings, format: .binary, options: 0)
-    } catch {
-        print("Error exporting UserDefaults: \(error)")
-        BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
-        return
-    }
-    
-    let savePanel = NSSavePanel()
-    savePanel.title = "Export Settings"
-    savePanel.allowedContentTypes = [.propertyList]
-    savePanel.directoryURL = URL(string: NSString(string: "~/Documents").expandingTildeInPath)
-    
-    savePanel.begin { result in
-        if result == .OK, let fileURL = savePanel.url {
-            do {
-                try data.write(to: fileURL)
-                print("UserDefaults exported to file: \(fileURL.absoluteString)")
-                BezelNotification.show(messageText: "Exported settings", icon: ToastIcon)
-            } catch {
-                print("Error exporting UserDefaults: \(error)")
-                BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
-            }
-        }
-    }
-}
-
-func importUserDefaults() {
-    let openPanel = NSOpenPanel()
-    openPanel.title = "Import Settings"
-    openPanel.allowsMultipleSelection = false
-    openPanel.canChooseFiles = true
-    openPanel.canChooseDirectories = false
-    openPanel.allowedContentTypes = [.propertyList]
-    
-    openPanel.begin { result in
-        if result == .OK, let fileURL = openPanel.url {
-            do {
-                let data = try Data(contentsOf: fileURL)
-                if let settings = try PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any] {
-                    UserDefaults.standard.setPersistentDomain(settings, forName: Bundle.main.bundleIdentifier!)
-                    print("UserDefaults imported from file: \(fileURL.absoluteString)")
-                    BezelNotification.show(messageText: "Imported settings", icon: ToastIcon)
-                } else {
-                    print("Error: Unable to import settings. Invalid data format.")
-                    BezelNotification.show(messageText: "Invalid data format.", icon: ToastIcon)
-                }
-            } catch {
-                print("Error importing UserDefaults: \(error)")
-                BezelNotification.show(messageText: "\(error)", icon: ToastIcon)
-            }
-        }
-    }
-}
 
 func icon(forAppWithName appName: String) -> NSImage? {
     if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: appName) {

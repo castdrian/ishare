@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/Defaults",
       "state" : {
-        "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa",
-        "version" : "8.2.0"
+        "revision" : "d8a954e69ff13b0f7805f3757c8f8d0c8ef5a8cb",
+        "version" : "9.0.0-beta.3"
       }
     },
     {

@@ -143,26 +143,6 @@ struct GeneralSettingsView: View {
                     .frame(maxWidth: .infinity)
             }
             .padding(.bottom)
-            
-            Spacer()
-            
-            
-            HStack {
-                Button("Export Settings") {
-                    exportUserDefaults()
-                }
-                Button("Import Settings") {
-                    importUserDefaults()
-                }
-                Button(action: {
-                    uploadHistory = []
-                    BezelNotification.show(messageText: "Cleared history", icon: ToastIcon)
-                }) {
-                    Text("Clear History").foregroundColor(.red)
-                }
-            }
-            .padding(0)
-            .frame(maxWidth: .infinity)
         }
         .padding().rotationEffect(aussieMode ? .degrees(180) : .zero)
     }

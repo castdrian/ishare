@@ -843,8 +843,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.2.0;
+				kind = exactVersion;
+				version = "9.0.0-beta.3";
 			};
 		};
 		3A88C3282BD6E4CE00EEDCE3 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
