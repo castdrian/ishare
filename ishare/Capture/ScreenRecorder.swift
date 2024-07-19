@@ -17,11 +17,6 @@ class AudioLevelsProvider: ObservableObject {
 
 @MainActor
 class ScreenRecorder: ObservableObject {
-    private let movie = MovieRecorder(audioSettings: [:], videoSettings: [:], videoTransform: .identity)
-
-    @Published var isTimerRunning = false
-    @Published var startTime = Date()
-    @Published var timerString = "00:00"
     @Published var isRunning = false
     @Published var isAudioCaptureEnabled = true
     @Published var isAppAudioExcluded = false
@@ -69,21 +64,25 @@ class ScreenRecorder: ObservableObject {
         let config = SCStreamConfiguration()
         let dummyFilter = SCContentFilter()
         let stream = SCStream(filter: dummyFilter, configuration: config, delegate: nil)
+
         pickerManager.setupPicker(stream: stream)
         pickerManager.showPicker()
     }
 
     func stop(completion: @escaping (Result<URL, Error>) -> Void) {
-        captureEngine.stopCapture { url, error in
-            if let error {
-                completion(.failure(error))
-            } else if let url {
-                completion(.success(url))
+        Task {
+            let stopClosure = await captureEngine.stopCapture()
+            stopClosure { result in
+                switch result {
+                case let .success(url):
+                    completion(.success(url))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
             }
+            stopAudioMetering()
+            isRunning = false
         }
-        stopAudioMetering()
-        isRunning = false
-        startTime = Date()
     }
 
     private func startAudioMetering() {
@@ -104,7 +103,7 @@ class ScreenRecorder: ObservableObject {
 
         do {
             // Iterating over frames to keep the stream active
-            for try await _ in captureEngine.startCapture(configuration: config, filter: filter, movie: movie, fileURL: fileURL) {}
+            for try await _ in captureEngine.startCapture(configuration: config, filter: filter, fileURL: fileURL) {}
         } catch {
             // Handle errors if necessary
             print(error.localizedDescription)

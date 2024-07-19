@@ -38,8 +38,6 @@ struct ToastPopoverView: View {
 }
 
 func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
-    var thumbnailImage: NSImage?
-
     if fileURL.pathExtension == "mov" || fileURL.pathExtension == "mp4" {
         Task.detached(priority: .userInitiated) {
             let asset = AVURLAsset(url: fileURL)
@@ -53,7 +51,7 @@ func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
                 let width = cgImage.image.width
                 let height = cgImage.image.height
 
-                guard let data = imageData else {
+                guard imageData != nil else {
                     throw NSError(domain: "ImageErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to get image data"])
                 }
 
@@ -66,11 +64,7 @@ func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
             }
         }
     } else {
-        guard let thumbnail = thumbnailImage else {
-            return
-        }
-
-        showThumbnailAndToast(fileURL: fileURL, thumbnailImage: thumbnail, completion: completion)
+        showThumbnailAndToast(fileURL: fileURL, thumbnailImage: NSImage(contentsOf: fileURL)!, completion: completion)
     }
 }
 

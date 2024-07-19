@@ -7,6 +7,7 @@
 
 import AVFAudio
 import Combine
+import Defaults
 import Foundation
 import ScreenCaptureKit
 
@@ -22,10 +23,12 @@ struct CapturedFrame {
 }
 
 /// An object that wraps an instance of `SCStream`, and returns its results as an `AsyncThrowingStream`.
-class CaptureEngine: NSObject, @unchecked Sendable {
-    var movie: MovieRecorder = .init(audioSettings: [:], videoSettings: [:], videoTransform: .identity)
+class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
+    @Default(.recordMP4) var recordMP4
+    @Default(.useHEVC) var useHEVC
 
     private var stream: SCStream?
+    private var fileURL: URL?
     private let videoSampleBufferQueue = DispatchQueue(label: "com.example.apple-samplecode.VideoSampleBufferQueue")
     private let audioSampleBufferQueue = DispatchQueue(label: "com.example.apple-samplecode.AudioSampleBufferQueue")
 
@@ -40,25 +43,33 @@ class CaptureEngine: NSObject, @unchecked Sendable {
     private var streamOutput: CaptureEngineStreamOutput?
 
     /// - Tag: StartCapture
-    func startCapture(configuration: SCStreamConfiguration, filter: SCContentFilter, movie: MovieRecorder, fileURL: URL) -> AsyncThrowingStream<CapturedFrame, Error> {
+    func startCapture(configuration: SCStreamConfiguration, filter: SCContentFilter, fileURL: URL) -> AsyncThrowingStream<CapturedFrame, Error> {
         AsyncThrowingStream<CapturedFrame, Error> { continuation in
             // The stream output object.
             let output = CaptureEngineStreamOutput(continuation: continuation)
             streamOutput = output
 
-            streamOutput!.movie = movie
             streamOutput!.capturedFrameHandler = { continuation.yield($0) }
             streamOutput!.pcmBufferHandler = { self.powerMeter.process(buffer: $0) }
-            self.movie = streamOutput!.movie!
             self.startTime = Date()
-            self.movie.startRecording(fileURL: fileURL, height: Int(configuration.height), width: Int(configuration.width))
 
             do {
                 stream = SCStream(filter: filter, configuration: configuration, delegate: streamOutput)
+                self.fileURL = fileURL
 
                 // Add a stream output to capture screen content.
                 try stream?.addStreamOutput(streamOutput!, type: .screen, sampleHandlerQueue: videoSampleBufferQueue)
                 try stream?.addStreamOutput(streamOutput!, type: .audio, sampleHandlerQueue: audioSampleBufferQueue)
+
+                let recordingConfiguration = SCRecordingOutputConfiguration()
+
+                recordingConfiguration.outputURL = fileURL
+                recordingConfiguration.outputFileType = recordMP4 ? .mp4 : .mov
+                recordingConfiguration.videoCodecType = useHEVC ? .hevc : .h264
+
+                let recordingOutput = SCRecordingOutput(configuration: recordingConfiguration, delegate: self)
+
+                try stream?.addRecordingOutput(recordingOutput)
 
                 stream?.startCapture()
             } catch {
@@ -67,19 +78,19 @@ class CaptureEngine: NSObject, @unchecked Sendable {
         }
     }
 
-    func stopCapture(completion: @escaping (URL?, Error?) -> Void) {
-        Task {
-            let _: () = await self.movie.stopRecording { [self] url in
-                let endTime = Date()
+    func stopCapture() async -> (@escaping (Result<URL, Error>) -> Void) -> Void {
+        enum ScreenRecorderError: Error {
+            case missingFileURL
+        }
 
-                let videoEntry = VideoEntry(context: DataController.shared.moc)
-                videoEntry.id = UUID()
-                videoEntry.url = url.description
-                videoEntry.startTime = startTime
-                videoEntry.endTime = endTime
-                DataController.shared.save()
-
-                completion(url, nil)
+        do {
+            guard let url = fileURL else {
+                return { completion in
+                    completion(.failure(ScreenRecorderError.missingFileURL))
+                }
+            }
+            return { completion in
+                completion(.success(url))
             }
         }
     }
@@ -97,8 +108,6 @@ class CaptureEngine: NSObject, @unchecked Sendable {
 
 /// A class that handles output from an SCStream, and handles stream errors.
 private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDelegate {
-    var movie: MovieRecorder?
-
     var pcmBufferHandler: ((AVAudioPCMBuffer) -> Void)?
     var capturedFrameHandler: ((CapturedFrame) -> Void)?
 
@@ -119,7 +128,6 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
             // Create a CapturedFrame structure for a video sample buffer.
             guard let frame = createFrame(for: sampleBuffer) else { return }
             capturedFrameHandler?(frame)
-            movie?.recordVideo(sampleBuffer: sampleBuffer)
         case .audio:
             // Create an AVAudioPCMBuffer from an audio sample buffer.
             guard let samples = createPCMBuffer(for: sampleBuffer) else { return }
