@@ -75,6 +75,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     }
 }
 #else
+
 class AppDelegate: NSObject, NSApplicationDelegate {
     static private(set) var shared: AppDelegate! = nil
     var recordGif = false
