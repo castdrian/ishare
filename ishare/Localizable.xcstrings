@@ -46,9 +46,6 @@
     "Clear All" : {
 
     },
-    "Clear History" : {
-
-    },
     "Close" : {
 
     },
@@ -85,9 +82,6 @@
     "Excluded applications" : {
 
     },
-    "Export Settings" : {
-
-    },
     "Export Uploader" : {
 
     },
@@ -122,9 +116,6 @@
 
     },
     "Import Custom Uploader" : {
-
-    },
-    "Import Settings" : {
 
     },
     "Keybinds" : {

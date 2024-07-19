@@ -5,12 +5,12 @@
 //  Created by Adrian Castro on 15.07.23.
 //
 
-import Foundation
 import Defaults
+import Foundation
 
 enum UploadType: String, CaseIterable, Identifiable, Codable, Defaults.Serializable {
     case IMGUR, CUSTOM
-    
+
     var id: Self { self }
 }
 

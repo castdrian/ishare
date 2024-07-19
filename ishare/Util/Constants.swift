@@ -5,22 +5,22 @@
 //  Created by Adrian Castro on 12.07.23.
 //
 
-import Zip
-import Carbon
-import SwiftUI
-import Defaults
 import Alamofire
-import SwiftyJSON
 import AVFoundation
-import KeyboardShortcuts
 import BezelNotification
+import Carbon
+import Defaults
+import KeyboardShortcuts
 import ScreenCaptureKit
+import SwiftUI
+import SwiftyJSON
+import Zip
 
 extension KeyboardShortcuts.Name {
     static let noKeybind = Self("noKeybind")
     static let toggleMainMenu = Self("toggleMainMenu", default: .init(.s, modifiers: [.option, .command]))
     static let captureRegion = Self("captureRegion", default: .init(.p, modifiers: [.option, .command]))
-    static let captureWindow = Self("captureWindow", default: .init(.p, modifiers: [.control,.option]))
+    static let captureWindow = Self("captureWindow", default: .init(.p, modifiers: [.control, .option]))
     static let captureScreen = Self("captureScreen", default: .init(.x, modifiers: [.option, .command]))
     static let recordScreen = Self("recordScreen", default: .init(.z, modifiers: [.control, .option]))
     static let recordGif = Self("recordGif", default: .init(.g, modifiers: [.control, .option]))
@@ -52,36 +52,33 @@ extension Defaults.Keys {
     static let toastTimeout = Key<Double>("toastTimeout", default: 2, iCloud: true)
     static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT, iCloud: true)
     static let uploadHistory = Key<[HistoryItem]>("uploadHistory", default: [], iCloud: true)
-    static let ignoredBundleIdentifiers = Key<Array<String>>("ignoredApps", default: [], iCloud: true)
+    static let ignoredBundleIdentifiers = Key<[String]>("ignoredApps", default: [], iCloud: true)
     static let aussieMode = Key<Bool>("aussieMode", default: false, iCloud: true)
 }
 
-extension View {
-    
-    public func keyboardShortcut(_ shortcut: KeyboardShortcuts.Name) -> some View {
+public extension View {
+    func keyboardShortcut(_ shortcut: KeyboardShortcuts.Name) -> some View {
         if let shortcut = shortcut.shortcut {
             if let keyEquivalent = shortcut.toKeyEquivalent() {
-                return AnyView(self.keyboardShortcut(keyEquivalent, modifiers: shortcut.toEventModifiers()))
+                return AnyView(keyboardShortcut(keyEquivalent, modifiers: shortcut.toEventModifiers()))
             }
         }
-        
+
         return AnyView(self)
     }
-    
 }
 
 extension KeyboardShortcuts.Shortcut {
-    
     func toKeyEquivalent() -> KeyEquivalent? {
-        let carbonKeyCode = UInt16(self.carbonKeyCode)
+        let carbonKeyCode = UInt16(carbonKeyCode)
         let maxNameLength = 4
-        var nameBuffer = [UniChar](repeating: 0, count : maxNameLength)
+        var nameBuffer = [UniChar](repeating: 0, count: maxNameLength)
         var nameLength = 0
-        
+
         let modifierKeys = UInt32(alphaLock >> 8) & 0xFF // Caps Lock
         var deadKeys: UInt32 = 0
         let keyboardType = UInt32(LMGetKbdType())
-        
+
         let source = TISCopyCurrentKeyboardLayoutInputSource().takeRetainedValue()
         guard let ptr = TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData) else {
             NSLog("Could not get keyboard layout data")
@@ -94,43 +91,42 @@ extension KeyboardShortcuts.Shortcut {
                            &deadKeys, maxNameLength, &nameLength, &nameBuffer)
         }
         guard osStatus == noErr else {
-            NSLog("Code: 0x%04X  Status: %+i", carbonKeyCode, osStatus);
+            NSLog("Code: 0x%04X  Status: %+i", carbonKeyCode, osStatus)
             return nil
         }
-        
+
         return KeyEquivalent(Character(String(utf16CodeUnits: nameBuffer, count: nameLength)))
     }
-    
+
     func toEventModifiers() -> SwiftUI.EventModifiers {
         var modifiers: SwiftUI.EventModifiers = []
-        
+
         if self.modifiers.contains(NSEvent.ModifierFlags.command) {
             modifiers.update(with: EventModifiers.command)
         }
-        
+
         if self.modifiers.contains(NSEvent.ModifierFlags.control) {
             modifiers.update(with: EventModifiers.control)
         }
-        
+
         if self.modifiers.contains(NSEvent.ModifierFlags.option) {
             modifiers.update(with: EventModifiers.option)
         }
-        
+
         if self.modifiers.contains(NSEvent.ModifierFlags.shift) {
             modifiers.update(with: EventModifiers.shift)
         }
-        
+
         if self.modifiers.contains(NSEvent.ModifierFlags.capsLock) {
             modifiers.update(with: EventModifiers.capsLock)
         }
-        
+
         if self.modifiers.contains(NSEvent.ModifierFlags.numericPad) {
             modifiers.update(with: EventModifiers.numericPad)
         }
-        
+
         return modifiers
     }
-    
 }
 
 extension utsname {
@@ -143,6 +139,7 @@ extension utsname {
             }
         }
     }
+
     static var isAppleSilicon: Bool {
         sMachine == "arm64"
     }
@@ -155,7 +152,7 @@ func selectFolder(completion: @escaping (URL?) -> Void) {
     folderPicker.allowsMultipleSelection = false
     folderPicker.canDownloadUbiquitousContents = true
     folderPicker.canResolveUbiquitousConflicts = true
-    
+
     folderPicker.begin { response in
         if response == .OK {
             completion(folderPicker.urls.first)
@@ -172,7 +169,7 @@ func importIscu(_ url: URL) {
         alert.informativeText = "Do you want to import this custom uploader?"
         alert.addButton(withTitle: "Import")
         alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: keyWindow) { (response) in
+        alert.beginSheetModal(for: keyWindow) { response in
             if response == .alertFirstButtonReturn {
                 alert.window.orderOut(nil)
                 importFile(url) { success, error in
@@ -182,7 +179,7 @@ func importIscu(_ url: URL) {
                         successAlert.informativeText = "The custom uploader has been imported successfully."
                         successAlert.addButton(withTitle: "OK")
                         successAlert.runModal()
-                    } else if let error = error {
+                    } else if let error {
                         let errorAlert = NSAlert()
                         errorAlert.messageText = "Import Error"
                         errorAlert.informativeText = error.localizedDescription
@@ -196,13 +193,13 @@ func importIscu(_ url: URL) {
         let window = NSWindow(contentViewController: NSHostingController(rootView: EmptyView()))
         window.makeKeyAndOrderFront(nil)
         window.center()
-        
+
         let alert = NSAlert()
         alert.messageText = "Import ISCU"
         alert.informativeText = "Do you want to import this custom uploader?"
         alert.addButton(withTitle: "Import")
         alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: window) { (response) in
+        alert.beginSheetModal(for: window) { response in
             if response == .alertFirstButtonReturn {
                 alert.window.orderOut(nil)
                 importFile(url) { success, error in
@@ -212,7 +209,7 @@ func importIscu(_ url: URL) {
                         successAlert.informativeText = "The custom uploader has been imported successfully."
                         successAlert.addButton(withTitle: "OK")
                         successAlert.runModal()
-                    } else if let error = error {
+                    } else if let error {
                         let errorAlert = NSAlert()
                         errorAlert.messageText = "Import Error"
                         errorAlert.informativeText = error.localizedDescription
@@ -221,7 +218,7 @@ func importIscu(_ url: URL) {
                     }
                 }
             }
-            
+
             window.orderOut(nil)
         }
     }
@@ -232,11 +229,11 @@ func importFile(_ url: URL, completion: @escaping (Bool, Error?) -> Void) {
         let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
         let uploader = try decoder.decode(CustomUploader.self, from: data)
-        
+
         @Default(.savedCustomUploaders) var savedCustomUploaders
         @Default(.activeCustomUploader) var activeCustomUploader
         @Default(.uploadType) var uploadType
-        
+
         if var uploaders = savedCustomUploaders {
             uploaders.remove(uploader)
             uploaders.insert(uploader)
@@ -244,10 +241,10 @@ func importFile(_ url: URL, completion: @escaping (Bool, Error?) -> Void) {
         } else {
             savedCustomUploaders = Set([uploader])
         }
-        
+
         activeCustomUploader = uploader.id
         uploadType = .CUSTOM
-        
+
         completion(true, nil) // Success callback
     } catch {
         completion(false, error) // Error callback
@@ -257,7 +254,7 @@ func importFile(_ url: URL, completion: @escaping (Bool, Error?) -> Void) {
 struct Contributor: Codable {
     let login: String
     let avatarURL: URL
-    
+
     enum CodingKeys: String, CodingKey {
         case login
         case avatarURL = "avatar_url"
@@ -328,19 +325,19 @@ struct SharingPreferences: Codable, Defaults.Serializable {
 
 func shareBasedOnPreferences(_ fileURL: URL) {
     @Default(.builtInShare) var preferences
-    
+
     if preferences.airdrop {
         NSSharingService(named: .sendViaAirDrop)?.perform(withItems: [fileURL])
     }
-    
+
     if preferences.photos {
         NSSharingService(named: .addToIPhoto)?.perform(withItems: [fileURL])
     }
-    
+
     if preferences.messages {
         NSSharingService(named: .composeMessage)?.perform(withItems: [fileURL])
     }
-    
+
     if preferences.mail {
         NSSharingService(named: .composeEmail)?.perform(withItems: [fileURL])
     }
@@ -376,39 +373,39 @@ struct ExcludedAppsView: View {
     @Default(.ignoredBundleIdentifiers) var ignoredBundleIdentifiers
 
     var body: some View {
-            VStack {
-                Text("Select apps to exclude")
-                    .font(.title)
+        VStack {
+            Text("Select apps to exclude")
+                .font(.title)
 
-                Divider()
-                
-                ScrollView {
-                    ForEach(NSWorkspace.shared.runningApplications.sorted { $0.localizedName ?? "" < $1.localizedName ?? "" }.filter { $0.bundleIdentifier != Bundle.main.bundleIdentifier }, id: \.self) { app in
-                        Toggle(isOn: Binding(
-                            get: {
-                                ignoredBundleIdentifiers.contains(app.bundleIdentifier ?? "")
-                            },
-                            set: { newValue in
-                                if newValue {
-                                    ignoredBundleIdentifiers.append(app.bundleIdentifier ?? "")
-                                } else {
-                                    ignoredBundleIdentifiers.removeAll { $0 == app.bundleIdentifier }
-                                }
+            Divider()
+
+            ScrollView {
+                ForEach(NSWorkspace.shared.runningApplications.sorted { $0.localizedName ?? "" < $1.localizedName ?? "" }.filter { $0.bundleIdentifier != Bundle.main.bundleIdentifier }, id: \.self) { app in
+                    Toggle(isOn: Binding(
+                        get: {
+                            ignoredBundleIdentifiers.contains(app.bundleIdentifier ?? "")
+                        },
+                        set: { newValue in
+                            if newValue {
+                                ignoredBundleIdentifiers.append(app.bundleIdentifier ?? "")
+                            } else {
+                                ignoredBundleIdentifiers.removeAll { $0 == app.bundleIdentifier }
                             }
-                        )) {
-                            Text(app.localizedName ?? app.bundleIdentifier ?? "unknown")
                         }
-                        .toggleStyle(.checkbox)
+                    )) {
+                        Text(app.localizedName ?? app.bundleIdentifier ?? "unknown")
                     }
+                    .toggleStyle(.checkbox)
                 }
-                
-                Spacer()
-
-                Button("Close") {
-                    presentationMode.wrappedValue.dismiss()
-                }
-                .padding(.bottom)
             }
-            .padding()
+
+            Spacer()
+
+            Button("Close") {
+                presentationMode.wrappedValue.dismiss()
+            }
+            .padding(.bottom)
+        }
+        .padding()
     }
 }

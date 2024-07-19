@@ -6,19 +6,19 @@
 //  UI reworked by iGerman on 22.04.24.
 //
 
-import SwiftUI
-import Defaults
-import LaunchAtLogin
-import KeyboardShortcuts
 import BezelNotification
-import UniformTypeIdentifiers
+import Defaults
+import KeyboardShortcuts
+import LaunchAtLogin
 import ScreenCaptureKit
+import SwiftUI
+import UniformTypeIdentifiers
 
 struct SettingsMenuView: View {
     @Default(.aussieMode) var aussieMode
 
     let appVersionString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -43,7 +43,7 @@ struct SettingsMenuView: View {
                     }
                 }
                 .listStyle(SidebarListStyle())
-                
+
                 Spacer()
                 Divider().padding(.horizontal)
                 VStack {
@@ -57,7 +57,7 @@ struct SettingsMenuView: View {
                 .frame(maxWidth: .infinity, alignment: .center)
             }
             .frame(minWidth: 150, idealWidth: 200, maxWidth: 300, maxHeight: .infinity)
-            
+
             GeneralSettingsView()
         }
         .frame(minWidth: 600, maxWidth: 600, minHeight: 300, maxHeight: 300)
@@ -65,18 +65,17 @@ struct SettingsMenuView: View {
     }
 }
 
-
 struct GeneralSettingsView: View {
     @Default(.menuBarIcon) var menubarIcon
     @Default(.toastTimeout) var toastTimeout
     @Default(.aussieMode) var aussieMode
     @Default(.uploadHistory) var uploadHistory
-    
+
     let appImage = NSImage(named: "AppIcon") ?? AppIcon
-    
+
     struct MenuButtonStyle: ButtonStyle {
         var backgroundColor: Color
-        
+
         func makeBody(configuration: Self.Configuration) -> some View {
             configuration.label
                 .font(.headline)
@@ -85,26 +84,26 @@ struct GeneralSettingsView: View {
                 .cornerRadius(5)
         }
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
-            
-            HStack() {
+
+            HStack {
                 VStack(alignment: .leading) {
                     LaunchAtLogin.Toggle()
                     Toggle("Land down under", isOn: $aussieMode)
                 }.padding(25)
-                
+
                 Spacer()
-                
+
                 VStack {
                     Text("Menu Bar Icon")
-                    
+
                     HStack {
                         ForEach(MenuBarIcon.allCases, id: \.self) { choice in
                             Button(action: {
-                                self.menubarIcon = choice
+                                menubarIcon = choice
                             }) {
                                 switch choice {
                                 case .DEFAULT:
@@ -127,19 +126,18 @@ struct GeneralSettingsView: View {
                             .buttonStyle(
                                 MenuButtonStyle(
                                     backgroundColor:
-                                        self.menubarIcon == choice ? .accentColor : .clear                      )
+                                    menubarIcon == choice ? .accentColor : .clear)
                             )
                         }
                     }
                 }
             }.padding(25)
-            
-            
+
             Spacer()
-            
+
             VStack(alignment: .leading) {
                 Text("Toast Timeout: \(Int(toastTimeout)) seconds")
-                Slider(value: $toastTimeout, in: 1...10, step: 1)
+                Slider(value: $toastTimeout, in: 1 ... 10, step: 1)
                     .frame(maxWidth: .infinity)
             }
             .padding(.bottom)
@@ -150,10 +148,10 @@ struct GeneralSettingsView: View {
 
 struct KeybindSettingsView: View {
     @Default(.aussieMode) var aussieMode
-    
+
     var body: some View {
         Spacer()
-        
+
         Form {
             KeyboardShortcuts.Recorder("Open Main Menu:", name: .toggleMainMenu)
             KeyboardShortcuts.Recorder("Open History Window:", name: .openHistoryWindow)
@@ -163,9 +161,9 @@ struct KeybindSettingsView: View {
             KeyboardShortcuts.Recorder("Record Screen:", name: .recordScreen)
             KeyboardShortcuts.Recorder("Record GIF:", name: .recordGif)
         }
-        
+
         Spacer()
-        
+
         Button(action: {
             KeyboardShortcuts.reset([.toggleMainMenu, .openHistoryWindow, .captureRegion, .captureWindow, .captureScreen, .recordScreen, .recordGif])
             BezelNotification.show(messageText: "Reset keybinds", icon: ToastIcon)
@@ -183,7 +181,7 @@ struct CaptureSettingsView: View {
     @Default(.captureFileType) var fileType
     @Default(.captureFileName) var fileName
     @Default(.aussieMode) var aussieMode
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
@@ -201,7 +199,7 @@ struct CaptureSettingsView: View {
                     }.help("Pick a folder")
                 }
             }.padding()
-            
+
             VStack(alignment: .leading) {
                 Text("File prefix:").font(.headline)
                 HStack {
@@ -213,7 +211,7 @@ struct CaptureSettingsView: View {
                     }.help("Set to default")
                 }
             }.padding()
-            
+
             VStack(alignment: .leading) {
                 Text("Format:").font(.headline)
                 Picker("Format:", selection: $fileType) {
@@ -222,7 +220,7 @@ struct CaptureSettingsView: View {
                     }
                 }.labelsHidden()
             }.padding()
-            
+
         }.padding().rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 }
@@ -235,27 +233,27 @@ struct RecordingSettingsView: View {
     @Default(.useHEVC) var useHEVC
     @Default(.compressVideo) var compressVideo
     @Default(.aussieMode) var aussieMode
-    
+
     @State private var isExcludedAppSheetPresented = false
-    
+
     var body: some View {
         VStack {
             Spacer()
-            
+
             HStack(spacing: 25) {
                 VStack(alignment: .leading) {
                     Toggle("Record .mp4 instead of .mov", isOn: $recordMP4)
                     Toggle("Use HEVC", isOn: $useHEVC)
                 }
-                
+
                 VStack(alignment: .leading) {
                     Toggle("Apply heavy compression", isOn: $compressVideo)
                     Toggle("Record audio", isOn: $recordAudio)
                 }
             }.padding(.horizontal)
-            
+
             Spacer()
-            
+
             VStack(alignment: .leading) {
                 Text("Video path:").font(.headline)
                 HStack {
@@ -271,9 +269,9 @@ struct RecordingSettingsView: View {
                     }.help("Pick a folder")
                 }
             }.padding(.horizontal)
-            
+
             Spacer()
-            
+
             VStack(alignment: .leading) {
                 Text("File prefix:").font(.headline)
                 HStack {
@@ -285,9 +283,9 @@ struct RecordingSettingsView: View {
                     }.help("Set to default")
                 }
             }.padding(.horizontal)
-            
+
             Spacer()
-            
+
             Button("Excluded applications") {
                 isExcludedAppSheetPresented.toggle()
             }.padding()
@@ -303,9 +301,9 @@ struct AdvancedSettingsView: View {
     @Default(.imgurClientId) var imgurClientId
     @Default(.captureBinary) var captureBinary
     @Default(.aussieMode) var aussieMode
-    
+
     var body: some View {
-        VStack{
+        VStack {
             Spacer()
             VStack(alignment: .leading) {
                 Text("Imgur Client ID:").font(.headline)
@@ -327,7 +325,7 @@ struct AdvancedSettingsView: View {
                         Button(action: {
                             captureBinary = Defaults.Keys.captureBinary.defaultValue
                             BezelNotification.show(messageText: "Reset captureBinary", icon: ToastIcon)
-                        }){
+                        }) {
                             Image(systemName: "arrow.clockwise")
                         }.help("Set to default")
                     }
@@ -338,14 +336,13 @@ struct AdvancedSettingsView: View {
             .alert(Text("Advanced Settings"),
                    isPresented: $showingAlert,
                    actions: {
-                Button("I understand") {
-                    showingAlert = false
-                }
-            }, message: {
-                Text("Warning! Only modify these settings if you know what you're doing!")
-            }
-            )
-            .onAppear{
+                       Button("I understand") {
+                           showingAlert = false
+                       }
+                   }, message: {
+                       Text("Warning! Only modify these settings if you know what you're doing!")
+                   })
+            .onAppear {
                 showingAlert = true
             }
     }

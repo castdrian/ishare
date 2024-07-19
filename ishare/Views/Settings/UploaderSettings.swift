@@ -6,15 +6,15 @@
 //  UI reworked by iGerman on 22.04.24.
 //
 
-import SwiftUI
 import Defaults
+import SwiftUI
 
 struct UploaderSettingsView: View {
     @Default(.activeCustomUploader) var activeCustomUploader
     @Default(.savedCustomUploaders) var savedCustomUploaders
     @Default(.uploadType) var uploadType
     @Default(.aussieMode) var aussieMode
-    
+
     @State private var isAddSheetPresented = false
     @State private var isImportSheetPresented = false
     @State private var editingUploader: CustomUploader?
@@ -36,9 +36,9 @@ struct UploaderSettingsView: View {
                         HStack {
                             Text(uploader.name)
                                 .font(.subheadline)
-                            
+
                             Spacer()
-                            
+
                             Button(action: {
                                 deleteCustomUploader(uploader)
                             }) {
@@ -49,7 +49,7 @@ struct UploaderSettingsView: View {
                             }
                             .buttonStyle(BorderlessButtonStyle())
                             .help("Delete Uploader")
-                            
+
                             Button(action: {
                                 testCustomUploader(uploader)
                             }) {
@@ -60,7 +60,7 @@ struct UploaderSettingsView: View {
                             }
                             .buttonStyle(BorderlessButtonStyle())
                             .help("Test Uploader")
-                            
+
                             Button(action: {
                                 editingUploader = uploader
                                 isAddSheetPresented.toggle()
@@ -72,7 +72,7 @@ struct UploaderSettingsView: View {
                             }
                             .buttonStyle(BorderlessButtonStyle())
                             .help("Edit Uploader")
-                            
+
                             Button(action: {
                                 exportUploader(uploader)
                             }) {
@@ -89,10 +89,10 @@ struct UploaderSettingsView: View {
                     }.padding(.top)
                 }
             }
-            
+
             Divider().padding(.horizontal)
             Spacer()
-            
+
             HStack {
                 Button(action: {
                     editingUploader = nil
@@ -101,14 +101,14 @@ struct UploaderSettingsView: View {
                     Text("Create")
                 }
                 .buttonStyle(DefaultButtonStyle())
-                
+
                 Button(action: {
                     isImportSheetPresented.toggle()
                 }) {
                     Text("Import")
                 }
                 .buttonStyle(DefaultButtonStyle())
-                
+
                 Button(action: {
                     clearAllUploaders()
                 }) {
@@ -129,18 +129,18 @@ struct UploaderSettingsView: View {
                 .frame(minWidth: 350)
         }
     }
-    
+
     private func deleteCustomUploader(_ uploader: CustomUploader) {
         guard var uploaders = savedCustomUploaders else { return }
         uploaders = uploaders.filter { $0.id != uploader.id }
         savedCustomUploaders = uploaders
-        
+
         if uploader.id == activeCustomUploader {
             activeCustomUploader = nil
             uploadType = .IMGUR
         }
     }
-    
+
     private func testCustomUploader(_ uploader: CustomUploader) {
         guard let iconImage = NSImage(named: NSImage.applicationIconName) else {
             print("Failed to get app icon image")
@@ -149,7 +149,8 @@ struct UploaderSettingsView: View {
 
         guard let tiffData = iconImage.tiffRepresentation,
               let bitmapImage = NSBitmapImageRep(data: tiffData),
-              let pngData = bitmapImage.representation(using: .png, properties: [:]) else {
+              let pngData = bitmapImage.representation(using: .png, properties: [:])
+        else {
             print("Failed to convert image to PNG data")
             return
         }
@@ -166,7 +167,7 @@ struct UploaderSettingsView: View {
         }
 
         let callback: ((Error?, URL?) -> Void) = { error, finalURL in
-            if let error = error {
+            if let error {
                 print("Upload error: \(error)")
                 DispatchQueue.main.async {
                     let alert = NSAlert()
@@ -197,19 +198,19 @@ struct UploaderSettingsView: View {
             }
         }
     }
-    
+
     private func clearAllUploaders() {
         savedCustomUploaders = nil
         activeCustomUploader = nil
         uploadType = .IMGUR
     }
-    
+
     private func exportUploader(_ uploader: CustomUploader) {
         let data = try! JSONEncoder().encode(uploader)
         let savePanel = NSSavePanel()
         savePanel.allowedContentTypes = [.init(filenameExtension: "iscu")!]
         savePanel.nameFieldStringValue = "\(uploader.name).iscu"
-        
+
         savePanel.begin { result in
             if result == .OK, let url = savePanel.url {
                 do {
@@ -241,29 +242,29 @@ struct AddCustomUploaderView: View {
                 .font(.title)
                 .padding()
             Divider().padding(.horizontal)
-            
+
             VStack(alignment: .leading) {
                 Group {
                     InputField(label: "Name*", text: $uploaderName)
-                    HStack{
+                    HStack {
                         InputField(label: "Request URL*", text: $requestURL)
                         InputField(label: "Response URL*", text: $responseURL)
                     }
-                    HStack{
+                    HStack {
                         InputField(label: "Deletion URL", text: $deletionURL)
                         InputField(label: "File Form Name", text: $fileFormName)
                     }
                 }
                 .padding(.bottom)
-                
+
                 Divider().padding(.vertical)
                 HeaderView()
                 Divider().padding(.vertical)
                 FormDataView()
                 Divider().padding(.vertical)
-                
+
                 Text("*required").font(.footnote).frame(maxWidth: .infinity, alignment: .leading).opacity(0.5)
-                
+
                 Button(action: {
                     saveCustomUploader()
                 }) {
@@ -275,7 +276,7 @@ struct AddCustomUploaderView: View {
             .padding()
         }
         .onAppear {
-            if let uploader = uploader {
+            if let uploader {
                 uploaderName = uploader.name
                 requestURL = uploader.requestURL
                 responseURL = uploader.responseURL
@@ -286,11 +287,11 @@ struct AddCustomUploaderView: View {
             }
         }
     }
-    
+
     private struct InputField: View {
         let label: String
         @Binding var text: String
-        
+
         var body: some View {
             VStack(alignment: .leading) {
                 TextField(label, text: $text)
@@ -298,19 +299,19 @@ struct AddCustomUploaderView: View {
             }
         }
     }
-    
+
     private func HeaderView() -> some View {
         EntryListView(title: "Headers", entries: $header)
     }
-    
+
     private func FormDataView() -> some View {
         EntryListView(title: "Form Data", entries: $formData)
     }
-    
+
     struct EntryListView: View {
         let title: String
         @Binding var entries: [CustomEntryModel]
-        
+
         var body: some View {
             Section(header: HStack {
                 Text(title)
@@ -328,7 +329,7 @@ struct AddCustomUploaderView: View {
                             .padding(.horizontal)
                     }
                 }
-                
+
                 if !entries.isEmpty {
                     Divider()
                     HStack {
@@ -347,18 +348,18 @@ struct AddCustomUploaderView: View {
                     .frame(maxWidth: .infinity)
                     Divider()
                 }
-                
+
                 ForEach(entries.indices, id: \.self) { index in
                     HStack {
                         VStack(alignment: .leading) {
-                            Text((entries[index].key))
+                            Text(entries[index].key)
                                 .padding(1)
                                 .frame(minWidth: 0, maxWidth: .infinity)
                                 .font(.system(.body, design: .monospaced))
                         }
                         Divider()
                         VStack(alignment: .leading) {
-                            Text((entries[index].value))
+                            Text(entries[index].value)
                                 .padding(1)
                                 .frame(minWidth: 0, maxWidth: .infinity)
                                 .font(.system(.body, design: .monospaced))
@@ -378,20 +379,20 @@ struct AddCustomUploaderView: View {
             }
         }
     }
-    
+
     private func saveCustomUploader() {
         var headerData: [String: String] {
-            return header.reduce(into: [String: String]()) { result, entry in
+            header.reduce(into: [String: String]()) { result, entry in
                 result[entry.key] = entry.value
             }
         }
-        
+
         var formDataModel: [String: String] {
-            return formData.reduce(into: [String: String]()) { result, entry in
+            formData.reduce(into: [String: String]()) { result, entry in
                 result[entry.key] = entry.value
             }
         }
-        
+
         let newUploader = CustomUploader(
             name: uploaderName,
             requestURL: requestURL,
@@ -401,7 +402,7 @@ struct AddCustomUploaderView: View {
             responseURL: responseURL,
             deletionURL: deletionURL.isEmpty ? nil : deletionURL
         )
-        
+
         if var uploaders = savedCustomUploaders {
             uploaders.remove(newUploader)
             uploaders.insert(newUploader)
@@ -409,13 +410,13 @@ struct AddCustomUploaderView: View {
         } else {
             savedCustomUploaders = Set([newUploader])
         }
-        
+
         presentationMode.wrappedValue.dismiss()
     }
-    
+
     private struct CustomEntryView: View {
         @Binding var entry: CustomEntryModel
-        
+
         var body: some View {
             HStack {
                 VStack(alignment: .leading) {
@@ -434,10 +435,10 @@ struct ImportCustomUploaderView: View {
     @Default(.savedCustomUploaders) var savedCustomUploaders
     @Default(.activeCustomUploader) var activeCustomUploader
     @Default(.uploadType) var uploadType
-    
+
     @State private var selectedFileURLs: [URL] = []
     @State private var importError: ImportError?
-    
+
     func selectFile(completion: @escaping (URL?) -> Void) {
         let filePicker = NSOpenPanel()
         filePicker.canChooseDirectories = false
@@ -445,7 +446,7 @@ struct ImportCustomUploaderView: View {
         filePicker.allowsMultipleSelection = false
         filePicker.canDownloadUbiquitousContents = true
         filePicker.canResolveUbiquitousConflicts = true
-        
+
         filePicker.begin { response in
             if response == .OK {
                 completion(filePicker.urls.first)
@@ -454,14 +455,14 @@ struct ImportCustomUploaderView: View {
             }
         }
     }
-    
+
     var body: some View {
         VStack {
             Text("Import Custom Uploader")
                 .font(.title)
-            
+
             Divider()
-            
+
             // Drag and Drop Receptacle
             RoundedRectangle(cornerRadius: 12)
                 .frame(height: 150)
@@ -486,7 +487,7 @@ struct ImportCustomUploaderView: View {
                     }
                 }
                 .onDrop(of: ["public.file-url"], isTargeted: nil) { providers in
-                    providers.first?.loadItem(forTypeIdentifier: "public.file-url", options: nil) { item, error in
+                    providers.first?.loadItem(forTypeIdentifier: "public.file-url", options: nil) { item, _ in
                         if let data = item as? Data, let url = URL(dataRepresentation: data, relativeTo: nil) {
                             DispatchQueue.main.async {
                                 selectedFileURLs.append(url)
@@ -496,14 +497,14 @@ struct ImportCustomUploaderView: View {
                     }
                     return true
                 }
-            
+
             if let fileURL = selectedFileURLs.first {
                 Text("Selected File: \(fileURL.lastPathComponent)")
                     .foregroundColor(.secondary)
             }
-            
+
             Spacer()
-            
+
             Button("Cancel") {
                 presentationMode.wrappedValue.dismiss()
             }
@@ -518,15 +519,15 @@ struct ImportCustomUploaderView: View {
             )
         }
     }
-    
+
     private func importUploader() {
         guard let fileURL = selectedFileURLs.first else { return }
-        
+
         do {
             let data = try Data(contentsOf: fileURL)
             let decoder = JSONDecoder()
             let uploader = try decoder.decode(CustomUploader.self, from: data)
-            
+
             if var uploaders = savedCustomUploaders {
                 uploaders.remove(uploader)
                 uploaders.insert(uploader)
@@ -534,7 +535,7 @@ struct ImportCustomUploaderView: View {
             } else {
                 savedCustomUploaders = Set([uploader])
             }
-            
+
             activeCustomUploader = uploader.id
             uploadType = .CUSTOM
             presentationMode.wrappedValue.dismiss()
@@ -543,7 +544,7 @@ struct ImportCustomUploaderView: View {
             print("Error importing custom uploader: \(error)")
             return
         }
-        
+
         selectedFileURLs = []
         presentationMode.wrappedValue.dismiss()
     }
@@ -552,7 +553,7 @@ struct ImportCustomUploaderView: View {
 struct ImportError: Identifiable {
     let id = UUID()
     let error: Error
-    
+
     var localizedDescription: String {
         error.localizedDescription
     }

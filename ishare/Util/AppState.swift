@@ -5,9 +5,9 @@
 //  Created by Adrian Castro on 12.07.23.
 //
 
-import SwiftUI
 import Defaults
 import KeyboardShortcuts
+import SwiftUI
 
 final class AppState: ObservableObject {
     @Default(.showMainMenu) var showMainMenu
