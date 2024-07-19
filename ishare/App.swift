@@ -8,6 +8,7 @@
 import Defaults
 import MenuBarExtraAccess
 import SwiftUI
+
 #if NOT_APP_STORE
     import Sparkle
 #endif
@@ -45,8 +46,29 @@ struct ishare: App {
         var updaterController: SPUStandardUpdaterController!
 
         func application(_: NSApplication, open urls: [URL]) {
-            if urls.count == 1 {
+            if urls.first!.isFileURL {
                 importIscu(urls.first!)
+            }
+
+            if let url = urls.first {
+                let path = url.host
+                let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+
+                if path == "upload" {
+                    if let fileItem = queryItems?.first(where: { $0.name == "file" }) {
+                        if let encodedFileURLString = fileItem.value, let decodedFileURLString = encodedFileURLString.removingPercentEncoding, let fileURL = URL(string: decodedFileURLString) {
+                            print("Received file URL: \(fileURL.absoluteString)")
+
+                            @Default(.uploadType) var uploadType
+
+                            uploadFile(fileURL: fileURL, uploadType: uploadType) {
+                                showToast(fileURL: fileURL) {
+                                    NSSound.beep()
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -82,8 +104,29 @@ struct ishare: App {
         var screenRecorder: ScreenRecorder!
 
         func application(_: NSApplication, open urls: [URL]) {
-            if urls.count == 1 {
+            if urls.first!.isFileURL {
                 importIscu(urls.first!)
+            }
+
+            if let url = urls.first {
+                let path = url.host
+                let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+
+                if path == "upload" {
+                    if let fileItem = queryItems?.first(where: { $0.name == "file" }) {
+                        if let encodedFileURLString = fileItem.value, let decodedFileURLString = encodedFileURLString.removingPercentEncoding, let fileURL = URL(string: decodedFileURLString) {
+                            print("Received file URL: \(fileURL.absoluteString)")
+
+                            @Default(.uploadType) var uploadType
+
+                            uploadFile(fileURL: fileURL, uploadType: uploadType) {
+                                showToast(fileURL: fileURL) {
+                                    NSSound.beep()
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
