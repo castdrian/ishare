@@ -16,7 +16,6 @@ import SwiftUI
 
 @MainActor
 func recordScreen(gif: Bool? = false) {
-    @Default(.recordAudio) var recordAudio
     @Default(.openInFinder) var openInFinder
     @Default(.recordingPath) var recordingPath
     @Default(.recordingFileName) var fileName
@@ -31,7 +30,6 @@ func recordScreen(gif: Bool? = false) {
     let fileURL = URL(fileURLWithPath: path)
 
     let screenRecorder = AppDelegate.shared.screenRecorder
-    screenRecorder?.isAudioCaptureEnabled = recordAudio
 
     if gif ?? false {
         AppDelegate.shared.recordGif = true

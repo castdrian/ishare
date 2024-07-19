@@ -16,9 +16,6 @@
     "AirDrop" : {
 
     },
-    "Apply heavy compression" : {
-
-    },
     "Cancel" : {
 
     },
@@ -172,9 +169,6 @@
     "Record .mp4 instead of .mov" : {
 
     },
-    "Record audio" : {
-
-    },
     "Record GIF" : {
 
     },
@@ -221,6 +215,9 @@
 
     },
     "Uploaders" : {
+
+    },
+    "Use HDR" : {
 
     },
     "Use HEVC" : {

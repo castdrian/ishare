@@ -18,10 +18,8 @@ class AudioLevelsProvider: ObservableObject {
 @MainActor
 class ScreenRecorder: ObservableObject {
     @Published var isRunning = false
-    @Published var isAudioCaptureEnabled = true
     @Published var isAppAudioExcluded = false
     @Published private(set) var audioLevelsProvider = AudioLevelsProvider()
-    @Published var contentSize = CGSize(width: 1, height: 1)
 
     private var scaleFactor: Int { Int(NSScreen.main?.backingScaleFactor ?? 2) }
     private var audioMeterCancellable: AnyCancellable?
@@ -98,7 +96,15 @@ class ScreenRecorder: ObservableObject {
     }
 
     private func startCapture(with filter: SCContentFilter, fileURL: URL) async {
-        let config = SCStreamConfiguration()
+        @Default(.useHDR) var useHDR
+        
+        let config: SCStreamConfiguration
+        if useHDR {
+            config = SCStreamConfiguration(preset: .captureHDRStreamCanonicalDisplay)
+        } else {
+            config = SCStreamConfiguration()
+        }
+
         isRunning = true
 
         do {

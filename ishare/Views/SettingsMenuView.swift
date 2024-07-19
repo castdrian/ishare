@@ -228,10 +228,9 @@ struct CaptureSettingsView: View {
 struct RecordingSettingsView: View {
     @Default(.recordingPath) var recordingPath
     @Default(.recordingFileName) var fileName
-    @Default(.recordAudio) var recordAudio
     @Default(.recordMP4) var recordMP4
     @Default(.useHEVC) var useHEVC
-    @Default(.compressVideo) var compressVideo
+    @Default(.useHDR) var useHDR
     @Default(.aussieMode) var aussieMode
 
     @State private var isExcludedAppSheetPresented = false
@@ -244,11 +243,7 @@ struct RecordingSettingsView: View {
                 VStack(alignment: .leading) {
                     Toggle("Record .mp4 instead of .mov", isOn: $recordMP4)
                     Toggle("Use HEVC", isOn: $useHEVC)
-                }
-
-                VStack(alignment: .leading) {
-                    Toggle("Apply heavy compression", isOn: $compressVideo)
-                    Toggle("Record audio", isOn: $recordAudio)
+                    Toggle("Use HDR", isOn: $useHDR)
                 }
             }.padding(.horizontal)
 
