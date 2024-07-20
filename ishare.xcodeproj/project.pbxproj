@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -39,7 +39,18 @@
 		3AEFA5672A9FC15800F485B4 /* PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */; };
 		3AF7F0212B3EF16B000117DD /* HistoryGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7F0202B3EF16B000117DD /* HistoryGridView.swift */; };
 		3AF917C82C4AFE4700D42B77 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF917C72C4AFE4700D42B77 /* Sparkle */; };
+		3AF9A80F2C4B011A0094B78B /* sharemenuext.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3AF9A8052C4B011A0094B78B /* sharemenuext.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3AF9A80D2C4B011A0094B78B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A9A9FCC2A5C84B4007BA5C9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3AF9A8042C4B011A0094B78B;
+			remoteInfo = sharemenuext;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		3A1E39C42A66915700F6CBBF /* Embed Foundation Extensions */ = {
@@ -48,6 +59,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				3AF9A80F2C4B011A0094B78B /* sharemenuext.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,7 +93,22 @@
 		3AE731292B47052E006F10F7 /* UploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImage.swift; sourceTree = "<group>"; };
 		3AF7F0202B3EF16B000117DD /* HistoryGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryGridView.swift; sourceTree = "<group>"; };
+		3AF9A8052C4B011A0094B78B /* sharemenuext.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = sharemenuext.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3AF9A8122C4B011A0094B78B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3AF9A8042C4B011A0094B78B /* sharemenuext */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		3AF9A8062C4B011A0094B78B /* sharemenuext */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (3AF9A8122C4B011A0094B78B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = sharemenuext; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		3A9A9FD12A5C84B5007BA5C9 /* Frameworks */ = {
@@ -98,6 +125,13 @@
 				3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */,
 				3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */,
 				3A88C3232BD631D600EEDCE3 /* Defaults in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AF9A8022C4B011A0094B78B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				3A9A9FD62A5C84B5007BA5C9 /* ishare */,
+				3AF9A8062C4B011A0094B78B /* sharemenuext */,
 				3A9A9FD52A5C84B5007BA5C9 /* Products */,
 				3ABDF3252BD5EE880045BDE5 /* Frameworks */,
 			);
@@ -141,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				3A9A9FD42A5C84B5007BA5C9 /* ishare.app */,
+				3AF9A8052C4B011A0094B78B /* sharemenuext.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -215,6 +251,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3AF9A80E2C4B011A0094B78B /* PBXTargetDependency */,
 			);
 			name = ishare;
 			packageProductDependencies = (
@@ -233,6 +270,28 @@
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
 			productType = "com.apple.product-type.application";
 		};
+		3AF9A8042C4B011A0094B78B /* sharemenuext */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AF9A8132C4B011A0094B78B /* Build configuration list for PBXNativeTarget "sharemenuext" */;
+			buildPhases = (
+				3AF9A8012C4B011A0094B78B /* Sources */,
+				3AF9A8022C4B011A0094B78B /* Frameworks */,
+				3AF9A8032C4B011A0094B78B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3AF9A8062C4B011A0094B78B /* sharemenuext */,
+			);
+			name = sharemenuext;
+			packageProductDependencies = (
+			);
+			productName = sharemenuext;
+			productReference = 3AF9A8052C4B011A0094B78B /* sharemenuext.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -240,11 +299,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1530;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					3A9A9FD32A5C84B5007BA5C9 = {
 						CreatedOnToolsVersion = 14.3.1;
+					};
+					3AF9A8042C4B011A0094B78B = {
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -274,6 +336,7 @@
 			projectRoot = "";
 			targets = (
 				3A9A9FD32A5C84B5007BA5C9 /* ishare */,
+				3AF9A8042C4B011A0094B78B /* sharemenuext */,
 			);
 		};
 /* End PBXProject section */
@@ -285,6 +348,13 @@
 			files = (
 				3AD9788D2C412F94002EA1EA /* Localizable.xcstrings in Resources */,
 				3ADDAEDA2A659A0B00C42406 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AF9A8032C4B011A0094B78B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,7 +388,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3AF9A8012C4B011A0094B78B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3AF9A80E2C4B011A0094B78B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3AF9A8042C4B011A0094B78B /* sharemenuext */;
+			targetProxy = 3AF9A80D2C4B011A0094B78B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		3A9A9FF72A5C84B5007BA5C9 /* Debug */ = {
@@ -528,6 +613,67 @@
 			};
 			name = Release;
 		};
+		3AF9A8102C4B011A0094B78B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = sharemenuext/sharemenuext.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = L988J7YMK5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = sharemenuext/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ishare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = "$(VERSION)";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.adrian.ishare.sharemenuext;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3AF9A8112C4B011A0094B78B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = sharemenuext/sharemenuext.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = "$(BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = L988J7YMK5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = sharemenuext/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ishare;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = "$(VERSION)";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.adrian.ishare.sharemenuext;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -545,6 +691,15 @@
 			buildConfigurations = (
 				3A9A9FFA2A5C84B5007BA5C9 /* Debug */,
 				3A9A9FFB2A5C84B5007BA5C9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3AF9A8132C4B011A0094B78B /* Build configuration list for PBXNativeTarget "sharemenuext" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AF9A8102C4B011A0094B78B /* Debug */,
+				3AF9A8112C4B011A0094B78B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
