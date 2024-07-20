@@ -69,7 +69,7 @@ jobs:
           to: HEAD
           
       - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "generic/platform=macOS,name=Any Mac" "OTHER_SWIFT_FLAGS=${inherited} -D NOT_APP_STORE" | xcbeautify
+        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "generic/platform=macOS,name=Any Mac" -allowProvisioningUpdates "OTHER_SWIFT_FLAGS=${inherited} -D NOT_APP_STORE" | xcbeautify
 
       - name: Commit & Push changes
         uses: EndBug/add-and-commit@v9
