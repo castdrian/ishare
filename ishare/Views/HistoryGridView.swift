@@ -5,11 +5,11 @@
 //  Created by Adrian Castro on 29.12.23.
 //
 
+import Alamofire
+import BezelNotification
+import Defaults
 import Foundation
 import SwiftUI
-import BezelNotification
-import Alamofire
-import Defaults
 
 struct HistoryGridView: View {
     @Default(.uploadHistory) var uploadHistory
@@ -39,12 +39,12 @@ struct ContextMenuWrapper<Content: View>: View {
     @Default(.uploadHistory) var uploadHistory
     let content: Content
     let item: HistoryItem
-    
+
     init(item: HistoryItem, @ViewBuilder content: () -> Content) {
         self.item = item
         self.content = content()
     }
-    
+
     var body: some View {
         content
             .contextMenu {
@@ -64,13 +64,13 @@ struct ContextMenuWrapper<Content: View>: View {
                         performDeletionRequest(deletionUrl: deletionUrl) { result in
                             DispatchQueue.main.async {
                                 switch result {
-                                case .success(let message):
+                                case let .success(message):
                                     print(message)
                                     if let index = uploadHistory.firstIndex(of: item) {
                                         uploadHistory.remove(at: index)
                                         BezelNotification.show(messageText: "Deleted", icon: ToastIcon)
                                     }
-                                case .failure(let error):
+                                case let .failure(error):
                                     print("Deletion error: \(error.localizedDescription)")
                                     if let index = uploadHistory.firstIndex(of: item) {
                                         uploadHistory.remove(at: index)
@@ -87,7 +87,7 @@ struct ContextMenuWrapper<Content: View>: View {
 
 struct VideoThumbnailView: View {
     var url: URL
-    
+
     var body: some View {
         Image(systemName: "video")
             .resizable()
@@ -98,7 +98,7 @@ struct VideoThumbnailView: View {
 
 struct HistoryItemView: View {
     var urlString: String
-    
+
     var body: some View {
         if let url = URL(string: urlString) {
             AsyncImage(url: url) { image in

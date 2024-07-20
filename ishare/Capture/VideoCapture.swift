@@ -1,44 +1,42 @@
 //
-//  ScreenRecording.swift
+//  VideoCapture.swift
 //  ishare
 //
 //  Created by Adrian Castro on 24.07.23.
 //
 
-import BezelNotification
-import Foundation
-import SwiftUI
-import Defaults
 import AppKit
-import Cocoa
 import AVFoundation
+import BezelNotification
+import Cocoa
+import Defaults
+import Foundation
 import ScreenCaptureKit
+import SwiftUI
 
 @MainActor
 func recordScreen(gif: Bool? = false) {
-    @Default(.recordAudio) var recordAudio
     @Default(.openInFinder) var openInFinder
     @Default(.recordingPath) var recordingPath
     @Default(.recordingFileName) var fileName
     @Default(.recordMP4) var recordMP4
-    
+
     let timestamp = Int(Date().timeIntervalSince1970)
     let uniqueFilename = "\(fileName)-\(timestamp)"
-    
+
     var path = "\(recordingPath)\(uniqueFilename).\(recordMP4 ? "mp4" : "mov")"
     path = NSString(string: path).expandingTildeInPath
-    
+
     let fileURL = URL(fileURLWithPath: path)
-    
+
     let screenRecorder = AppDelegate.shared.screenRecorder
-    screenRecorder?.isAudioCaptureEnabled = recordAudio
-    
+
     if gif ?? false {
         AppDelegate.shared.recordGif = true
     }
-    
+
     Task {
-        if ((await screenRecorder?.canRecord) != nil) {
+        if await (screenRecorder?.canRecord) != nil {
             await screenRecorder?.start(fileURL)
         } else {
             BezelNotification.show(messageText: "Missing permission", icon: ToastIcon)
@@ -54,7 +52,7 @@ func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
     @Default(.uploadType) var uploadType
     @Default(.uploadMedia) var uploadMedia
     @Default(.saveToDisk) var saveToDisk
-    
+
     func processGif(from url: URL, completion: @escaping (URL?) -> Void) {
         let semaphore = DispatchSemaphore(value: 0)
 
@@ -84,23 +82,23 @@ func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
     if !FileManager.default.fileExists(atPath: fileURL.path) {
         return
     }
-    
+
     if copyToClipboard {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
-        
+
         pasteboard.setString(fileURL.absoluteString, forType: .fileURL)
     }
-    
+
     if openInFinder {
         NSWorkspace.shared.activateFileViewerSelecting([fileURL])
     }
-    
+
     if uploadMedia {
         uploadFile(fileURL: fileURL, uploadType: uploadType) {
             showToast(fileURL: fileURL) {
                 NSSound.beep()
-                
+
                 if !saveToDisk {
                     do {
                         try FileManager.default.removeItem(at: fileURL)
@@ -113,7 +111,7 @@ func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
     } else {
         showToast(fileURL: fileURL) {
             NSSound.beep()
-            
+
             if !saveToDisk {
                 do {
                     try FileManager.default.removeItem(at: fileURL)
@@ -142,7 +140,7 @@ func exportGif(from videoURL: URL) async throws -> URL {
     let totalFrames = Int(totalDuration * TimeInterval(frameRate))
     var timeValues: [NSValue] = []
 
-    for frameNumber in 0..<totalFrames {
+    for frameNumber in 0 ..< totalFrames {
         let time = CMTime(seconds: Double(frameNumber) / Double(frameRate), preferredTimescale: Int32(NSEC_PER_SEC))
         timeValues.append(NSValue(time: time))
     }
@@ -158,13 +156,13 @@ func exportGif(from videoURL: URL) async throws -> URL {
     let delayBetweenFrames: TimeInterval = 1.0 / TimeInterval(frameRate)
     let fileProperties: [String: Any] = [
         kCGImagePropertyGIFDictionary as String: [
-            kCGImagePropertyGIFLoopCount as String: 0
-        ]
+            kCGImagePropertyGIFLoopCount as String: 0,
+        ],
     ]
     let frameProperties: [String: Any] = [
         kCGImagePropertyGIFDictionary as String: [
-            kCGImagePropertyGIFDelayTime: delayBetweenFrames
-        ]
+            kCGImagePropertyGIFDelayTime: delayBetweenFrames,
+        ],
     ]
 
     let outputURL = videoURL.deletingPathExtension().appendingPathExtension("gif")
@@ -172,7 +170,7 @@ func exportGif(from videoURL: URL) async throws -> URL {
     CGImageDestinationSetProperties(imageDestination, fileProperties as CFDictionary)
 
     return try await withCheckedThrowingContinuation { continuation in
-        generator.generateCGImagesAsynchronously(forTimes: timeValues) { (requestedTime, resultingImage, actualTime, result, error) in
+        generator.generateCGImagesAsynchronously(forTimes: timeValues) { requestedTime, resultingImage, _, _, _ in
             if let image = resultingImage {
                 CGImageDestinationAddImage(imageDestination, image, frameProperties as CFDictionary)
             }

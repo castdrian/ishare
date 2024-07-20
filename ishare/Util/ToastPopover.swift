@@ -1,6 +1,6 @@
-import SwiftUI
 import AVFoundation
 import Defaults
+import SwiftUI
 
 struct ToastPopoverView: View {
     let thumbnailImage: NSImage
@@ -25,74 +25,76 @@ struct ToastPopoverView: View {
                 }
             }
             .onDrag {
-                self.isDragging = true
+                isDragging = true
                 let itemProvider = NSItemProvider(object: fileURL as NSURL)
                 itemProvider.suggestedName = fileURL.lastPathComponent
                 return itemProvider
             }
-            .onDrop(of: [UTType.url], isTargeted: nil) { providers -> Bool in
-                self.isDragging = false
+            .onDrop(of: [UTType.url], isTargeted: nil) { _ -> Bool in
+                isDragging = false
                 return true
             }
     }
 }
 
 func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
-    var thumbnailImage: NSImage?
-    
     if fileURL.pathExtension == "mov" || fileURL.pathExtension == "mp4" {
-        DispatchQueue.global(qos: .userInitiated).async {
+        Task.detached(priority: .userInitiated) {
             let asset = AVURLAsset(url: fileURL)
             let imageGenerator = AVAssetImageGenerator(asset: asset)
             imageGenerator.appliesPreferredTrackTransform = true
             let time = CMTime(seconds: 2, preferredTimescale: 60)
+
             do {
-                let cgImage = try imageGenerator.copyCGImage(at: time, actualTime: nil)
-                thumbnailImage = NSImage(cgImage: cgImage, size: CGSize(width: cgImage.width, height: cgImage.height))
+                let cgImage = try await imageGenerator.image(at: time)
+                let imageData = cgImage.image.dataProvider?.data
+                let width = cgImage.image.width
+                let height = cgImage.image.height
+
+                guard imageData != nil else {
+                    throw NSError(domain: "ImageErrorDomain", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to get image data"])
+                }
+
+                await MainActor.run {
+                    let thumbnailImage = NSImage(cgImage: cgImage.image, size: CGSize(width: width, height: height))
+                    showThumbnailAndToast(fileURL: fileURL, thumbnailImage: thumbnailImage, completion: completion)
+                }
             } catch {
                 print("Error generating thumbnail: \(error)")
             }
-            
-            DispatchQueue.main.async {
-                showThumbnailAndToast(fileURL: fileURL, thumbnailImage: thumbnailImage, completion: completion)
-            }
         }
     } else {
-        showThumbnailAndToast(fileURL: fileURL, thumbnailImage: NSImage(contentsOf: fileURL), completion: completion)
+        showThumbnailAndToast(fileURL: fileURL, thumbnailImage: NSImage(contentsOf: fileURL)!, completion: completion)
     }
 }
 
-func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage?, completion: (() -> Void)?) {
+func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, completion: (() -> Void)?) {
     @Default(.toastTimeout) var toastTimeout
-    
-    guard let thumbnail = thumbnailImage else {
-        return
-    }
-    
+
     let toastWindow = NSWindow(
         contentRect: NSRect(x: 0, y: 0, width: 250, height: 150),
         styleMask: [.borderless, .nonactivatingPanel],
         backing: .buffered,
         defer: false
     )
-    
+
     toastWindow.level = .floating
     toastWindow.isOpaque = false
     toastWindow.backgroundColor = .clear
     toastWindow.isMovableByWindowBackground = true
     toastWindow.contentView = NSHostingView(
-        rootView: ToastPopoverView(thumbnailImage: thumbnail, fileURL: fileURL)
+        rootView: ToastPopoverView(thumbnailImage: thumbnailImage, fileURL: fileURL)
     )
-    
+
     toastWindow.makeKeyAndOrderFront(nil)
     let screenSize = NSScreen.main?.frame.size ?? .zero
     let originX = screenSize.width - toastWindow.frame.width - 20
     let originY = screenSize.height - toastWindow.frame.height - 20
     toastWindow.setFrameOrigin(NSPoint(x: originX, y: originY))
-    
+
     let fadeDuration = 0.2
     toastWindow.alphaValue = 0.0
-    
+
     NSAnimationContext.runAnimationGroup({ context in
         context.duration = fadeDuration
         toastWindow.animator().alphaValue = 1.0
