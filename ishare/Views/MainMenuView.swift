@@ -11,7 +11,7 @@ import ScreenCaptureKit
 import SettingsAccess
 import SwiftUI
 import UniformTypeIdentifiers
-#if NOT_APP_STORE
+#if GITHUB_RELEASE
     import Sparkle
 #endif
 
@@ -294,7 +294,7 @@ struct MainMenuView: View {
             }
             .keyboardShortcut("a")
 
-            #if NOT_APP_STORE
+            #if GITHUB_RELEASE
                 Button {
                     NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/castdrian")!)
                 } label: {

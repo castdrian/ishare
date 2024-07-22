@@ -69,7 +69,7 @@ jobs:
           to: HEAD
           
       - name: Build macOS app
-        run: xcodebuild archive -scheme "ishare" -configuration "Release" -archivePath "build/ishare.xcarchive" -destination "generic/platform=macOS,name=Any Mac" CODE_SIGN_IDENTITY="" CODE_SIGNING_ALLOWED=NO "OTHER_SWIFT_FLAGS=${inherited} -D NOT_APP_STORE" | xcbeautify
+        run: xcodebuild archive -scheme "GitHub" -configuration "GitHub" -archivePath "build/ishare.xcarchive" -destination "generic/platform=macOS,name=Any Mac" CODE_SIGN_IDENTITY="" CODE_SIGNING_ALLOWED=NO "OTHER_SWIFT_FLAGS=${inherited} -D GITHUB_RELEASE" | xcbeautify
 
       - name: Sign, Package and Notarize .app
         run: |

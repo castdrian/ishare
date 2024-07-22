@@ -9,7 +9,7 @@ import Defaults
 import MenuBarExtraAccess
 import SwiftUI
 
-#if NOT_APP_STORE
+#if GITHUB_RELEASE
     import Sparkle
 #endif
 
@@ -38,7 +38,7 @@ struct ishare: App {
     }
 }
 
-#if NOT_APP_STORE
+#if GITHUB_RELEASE
     class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
         private(set) static var shared: AppDelegate! = nil
         var recordGif = false
