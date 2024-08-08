@@ -47,6 +47,7 @@ jobs:
           skipInvalidTags: true
           noVersionBumpBehavior: "error"
           majorList: "major, breaking"
+          patchAll: true
           token: ${{ env.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
