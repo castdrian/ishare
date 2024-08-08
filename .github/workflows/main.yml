@@ -83,7 +83,8 @@ jobs:
             codesign -s "Developer ID Application" -f --timestamp -o runtime --deep "ishare.app"
             npm install --global create-dmg
             create-dmg "ishare.app" --overwrite
-            DMG_FILE=$(ls *.dmg)
+            mv *.dmg ishare.dmg
+            DMG_FILE="ishare.dmg"
             echo "DMG_FILE=$DMG_FILE" >> $GITHUB_ENV
             xcrun notarytool submit "$DMG_FILE" --wait --apple-id "${{ secrets.NOTARIZATION_USERNAME }}" --password "${{ secrets.NOTARIZATION_PASSWORD }}" --team-id "L988J7YMK5"
             xcrun stapler staple "$DMG_FILE"
@@ -154,11 +155,13 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
+
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
 
