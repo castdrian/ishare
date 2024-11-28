@@ -9,7 +9,7 @@ import Defaults
 import MenuBarExtraAccess
 import SwiftUI
 
-#if GITHUB_RELEASE
+#if canImport(Sparkle)
     import Sparkle
 #endif
 

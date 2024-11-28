@@ -138,11 +138,11 @@ func exportGif(from videoURL: URL) async throws -> URL {
     let totalDuration = duration.seconds
     let frameRate: CGFloat = 30
     let totalFrames = Int(totalDuration * TimeInterval(frameRate))
-    var timeValues: [NSValue] = []
+    var timeValues: [CMTime] = []
 
     for frameNumber in 0 ..< totalFrames {
         let time = CMTime(seconds: Double(frameNumber) / Double(frameRate), preferredTimescale: Int32(NSEC_PER_SEC))
-        timeValues.append(NSValue(time: time))
+        timeValues.append(time)
     }
 
     let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
@@ -156,7 +156,7 @@ func exportGif(from videoURL: URL) async throws -> URL {
     let delayBetweenFrames: TimeInterval = 1.0 / TimeInterval(frameRate)
     let fileProperties: [String: Any] = [
         kCGImagePropertyGIFDictionary as String: [
-            kCGImagePropertyGIFLoopCount as String: 0,
+            kCGImagePropertyGIFLoopCount: 0,
         ],
     ]
     let frameProperties: [String: Any] = [
@@ -169,12 +169,13 @@ func exportGif(from videoURL: URL) async throws -> URL {
     let imageDestination = CGImageDestinationCreateWithURL(outputURL as CFURL, UTType.gif.identifier as CFString, totalFrames, nil)!
     CGImageDestinationSetProperties(imageDestination, fileProperties as CFDictionary)
 
+    let localTimeValues = timeValues
     return try await withCheckedThrowingContinuation { continuation in
-        generator.generateCGImagesAsynchronously(forTimes: timeValues) { requestedTime, resultingImage, _, _, _ in
+        generator.generateCGImagesAsynchronously(forTimes: localTimeValues.map { NSValue(time: $0) }) { requestedTime, resultingImage, _, _, _ in
             if let image = resultingImage {
                 CGImageDestinationAddImage(imageDestination, image, frameProperties as CFDictionary)
             }
-            if requestedTime == timeValues.last?.timeValue {
+            if requestedTime == localTimeValues.last {
                 let success = CGImageDestinationFinalize(imageDestination)
                 if success {
                     do {

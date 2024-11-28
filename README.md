@@ -58,34 +58,38 @@
 <details markdown="block">
   <summary><strong>Versatile Screen Capture</strong></summary>
   
-  - **Custom Region**: Instantly and easily define and capture specific portions of your screen.
-  - **Window Capture**: Capture individual application windows without any clutter.
-  - **Entire Display Capture**: Snapshot your whole screen with a single action.
+- **Custom Region**: Instantly and easily define and capture specific portions of your screen.
+- **Window Capture**: Capture individual application windows without any clutter.
+- **Entire Display Capture**: Snapshot your whole screen with a single action.
+
 </details>
 
 <details markdown="block">
   <summary><strong>Flexible Screen Recording</strong></summary>
   
-  - **Video Recording**: Record videos of entire screens or specific windows.
-  - **GIF Recording**: Capture your moments in GIF format, perfect for quick shares.
-  - **Customizable Codecs and Compression**: Fine-tune the parameters of the output video files.
+- **Video Recording**: Record videos of entire screens or specific windows.
+- **GIF Recording**: Capture your moments in GIF format, perfect for quick shares.
+- **Customizable Codecs and Compression**: Fine-tune the parameters of the output video files.
+
 </details>
 
 <details markdown="block">
   <summary><strong>Easy Uploading</strong></summary>
   
-  - **Custom Upload Destinations**: Define your own server or service to upload your media.
-  - **Built-in Imgur Uploader**: Quickly upload your results to Imgur automatically.
+- **Custom Upload Destinations**: Define your own server or service to upload your media.
+- **Built-in Imgur Uploader**: Quickly upload your results to Imgur automatically.
+
 </details>
 
 <details markdown="block">
   <summary><strong>High Customizability</strong></summary>
   
-  - **Custom Keybinds**: Set keyboard shortcuts that match your workflow.
-  - **File Format Preferences**: Choose the formats for your screenshots (e.g. PNG, JPG) and recordings.
-  - **Custom File Naming**: Define your own prefix for filenames, so you always know which app took the shot.
-  - **Custom Save Path**: Decide where exactly on your system you want to save your captures and recordings.
-  - **Application Exclusions**: Exclude specific apps from being recorded.
+- **Custom Keybinds**: Set keyboard shortcuts that match your workflow.
+- **File Format Preferences**: Choose the formats for your screenshots (e.g. PNG, JPG) and recordings.
+- **Custom File Naming**: Define your own prefix for filenames, so you always know which app took the shot.
+- **Custom Save Path**: Decide where exactly on your system you want to save your captures and recordings.
+- **Application Exclusions**: Exclude specific apps from being recorded.
+
 </details>
 
 <details markdown="block">

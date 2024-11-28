@@ -11,7 +11,7 @@ import ScreenCaptureKit
 import SettingsAccess
 import SwiftUI
 import UniformTypeIdentifiers
-#if GITHUB_RELEASE
+#if canImport(Sparkle)
     import Sparkle
 #endif
 
