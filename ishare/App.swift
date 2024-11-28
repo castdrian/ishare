@@ -60,10 +60,13 @@ struct ishare: App {
                             print("Received file URL: \(fileURL.absoluteString)")
 
                             @Default(.uploadType) var uploadType
+                            let localFileURL = fileURL
 
                             uploadFile(fileURL: fileURL, uploadType: uploadType) {
-                                showToast(fileURL: fileURL) {
-                                    NSSound.beep()
+                                Task { @MainActor in
+                                    showToast(fileURL: localFileURL) {
+                                        NSSound.beep()
+                                    }
                                 }
                             }
                         }
@@ -82,24 +85,29 @@ struct ishare: App {
             updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
         }
 
+        @MainActor
         func stopRecording() {
+            let wasRecordingGif = recordGif
+            let recorder = screenRecorder
+            
             Task {
-                await screenRecorder.stop { [self] result in
-                    switch result {
-                    case let .success(url):
-                        print("Recording stopped successfully. URL: \(url)")
-                        postRecordingTasks(url, recordGif)
-                    case let .failure(error):
-                        print("Error while stopping recording: \(error.localizedDescription)")
+                recorder?.stop { result in
+                    Task { @MainActor in
+                        switch result {
+                        case let .success(url):
+                            print("Recording stopped successfully. URL: \(url)")
+                            postRecordingTasks(url, wasRecordingGif)
+                        case let .failure(error):
+                            print("Error while stopping recording: \(error.localizedDescription)")
+                        }
                     }
                 }
             }
         }
     }
 #else
-
     class AppDelegate: NSObject, NSApplicationDelegate {
-        private(set) static var shared: AppDelegate! = nil
+        @MainActor private(set) static var shared: AppDelegate! = nil
         var recordGif = false
         var screenRecorder: ScreenRecorder!
 
@@ -118,10 +126,13 @@ struct ishare: App {
                             print("Received file URL: \(fileURL.absoluteString)")
 
                             @Default(.uploadType) var uploadType
+                            let localFileURL = fileURL
 
                             uploadFile(fileURL: fileURL, uploadType: uploadType) {
-                                showToast(fileURL: fileURL) {
-                                    NSSound.beep()
+                                Task { @MainActor in
+                                    showToast(fileURL: localFileURL) {
+                                        NSSound.beep()
+                                    }
                                 }
                             }
                         }
@@ -138,15 +149,21 @@ struct ishare: App {
             }
         }
 
+        @MainActor
         func stopRecording() {
+            let wasRecordingGif = recordGif
+            let recorder = screenRecorder
+            
             Task {
-                await screenRecorder.stop { [self] result in
-                    switch result {
-                    case let .success(url):
-                        print("Recording stopped successfully. URL: \(url)")
-                        postRecordingTasks(url, recordGif)
-                    case let .failure(error):
-                        print("Error while stopping recording: \(error.localizedDescription)")
+                recorder?.stop { result in
+                    Task { @MainActor in
+                        switch result {
+                        case let .success(url):
+                            print("Recording stopped successfully. URL: \(url)")
+                            postRecordingTasks(url, wasRecordingGif)
+                        case let .failure(error):
+                            print("Error while stopping recording: \(error.localizedDescription)")
+                        }
                     }
                 }
             }

@@ -1,13 +1,13 @@
 {
-  "originHash" : "0ff71dfe84467feffceb6531c60ede9b64ff3b4c3d2be319eef820d7bd3a275c",
+  "originHash" : "457379c019910912d45c64f6cf194185cf499a36d1e88eb6d8948ac28538815f",
   "pins" : [
     {
       "identity" : "alamofire",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
-        "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
-        "version" : "5.9.1"
+        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+        "version" : "5.10.2"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/BlueHuskyStudios/BezelNotification.git",
       "state" : {
-        "revision" : "4a4d9c485f2c019ed83bcfa23d1d1939610090de",
-        "version" : "2.0.0"
+        "revision" : "dcdd70b3abb50007d49a8ce23c14e07079d8b0f2",
+        "version" : "2.1.0"
       }
     },
     {
@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/KeyboardShortcuts",
       "state" : {
-        "revision" : "09e4a10ed6b65b3a40fe07b6bf0c84809313efc4",
-        "version" : "2.0.0"
+        "revision" : "c3c361f409b8dbe1eab186078b41c330a6a82c9a",
+        "version" : "2.2.2"
       }
     },
     {
@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/orchetect/MenuBarExtraAccess.git",
       "state" : {
-        "revision" : "8757eb7c2cd708320df92e6ad6572efe90e58f16",
-        "version" : "1.0.4"
+        "revision" : "f041bb68e9d464c907e240cf3d74f9086a10ad41",
+        "version" : "1.2.0"
       }
     },
     {
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/orchetect/SettingsAccess",
       "state" : {
-        "revision" : "dbd2726bda227ff1b8eac32c043668c3b390d6b5",
-        "version" : "1.2.0"
+        "revision" : "0fd73c8b5892e88acb13adb7f36a4ba9293a0061",
+        "version" : "1.4.0"
       }
     },
     {
@@ -87,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/RougeWare/Swift-Function-Tools.git",
       "state" : {
-        "revision" : "0bd76ca2c00120acf7ff840b5dcc1e700870ae22",
-        "version" : "1.2.3"
+        "revision" : "a854f4ed89b7e404019b5a09d24e067acc15432d",
+        "version" : "1.2.4"
       }
     },
     {
@@ -96,8 +96,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SwiftyJSON/SwiftyJSON.git",
       "state" : {
-        "revision" : "b3dcd7dbd0d488e1a7077cb33b00f2083e382f07",
-        "version" : "5.0.1"
+        "revision" : "af76cf3ef710b6ca5f8c05f3a31307d44a3c5828",
+        "version" : "5.0.2"
       }
     },
     {

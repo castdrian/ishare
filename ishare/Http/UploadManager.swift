@@ -9,17 +9,18 @@ import AppKit
 import Foundation
 import SwiftUI
 
-class UploadManager {
+@MainActor
+final class UploadManager: @unchecked Sendable {
     static let shared = UploadManager()
-    var progress = Progress()
-    var statusItem: NSStatusItem?
-    var hostingView: NSHostingView<CircularProgressView>?
+    private var progress = Progress()
+    private var statusItem: NSStatusItem?
+    private var hostingView: NSHostingView<CircularProgressView>?
 
-    init() {
+    private init() {
         setupMenu()
     }
 
-    func setupMenu() {
+    private func setupMenu() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
         if let button = statusItem?.button {
@@ -33,14 +34,14 @@ class UploadManager {
     }
 
     func updateProgress(fraction: Double) {
-        DispatchQueue.main.async {
+        Task { @MainActor in
             self.progress.completedUnitCount = Int64(fraction * 100)
             self.hostingView?.rootView = CircularProgressView(progress: fraction)
         }
     }
 
     func uploadCompleted() {
-        DispatchQueue.main.async {
+        Task { @MainActor in
             if let item = self.statusItem {
                 NSStatusBar.system.removeStatusItem(item)
                 self.statusItem = nil
@@ -50,7 +51,7 @@ class UploadManager {
 }
 
 struct CircularProgressView: View {
-    var progress: Double
+    let progress: Double
 
     var body: some View {
         ZStack {

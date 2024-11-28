@@ -37,8 +37,10 @@ struct ToastPopoverView: View {
     }
 }
 
-func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
+@MainActor
+func showToast(fileURL: URL, completion: (@Sendable () -> Void)? = nil) {
     if fileURL.pathExtension == "mov" || fileURL.pathExtension == "mp4" {
+        let localCompletion = completion
         Task.detached(priority: .userInitiated) {
             let asset = AVURLAsset(url: fileURL)
             let imageGenerator = AVAssetImageGenerator(asset: asset)
@@ -57,7 +59,7 @@ func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
 
                 await MainActor.run {
                     let thumbnailImage = NSImage(cgImage: cgImage.image, size: CGSize(width: width, height: height))
-                    showThumbnailAndToast(fileURL: fileURL, thumbnailImage: thumbnailImage, completion: completion)
+                    showThumbnailAndToast(fileURL: fileURL, thumbnailImage: thumbnailImage, completion: localCompletion)
                 }
             } catch {
                 print("Error generating thumbnail: \(error)")
@@ -68,20 +70,19 @@ func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
     }
 }
 
-func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, completion: (() -> Void)?) {
-    @Default(.toastTimeout) var toastTimeout
-
+@MainActor
+private func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, completion: (() -> Void)? = nil) {
+    let toastTimeout = Defaults[.toastTimeout]
+    let localCompletion = completion
     let toastWindow = NSWindow(
-        contentRect: NSRect(x: 0, y: 0, width: 250, height: 150),
-        styleMask: [.borderless, .nonactivatingPanel],
+        contentRect: NSRect(x: 0, y: 0, width: 300, height: 100),
+        styleMask: [.borderless],
         backing: .buffered,
         defer: false
     )
-
-    toastWindow.level = .floating
-    toastWindow.isOpaque = false
     toastWindow.backgroundColor = .clear
-    toastWindow.isMovableByWindowBackground = true
+    toastWindow.isOpaque = false
+    toastWindow.level = .floating
     toastWindow.contentView = NSHostingView(
         rootView: ToastPopoverView(thumbnailImage: thumbnailImage, fileURL: fileURL)
     )
@@ -105,7 +106,7 @@ func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, completion: ((
                 toastWindow.animator().alphaValue = 0.0
             }) {
                 toastWindow.orderOut(nil)
-                completion?()
+                localCompletion?()
             }
         }
     }

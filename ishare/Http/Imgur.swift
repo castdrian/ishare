@@ -12,8 +12,9 @@ import Defaults
 import Foundation
 import SwiftyJSON
 
-func imgurUpload(_ fileURL: URL, completion: @escaping () -> Void) {
+@MainActor func imgurUpload(_ fileURL: URL, completion: @Sendable @escaping () -> Void) {
     @Default(.imgurClientId) var imgurClientId
+    let uploadManager = UploadManager.shared
 
     let url = "https://api.imgur.com/3/upload"
 
@@ -25,29 +26,38 @@ func imgurUpload(_ fileURL: URL, completion: @escaping () -> Void) {
         multipartFormData.append(fileURL, withName: fileFormName, fileName: fileName, mimeType: mimeType)
     }, to: url, method: .post, headers: ["Authorization": "Client-ID " + imgurClientId])
         .uploadProgress { progress in
-            UploadManager.shared.updateProgress(fraction: progress.fractionCompleted)
+            Task { @MainActor in
+                uploadManager.updateProgress(fraction: progress.fractionCompleted)
+            }
         }
         .response { response in
-            UploadManager.shared.uploadCompleted()
-            if let data = response.data {
-                let json = JSON(data)
-                if let link = json["data"]["link"].string {
-                    print("Image uploaded successfully. Link: \(link)")
+            Task { @MainActor in
+                uploadManager.uploadCompleted()
+                if let data = response.data {
+                    let json = JSON(data)
+                    if let link = json["data"]["link"].string {
+                        print("Image uploaded successfully. Link: \(link)")
 
-                    let pasteboard = NSPasteboard.general
-                    pasteboard.clearContents()
-                    pasteboard.setString(link, forType: .string)
+                        let pasteboard = NSPasteboard.general
+                        pasteboard.clearContents()
+                        pasteboard.setString(link, forType: .string)
 
-                    let historyItem = HistoryItem(fileUrl: link)
-                    addToUploadHistory(historyItem)
-                    completion()
-                } else {
-                    print("Error parsing response or retrieving image link")
-                    BezelNotification.show(messageText: "An error occured", icon: ToastIcon)
-                    completion()
+                        let historyItem = HistoryItem(fileUrl: link)
+                        addToUploadHistory(historyItem)
+                        completion()
+                    } else {
+                        print("Error parsing response or retrieving image link")
+                        showErrorNotification()
+                        completion()
+                    }
                 }
             }
         }
+}
+
+@MainActor
+private func showErrorNotification() {
+    BezelNotification.show(messageText: "An error occured", icon: ToastIcon)
 }
 
 func determineFileFormName(for fileURL: URL) -> String {

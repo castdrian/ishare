@@ -24,16 +24,17 @@ enum FileType: String, CaseIterable, Identifiable, Defaults.Serializable {
     var id: Self { self }
 }
 
-func captureScreen(type: CaptureType, display: Int = 1) {
-    @Default(.capturePath) var capturePath
-    @Default(.captureFileType) var fileType
-    @Default(.captureFileName) var fileName
-    @Default(.copyToClipboard) var copyToClipboard
-    @Default(.openInFinder) var openInFinder
-    @Default(.uploadMedia) var uploadMedia
-    @Default(.captureBinary) var captureBinary
-    @Default(.uploadType) var uploadType
-    @Default(.saveToDisk) var saveToDisk
+@MainActor
+func captureScreen(type: CaptureType, display: Int = 1) async {
+    let capturePath = Defaults[.capturePath]
+    let fileType = Defaults[.captureFileType]
+    let fileName = Defaults[.captureFileName]
+    let copyToClipboard = Defaults[.copyToClipboard]
+    let openInFinder = Defaults[.openInFinder]
+    let uploadMedia = Defaults[.uploadMedia]
+    let captureBinary = Defaults[.captureBinary]
+    let uploadType = Defaults[.uploadType]
+    let saveToDisk = Defaults[.saveToDisk]
 
     let timestamp = Int(Date().timeIntervalSince1970)
     let uniqueFilename = "\(fileName)-\(timestamp)"
@@ -56,7 +57,6 @@ func captureScreen(type: CaptureType, display: Int = 1) {
     if copyToClipboard {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
-
         pasteboard.setString(fileURL.absoluteString, forType: .fileURL)
     }
 
@@ -65,28 +65,36 @@ func captureScreen(type: CaptureType, display: Int = 1) {
     }
 
     if uploadMedia {
+        let shouldSaveToDisk = saveToDisk
+        let localFileURL = fileURL
         uploadFile(fileURL: fileURL, uploadType: uploadType) {
-            showToast(fileURL: fileURL) {
-                NSSound.beep()
+            Task { @MainActor in
+                showToast(fileURL: localFileURL) {
+                    NSSound.beep()
 
-                if !saveToDisk {
-                    do {
-                        try FileManager.default.removeItem(at: fileURL)
-                    } catch {
-                        print("Error deleting the file: \(error)")
+                    if !shouldSaveToDisk {
+                        do {
+                            try FileManager.default.removeItem(at: localFileURL)
+                        } catch {
+                            print("Error deleting the file: \(error)")
+                        }
                     }
                 }
             }
         }
     } else {
-        showToast(fileURL: fileURL) {
-            NSSound.beep()
+        let shouldSaveToDisk = saveToDisk
+        let localFileURL = fileURL
+        Task { @MainActor in
+            showToast(fileURL: localFileURL) {
+                NSSound.beep()
 
-            if !saveToDisk {
-                do {
-                    try FileManager.default.removeItem(at: fileURL)
-                } catch {
-                    print("Error deleting the file: \(error)")
+                if !shouldSaveToDisk {
+                    do {
+                        try FileManager.default.removeItem(at: localFileURL)
+                    } catch {
+                        print("Error deleting the file: \(error)")
+                    }
                 }
             }
         }

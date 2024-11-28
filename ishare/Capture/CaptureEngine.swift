@@ -5,14 +5,14 @@
 //  Created by Adrian Castro on 29.07.23.
 //
 
-import AVFAudio
+@preconcurrency import AVFAudio
 import Combine
 import Defaults
 import Foundation
 import ScreenCaptureKit
 
 /// A structure that contains the video data to render.
-struct CapturedFrame {
+struct CapturedFrame : Sendable {
     static let invalid = CapturedFrame(surface: nil, contentRect: .zero, contentScale: 0, scaleFactor: 0)
 
     let surface: IOSurface?
@@ -37,14 +37,18 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
     var audioLevels: AudioLevels { powerMeter.levels }
 
     // Store the the startCapture continuation, so that you can cancel it when you call stopCapture().
-    private var continuation: AsyncThrowingStream<CapturedFrame, Error>.Continuation?
+    private var continuation: AsyncThrowingStream<CapturedFrame, any Error>.Continuation?
 
     private var startTime = Date()
     private var streamOutput: CaptureEngineStreamOutput?
 
     /// - Tag: StartCapture
-    func startCapture(configuration: SCStreamConfiguration, filter: SCContentFilter, fileURL: URL) -> AsyncThrowingStream<CapturedFrame, Error> {
-        AsyncThrowingStream<CapturedFrame, Error> { continuation in
+    func startCapture(configuration: SCStreamConfiguration, filter: SCContentFilter, fileURL: URL) -> AsyncThrowingStream<CapturedFrame, any Error> {
+        let config = configuration
+        let contentFilter = filter
+        let outputURL = fileURL
+        
+        return AsyncThrowingStream<CapturedFrame, any Error> { continuation in
             // The stream output object.
             let output = CaptureEngineStreamOutput(continuation: continuation)
             streamOutput = output
@@ -54,8 +58,8 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
             self.startTime = Date()
 
             do {
-                stream = SCStream(filter: filter, configuration: configuration, delegate: streamOutput)
-                self.fileURL = fileURL
+                stream = SCStream(filter: contentFilter, configuration: config, delegate: streamOutput)
+                self.fileURL = outputURL
 
                 // Add a stream output to capture screen content.
                 try stream?.addStreamOutput(streamOutput!, type: .screen, sampleHandlerQueue: videoSampleBufferQueue)
@@ -63,7 +67,7 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
 
                 let recordingConfiguration = SCRecordingOutputConfiguration()
 
-                recordingConfiguration.outputURL = fileURL
+                recordingConfiguration.outputURL = outputURL
                 recordingConfiguration.outputFileType = recordMP4 ? .mp4 : .mov
                 recordingConfiguration.videoCodecType = useHEVC ? .hevc : .h264
 
@@ -78,7 +82,7 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
         }
     }
 
-    func stopCapture() async -> (@escaping (Result<URL, Error>) -> Void) -> Void {
+    func stopCapture() async -> (@escaping (Result<URL, any Error>) -> Void) -> Void {
         enum ScreenRecorderError: Error {
             case missingFileURL
         }
@@ -97,9 +101,16 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
 
     /// - Tag: UpdateStreamConfiguration
     func update(configuration: SCStreamConfiguration, filter: SCContentFilter) async {
+        struct SendableParams: @unchecked Sendable {
+            let configuration: SCStreamConfiguration
+            let filter: SCContentFilter
+        }
+        
+        let params = SendableParams(configuration: configuration, filter: filter)
+        
         do {
-            try await stream?.updateConfiguration(configuration)
-            try await stream?.updateContentFilter(filter)
+            try await stream?.updateConfiguration(params.configuration)
+            try await stream?.updateContentFilter(params.filter)
         } catch {
             print("Failed to update the stream session: \(String(describing: error))")
         }
@@ -112,9 +123,9 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
     var capturedFrameHandler: ((CapturedFrame) -> Void)?
 
     // Store the the startCapture continuation, so you can cancel it if an error occurs.
-    private var continuation: AsyncThrowingStream<CapturedFrame, Error>.Continuation?
+    private var continuation: AsyncThrowingStream<CapturedFrame, any Error>.Continuation?
 
-    init(continuation: AsyncThrowingStream<CapturedFrame, Error>.Continuation?) {
+    init(continuation: AsyncThrowingStream<CapturedFrame, any Error>.Continuation?) {
         self.continuation = continuation
     }
 
@@ -184,7 +195,7 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
         return AVAudioPCMBuffer(pcmFormat: format, bufferListNoCopy: audioBufferList)
     }
 
-    func stream(_: SCStream, didStopWithError error: Error) {
+    func stream(_: SCStream, didStopWithError error: any Error) {
         if (error as NSError).code == -3817 {
             // User stopped the stream. Call AppDelegate's method to stop recording gracefully
             DispatchQueue.main.async {

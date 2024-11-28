@@ -75,28 +75,34 @@ struct MainMenuView: View {
         VStack {
             Menu {
                 Button {
-                    captureScreen(type: .REGION)
+                    Task {
+                        await captureScreen(type: .REGION)
+                    }
                 } label: {
                     Image(systemName: "uiwindow.split.2x1")
                     Text("Capture Region")
-                }.keyboardShortcut(.captureRegion)
+                }.globalKeyboardShortcut(.captureRegion)
 
                 Button {
-                    captureScreen(type: .WINDOW)
+                    Task {
+                        await captureScreen(type: .WINDOW)
+                    }
                 } label: {
                     Image(systemName: "macwindow.on.rectangle")
                     Text("Capture Window")
-                }.keyboardShortcut(.captureWindow)
+                }.globalKeyboardShortcut(.captureWindow)
 
                 ForEach(NSScreen.screens.indices, id: \.self) { index in
                     let screen = NSScreen.screens[index]
                     let screenName = screen.localizedName
                     Button {
-                        captureScreen(type: .SCREEN, display: index + 1)
+                        Task {
+                            await captureScreen(type: .SCREEN, display: index + 1)
+                        }
                     } label: {
                         Image(systemName: "macwindow")
                         Text("Capture \(screenName)")
-                    }.keyboardShortcut(index == 0 ? .captureScreen : .noKeybind)
+                    }.globalKeyboardShortcut(index == 0 ? .captureScreen : .noKeybind)
                 }
             } label: {
                 Image(systemName: "photo.on.rectangle.angled")
@@ -109,7 +115,7 @@ struct MainMenuView: View {
             label: {
                 Image(systemName: "menubar.dock.rectangle.badge.record")
                 Text("Record")
-            }.keyboardShortcut(.recordScreen).disabled(AppDelegate.shared?.screenRecorder?.isRunning ?? false)
+            }.globalKeyboardShortcut(.recordScreen).disabled(AppDelegate.shared?.screenRecorder?.isRunning ?? false)
 
             Button {
                 recordScreen(gif: true)
@@ -117,7 +123,7 @@ struct MainMenuView: View {
             label: {
                 Image(systemName: "photo.stack")
                 Text("Record GIF")
-            }.keyboardShortcut(.recordGif).disabled(AppDelegate.shared?.screenRecorder?.isRunning ?? false)
+            }.globalKeyboardShortcut(.recordGif).disabled(AppDelegate.shared?.screenRecorder?.isRunning ?? false)
         }
         VStack {
             Menu {
@@ -218,7 +224,7 @@ struct MainMenuView: View {
                     } label: {
                         Image(systemName: "clock.arrow.circlepath")
                         Text("Open History Window")
-                    }.keyboardShortcut(.openHistoryWindow)
+                    }.globalKeyboardShortcut(.openHistoryWindow)
 
                     Divider()
 

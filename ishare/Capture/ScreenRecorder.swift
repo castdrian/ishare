@@ -8,7 +8,7 @@
 import Combine
 import Defaults
 import Foundation
-import ScreenCaptureKit
+@preconcurrency import ScreenCaptureKit
 import SwiftUI
 
 class AudioLevelsProvider: ObservableObject {
@@ -42,21 +42,28 @@ class ScreenRecorder: ObservableObject {
         isRunning = true
 
         let pickerManager = ContentSharingPickerManager.shared
-        pickerManager.contentSelected = { [weak self] filter, _ in
-            Task {
-                await self?.startCapture(with: filter, fileURL: fileURL)
+        let localFileURL = fileURL
+        
+        await pickerManager.setContentSelectedCallback { [weak self] filter, _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                await self.startCapture(with: filter, fileURL: localFileURL)
             }
         }
 
-        pickerManager.contentSelectionCancelled = { _ in
-            self.isRunning = false
-            Task {
-                self.stop(completion:)
+        await pickerManager.setContentSelectionCancelledCallback { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.isRunning = false
+                self.stop { _ in }
             }
         }
 
-        pickerManager.contentSelectionFailed = { _ in
-            self.isRunning = false
+        await pickerManager.setContentSelectionFailedCallback { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.isRunning = false
+            }
         }
 
         let config = SCStreamConfiguration()
@@ -67,7 +74,7 @@ class ScreenRecorder: ObservableObject {
         pickerManager.showPicker()
     }
 
-    func stop(completion: @escaping (Result<URL, Error>) -> Void) {
+    func stop(completion: @escaping (Result<URL, any Error>) -> Void) {
         Task {
             let stopClosure = await captureEngine.stopCapture()
             stopClosure { result in

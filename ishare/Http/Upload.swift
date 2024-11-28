@@ -14,8 +14,8 @@ enum UploadType: String, CaseIterable, Identifiable, Codable, Defaults.Serializa
     var id: Self { self }
 }
 
-func uploadFile(fileURL: URL, uploadType: UploadType, completion: @escaping () -> Void) {
-    @Default(.activeCustomUploader) var activeUploader
+@MainActor func uploadFile(fileURL: URL, uploadType: UploadType, completion: @Sendable @escaping () -> Void) {
+    let activeUploader = Defaults[.activeCustomUploader]
 
     switch uploadType {
     case .IMGUR:

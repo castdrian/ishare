@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  Constants.swift
 //  ishare
 //
 //  Created by Adrian Castro on 12.07.23.
@@ -53,18 +53,6 @@ extension Defaults.Keys {
     static let uploadHistory = Key<[HistoryItem]>("uploadHistory", default: [], iCloud: true)
     static let ignoredBundleIdentifiers = Key<[String]>("ignoredApps", default: [], iCloud: true)
     static let aussieMode = Key<Bool>("aussieMode", default: false, iCloud: true)
-}
-
-public extension View {
-    func keyboardShortcut(_ shortcut: KeyboardShortcuts.Name) -> some View {
-        if let shortcut = shortcut.shortcut {
-            if let keyEquivalent = shortcut.toKeyEquivalent() {
-                return AnyView(keyboardShortcut(keyEquivalent, modifiers: shortcut.toEventModifiers()))
-            }
-        }
-
-        return AnyView(self)
-    }
 }
 
 extension KeyboardShortcuts.Shortcut {
@@ -223,7 +211,7 @@ func importIscu(_ url: URL) {
     }
 }
 
-func importFile(_ url: URL, completion: @escaping (Bool, Error?) -> Void) {
+func importFile(_ url: URL, completion: @escaping (Bool, (any Error)?) -> Void) {
     do {
         let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
@@ -260,7 +248,7 @@ struct Contributor: Codable {
     }
 }
 
-let AppIcon: NSImage = {
+@MainActor let AppIcon: NSImage = {
     let appIconImage = NSImage(named: "AppIcon")
     let ratio = (appIconImage?.size.height)! / (appIconImage?.size.width)!
     let newSize = NSSize(width: 18, height: 18 / ratio)
@@ -271,7 +259,7 @@ let AppIcon: NSImage = {
     return resizedImage
 }()
 
-let GlyphIcon: NSImage = {
+@MainActor let GlyphIcon: NSImage = {
     let appIconImage = NSImage(named: "GlyphIcon")!
     let ratio = appIconImage.size.height / appIconImage.size.width
     let newSize = NSSize(width: 18, height: 18 / ratio)
@@ -282,7 +270,7 @@ let GlyphIcon: NSImage = {
     return resizedImage
 }()
 
-let ImgurIcon: NSImage = {
+@MainActor let ImgurIcon: NSImage = {
     let appIconImage = NSImage(named: "Imgur")
     let ratio = (appIconImage?.size.height)! / (appIconImage?.size.width)!
     let newSize = NSSize(width: 18, height: 18 / ratio)
@@ -293,7 +281,7 @@ let ImgurIcon: NSImage = {
     return resizedImage
 }()
 
-let ToastIcon: NSImage = {
+@MainActor let ToastIcon: NSImage = {
     let toastIconImage = NSImage(named: "AppIcon")
     let ratio = (toastIconImage?.size.height)! / (toastIconImage?.size.width)!
     let newSize = NSSize(width: 100, height: 100 / ratio)
@@ -313,7 +301,7 @@ func icon(forAppWithName appName: String) -> NSImage? {
 
 let airdropIconPath = Bundle.path(forResource: "AirDrop", ofType: "icns", inDirectory: "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources")
 
-let airdropIcon = NSImage(contentsOfFile: airdropIconPath!)
+@MainActor let airdropIcon = NSImage(contentsOfFile: airdropIconPath!)
 
 struct SharingPreferences: Codable, Defaults.Serializable {
     var airdrop: Bool = false
@@ -323,7 +311,7 @@ struct SharingPreferences: Codable, Defaults.Serializable {
 }
 
 func shareBasedOnPreferences(_ fileURL: URL) {
-    @Default(.builtInShare) var preferences
+    let preferences = Defaults[.builtInShare]
 
     if preferences.airdrop {
         NSSharingService(named: .sendViaAirDrop)?.perform(withItems: [fileURL])
@@ -356,15 +344,12 @@ struct HistoryItem: Codable, Hashable, Defaults.Serializable {
 }
 
 func addToUploadHistory(_ item: HistoryItem) {
-    @Default(.uploadHistory) var uploadHistory
-
-    // Add new history item at the beginning of the array
-    uploadHistory.insert(item, at: 0)
-
-    // Limit the history size
-    if uploadHistory.count > 50 {
-        uploadHistory.removeLast()
+    var history = Defaults[.uploadHistory]
+    history.insert(item, at: 0)
+    if history.count > 50 {
+        history.removeLast()
     }
+    Defaults[.uploadHistory] = history
 }
 
 struct ExcludedAppsView: View {

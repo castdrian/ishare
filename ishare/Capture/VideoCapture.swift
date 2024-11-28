@@ -5,7 +5,7 @@
 //  Created by Adrian Castro on 24.07.23.
 //
 
-import AppKit
+@preconcurrency import AppKit
 import AVFoundation
 import BezelNotification
 import Cocoa
@@ -44,7 +44,7 @@ func recordScreen(gif: Bool? = false) {
     }
 }
 
-func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
+@MainActor func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.recordingPath) var recordingPath
@@ -95,28 +95,36 @@ func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
     }
 
     if uploadMedia {
+        let shouldSaveToDisk = saveToDisk
+        let localFileURL = fileURL
         uploadFile(fileURL: fileURL, uploadType: uploadType) {
-            showToast(fileURL: fileURL) {
-                NSSound.beep()
+            Task { @MainActor in
+                showToast(fileURL: localFileURL) {
+                    NSSound.beep()
 
-                if !saveToDisk {
-                    do {
-                        try FileManager.default.removeItem(at: fileURL)
-                    } catch {
-                        print("Error deleting the file: \(error)")
+                    if !shouldSaveToDisk {
+                        do {
+                            try FileManager.default.removeItem(at: localFileURL)
+                        } catch {
+                            print("Error deleting the file: \(error)")
+                        }
                     }
                 }
             }
         }
     } else {
-        showToast(fileURL: fileURL) {
-            NSSound.beep()
+        let shouldSaveToDisk = saveToDisk
+        let localFileURL = fileURL
+        Task { @MainActor in
+            showToast(fileURL: localFileURL) {
+                NSSound.beep()
 
-            if !saveToDisk {
-                do {
-                    try FileManager.default.removeItem(at: fileURL)
-                } catch {
-                    print("Error deleting the file: \(error)")
+                if !shouldSaveToDisk {
+                    do {
+                        try FileManager.default.removeItem(at: localFileURL)
+                    } catch {
+                        print("Error deleting the file: \(error)")
+                    }
                 }
             }
         }
@@ -170,10 +178,11 @@ func exportGif(from videoURL: URL) async throws -> URL {
     CGImageDestinationSetProperties(imageDestination, fileProperties as CFDictionary)
 
     let localTimeValues = timeValues
+    let localFrameProperties = frameProperties as CFDictionary
     return try await withCheckedThrowingContinuation { continuation in
         generator.generateCGImagesAsynchronously(forTimes: localTimeValues.map { NSValue(time: $0) }) { requestedTime, resultingImage, _, _, _ in
             if let image = resultingImage {
-                CGImageDestinationAddImage(imageDestination, image, frameProperties as CFDictionary)
+                CGImageDestinationAddImage(imageDestination, image, localFrameProperties)
             }
             if requestedTime == localTimeValues.last {
                 let success = CGImageDestinationFinalize(imageDestination)
