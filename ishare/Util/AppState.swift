@@ -21,19 +21,7 @@ final class AppState: ObservableObject {
     }
     
     func setupKeyboardShortcuts() {
-        NSLog("Setting up keyboard shortcuts")
-        
-        KeyboardShortcuts.onKeyUp(for: .toggleMainMenu) { [weak self] in
-            NSLog("Toggle main menu shortcut triggered")
-            self?.showMainMenu = true
-        }
-        
-        KeyboardShortcuts.onKeyUp(for: .openHistoryWindow) { [weak self] in
-            NSLog("Open history window shortcut triggered")
-            guard let self = self else { return }
-            openHistoryWindow(uploadHistory: self.uploadHistory)
-        }
-        
+        // Regular shortcuts
         KeyboardShortcuts.onKeyUp(for: .captureRegion) {
             NSLog("Capture region shortcut triggered")
             Task { @MainActor in
@@ -72,6 +60,58 @@ final class AppState: ObservableObject {
                 AppDelegate.shared.stopRecording()
             } else {
                 recordScreen(gif: true)
+            }
+        }
+        
+        // Force upload shortcuts
+        KeyboardShortcuts.onKeyUp(for: .captureRegionForceUpload) {
+            NSLog("Force upload capture region shortcut triggered")
+            Task { @MainActor in
+                Defaults[.uploadMedia] = true
+                await captureScreen(type: .REGION)
+                Defaults[.uploadMedia] = false
+            }
+        }
+        
+        KeyboardShortcuts.onKeyUp(for: .captureWindowForceUpload) {
+            Task { @MainActor in
+                Defaults[.uploadMedia] = true
+                await captureScreen(type: .WINDOW)
+                Defaults[.uploadMedia] = false
+            }
+        }
+        
+        KeyboardShortcuts.onKeyUp(for: .captureScreenForceUpload) {
+            Task { @MainActor in
+                Defaults[.uploadMedia] = true
+                await captureScreen(type: .SCREEN)
+                Defaults[.uploadMedia] = false
+            }
+        }
+        
+        KeyboardShortcuts.onKeyUp(for: .recordScreenForceUpload) {
+            if let screenRecorder = AppDelegate.shared.screenRecorder,
+               screenRecorder.isRunning {
+                let pickerManager = ContentSharingPickerManager.shared
+                pickerManager.deactivatePicker()
+                AppDelegate.shared.stopRecording()
+            } else {
+                Defaults[.uploadMedia] = true
+                recordScreen()
+                Defaults[.uploadMedia] = false
+            }
+        }
+        
+        KeyboardShortcuts.onKeyUp(for: .recordGifForceUpload) {
+            if let screenRecorder = AppDelegate.shared.screenRecorder,
+               screenRecorder.isRunning {
+                let pickerManager = ContentSharingPickerManager.shared
+                pickerManager.deactivatePicker()
+                AppDelegate.shared.stopRecording()
+            } else {
+                Defaults[.uploadMedia] = true
+                recordScreen(gif: true)
+                Defaults[.uploadMedia] = false
             }
         }
     }

@@ -56,11 +56,11 @@ struct SettingsMenuView: View {
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .center)
             }
-            .frame(minWidth: 150, idealWidth: 200, maxWidth: 300, maxHeight: .infinity)
+            .frame(minWidth: 200, idealWidth: 200, maxWidth: 300, maxHeight: .infinity)
 
             GeneralSettingsView()
         }
-        .frame(minWidth: 600, maxWidth: 600, minHeight: 300, maxHeight: 300)
+        .frame(minWidth: 600, maxWidth: 600, minHeight: 450, maxHeight: 450)
         .navigationTitle("Settings")
     }
 }
@@ -86,20 +86,15 @@ struct GeneralSettingsView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
-            Spacer()
-
-            HStack {
+        VStack(alignment: .leading, spacing: 30) {
+            HStack(spacing: 40) {
                 VStack(alignment: .leading) {
                     LaunchAtLogin.Toggle()
                     Toggle("Land down under", isOn: $aussieMode)
-                }.padding(25)
+                }
 
-                Spacer()
-
-                VStack {
+                VStack(alignment: .leading) {
                     Text("Menu Bar Icon")
-
                     HStack {
                         ForEach(MenuBarIcon.allCases, id: \.self) { choice in
                             Button(action: {
@@ -131,7 +126,8 @@ struct GeneralSettingsView: View {
                         }
                     }
                 }
-            }.padding(25)
+            }
+            .padding(.top, 30)
 
             Spacer()
 
@@ -140,39 +136,71 @@ struct GeneralSettingsView: View {
                 Slider(value: $toastTimeout, in: 1 ... 10, step: 1)
                     .frame(maxWidth: .infinity)
             }
-            .padding(.bottom)
+            .padding(.bottom, 30)
         }
-        .padding().rotationEffect(aussieMode ? .degrees(180) : .zero)
+        .padding(30)
+        .rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 }
 
 struct KeybindSettingsView: View {
+    @Default(.forceUploadModifier) var forceUploadModifier
     @Default(.aussieMode) var aussieMode
 
     var body: some View {
-        Spacer()
-
-        Form {
-            KeyboardShortcuts.Recorder("Open Main Menu:", name: .toggleMainMenu)
-            KeyboardShortcuts.Recorder("Open History Window:", name: .openHistoryWindow)
-            KeyboardShortcuts.Recorder("Capture Region:", name: .captureRegion)
-            KeyboardShortcuts.Recorder("Capture Window:", name: .captureWindow)
-            KeyboardShortcuts.Recorder("Capture Screen:", name: .captureScreen)
-            KeyboardShortcuts.Recorder("Record Screen:", name: .recordScreen)
-            KeyboardShortcuts.Recorder("Record GIF:", name: .recordGif)
+        VStack(spacing: 20) {
+            Form {
+                Section {
+                    VStack(spacing: 10) {
+                        KeyboardShortcuts.Recorder("Open Main Menu:", name: .toggleMainMenu)
+                        KeyboardShortcuts.Recorder("Open History Window:", name: .openHistoryWindow)
+                        KeyboardShortcuts.Recorder("Capture Region:", name: .captureRegion)
+                        KeyboardShortcuts.Recorder("Capture Window:", name: .captureWindow)
+                        KeyboardShortcuts.Recorder("Capture Screen:", name: .captureScreen)
+                        KeyboardShortcuts.Recorder("Record Screen:", name: .recordScreen)
+                        KeyboardShortcuts.Recorder("Record GIF:", name: .recordGif)
+                        
+                        Divider()
+                            .padding(.vertical, 5)
+                        
+                        HStack {
+                            Text("Force Upload Modifier:")
+                            Picker("", selection: $forceUploadModifier) {
+                                ForEach(ForceUploadModifier.allCases) { modifier in
+                                    Text(modifier.rawValue)
+                                        .tag(modifier)
+                                }
+                            }
+                            .frame(width: 100)
+                        }
+                    }
+                    .padding(.vertical, 5)
+                } header: {
+                    Text("Keybinds")
+                        .font(.headline)
+                        .padding(.bottom, 5)
+                }
+            }
+            .formStyle(.grouped)
+            
+            Button(action: {
+                KeyboardShortcuts.reset([
+                    .toggleMainMenu, .openHistoryWindow,
+                    .captureRegion, .captureWindow, .captureScreen,
+                    .recordScreen, .recordGif,
+                    .captureRegionForceUpload, .captureWindowForceUpload, .captureScreenForceUpload,
+                    .recordScreenForceUpload, .recordGifForceUpload
+                ])
+                BezelNotification.show(messageText: "Reset keybinds", icon: ToastIcon)
+            }) {
+                Text("Reset All Keybinds")
+                    .foregroundColor(.red)
+                    .frame(maxWidth: .infinity)
+            }
+            .padding(.horizontal)
+            .rotationEffect(aussieMode ? .degrees(180) : .zero)
         }
-
-        Spacer()
-
-        Button(action: {
-            KeyboardShortcuts.reset([.toggleMainMenu, .openHistoryWindow, .captureRegion, .captureWindow, .captureScreen, .recordScreen, .recordGif])
-            BezelNotification.show(messageText: "Reset keybinds", icon: ToastIcon)
-        }) {
-            Text("Reset All Keybinds")
-                .foregroundColor(.red)
-                .frame(maxWidth: .infinity)
-        }
-        .padding().rotationEffect(aussieMode ? .degrees(180) : .zero)
+        .padding()
     }
 }
 
@@ -183,8 +211,8 @@ struct CaptureSettingsView: View {
     @Default(.aussieMode) var aussieMode
 
     var body: some View {
-        VStack(alignment: .leading) {
-            VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 30) {
+            VStack(alignment: .leading, spacing: 15) {
                 Text("Image path:").font(.headline)
                 HStack {
                     TextField(text: $capturePath) {}
@@ -198,9 +226,9 @@ struct CaptureSettingsView: View {
                         Image(systemName: "folder.fill")
                     }.help("Pick a folder")
                 }
-            }.padding()
+            }
 
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 15) {
                 Text("File prefix:").font(.headline)
                 HStack {
                     TextField(String(), text: $fileName)
@@ -210,18 +238,20 @@ struct CaptureSettingsView: View {
                         Image(systemName: "arrow.clockwise")
                     }.help("Set to default")
                 }
-            }.padding()
+            }
 
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 15) {
                 Text("Format:").font(.headline)
                 Picker("Format:", selection: $fileType) {
                     ForEach(FileType.allCases, id: \.self) {
                         Text($0.rawValue.uppercased())
                     }
-                }.labelsHidden()
-            }.padding()
-
-        }.padding().rotationEffect(aussieMode ? .degrees(180) : .zero)
+                }
+                .labelsHidden()
+            }
+        }
+        .padding(30)
+        .rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 }
 
@@ -236,20 +266,18 @@ struct RecordingSettingsView: View {
     @State private var isExcludedAppSheetPresented = false
 
     var body: some View {
-        VStack {
-            Spacer()
-
-            HStack(spacing: 25) {
-                VStack(alignment: .leading) {
-                    Toggle("Record .mp4 instead of .mov", isOn: $recordMP4)
-                    Toggle("Use HEVC", isOn: $useHEVC)
-                    Toggle("Use HDR", isOn: $useHDR)
+        VStack(alignment: .leading, spacing: 30) {
+            VStack(alignment: .leading, spacing: 15) {
+                HStack(spacing: 30) {
+                    VStack(alignment: .leading) {
+                        Toggle("Record .mp4 instead of .mov", isOn: $recordMP4)
+                        Toggle("Use HEVC", isOn: $useHEVC)
+                        Toggle("Use HDR", isOn: $useHDR)
+                    }
                 }
-            }.padding(.horizontal)
+            }
 
-            Spacer()
-
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 15) {
                 Text("Video path:").font(.headline)
                 HStack {
                     TextField(text: $recordingPath) {}
@@ -263,11 +291,9 @@ struct RecordingSettingsView: View {
                         Image(systemName: "folder.fill")
                     }.help("Pick a folder")
                 }
-            }.padding(.horizontal)
+            }
 
-            Spacer()
-
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 15) {
                 Text("File prefix:").font(.headline)
                 HStack {
                     TextField(String(), text: $fileName)
@@ -277,17 +303,15 @@ struct RecordingSettingsView: View {
                         Image(systemName: "arrow.clockwise")
                     }.help("Set to default")
                 }
-            }.padding(.horizontal)
-
-            Spacer()
+            }
 
             Button("Excluded applications") {
                 isExcludedAppSheetPresented.toggle()
-            }.padding()
-                .sheet(isPresented: $isExcludedAppSheetPresented) {
-                    ExcludedAppsView().frame(maxHeight: 500)
-                }
-        }.rotationEffect(aussieMode ? .degrees(180) : .zero)
+            }
+            .padding(.top)
+        }
+        .padding(30)
+        .rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 }
 

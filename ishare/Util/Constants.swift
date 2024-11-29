@@ -25,6 +25,13 @@ extension KeyboardShortcuts.Name {
     static let recordScreen = Self("recordScreen", default: .init(.z, modifiers: [.control, .option]))
     static let recordGif = Self("recordGif", default: .init(.g, modifiers: [.control, .option]))
     static let openHistoryWindow = Self("openHistoryWindow", default: .init(.k, modifiers: [.command, .option]))
+    
+    // Force upload variants
+    static let captureRegionForceUpload = Self("captureRegionForceUpload", default: .init(.p, modifiers: [.shift, .option, .command]))
+    static let captureWindowForceUpload = Self("captureWindowForceUpload", default: .init(.p, modifiers: [.shift, .control, .option]))
+    static let captureScreenForceUpload = Self("captureScreenForceUpload", default: .init(.x, modifiers: [.shift, .option, .command]))
+    static let recordScreenForceUpload = Self("recordScreenForceUpload", default: .init(.z, modifiers: [.shift, .control, .option]))
+    static let recordGifForceUpload = Self("recordGifForceUpload", default: .init(.g, modifiers: [.shift, .control, .option]))
 }
 
 extension Defaults.Keys {
@@ -53,6 +60,7 @@ extension Defaults.Keys {
     static let uploadHistory = Key<[HistoryItem]>("uploadHistory", default: [], iCloud: true)
     static let ignoredBundleIdentifiers = Key<[String]>("ignoredApps", default: [], iCloud: true)
     static let aussieMode = Key<Bool>("aussieMode", default: false, iCloud: true)
+    static let forceUploadModifier = Key<ForceUploadModifier>("forceUploadModifier", default: .shift)
 }
 
 extension KeyboardShortcuts.Shortcut {
@@ -373,5 +381,23 @@ struct ExcludedAppsView: View {
             .padding(.bottom)
         }
         .padding()
+    }
+}
+
+enum ForceUploadModifier: String, CaseIterable, Identifiable, Defaults.Serializable {
+    case shift = "⇧"
+    case control = "⌃"
+    case option = "⌥"
+    case command = "⌘"
+    
+    var id: Self { self }
+    
+    var modifierFlag: NSEvent.ModifierFlags {
+        switch self {
+        case .shift: return .shift
+        case .control: return .control
+        case .option: return .option
+        case .command: return .command
+        }
     }
 }
