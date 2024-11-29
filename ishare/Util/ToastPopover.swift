@@ -9,31 +9,33 @@ struct ToastPopoverView: View {
     @State private var isDragging = false
 
     var body: some View {
-        Image(nsImage: thumbnailImage)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .background(Color(NSColor.windowBackgroundColor).opacity(0.9))
-            .foregroundColor(Color(NSColor.labelColor))
-            .cornerRadius(10)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            .animation(Animation.easeInOut(duration: 1.0), value: thumbnailImage)
-            .opacity(isDragging ? 0 : 1)
-            .onTapGesture {
-                if saveToDisk {
-                    NSWorkspace.shared.selectFile(fileURL.path, inFileViewerRootedAtPath: "")
+        GeometryReader { geometry in
+            Image(nsImage: thumbnailImage)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: geometry.size.width - 40, maxHeight: geometry.size.height - 20)
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .background(Color(NSColor.windowBackgroundColor).opacity(0.9))
+                .foregroundColor(Color(NSColor.labelColor))
+                .cornerRadius(10)
+                .animation(Animation.easeInOut(duration: 1.0), value: thumbnailImage)
+                .opacity(isDragging ? 0 : 1)
+                .onTapGesture {
+                    if saveToDisk {
+                        NSWorkspace.shared.selectFile(fileURL.path, inFileViewerRootedAtPath: "")
+                    }
                 }
-            }
-            .onDrag {
-                isDragging = true
-                let itemProvider = NSItemProvider(object: fileURL as NSURL)
-                itemProvider.suggestedName = fileURL.lastPathComponent
-                return itemProvider
-            }
-            .onDrop(of: [UTType.url], isTargeted: nil) { _ -> Bool in
-                isDragging = false
-                return true
-            }
+                .onDrag {
+                    isDragging = true
+                    let itemProvider = NSItemProvider(object: fileURL as NSURL)
+                    itemProvider.suggestedName = fileURL.lastPathComponent
+                    return itemProvider
+                }
+                .onDrop(of: [UTType.url], isTargeted: nil) { _ -> Bool in
+                    isDragging = false
+                    return true
+                }
+        }
     }
 }
 
@@ -75,7 +77,7 @@ private func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, comple
     let toastTimeout = Defaults[.toastTimeout]
     let localCompletion = completion
     let toastWindow = NSWindow(
-        contentRect: NSRect(x: 0, y: 0, width: 300, height: 100),
+        contentRect: NSRect(x: 0, y: 0, width: 340, height: 240),
         styleMask: [.borderless],
         backing: .buffered,
         defer: false
