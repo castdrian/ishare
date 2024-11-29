@@ -24,39 +24,47 @@ enum FileType: String, CaseIterable, Identifiable, Defaults.Serializable {
     var id: Self { self }
 }
 
-func captureScreen(type: CaptureType, display: Int = 1) {
-    @Default(.capturePath) var capturePath
-    @Default(.captureFileType) var fileType
-    @Default(.captureFileName) var fileName
-    @Default(.copyToClipboard) var copyToClipboard
-    @Default(.openInFinder) var openInFinder
-    @Default(.uploadMedia) var uploadMedia
-    @Default(.captureBinary) var captureBinary
-    @Default(.uploadType) var uploadType
-    @Default(.saveToDisk) var saveToDisk
+@MainActor
+func captureScreen(type: CaptureType, display: Int = 1) async {
+    NSLog("Starting screen capture with type: %@, display: %d", type.rawValue, display)
+    
+    let capturePath = Defaults[.capturePath]
+    let fileType = Defaults[.captureFileType]
+    let fileName = Defaults[.captureFileName]
+    let copyToClipboard = Defaults[.copyToClipboard]
+    let openInFinder = Defaults[.openInFinder]
+    let uploadMedia = Defaults[.uploadMedia]
+    let captureBinary = Defaults[.captureBinary]
+    let uploadType = Defaults[.uploadType]
+    let saveToDisk = Defaults[.saveToDisk]
+
+    let suffix = await getCaptureNameSuffix(type: type, display: display)
 
     let timestamp = Int(Date().timeIntervalSince1970)
-    let uniqueFilename = "\(fileName)-\(timestamp)"
+    let uniqueFilename = "\(fileName)-\(timestamp)\(suffix).\(fileType)"
 
-    var path = "\(capturePath)\(uniqueFilename).\(fileType)"
+    var path = "\(capturePath)\(uniqueFilename)"
     path = NSString(string: path).expandingTildeInPath
 
     let task = Process()
     task.launchPath = captureBinary
     task.arguments = type == CaptureType.SCREEN ? [type.rawValue, fileType.rawValue, "-D", "\(display)", path] : [type.rawValue, fileType.rawValue, path]
+    
+    NSLog("Executing capture command: %@ %@", captureBinary, task.arguments?.joined(separator: " ") ?? "")
     task.launch()
     task.waitUntilExit()
 
     let fileURL = URL(fileURLWithPath: path)
 
     if !FileManager.default.fileExists(atPath: fileURL.path) {
+        NSLog("Error: Capture file not created at path: %@", path)
         return
     }
+    NSLog("Screen capture completed successfully")
 
     if copyToClipboard {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
-
         pasteboard.setString(fileURL.absoluteString, forType: .fileURL)
     }
 
@@ -65,31 +73,93 @@ func captureScreen(type: CaptureType, display: Int = 1) {
     }
 
     if uploadMedia {
+        let shouldSaveToDisk = saveToDisk
+        let localFileURL = fileURL
         uploadFile(fileURL: fileURL, uploadType: uploadType) {
-            showToast(fileURL: fileURL) {
+            Task { @MainActor in
+                showToast(fileURL: localFileURL) {
+                    NSSound.beep()
+
+                    if !shouldSaveToDisk {
+                        do {
+                            try FileManager.default.removeItem(at: localFileURL)
+                        } catch {
+                            print("Error deleting the file: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        let shouldSaveToDisk = saveToDisk
+        let localFileURL = fileURL
+        Task { @MainActor in
+            showToast(fileURL: localFileURL) {
                 NSSound.beep()
 
-                if !saveToDisk {
+                if !shouldSaveToDisk {
                     do {
-                        try FileManager.default.removeItem(at: fileURL)
+                        try FileManager.default.removeItem(at: localFileURL)
                     } catch {
                         print("Error deleting the file: \(error)")
                     }
                 }
             }
         }
-    } else {
-        showToast(fileURL: fileURL) {
-            NSSound.beep()
-
-            if !saveToDisk {
-                do {
-                    try FileManager.default.removeItem(at: fileURL)
-                } catch {
-                    print("Error deleting the file: \(error)")
-                }
-            }
-        }
     }
     shareBasedOnPreferences(fileURL)
+}
+
+@MainActor
+private func getCaptureNameSuffix(type: CaptureType, display: Int) async -> String {
+    switch type {
+    case .WINDOW:
+        if let frontmostApp = NSWorkspace.shared.frontmostApplication {
+            let appName = frontmostApp.localizedName ?? "window"
+            return "-\(appName.lowercased())"
+        }
+        return "-window"
+        
+    case .SCREEN:
+        if let screen = NSScreen.screens[safe: display - 1] {
+            if let displayName = screen.localizedName {
+                return "-\(displayName.lowercased())"
+            }
+            return "-display-\(display)"
+        }
+        return "-screen"
+        
+    case .REGION:
+        if let frontmostApp = NSWorkspace.shared.frontmostApplication {
+            let appName = frontmostApp.localizedName ?? "region"
+            return "-\(appName.lowercased())"
+        }
+        return "-region"
+    }
+}
+
+// Helper extension for safe array access
+extension Collection {
+    subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
+// Helper extension for NSScreen to get display name
+extension NSScreen {
+    var localizedName: String? {
+        // Get the display's bounds to help identify it
+        let bounds = frame
+        let width = Int(bounds.width)
+        let height = Int(bounds.height)
+        
+        if let displayID = deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID {
+            // Check if this is the main display
+            if (CGDisplayIsMain(displayID) != 0) {
+                return "main-\(width)x\(height)"
+            }
+            return "display-\(width)x\(height)"
+        }
+        return nil
+    }
 }

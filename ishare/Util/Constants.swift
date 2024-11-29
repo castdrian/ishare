@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  Constants.swift
 //  ishare
 //
 //  Created by Adrian Castro on 12.07.23.
@@ -25,6 +25,13 @@ extension KeyboardShortcuts.Name {
     static let recordScreen = Self("recordScreen", default: .init(.z, modifiers: [.control, .option]))
     static let recordGif = Self("recordGif", default: .init(.g, modifiers: [.control, .option]))
     static let openHistoryWindow = Self("openHistoryWindow", default: .init(.k, modifiers: [.command, .option]))
+    
+    // Force upload variants
+    static let captureRegionForceUpload = Self("captureRegionForceUpload", default: .init(.p, modifiers: [.shift, .option, .command]))
+    static let captureWindowForceUpload = Self("captureWindowForceUpload", default: .init(.p, modifiers: [.shift, .control, .option]))
+    static let captureScreenForceUpload = Self("captureScreenForceUpload", default: .init(.x, modifiers: [.shift, .option, .command]))
+    static let recordScreenForceUpload = Self("recordScreenForceUpload", default: .init(.z, modifiers: [.shift, .control, .option]))
+    static let recordGifForceUpload = Self("recordGifForceUpload", default: .init(.g, modifiers: [.shift, .control, .option]))
 }
 
 extension Defaults.Keys {
@@ -53,18 +60,7 @@ extension Defaults.Keys {
     static let uploadHistory = Key<[HistoryItem]>("uploadHistory", default: [], iCloud: true)
     static let ignoredBundleIdentifiers = Key<[String]>("ignoredApps", default: [], iCloud: true)
     static let aussieMode = Key<Bool>("aussieMode", default: false, iCloud: true)
-}
-
-public extension View {
-    func keyboardShortcut(_ shortcut: KeyboardShortcuts.Name) -> some View {
-        if let shortcut = shortcut.shortcut {
-            if let keyEquivalent = shortcut.toKeyEquivalent() {
-                return AnyView(keyboardShortcut(keyEquivalent, modifiers: shortcut.toEventModifiers()))
-            }
-        }
-
-        return AnyView(self)
-    }
+    static let forceUploadModifier = Key<ForceUploadModifier>("forceUploadModifier", default: .shift)
 }
 
 extension KeyboardShortcuts.Shortcut {
@@ -162,23 +158,28 @@ func selectFolder(completion: @escaping (URL?) -> Void) {
 }
 
 func importIscu(_ url: URL) {
+    NSLog("Starting ISCU import process for file: %@", url.path)
     if let keyWindow = NSApplication.shared.keyWindow {
         let alert = NSAlert()
         alert.messageText = "Import ISCU"
         alert.informativeText = "Do you want to import this custom uploader?"
         alert.addButton(withTitle: "Import")
         alert.addButton(withTitle: "Cancel")
+        NSLog("Showing import confirmation dialog")
         alert.beginSheetModal(for: keyWindow) { response in
             if response == .alertFirstButtonReturn {
+                NSLog("User confirmed import")
                 alert.window.orderOut(nil)
                 importFile(url) { success, error in
                     if success {
+                        NSLog("ISCU import successful")
                         let successAlert = NSAlert()
                         successAlert.messageText = "Import Successful"
                         successAlert.informativeText = "The custom uploader has been imported successfully."
                         successAlert.addButton(withTitle: "OK")
                         successAlert.runModal()
                     } else if let error {
+                        NSLog("ISCU import failed: %@", error.localizedDescription)
                         let errorAlert = NSAlert()
                         errorAlert.messageText = "Import Error"
                         errorAlert.informativeText = error.localizedDescription
@@ -186,44 +187,14 @@ func importIscu(_ url: URL) {
                         errorAlert.runModal()
                     }
                 }
+            } else {
+                NSLog("User cancelled import")
             }
-        }
-    } else {
-        let window = NSWindow(contentViewController: NSHostingController(rootView: EmptyView()))
-        window.makeKeyAndOrderFront(nil)
-        window.center()
-
-        let alert = NSAlert()
-        alert.messageText = "Import ISCU"
-        alert.informativeText = "Do you want to import this custom uploader?"
-        alert.addButton(withTitle: "Import")
-        alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: window) { response in
-            if response == .alertFirstButtonReturn {
-                alert.window.orderOut(nil)
-                importFile(url) { success, error in
-                    if success {
-                        let successAlert = NSAlert()
-                        successAlert.messageText = "Import Successful"
-                        successAlert.informativeText = "The custom uploader has been imported successfully."
-                        successAlert.addButton(withTitle: "OK")
-                        successAlert.runModal()
-                    } else if let error {
-                        let errorAlert = NSAlert()
-                        errorAlert.messageText = "Import Error"
-                        errorAlert.informativeText = error.localizedDescription
-                        errorAlert.addButton(withTitle: "OK")
-                        errorAlert.runModal()
-                    }
-                }
-            }
-
-            window.orderOut(nil)
         }
     }
 }
 
-func importFile(_ url: URL, completion: @escaping (Bool, Error?) -> Void) {
+func importFile(_ url: URL, completion: @escaping (Bool, (any Error)?) -> Void) {
     do {
         let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
@@ -260,7 +231,7 @@ struct Contributor: Codable {
     }
 }
 
-let AppIcon: NSImage = {
+@MainActor let AppIcon: NSImage = {
     let appIconImage = NSImage(named: "AppIcon")
     let ratio = (appIconImage?.size.height)! / (appIconImage?.size.width)!
     let newSize = NSSize(width: 18, height: 18 / ratio)
@@ -271,7 +242,7 @@ let AppIcon: NSImage = {
     return resizedImage
 }()
 
-let GlyphIcon: NSImage = {
+@MainActor let GlyphIcon: NSImage = {
     let appIconImage = NSImage(named: "GlyphIcon")!
     let ratio = appIconImage.size.height / appIconImage.size.width
     let newSize = NSSize(width: 18, height: 18 / ratio)
@@ -282,7 +253,7 @@ let GlyphIcon: NSImage = {
     return resizedImage
 }()
 
-let ImgurIcon: NSImage = {
+@MainActor let ImgurIcon: NSImage = {
     let appIconImage = NSImage(named: "Imgur")
     let ratio = (appIconImage?.size.height)! / (appIconImage?.size.width)!
     let newSize = NSSize(width: 18, height: 18 / ratio)
@@ -293,7 +264,7 @@ let ImgurIcon: NSImage = {
     return resizedImage
 }()
 
-let ToastIcon: NSImage = {
+@MainActor let ToastIcon: NSImage = {
     let toastIconImage = NSImage(named: "AppIcon")
     let ratio = (toastIconImage?.size.height)! / (toastIconImage?.size.width)!
     let newSize = NSSize(width: 100, height: 100 / ratio)
@@ -313,7 +284,7 @@ func icon(forAppWithName appName: String) -> NSImage? {
 
 let airdropIconPath = Bundle.path(forResource: "AirDrop", ofType: "icns", inDirectory: "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources")
 
-let airdropIcon = NSImage(contentsOfFile: airdropIconPath!)
+@MainActor let airdropIcon = NSImage(contentsOfFile: airdropIconPath!)
 
 struct SharingPreferences: Codable, Defaults.Serializable {
     var airdrop: Bool = false
@@ -323,21 +294,26 @@ struct SharingPreferences: Codable, Defaults.Serializable {
 }
 
 func shareBasedOnPreferences(_ fileURL: URL) {
-    @Default(.builtInShare) var preferences
+    NSLog("Processing share preferences for file: %@", fileURL.path)
+    let preferences = Defaults[.builtInShare]
 
     if preferences.airdrop {
+        NSLog("Sharing via AirDrop")
         NSSharingService(named: .sendViaAirDrop)?.perform(withItems: [fileURL])
     }
 
     if preferences.photos {
+        NSLog("Adding to Photos")
         NSSharingService(named: .addToIPhoto)?.perform(withItems: [fileURL])
     }
 
     if preferences.messages {
+        NSLog("Sharing via Messages")
         NSSharingService(named: .composeMessage)?.perform(withItems: [fileURL])
     }
 
     if preferences.mail {
+        NSLog("Sharing via Mail")
         NSSharingService(named: .composeEmail)?.perform(withItems: [fileURL])
     }
 }
@@ -356,15 +332,14 @@ struct HistoryItem: Codable, Hashable, Defaults.Serializable {
 }
 
 func addToUploadHistory(_ item: HistoryItem) {
-    @Default(.uploadHistory) var uploadHistory
-
-    // Add new history item at the beginning of the array
-    uploadHistory.insert(item, at: 0)
-
-    // Limit the history size
-    if uploadHistory.count > 50 {
-        uploadHistory.removeLast()
+    NSLog("Adding item to upload history: %@", item.fileUrl ?? "nil")
+    var history = Defaults[.uploadHistory]
+    history.insert(item, at: 0)
+    if history.count > 50 {
+        NSLog("Upload history exceeded 50 items, removing oldest entry")
+        history.removeLast()
     }
+    Defaults[.uploadHistory] = history
 }
 
 struct ExcludedAppsView: View {
@@ -406,5 +381,23 @@ struct ExcludedAppsView: View {
             .padding(.bottom)
         }
         .padding()
+    }
+}
+
+enum ForceUploadModifier: String, CaseIterable, Identifiable, Defaults.Serializable {
+    case shift = "⇧"
+    case control = "⌃"
+    case option = "⌥"
+    case command = "⌘"
+    
+    var id: Self { self }
+    
+    var modifierFlag: NSEvent.ModifierFlags {
+        switch self {
+        case .shift: return .shift
+        case .control: return .control
+        case .option: return .option
+        case .command: return .command
+        }
     }
 }

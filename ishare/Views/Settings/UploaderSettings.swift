@@ -166,19 +166,17 @@ struct UploaderSettingsView: View {
             return
         }
 
-        let callback: ((Error?, URL?) -> Void) = { error, finalURL in
-            if let error {
-                print("Upload error: \(error)")
-                DispatchQueue.main.async {
+        let callback = { @Sendable (error: (any Error)?, finalURL: URL?) -> Void in
+            Task { @MainActor in
+                if let error {
+                    print("Upload error: \(error)")
                     let alert = NSAlert()
                     alert.alertStyle = .critical
                     alert.messageText = "Upload Error"
                     alert.informativeText = "An error occurred during the upload process."
                     alert.runModal()
-                }
-            } else if let url = finalURL {
-                print("Final URL: \(url)")
-                DispatchQueue.main.async {
+                } else if let url = finalURL {
+                    print("Final URL: \(url)")
                     let alert = NSAlert()
                     alert.alertStyle = .informational
                     alert.messageText = "Upload Successful"
@@ -552,7 +550,7 @@ struct ImportCustomUploaderView: View {
 
 struct ImportError: Identifiable {
     let id = UUID()
-    let error: Error
+    let error: any Error
 
     var localizedDescription: String {
         error.localizedDescription

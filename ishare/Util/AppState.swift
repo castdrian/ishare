@@ -9,31 +9,110 @@ import Defaults
 import KeyboardShortcuts
 import SwiftUI
 
+@MainActor
 final class AppState: ObservableObject {
+    static let shared = AppState()
+    
     @Default(.showMainMenu) var showMainMenu
     @Default(.uploadHistory) var uploadHistory
 
     init() {
-        KeyboardShortcuts.onKeyUp(for: .toggleMainMenu) { [self] in
-            showMainMenu = true
-        }
-        KeyboardShortcuts.onKeyUp(for: .openHistoryWindow) { [self] in
-            openHistoryWindow(uploadHistory: uploadHistory)
-        }
+        setupKeyboardShortcuts()
+    }
+    
+    func setupKeyboardShortcuts() {
+        // Regular shortcuts
         KeyboardShortcuts.onKeyUp(for: .captureRegion) {
-            captureScreen(type: .REGION)
+            NSLog("Capture region shortcut triggered")
+            Task { @MainActor in
+                await captureScreen(type: .REGION)
+            }
         }
+        
         KeyboardShortcuts.onKeyUp(for: .captureWindow) {
-            captureScreen(type: .WINDOW)
+            Task { @MainActor in
+                await captureScreen(type: .WINDOW)
+            }
         }
+        
         KeyboardShortcuts.onKeyUp(for: .captureScreen) {
-            captureScreen(type: .SCREEN)
+            Task { @MainActor in
+                await captureScreen(type: .SCREEN)
+            }
         }
+        
         KeyboardShortcuts.onKeyUp(for: .recordScreen) {
-            recordScreen()
+            if let screenRecorder = AppDelegate.shared.screenRecorder,
+               screenRecorder.isRunning {
+                let pickerManager = ContentSharingPickerManager.shared
+                pickerManager.deactivatePicker()
+                AppDelegate.shared.stopRecording()
+            } else {
+                recordScreen()
+            }
         }
+        
         KeyboardShortcuts.onKeyUp(for: .recordGif) {
-            recordScreen(gif: true)
+            if let screenRecorder = AppDelegate.shared.screenRecorder,
+               screenRecorder.isRunning {
+                let pickerManager = ContentSharingPickerManager.shared
+                pickerManager.deactivatePicker()
+                AppDelegate.shared.stopRecording()
+            } else {
+                recordScreen(gif: true)
+            }
+        }
+        
+        // Force upload shortcuts
+        KeyboardShortcuts.onKeyUp(for: .captureRegionForceUpload) {
+            NSLog("Force upload capture region shortcut triggered")
+            Task { @MainActor in
+                Defaults[.uploadMedia] = true
+                await captureScreen(type: .REGION)
+                Defaults[.uploadMedia] = false
+            }
+        }
+        
+        KeyboardShortcuts.onKeyUp(for: .captureWindowForceUpload) {
+            Task { @MainActor in
+                Defaults[.uploadMedia] = true
+                await captureScreen(type: .WINDOW)
+                Defaults[.uploadMedia] = false
+            }
+        }
+        
+        KeyboardShortcuts.onKeyUp(for: .captureScreenForceUpload) {
+            Task { @MainActor in
+                Defaults[.uploadMedia] = true
+                await captureScreen(type: .SCREEN)
+                Defaults[.uploadMedia] = false
+            }
+        }
+        
+        KeyboardShortcuts.onKeyUp(for: .recordScreenForceUpload) {
+            if let screenRecorder = AppDelegate.shared.screenRecorder,
+               screenRecorder.isRunning {
+                let pickerManager = ContentSharingPickerManager.shared
+                pickerManager.deactivatePicker()
+                AppDelegate.shared.stopRecording()
+            } else {
+                Defaults[.uploadMedia] = true
+                recordScreen()
+                Defaults[.uploadMedia] = false
+            }
+        }
+        
+        KeyboardShortcuts.onKeyUp(for: .recordGifForceUpload) {
+            if let screenRecorder = AppDelegate.shared.screenRecorder,
+               screenRecorder.isRunning {
+                let pickerManager = ContentSharingPickerManager.shared
+                pickerManager.deactivatePicker()
+                AppDelegate.shared.stopRecording()
+            } else {
+                Defaults[.uploadMedia] = true
+                recordScreen(gif: true)
+                Defaults[.uploadMedia] = false
+            }
         }
     }
 }

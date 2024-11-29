@@ -5,7 +5,7 @@
 //  Created by Adrian Castro on 24.07.23.
 //
 
-import AppKit
+@preconcurrency import AppKit
 import AVFoundation
 import BezelNotification
 import Cocoa
@@ -16,19 +16,25 @@ import SwiftUI
 
 @MainActor
 func recordScreen(gif: Bool? = false) {
+    NSLog("Starting screen recording, gif mode: %@", String(describing: gif))
     @Default(.openInFinder) var openInFinder
     @Default(.recordingPath) var recordingPath
     @Default(.recordingFileName) var fileName
     @Default(.recordMP4) var recordMP4
 
-    let timestamp = Int(Date().timeIntervalSince1970)
-    let uniqueFilename = "\(fileName)-\(timestamp)"
+    // Get the suffix based on frontmost application
+    let suffix = if let frontmostApp = NSWorkspace.shared.frontmostApplication {
+        "-\(frontmostApp.localizedName?.lowercased() ?? "screen")"
+    } else {
+        "-screen"
+    }
 
-    var path = "\(recordingPath)\(uniqueFilename).\(recordMP4 ? "mp4" : "mov")"
-    path = NSString(string: path).expandingTildeInPath
+    let timestamp = Int(Date().timeIntervalSince1970)
+    let uniqueFilename = "\(fileName)-\(timestamp)\(suffix)"
+    let path = NSString(string: "\(recordingPath)\(uniqueFilename).\(recordMP4 ? "mp4" : "mov")").expandingTildeInPath
+    NSLog("Recording to path: %@ with suffix: %@", path, suffix)
 
     let fileURL = URL(fileURLWithPath: path)
-
     let screenRecorder = AppDelegate.shared.screenRecorder
 
     if gif ?? false {
@@ -37,14 +43,16 @@ func recordScreen(gif: Bool? = false) {
 
     Task {
         if await (screenRecorder?.canRecord) != nil {
+            NSLog("Starting screen recording")
             await screenRecorder?.start(fileURL)
         } else {
+            NSLog("Screen recording permission denied")
             BezelNotification.show(messageText: "Missing permission", icon: ToastIcon)
         }
     }
 }
 
-func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
+@MainActor func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
     @Default(.copyToClipboard) var copyToClipboard
     @Default(.openInFinder) var openInFinder
     @Default(.recordingPath) var recordingPath
@@ -95,28 +103,36 @@ func postRecordingTasks(_ URL: URL, _ recordGif: Bool) {
     }
 
     if uploadMedia {
+        let shouldSaveToDisk = saveToDisk
+        let localFileURL = fileURL
         uploadFile(fileURL: fileURL, uploadType: uploadType) {
-            showToast(fileURL: fileURL) {
-                NSSound.beep()
+            Task { @MainActor in
+                showToast(fileURL: localFileURL) {
+                    NSSound.beep()
 
-                if !saveToDisk {
-                    do {
-                        try FileManager.default.removeItem(at: fileURL)
-                    } catch {
-                        print("Error deleting the file: \(error)")
+                    if !shouldSaveToDisk {
+                        do {
+                            try FileManager.default.removeItem(at: localFileURL)
+                        } catch {
+                            print("Error deleting the file: \(error)")
+                        }
                     }
                 }
             }
         }
     } else {
-        showToast(fileURL: fileURL) {
-            NSSound.beep()
+        let shouldSaveToDisk = saveToDisk
+        let localFileURL = fileURL
+        Task { @MainActor in
+            showToast(fileURL: localFileURL) {
+                NSSound.beep()
 
-            if !saveToDisk {
-                do {
-                    try FileManager.default.removeItem(at: fileURL)
-                } catch {
-                    print("Error deleting the file: \(error)")
+                if !shouldSaveToDisk {
+                    do {
+                        try FileManager.default.removeItem(at: localFileURL)
+                    } catch {
+                        print("Error deleting the file: \(error)")
+                    }
                 }
             }
         }
@@ -138,11 +154,11 @@ func exportGif(from videoURL: URL) async throws -> URL {
     let totalDuration = duration.seconds
     let frameRate: CGFloat = 30
     let totalFrames = Int(totalDuration * TimeInterval(frameRate))
-    var timeValues: [NSValue] = []
+    var timeValues: [CMTime] = []
 
     for frameNumber in 0 ..< totalFrames {
         let time = CMTime(seconds: Double(frameNumber) / Double(frameRate), preferredTimescale: Int32(NSEC_PER_SEC))
-        timeValues.append(NSValue(time: time))
+        timeValues.append(time)
     }
 
     let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
@@ -156,7 +172,7 @@ func exportGif(from videoURL: URL) async throws -> URL {
     let delayBetweenFrames: TimeInterval = 1.0 / TimeInterval(frameRate)
     let fileProperties: [String: Any] = [
         kCGImagePropertyGIFDictionary as String: [
-            kCGImagePropertyGIFLoopCount as String: 0,
+            kCGImagePropertyGIFLoopCount: 0,
         ],
     ]
     let frameProperties: [String: Any] = [
@@ -169,12 +185,14 @@ func exportGif(from videoURL: URL) async throws -> URL {
     let imageDestination = CGImageDestinationCreateWithURL(outputURL as CFURL, UTType.gif.identifier as CFString, totalFrames, nil)!
     CGImageDestinationSetProperties(imageDestination, fileProperties as CFDictionary)
 
+    let localTimeValues = timeValues
+    let localFrameProperties = frameProperties as CFDictionary
     return try await withCheckedThrowingContinuation { continuation in
-        generator.generateCGImagesAsynchronously(forTimes: timeValues) { requestedTime, resultingImage, _, _, _ in
+        generator.generateCGImagesAsynchronously(forTimes: localTimeValues.map { NSValue(time: $0) }) { requestedTime, resultingImage, _, _, _ in
             if let image = resultingImage {
-                CGImageDestinationAddImage(imageDestination, image, frameProperties as CFDictionary)
+                CGImageDestinationAddImage(imageDestination, image, localFrameProperties)
             }
-            if requestedTime == timeValues.last?.timeValue {
+            if requestedTime == localTimeValues.last {
                 let success = CGImageDestinationFinalize(imageDestination)
                 if success {
                     do {

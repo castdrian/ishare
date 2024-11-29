@@ -8,7 +8,7 @@
 import Combine
 import Defaults
 import Foundation
-import ScreenCaptureKit
+@preconcurrency import ScreenCaptureKit
 import SwiftUI
 
 class AudioLevelsProvider: ObservableObject {
@@ -28,35 +28,48 @@ class ScreenRecorder: ObservableObject {
     var canRecord: Bool {
         get async {
             do {
-                // If the app doesn't have Screen Recording permission, this call generates an exception.
+                NSLog("Checking screen recording permissions")
                 try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
+                NSLog("Screen recording permissions granted")
                 return true
             } catch {
+                NSLog("Screen recording permissions denied: %@", error.localizedDescription)
                 return false
             }
         }
     }
 
     func start(_ fileURL: URL) async {
-        guard !isRunning else { return }
+        guard !isRunning else { 
+            NSLog("Recording already in progress")
+            return 
+        }
+        NSLog("Starting screen recording to: %@", fileURL.path)
         isRunning = true
 
         let pickerManager = ContentSharingPickerManager.shared
-        pickerManager.contentSelected = { [weak self] filter, _ in
-            Task {
-                await self?.startCapture(with: filter, fileURL: fileURL)
+        let localFileURL = fileURL
+        
+        await pickerManager.setContentSelectedCallback { [weak self] filter, _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                await self.startCapture(with: filter, fileURL: localFileURL)
             }
         }
 
-        pickerManager.contentSelectionCancelled = { _ in
-            self.isRunning = false
-            Task {
-                self.stop(completion:)
+        await pickerManager.setContentSelectionCancelledCallback { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.isRunning = false
+                self.stop { _ in }
             }
         }
 
-        pickerManager.contentSelectionFailed = { _ in
-            self.isRunning = false
+        await pickerManager.setContentSelectionFailedCallback { [weak self] _ in
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                self.isRunning = false
+            }
         }
 
         let config = SCStreamConfiguration()
@@ -67,7 +80,7 @@ class ScreenRecorder: ObservableObject {
         pickerManager.showPicker()
     }
 
-    func stop(completion: @escaping (Result<URL, Error>) -> Void) {
+    func stop(completion: @escaping (Result<URL, any Error>) -> Void) {
         Task {
             let stopClosure = await captureEngine.stopCapture()
             stopClosure { result in

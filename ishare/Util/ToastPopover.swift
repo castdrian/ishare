@@ -9,36 +9,40 @@ struct ToastPopoverView: View {
     @State private var isDragging = false
 
     var body: some View {
-        Image(nsImage: thumbnailImage)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .background(Color(NSColor.windowBackgroundColor).opacity(0.9))
-            .foregroundColor(Color(NSColor.labelColor))
-            .cornerRadius(10)
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            .animation(Animation.easeInOut(duration: 1.0), value: thumbnailImage)
-            .opacity(isDragging ? 0 : 1)
-            .onTapGesture {
-                if saveToDisk {
-                    NSWorkspace.shared.selectFile(fileURL.path, inFileViewerRootedAtPath: "")
+        GeometryReader { geometry in
+            Image(nsImage: thumbnailImage)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: geometry.size.width - 40, maxHeight: geometry.size.height - 20)
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .background(Color(NSColor.windowBackgroundColor).opacity(0.9))
+                .foregroundColor(Color(NSColor.labelColor))
+                .cornerRadius(10)
+                .animation(Animation.easeInOut(duration: 1.0), value: thumbnailImage)
+                .opacity(isDragging ? 0 : 1)
+                .onTapGesture {
+                    if saveToDisk {
+                        NSWorkspace.shared.selectFile(fileURL.path, inFileViewerRootedAtPath: "")
+                    }
                 }
-            }
-            .onDrag {
-                isDragging = true
-                let itemProvider = NSItemProvider(object: fileURL as NSURL)
-                itemProvider.suggestedName = fileURL.lastPathComponent
-                return itemProvider
-            }
-            .onDrop(of: [UTType.url], isTargeted: nil) { _ -> Bool in
-                isDragging = false
-                return true
-            }
+                .onDrag {
+                    isDragging = true
+                    let itemProvider = NSItemProvider(object: fileURL as NSURL)
+                    itemProvider.suggestedName = fileURL.lastPathComponent
+                    return itemProvider
+                }
+                .onDrop(of: [UTType.url], isTargeted: nil) { _ -> Bool in
+                    isDragging = false
+                    return true
+                }
+        }
     }
 }
 
-func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
+@MainActor
+func showToast(fileURL: URL, completion: (@Sendable () -> Void)? = nil) {
     if fileURL.pathExtension == "mov" || fileURL.pathExtension == "mp4" {
+        let localCompletion = completion
         Task.detached(priority: .userInitiated) {
             let asset = AVURLAsset(url: fileURL)
             let imageGenerator = AVAssetImageGenerator(asset: asset)
@@ -57,7 +61,7 @@ func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
 
                 await MainActor.run {
                     let thumbnailImage = NSImage(cgImage: cgImage.image, size: CGSize(width: width, height: height))
-                    showThumbnailAndToast(fileURL: fileURL, thumbnailImage: thumbnailImage, completion: completion)
+                    showThumbnailAndToast(fileURL: fileURL, thumbnailImage: thumbnailImage, completion: localCompletion)
                 }
             } catch {
                 print("Error generating thumbnail: \(error)")
@@ -68,20 +72,19 @@ func showToast(fileURL: URL, completion: (() -> Void)? = nil) {
     }
 }
 
-func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, completion: (() -> Void)?) {
-    @Default(.toastTimeout) var toastTimeout
-
+@MainActor
+private func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, completion: (() -> Void)? = nil) {
+    let toastTimeout = Defaults[.toastTimeout]
+    let localCompletion = completion
     let toastWindow = NSWindow(
-        contentRect: NSRect(x: 0, y: 0, width: 250, height: 150),
-        styleMask: [.borderless, .nonactivatingPanel],
+        contentRect: NSRect(x: 0, y: 0, width: 340, height: 240),
+        styleMask: [.borderless],
         backing: .buffered,
         defer: false
     )
-
-    toastWindow.level = .floating
-    toastWindow.isOpaque = false
     toastWindow.backgroundColor = .clear
-    toastWindow.isMovableByWindowBackground = true
+    toastWindow.isOpaque = false
+    toastWindow.level = .floating
     toastWindow.contentView = NSHostingView(
         rootView: ToastPopoverView(thumbnailImage: thumbnailImage, fileURL: fileURL)
     )
@@ -105,7 +108,7 @@ func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, completion: ((
                 toastWindow.animator().alphaValue = 0.0
             }) {
                 toastWindow.orderOut(nil)
-                completion?()
+                localCompletion?()
             }
         }
     }

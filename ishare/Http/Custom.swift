@@ -7,6 +7,7 @@
 
 import Alamofire
 import AppKit
+import BezelNotification
 import Defaults
 import Foundation
 import SwiftyJSON
@@ -17,16 +18,20 @@ enum CustomUploadError: Error {
     case fileReadError
 }
 
-func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error?, URL?) -> Void)? = nil, completion: @escaping () -> Void) {
-    @Default(.captureFileType) var fileType
+@MainActor
+func customUpload(fileURL: URL, specification: CustomUploader, callback: (@Sendable ((any Error)?, URL?) -> Void)? = nil, completion: @Sendable @escaping () -> Void) {
+    NSLog("Starting custom upload for file: %@", fileURL.path)
+    NSLog("Using uploader: %@", specification.name)
 
     guard specification.isValid() else {
-        print("Invalid specification")
+        NSLog("Error: Invalid uploader specification")
         completion()
         return
     }
 
     let url = URL(string: specification.requestURL)!
+    NSLog("Uploading to endpoint: %@", url.absoluteString)
+
     var headers = HTTPHeaders(specification.headers ?? [:])
     let fileName = fileURL.lastPathComponent
     headers.add(name: "x-file-name", value: fileName)
@@ -39,7 +44,12 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: ((Error
     }
 }
 
-func uploadMultipartFormData(fileURL: URL, url: URL, headers: HTTPHeaders, specification: CustomUploader, callback: ((Error?, URL?) -> Void)?, completion: @escaping () -> Void) {
+@MainActor
+private func uploadMultipartFormData(fileURL: URL, url: URL, headers: HTTPHeaders, specification: CustomUploader, callback: (@Sendable ((any Error)?, URL?) -> Void)?, completion: @Sendable @escaping () -> Void) {
+    let uploadManager = UploadManager.shared
+    let localCallback = callback
+    let localCompletion = completion
+
     AF.upload(multipartFormData: { multipartFormData in
         if let formData = specification.formData {
             for (key, value) in formData {
@@ -53,73 +63,54 @@ func uploadMultipartFormData(fileURL: URL, url: URL, headers: HTTPHeaders, speci
 
     }, to: url, method: .post, headers: headers)
         .uploadProgress { progress in
-            UploadManager.shared.updateProgress(fraction: progress.fractionCompleted)
+            Task { @MainActor in
+                uploadManager.updateProgress(fraction: progress.fractionCompleted)
+            }
         }
         .response { response in
-            UploadManager.shared.uploadCompleted()
-            print(response)
-            if let data = response.data {
-                handleResponse(data: data, specification: specification, callback: callback, completion: completion)
-            } else {
-                callback?(CustomUploadError.responseRetrieval, nil)
-                completion()
+            Task { @MainActor in
+                uploadManager.uploadCompleted()
+                print(response)
+                if let data = response.data {
+                    handleResponse(data: data, specification: specification, callback: localCallback, completion: localCompletion)
+                } else {
+                    localCallback?(CustomUploadError.responseRetrieval, nil)
+                    localCompletion()
+                }
             }
         }
 }
 
-func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders, specification: CustomUploader, callback: ((Error?, URL?) -> Void)?, completion: @escaping () -> Void) {
+@MainActor
+private func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders, specification: CustomUploader, callback: (@Sendable ((any Error)?, URL?) -> Void)?, completion: @Sendable @escaping () -> Void) {
+    let uploadManager = UploadManager.shared
+    let localCallback = callback
+    let localCompletion = completion
     let mimeType = mimeTypeForPathExtension(fileURL.pathExtension)
     headers.add(name: "Content-Type", value: mimeType)
 
     AF.upload(fileURL, to: url, method: .post, headers: headers)
         .uploadProgress { progress in
-            UploadManager.shared.updateProgress(fraction: progress.fractionCompleted)
+            Task { @MainActor in
+                uploadManager.updateProgress(fraction: progress.fractionCompleted)
+            }
         }
         .response { response in
-            UploadManager.shared.uploadCompleted()
-            if let data = response.data {
-                handleResponse(data: data, specification: specification, callback: callback, completion: completion)
-            } else {
-                callback?(CustomUploadError.responseRetrieval, nil)
-                completion()
+            Task { @MainActor in
+                uploadManager.uploadCompleted()
+                if let data = response.data {
+                    handleResponse(data: data, specification: specification, callback: localCallback, completion: localCompletion)
+                } else {
+                    localCallback?(CustomUploadError.responseRetrieval, nil)
+                    localCompletion()
+                }
             }
         }
 }
 
-func performDeletionRequest(deletionUrl: String, completion: @escaping (Result<String, Error>) -> Void) {
-    guard let url = URL(string: deletionUrl) else {
-        completion(.failure(CustomUploadError.responseParsing))
-        return
-    }
-
-    @Default(.activeCustomUploader) var activeCustomUploader
-    let uploader = CustomUploader.allCases.first(where: { $0.id == activeCustomUploader })
-    let headers = HTTPHeaders(uploader?.headers ?? [:])
-
-    func sendRequest(with method: HTTPMethod) {
-        AF.request(url, method: method, headers: headers).response { response in
-            switch response.result {
-            case .success:
-                completion(.success("Deleted file successfully"))
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
-    }
-
-    switch uploader?.deleteRequestType {
-    case .GET:
-        sendRequest(with: .get)
-    case .DELETE:
-        sendRequest(with: .delete)
-    case nil:
-        sendRequest(with: .get)
-    }
-}
-
-func handleResponse(data: Data, specification: CustomUploader, callback: ((Error?, URL?) -> Void)?, completion: @escaping () -> Void) {
+@MainActor
+private func handleResponse(data: Data, specification: CustomUploader, callback: (@Sendable ((any Error)?, URL?) -> Void)?, completion: @Sendable () -> Void) {
     let json = JSON(data)
-
     let fileUrl = constructUrl(from: specification.responseURL, using: json)
     let deletionUrl = constructUrl(from: specification.deletionURL, using: json)
 
@@ -137,7 +128,7 @@ func handleResponse(data: Data, specification: CustomUploader, callback: ((Error
     completion()
 }
 
-func constructUrl(from format: String?, using json: JSON) -> String {
+private func constructUrl(from format: String?, using json: JSON) -> String {
     guard let format else { return "" }
     let (taggedUrl, tags) = tagPlaceholders(in: format)
     var url = taggedUrl
@@ -151,7 +142,7 @@ func constructUrl(from format: String?, using json: JSON) -> String {
     return url
 }
 
-func tagPlaceholders(in url: String) -> (taggedUrl: String, tags: [(String, String)]) {
+private func tagPlaceholders(in url: String) -> (taggedUrl: String, tags: [(String, String)]) {
     var taggedUrl = url
     var tags: [(String, String)] = []
 
@@ -170,7 +161,7 @@ func tagPlaceholders(in url: String) -> (taggedUrl: String, tags: [(String, Stri
     return (taggedUrl, tags)
 }
 
-func getNestedJSONValue(json: JSON, keyPath: String) -> String? {
+private func getNestedJSONValue(json: JSON, keyPath: String) -> String? {
     var currentJSON = json
     let keyPathElements = keyPath.components(separatedBy: ".")
 
@@ -197,10 +188,10 @@ func getNestedJSONValue(json: JSON, keyPath: String) -> String? {
     return currentJSON.stringValue
 }
 
-func fileNameWithLowercaseExtension(from url: URL) -> String {
-    let fileName = url.deletingPathExtension().lastPathComponent
+private func fileNameWithLowercaseExtension(from url: URL) -> String {
+    let fileName = url.lastPathComponent
     let fileExtension = url.pathExtension.lowercased()
-    return fileExtension.isEmpty ? fileName : "\(fileName).\(fileExtension)"
+    return fileName.replacingOccurrences(of: url.pathExtension, with: fileExtension)
 }
 
 func mimeTypeForPathExtension(_ ext: String) -> String {
@@ -219,5 +210,39 @@ func mimeTypeForPathExtension(_ ext: String) -> String {
         "video/quicktime"
     default:
         "application/octet-stream"
+    }
+}
+
+@MainActor
+func performDeletionRequest(deletionUrl: String, completion: @Sendable @escaping (Result<String, any Error>) -> Void) {
+    guard let url = URL(string: deletionUrl) else {
+        completion(.failure(CustomUploadError.responseParsing))
+        return
+    }
+
+    @Default(.activeCustomUploader) var activeCustomUploader
+    let uploader = CustomUploader.allCases.first(where: { $0.id == activeCustomUploader })
+    let headers = HTTPHeaders(uploader?.headers ?? [:])
+
+    func sendRequest(with method: HTTPMethod) {
+        AF.request(url, method: method, headers: headers).response { response in
+            Task { @MainActor in
+                switch response.result {
+                case .success:
+                    completion(.success("Deleted file successfully"))
+                case let .failure(error):
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
+    switch uploader?.deleteRequestType {
+    case .GET:
+        sendRequest(with: .get)
+    case .DELETE:
+        sendRequest(with: .delete)
+    case nil:
+        sendRequest(with: .get)
     }
 }

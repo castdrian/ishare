@@ -56,7 +56,7 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         case deleteRequestType = "deleterequesttype"
     }
 
-    init(from decoder: Decoder) throws {
+    init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: DynamicCodingKey.self)
 
         id = try container.decodeDynamicIfPresent(UUID.self, forKey: DynamicCodingKey(stringValue: "id")!) ?? UUID()
@@ -113,13 +113,13 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         }
 
         if let headers {
-            guard headers as Codable is [String: String] else {
+            guard headers as (any Codable) is [String: String] else {
                 return false
             }
         }
 
         if let formData {
-            guard formData as Codable is [String: String] else {
+            guard formData as (any Codable) is [String: String] else {
                 return false
             }
         }
