@@ -101,7 +101,7 @@ struct MainMenuView: View {
                         }
                     } label: {
                         Image(systemName: "macwindow")
-                        Text("Capture \(screenName)")
+                        Text("Capture \(screenName ?? "Screen")")
                     }.globalKeyboardShortcut(index == 0 ? .captureScreen : .noKeybind)
                 }
             } label: {

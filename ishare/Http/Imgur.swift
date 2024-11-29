@@ -21,6 +21,7 @@ import SwiftyJSON
 
     let fileFormName = determineFileFormName(for: fileURL)
     let fileName = "ishare.\(fileURL.pathExtension)"
+    let mimeType = mimeTypeForPathExtension(fileURL.pathExtension)
     NSLog("Using file form name: %@, filename: %@", fileFormName, fileName)
 
     AF.upload(multipartFormData: { multipartFormData in

@@ -46,10 +46,10 @@ class ShareViewController: SLComposeServiceViewController {
             return
         }
 
-        NSLog("Processing shared item of type: %@", typeIdentifier)
-
         let typeIdentifier = supportedTypes.first { provider.hasItemConformingToTypeIdentifier($0.identifier) }?.identifier ?? UTType.data.identifier
         let localTypeIdentifier = typeIdentifier
+        
+        NSLog("Processing shared item of type: %@", typeIdentifier)
         
         provider.loadItem(forTypeIdentifier: typeIdentifier, options: nil) { [weak self] item, _ in
             guard let item = item else { return }

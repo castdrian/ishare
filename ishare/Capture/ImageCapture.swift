@@ -38,10 +38,12 @@ func captureScreen(type: CaptureType, display: Int = 1) async {
     let uploadType = Defaults[.uploadType]
     let saveToDisk = Defaults[.saveToDisk]
 
-    let timestamp = Int(Date().timeIntervalSince1970)
-    let uniqueFilename = "\(fileName)-\(timestamp)"
+    let suffix = await getCaptureNameSuffix(type: type, display: display)
 
-    var path = "\(capturePath)\(uniqueFilename).\(fileType)"
+    let timestamp = Int(Date().timeIntervalSince1970)
+    let uniqueFilename = "\(fileName)-\(timestamp)\(suffix).\(fileType)"
+
+    var path = "\(capturePath)\(uniqueFilename)"
     path = NSString(string: path).expandingTildeInPath
 
     let task = Process()
@@ -106,4 +108,58 @@ func captureScreen(type: CaptureType, display: Int = 1) async {
         }
     }
     shareBasedOnPreferences(fileURL)
+}
+
+@MainActor
+private func getCaptureNameSuffix(type: CaptureType, display: Int) async -> String {
+    switch type {
+    case .WINDOW:
+        if let frontmostApp = NSWorkspace.shared.frontmostApplication {
+            let appName = frontmostApp.localizedName ?? "window"
+            return "-\(appName.lowercased())"
+        }
+        return "-window"
+        
+    case .SCREEN:
+        if let screen = NSScreen.screens[safe: display - 1] {
+            if let displayName = screen.localizedName {
+                return "-\(displayName.lowercased())"
+            }
+            return "-display-\(display)"
+        }
+        return "-screen"
+        
+    case .REGION:
+        if let frontmostApp = NSWorkspace.shared.frontmostApplication {
+            let appName = frontmostApp.localizedName ?? "region"
+            return "-\(appName.lowercased())"
+        }
+        return "-region"
+    }
+}
+
+// Helper extension for safe array access
+extension Collection {
+    subscript(safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
+// Helper extension for NSScreen to get display name
+extension NSScreen {
+    var localizedName: String? {
+        // Get the display's bounds to help identify it
+        let bounds = frame
+        let width = Int(bounds.width)
+        let height = Int(bounds.height)
+        
+        if let displayID = deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID {
+            // Check if this is the main display
+            if (CGDisplayIsMain(displayID) != 0) {
+                return "main-\(width)x\(height)"
+            }
+            return "display-\(width)x\(height)"
+        }
+        return nil
+    }
 }

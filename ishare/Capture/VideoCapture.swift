@@ -22,10 +22,17 @@ func recordScreen(gif: Bool? = false) {
     @Default(.recordingFileName) var fileName
     @Default(.recordMP4) var recordMP4
 
+    // Get the suffix based on frontmost application
+    let suffix = if let frontmostApp = NSWorkspace.shared.frontmostApplication {
+        "-\(frontmostApp.localizedName?.lowercased() ?? "screen")"
+    } else {
+        "-screen"
+    }
+
     let timestamp = Int(Date().timeIntervalSince1970)
-    let uniqueFilename = "\(fileName)-\(timestamp)"
+    let uniqueFilename = "\(fileName)-\(timestamp)\(suffix)"
     let path = NSString(string: "\(recordingPath)\(uniqueFilename).\(recordMP4 ? "mp4" : "mov")").expandingTildeInPath
-    NSLog("Recording to path: %@", path)
+    NSLog("Recording to path: %@ with suffix: %@", path, suffix)
 
     let fileURL = URL(fileURLWithPath: path)
     let screenRecorder = AppDelegate.shared.screenRecorder
