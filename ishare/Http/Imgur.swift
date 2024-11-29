@@ -13,6 +13,7 @@ import Foundation
 import SwiftyJSON
 
 @MainActor func imgurUpload(_ fileURL: URL, completion: @Sendable @escaping () -> Void) {
+    NSLog("Starting Imgur upload for file: %@", fileURL.path)
     @Default(.imgurClientId) var imgurClientId
     let uploadManager = UploadManager.shared
 
@@ -20,7 +21,7 @@ import SwiftyJSON
 
     let fileFormName = determineFileFormName(for: fileURL)
     let fileName = "ishare.\(fileURL.pathExtension)"
-    let mimeType = mimeTypeForPathExtension(fileURL.pathExtension)
+    NSLog("Using file form name: %@, filename: %@", fileFormName, fileName)
 
     AF.upload(multipartFormData: { multipartFormData in
         multipartFormData.append(fileURL, withName: fileFormName, fileName: fileName, mimeType: mimeType)

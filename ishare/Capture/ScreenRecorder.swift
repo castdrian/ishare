@@ -28,17 +28,23 @@ class ScreenRecorder: ObservableObject {
     var canRecord: Bool {
         get async {
             do {
-                // If the app doesn't have Screen Recording permission, this call generates an exception.
+                NSLog("Checking screen recording permissions")
                 try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
+                NSLog("Screen recording permissions granted")
                 return true
             } catch {
+                NSLog("Screen recording permissions denied: %@", error.localizedDescription)
                 return false
             }
         }
     }
 
     func start(_ fileURL: URL) async {
-        guard !isRunning else { return }
+        guard !isRunning else { 
+            NSLog("Recording already in progress")
+            return 
+        }
+        NSLog("Starting screen recording to: %@", fileURL.path)
         isRunning = true
 
         let pickerManager = ContentSharingPickerManager.shared

@@ -34,6 +34,7 @@ final class UploadManager: @unchecked Sendable {
     }
 
     func updateProgress(fraction: Double) {
+        NSLog("Upload progress: %.2f%%", fraction * 100)
         Task { @MainActor in
             self.progress.completedUnitCount = Int64(fraction * 100)
             self.hostingView?.rootView = CircularProgressView(progress: fraction)
@@ -41,6 +42,7 @@ final class UploadManager: @unchecked Sendable {
     }
 
     func uploadCompleted() {
+        NSLog("Upload completed, removing status item")
         Task { @MainActor in
             if let item = self.statusItem {
                 NSStatusBar.system.removeStatusItem(item)

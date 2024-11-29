@@ -16,6 +16,7 @@ import SwiftUI
 
 @MainActor
 func recordScreen(gif: Bool? = false) {
+    NSLog("Starting screen recording, gif mode: %@", String(describing: gif))
     @Default(.openInFinder) var openInFinder
     @Default(.recordingPath) var recordingPath
     @Default(.recordingFileName) var fileName
@@ -23,12 +24,10 @@ func recordScreen(gif: Bool? = false) {
 
     let timestamp = Int(Date().timeIntervalSince1970)
     let uniqueFilename = "\(fileName)-\(timestamp)"
-
-    var path = "\(recordingPath)\(uniqueFilename).\(recordMP4 ? "mp4" : "mov")"
-    path = NSString(string: path).expandingTildeInPath
+    let path = NSString(string: "\(recordingPath)\(uniqueFilename).\(recordMP4 ? "mp4" : "mov")").expandingTildeInPath
+    NSLog("Recording to path: %@", path)
 
     let fileURL = URL(fileURLWithPath: path)
-
     let screenRecorder = AppDelegate.shared.screenRecorder
 
     if gif ?? false {
@@ -37,8 +36,10 @@ func recordScreen(gif: Bool? = false) {
 
     Task {
         if await (screenRecorder?.canRecord) != nil {
+            NSLog("Starting screen recording")
             await screenRecorder?.start(fileURL)
         } else {
+            NSLog("Screen recording permission denied")
             BezelNotification.show(messageText: "Missing permission", icon: ToastIcon)
         }
     }

@@ -20,15 +20,18 @@ enum CustomUploadError: Error {
 
 @MainActor
 func customUpload(fileURL: URL, specification: CustomUploader, callback: (@Sendable ((any Error)?, URL?) -> Void)? = nil, completion: @Sendable @escaping () -> Void) {
-    @Default(.captureFileType) var fileType
+    NSLog("Starting custom upload for file: %@", fileURL.path)
+    NSLog("Using uploader: %@", specification.name)
 
     guard specification.isValid() else {
-        print("Invalid specification")
+        NSLog("Error: Invalid uploader specification")
         completion()
         return
     }
 
     let url = URL(string: specification.requestURL)!
+    NSLog("Uploading to endpoint: %@", url.absoluteString)
+
     var headers = HTTPHeaders(specification.headers ?? [:])
     let fileName = fileURL.lastPathComponent
     headers.add(name: "x-file-name", value: fileName)

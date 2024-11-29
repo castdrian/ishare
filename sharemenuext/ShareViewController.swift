@@ -22,6 +22,8 @@ class ShareViewController: SLComposeServiceViewController {
     }
 
     func sendFileToApp() {
+        NSLog("Share extension activated")
+        
         let supportedTypes: [UTType] = [
             .quickTimeMovie,
             .mpeg4Movie,
@@ -32,16 +34,19 @@ class ShareViewController: SLComposeServiceViewController {
             .gif,
             .webP
         ]
-
+        
         guard let extensionContext = extensionContext,
               let item = (extensionContext.inputItems as? [NSExtensionItem])?.first,
               let provider = item.attachments?.first(where: { provider in
                   supportedTypes.contains(where: { provider.hasItemConformingToTypeIdentifier($0.identifier) })
               })
         else {
+            NSLog("Error: No valid attachment found in share extension")
             extensionContext?.completeRequest(returningItems: nil)
             return
         }
+
+        NSLog("Processing shared item of type: %@", typeIdentifier)
 
         let typeIdentifier = supportedTypes.first { provider.hasItemConformingToTypeIdentifier($0.identifier) }?.identifier ?? UTType.data.identifier
         let localTypeIdentifier = typeIdentifier

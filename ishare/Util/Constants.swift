@@ -150,23 +150,28 @@ func selectFolder(completion: @escaping (URL?) -> Void) {
 }
 
 func importIscu(_ url: URL) {
+    NSLog("Starting ISCU import process for file: %@", url.path)
     if let keyWindow = NSApplication.shared.keyWindow {
         let alert = NSAlert()
         alert.messageText = "Import ISCU"
         alert.informativeText = "Do you want to import this custom uploader?"
         alert.addButton(withTitle: "Import")
         alert.addButton(withTitle: "Cancel")
+        NSLog("Showing import confirmation dialog")
         alert.beginSheetModal(for: keyWindow) { response in
             if response == .alertFirstButtonReturn {
+                NSLog("User confirmed import")
                 alert.window.orderOut(nil)
                 importFile(url) { success, error in
                     if success {
+                        NSLog("ISCU import successful")
                         let successAlert = NSAlert()
                         successAlert.messageText = "Import Successful"
                         successAlert.informativeText = "The custom uploader has been imported successfully."
                         successAlert.addButton(withTitle: "OK")
                         successAlert.runModal()
                     } else if let error {
+                        NSLog("ISCU import failed: %@", error.localizedDescription)
                         let errorAlert = NSAlert()
                         errorAlert.messageText = "Import Error"
                         errorAlert.informativeText = error.localizedDescription
@@ -174,39 +179,9 @@ func importIscu(_ url: URL) {
                         errorAlert.runModal()
                     }
                 }
+            } else {
+                NSLog("User cancelled import")
             }
-        }
-    } else {
-        let window = NSWindow(contentViewController: NSHostingController(rootView: EmptyView()))
-        window.makeKeyAndOrderFront(nil)
-        window.center()
-
-        let alert = NSAlert()
-        alert.messageText = "Import ISCU"
-        alert.informativeText = "Do you want to import this custom uploader?"
-        alert.addButton(withTitle: "Import")
-        alert.addButton(withTitle: "Cancel")
-        alert.beginSheetModal(for: window) { response in
-            if response == .alertFirstButtonReturn {
-                alert.window.orderOut(nil)
-                importFile(url) { success, error in
-                    if success {
-                        let successAlert = NSAlert()
-                        successAlert.messageText = "Import Successful"
-                        successAlert.informativeText = "The custom uploader has been imported successfully."
-                        successAlert.addButton(withTitle: "OK")
-                        successAlert.runModal()
-                    } else if let error {
-                        let errorAlert = NSAlert()
-                        errorAlert.messageText = "Import Error"
-                        errorAlert.informativeText = error.localizedDescription
-                        errorAlert.addButton(withTitle: "OK")
-                        errorAlert.runModal()
-                    }
-                }
-            }
-
-            window.orderOut(nil)
         }
     }
 }
@@ -311,21 +286,26 @@ struct SharingPreferences: Codable, Defaults.Serializable {
 }
 
 func shareBasedOnPreferences(_ fileURL: URL) {
+    NSLog("Processing share preferences for file: %@", fileURL.path)
     let preferences = Defaults[.builtInShare]
 
     if preferences.airdrop {
+        NSLog("Sharing via AirDrop")
         NSSharingService(named: .sendViaAirDrop)?.perform(withItems: [fileURL])
     }
 
     if preferences.photos {
+        NSLog("Adding to Photos")
         NSSharingService(named: .addToIPhoto)?.perform(withItems: [fileURL])
     }
 
     if preferences.messages {
+        NSLog("Sharing via Messages")
         NSSharingService(named: .composeMessage)?.perform(withItems: [fileURL])
     }
 
     if preferences.mail {
+        NSLog("Sharing via Mail")
         NSSharingService(named: .composeEmail)?.perform(withItems: [fileURL])
     }
 }
@@ -344,9 +324,11 @@ struct HistoryItem: Codable, Hashable, Defaults.Serializable {
 }
 
 func addToUploadHistory(_ item: HistoryItem) {
+    NSLog("Adding item to upload history: %@", item.fileUrl ?? "nil")
     var history = Defaults[.uploadHistory]
     history.insert(item, at: 0)
     if history.count > 50 {
+        NSLog("Upload history exceeded 50 items, removing oldest entry")
         history.removeLast()
     }
     Defaults[.uploadHistory] = history

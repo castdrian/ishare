@@ -21,16 +21,21 @@ final class AppState: ObservableObject {
     }
     
     func setupKeyboardShortcuts() {
+        NSLog("Setting up keyboard shortcuts")
+        
         KeyboardShortcuts.onKeyUp(for: .toggleMainMenu) { [weak self] in
+            NSLog("Toggle main menu shortcut triggered")
             self?.showMainMenu = true
         }
         
         KeyboardShortcuts.onKeyUp(for: .openHistoryWindow) { [weak self] in
+            NSLog("Open history window shortcut triggered")
             guard let self = self else { return }
             openHistoryWindow(uploadHistory: self.uploadHistory)
         }
         
         KeyboardShortcuts.onKeyUp(for: .captureRegion) {
+            NSLog("Capture region shortcut triggered")
             Task { @MainActor in
                 await captureScreen(type: .REGION)
             }

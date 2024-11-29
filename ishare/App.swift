@@ -47,28 +47,36 @@ struct ishare: App {
 
         func application(_: NSApplication, open urls: [URL]) {
             if urls.first!.isFileURL {
+                NSLog("Attempting to import ISCU file from: %@", urls.first!.path)
                 importIscu(urls.first!)
             }
 
             if let url = urls.first {
+                NSLog("Processing URL scheme: %@", url.absoluteString)
                 let path = url.host
                 let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
 
                 if path == "upload" {
                     if let fileItem = queryItems?.first(where: { $0.name == "file" }) {
-                        if let encodedFileURLString = fileItem.value, let decodedFileURLString = encodedFileURLString.removingPercentEncoding, let fileURL = URL(string: decodedFileURLString) {
-                            print("Received file URL: \(fileURL.absoluteString)")
+                        if let encodedFileURLString = fileItem.value, 
+                           let decodedFileURLString = encodedFileURLString.removingPercentEncoding, 
+                           let fileURL = URL(string: decodedFileURLString) {
+                            NSLog("Processing upload request for file: %@", fileURL.absoluteString)
 
                             @Default(.uploadType) var uploadType
+                            NSLog("Using upload type: %@", String(describing: uploadType))
                             let localFileURL = fileURL
 
                             uploadFile(fileURL: fileURL, uploadType: uploadType) {
                                 Task { @MainActor in
+                                    NSLog("Upload completed, showing toast notification")
                                     showToast(fileURL: localFileURL) {
                                         NSSound.beep()
                                     }
                                 }
                             }
+                        } else {
+                            NSLog("Error: Failed to process file URL from query parameters")
                         }
                     }
                 }
@@ -76,13 +84,18 @@ struct ishare: App {
         }
 
         func applicationDidFinishLaunching(_: Notification) {
+            NSLog("Application finished launching")
             AppDelegate.shared = self
 
             Task {
+                NSLog("Initializing screen recorder")
                 screenRecorder = ScreenRecorder()
             }
 
+            #if GITHUB_RELEASE
+            NSLog("Initializing updater controller for GitHub release")
             updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
+            #endif
         }
 
         @MainActor

@@ -26,6 +26,8 @@ enum FileType: String, CaseIterable, Identifiable, Defaults.Serializable {
 
 @MainActor
 func captureScreen(type: CaptureType, display: Int = 1) async {
+    NSLog("Starting screen capture with type: %@, display: %d", type.rawValue, display)
+    
     let capturePath = Defaults[.capturePath]
     let fileType = Defaults[.captureFileType]
     let fileName = Defaults[.captureFileName]
@@ -45,14 +47,18 @@ func captureScreen(type: CaptureType, display: Int = 1) async {
     let task = Process()
     task.launchPath = captureBinary
     task.arguments = type == CaptureType.SCREEN ? [type.rawValue, fileType.rawValue, "-D", "\(display)", path] : [type.rawValue, fileType.rawValue, path]
+    
+    NSLog("Executing capture command: %@ %@", captureBinary, task.arguments?.joined(separator: " ") ?? "")
     task.launch()
     task.waitUntilExit()
 
     let fileURL = URL(fileURLWithPath: path)
 
     if !FileManager.default.fileExists(atPath: fileURL.path) {
+        NSLog("Error: Capture file not created at path: %@", path)
         return
     }
+    NSLog("Screen capture completed successfully")
 
     if copyToClipboard {
         let pasteboard = NSPasteboard.general
