@@ -54,11 +54,25 @@ final class AppState: ObservableObject {
         }
         
         KeyboardShortcuts.onKeyUp(for: .recordScreen) {
-            recordScreen()
+            if let screenRecorder = AppDelegate.shared.screenRecorder,
+               screenRecorder.isRunning {
+                let pickerManager = ContentSharingPickerManager.shared
+                pickerManager.deactivatePicker()
+                AppDelegate.shared.stopRecording()
+            } else {
+                recordScreen()
+            }
         }
         
         KeyboardShortcuts.onKeyUp(for: .recordGif) {
-            recordScreen(gif: true)
+            if let screenRecorder = AppDelegate.shared.screenRecorder,
+               screenRecorder.isRunning {
+                let pickerManager = ContentSharingPickerManager.shared
+                pickerManager.deactivatePicker()
+                AppDelegate.shared.stopRecording()
+            } else {
+                recordScreen(gif: true)
+            }
         }
     }
 }
