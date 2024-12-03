@@ -140,6 +140,7 @@ extension utsname {
     }
 }
 
+@MainActor
 func selectFolder(completion: @escaping (URL?) -> Void) {
     let folderPicker = NSOpenPanel()
     folderPicker.canChooseDirectories = true
@@ -157,6 +158,7 @@ func selectFolder(completion: @escaping (URL?) -> Void) {
     }
 }
 
+@MainActor
 func importIscu(_ url: URL) {
     NSLog("Starting ISCU import process for file: %@", url.path)
     if let keyWindow = NSApplication.shared.keyWindow {
@@ -171,20 +173,22 @@ func importIscu(_ url: URL) {
                 NSLog("User confirmed import")
                 alert.window.orderOut(nil)
                 importFile(url) { success, error in
-                    if success {
-                        NSLog("ISCU import successful")
-                        let successAlert = NSAlert()
-                        successAlert.messageText = "Import Successful"
-                        successAlert.informativeText = "The custom uploader has been imported successfully."
-                        successAlert.addButton(withTitle: "OK")
-                        successAlert.runModal()
-                    } else if let error {
-                        NSLog("ISCU import failed: %@", error.localizedDescription)
-                        let errorAlert = NSAlert()
-                        errorAlert.messageText = "Import Error"
-                        errorAlert.informativeText = error.localizedDescription
-                        errorAlert.addButton(withTitle: "OK")
-                        errorAlert.runModal()
+                    Task { @MainActor in
+                        if success {
+                            NSLog("ISCU import successful")
+                            let successAlert = NSAlert()
+                            successAlert.messageText = "Import Successful"
+                            successAlert.informativeText = "The custom uploader has been imported successfully."
+                            successAlert.addButton(withTitle: "OK")
+                            successAlert.runModal()
+                        } else if let error {
+                            NSLog("ISCU import failed: %@", error.localizedDescription)
+                            let errorAlert = NSAlert()
+                            errorAlert.messageText = "Import Error"
+                            errorAlert.informativeText = error.localizedDescription
+                            errorAlert.addButton(withTitle: "OK")
+                            errorAlert.runModal()
+                        }
                     }
                 }
             } else {
@@ -194,7 +198,7 @@ func importIscu(_ url: URL) {
     }
 }
 
-func importFile(_ url: URL, completion: @escaping (Bool, (any Error)?) -> Void) {
+@MainActor func importFile(_ url: URL, completion: @escaping (Bool, (any Error)?) -> Void) {
     do {
         let data = try Data(contentsOf: url)
         let decoder = JSONDecoder()
@@ -231,7 +235,8 @@ struct Contributor: Codable {
     }
 }
 
-@MainActor let AppIcon: NSImage = {
+@MainActor
+let AppIcon: NSImage = {
     let appIconImage = NSImage(named: "AppIcon")
     let ratio = (appIconImage?.size.height)! / (appIconImage?.size.width)!
     let newSize = NSSize(width: 18, height: 18 / ratio)
@@ -242,7 +247,8 @@ struct Contributor: Codable {
     return resizedImage
 }()
 
-@MainActor let GlyphIcon: NSImage = {
+@MainActor
+let GlyphIcon: NSImage = {
     let appIconImage = NSImage(named: "GlyphIcon")!
     let ratio = appIconImage.size.height / appIconImage.size.width
     let newSize = NSSize(width: 18, height: 18 / ratio)
@@ -253,7 +259,8 @@ struct Contributor: Codable {
     return resizedImage
 }()
 
-@MainActor let ImgurIcon: NSImage = {
+@MainActor
+let ImgurIcon: NSImage = {
     let appIconImage = NSImage(named: "Imgur")
     let ratio = (appIconImage?.size.height)! / (appIconImage?.size.width)!
     let newSize = NSSize(width: 18, height: 18 / ratio)
@@ -264,7 +271,8 @@ struct Contributor: Codable {
     return resizedImage
 }()
 
-@MainActor let ToastIcon: NSImage = {
+@MainActor
+let ToastIcon: NSImage = {
     let toastIconImage = NSImage(named: "AppIcon")
     let ratio = (toastIconImage?.size.height)! / (toastIconImage?.size.width)!
     let newSize = NSSize(width: 100, height: 100 / ratio)
@@ -275,6 +283,7 @@ struct Contributor: Codable {
     return resizedImage
 }()
 
+@MainActor
 func icon(forAppWithName appName: String) -> NSImage? {
     if let appURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: appName) {
         return NSWorkspace.shared.icon(forFile: appURL.path)
@@ -293,6 +302,7 @@ struct SharingPreferences: Codable, Defaults.Serializable {
     var mail: Bool = false
 }
 
+@MainActor
 func shareBasedOnPreferences(_ fileURL: URL) {
     NSLog("Processing share preferences for file: %@", fileURL.path)
     let preferences = Defaults[.builtInShare]
@@ -342,6 +352,7 @@ func addToUploadHistory(_ item: HistoryItem) {
     Defaults[.uploadHistory] = history
 }
 
+@MainActor
 struct ExcludedAppsView: View {
     @Environment(\.presentationMode) var presentationMode
     @Default(.ignoredBundleIdentifiers) var ignoredBundleIdentifiers

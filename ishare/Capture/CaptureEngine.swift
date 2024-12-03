@@ -24,8 +24,8 @@ struct CapturedFrame : Sendable {
 
 /// An object that wraps an instance of `SCStream`, and returns its results as an `AsyncThrowingStream`.
 class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
-    @Default(.recordMP4) var recordMP4
-    @Default(.useHEVC) var useHEVC
+    private var recordMP4: Bool = false
+    private var useHEVC: Bool = false
 
     private var stream: SCStream?
     private var fileURL: URL?
@@ -43,10 +43,15 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
     private var streamOutput: CaptureEngineStreamOutput?
 
     /// - Tag: StartCapture
-    func startCapture(configuration: SCStreamConfiguration, filter: SCContentFilter, fileURL: URL) -> AsyncThrowingStream<CapturedFrame, any Error> {
+    @MainActor func startCapture(configuration: SCStreamConfiguration, filter: SCContentFilter, fileURL: URL) -> AsyncThrowingStream<CapturedFrame, any Error> {
         let config = configuration
         let contentFilter = filter
         let outputURL = fileURL
+        
+        @Default(.recordMP4) var recordMP4
+        @Default(.useHEVC) var useHEVC
+        self.recordMP4 = recordMP4
+        self.useHEVC = useHEVC
         
         return AsyncThrowingStream<CapturedFrame, any Error> { continuation in
             // The stream output object.
@@ -68,8 +73,8 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
                 let recordingConfiguration = SCRecordingOutputConfiguration()
 
                 recordingConfiguration.outputURL = outputURL
-                recordingConfiguration.outputFileType = recordMP4 ? .mp4 : .mov
-                recordingConfiguration.videoCodecType = useHEVC ? .hevc : .h264
+                recordingConfiguration.outputFileType = self.recordMP4 ? .mp4 : .mov
+                recordingConfiguration.videoCodecType = self.useHEVC ? .hevc : .h264
 
                 let recordingOutput = SCRecordingOutput(configuration: recordingConfiguration, delegate: self)
 
