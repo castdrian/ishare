@@ -12,7 +12,7 @@ import Foundation
 import ScreenCaptureKit
 
 /// A structure that contains the video data to render.
-struct CapturedFrame : Sendable {
+struct CapturedFrame: Sendable {
     static let invalid = CapturedFrame(surface: nil, contentRect: .zero, contentScale: 0, scaleFactor: 0)
 
     let surface: IOSurface?
@@ -127,9 +127,10 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
 }
 
 /// A class that handles output from an SCStream, and handles stream errors.
+@MainActor
 private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDelegate {
-    var pcmBufferHandler: ((AVAudioPCMBuffer) -> Void)?
-    var capturedFrameHandler: ((CapturedFrame) -> Void)?
+    var pcmBufferHandler: (@Sendable (AVAudioPCMBuffer) -> Void)?
+    var capturedFrameHandler: (@Sendable (CapturedFrame) -> Void)?
 
     // Store the the startCapture continuation, so you can cancel it if an error occurs.
     private var continuation: AsyncThrowingStream<CapturedFrame, any Error>.Continuation?
@@ -138,7 +139,7 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
         self.continuation = continuation
     }
 
-    func stream(_: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of outputType: SCStreamOutputType) {
+    nonisolated func stream(_: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of outputType: SCStreamOutputType) {
         // Return early if the sample buffer is invalid.
         guard sampleBuffer.isValid else { return }
 
@@ -147,11 +148,15 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
         case .screen:
             // Create a CapturedFrame structure for a video sample buffer.
             guard let frame = createFrame(for: sampleBuffer) else { return }
-            capturedFrameHandler?(frame)
+            Task { @MainActor [self] in
+                self.capturedFrameHandler?(frame)
+            }
         case .audio:
             // Create an AVAudioPCMBuffer from an audio sample buffer.
             guard let samples = createPCMBuffer(for: sampleBuffer) else { return }
-            pcmBufferHandler?(samples)
+            Task { @MainActor [self] in
+                self.pcmBufferHandler?(samples)
+            }
         case .microphone:
             return
         @unknown default:
@@ -159,8 +164,26 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
         }
     }
 
+    nonisolated func stream(_: SCStream, didStopWithError error: any Error) {
+        if (error as NSError).code == -3817 {
+            // User stopped the stream. Call AppDelegate's method to stop recording gracefully
+            Task { @MainActor in
+                let pickerManager = ContentSharingPickerManager.shared
+                pickerManager.deactivatePicker()
+                AppDelegate.shared.stopRecording()
+            }
+        } else {
+            // Handle other errors
+            print("Stream stopped with error: \(error.localizedDescription)")
+        }
+        // Finish the AsyncThrowingStream if it's still running
+        Task { @MainActor [self] in
+            self.continuation?.finish(throwing: error)
+        }
+    }
+
     /// Create a `CapturedFrame` for the video sample buffer.
-    private func createFrame(for sampleBuffer: CMSampleBuffer) -> CapturedFrame? {
+    private nonisolated func createFrame(for sampleBuffer: CMSampleBuffer) -> CapturedFrame? {
         // Retrieve the array of metadata attachments from the sample buffer.
         guard let attachmentsArray = CMSampleBufferGetSampleAttachmentsArray(sampleBuffer,
                                                                              createIfNecessary: false) as? [[SCStreamFrameInfo: Any]],
@@ -193,7 +216,7 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
     }
 
     // Creates an AVAudioPCMBuffer instance on which to perform an average and peak audio level calculation.
-    private func createPCMBuffer(for sampleBuffer: CMSampleBuffer) -> AVAudioPCMBuffer? {
+    private nonisolated func createPCMBuffer(for sampleBuffer: CMSampleBuffer) -> AVAudioPCMBuffer? {
         var ablPointer: UnsafePointer<AudioBufferList>?
         try? sampleBuffer.withAudioBufferList { audioBufferList, _ in
             ablPointer = audioBufferList.unsafePointer
@@ -202,21 +225,5 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
               let absd = sampleBuffer.formatDescription?.audioStreamBasicDescription,
               let format = AVAudioFormat(standardFormatWithSampleRate: absd.mSampleRate, channels: absd.mChannelsPerFrame) else { return nil }
         return AVAudioPCMBuffer(pcmFormat: format, bufferListNoCopy: audioBufferList)
-    }
-
-    func stream(_: SCStream, didStopWithError error: any Error) {
-        if (error as NSError).code == -3817 {
-            // User stopped the stream. Call AppDelegate's method to stop recording gracefully
-            DispatchQueue.main.async {
-                let pickerManager = ContentSharingPickerManager.shared
-                pickerManager.deactivatePicker()
-                AppDelegate.shared.stopRecording()
-            }
-        } else {
-            // Handle other errors
-            print("Stream stopped with error: \(error.localizedDescription)")
-        }
-        // Finish the AsyncThrowingStream if it's still running
-        continuation?.finish(throwing: error)
     }
 }
