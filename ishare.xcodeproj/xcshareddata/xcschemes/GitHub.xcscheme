@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3A9A9FD32A5C84B5007BA5C9"
-               BuildableName = "ishare.app"
-               BlueprintName = "ishare"
+               BlueprintIdentifier = "3A29945F2CFF79CB0079CBB8"
+               BuildableName = "ishare - GitHub.app"
+               BlueprintName = "ishare - GitHub"
                ReferencedContainer = "container:ishare.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3A9A9FD32A5C84B5007BA5C9"
-            BuildableName = "ishare.app"
-            BlueprintName = "ishare"
+            BlueprintIdentifier = "3A29945F2CFF79CB0079CBB8"
+            BuildableName = "ishare - GitHub.app"
+            BlueprintName = "ishare - GitHub"
             ReferencedContainer = "container:ishare.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -57,16 +57,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3A9A9FD32A5C84B5007BA5C9"
-            BuildableName = "ishare.app"
-            BlueprintName = "ishare"
-            ReferencedContainer = "container:ishare.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -28,7 +28,12 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>5</integer>
+			<integer>9</integer>
+		</dict>
+		<key>ishare copy.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
 		</dict>
 		<key>ishare.xcscheme_^#shared#^_</key>
 		<dict>
