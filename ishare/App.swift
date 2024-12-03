@@ -45,8 +45,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     static var shared: AppDelegate { sharedInstance }
     
     var recordGif = false
-    var screenRecorder = ScreenRecorder()
-    var updaterController: SPUStandardUpdaterController!
+    let screenRecorder = ScreenRecorder()
+    let updaterController: SPUStandardUpdaterController
+
+    override init() {
+        self.updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: nil, userDriverDelegate: nil)
+        super.init()
+    }
+
+    func applicationDidFinishLaunching(_: Notification) {
+        NSLog("Application finished launching")
+    }
 
     func application(_: NSApplication, open urls: [URL]) {
         if urls.first!.isFileURL {
@@ -86,20 +95,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
         }
     }
 
-    func applicationDidFinishLaunching(_: Notification) {
-        NSLog("Application finished launching")
-        
-        Task {
-            NSLog("Initializing screen recorder")
-            screenRecorder = ScreenRecorder()
-        }
-
-        #if GITHUB_RELEASE
-        NSLog("Initializing updater controller for GitHub release")
-        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
-        #endif
-    }
-
     @MainActor
     func stopRecording() {
         let wasRecordingGif = recordGif
@@ -127,7 +122,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     static var shared: AppDelegate { sharedInstance }
     
     var recordGif = false
-    var screenRecorder = ScreenRecorder()
+    let screenRecorder = ScreenRecorder()
 
     func application(_: NSApplication, open urls: [URL]) {
         if urls.first!.isFileURL {
@@ -161,10 +156,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_: Notification) {
         NSLog("Application finished launching")
-        
-        Task {
-            screenRecorder = ScreenRecorder()
-        }
     }
 
     @MainActor
