@@ -20,6 +20,13 @@ enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
     case custom(UUID?)
 }
 
+@MainActor
+class WindowHolder: Sendable {
+    static let shared = WindowHolder()
+    var historyWindowController: HistoryWindowController?
+}
+
+@MainActor
 class HistoryWindowController: NSWindowController {
     convenience init(contentView: NSView) {
         let window = NSWindow(
@@ -37,12 +44,8 @@ class HistoryWindowController: NSWindowController {
     }
 }
 
-class WindowHolder {
-    static let shared = WindowHolder()
-    var historyWindowController: HistoryWindowController?
-}
-
-func openHistoryWindow(uploadHistory _: [HistoryItem]) {
+@MainActor
+func openHistoryWindow(uploadHistory: [HistoryItem]) {
     if WindowHolder.shared.historyWindowController == nil {
         let historyView = HistoryGridView()
         let hostingController = NSHostingController(rootView: historyView)
@@ -220,7 +223,9 @@ struct MainMenuView: View {
             if !uploadHistory.isEmpty {
                 Menu {
                     Button {
-                        openHistoryWindow(uploadHistory: uploadHistory)
+                        Task { @MainActor in
+                            openHistoryWindow(uploadHistory: uploadHistory)
+                        }
                     } label: {
                         Image(systemName: "clock.arrow.circlepath")
                         Text("Open History Window")
