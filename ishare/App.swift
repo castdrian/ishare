@@ -39,85 +39,88 @@ struct ishare: App {
 }
 
 #if GITHUB_RELEASE
-    class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
-        private(set) static var shared: AppDelegate! = nil
-        var recordGif = false
-        var screenRecorder: ScreenRecorder!
-        var updaterController: SPUStandardUpdaterController!
+@MainActor
+class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
+    private static let sharedInstance = AppDelegate()
+    static var shared: AppDelegate { sharedInstance }
+    
+    var recordGif = false
+    var screenRecorder: ScreenRecorder!
+    var updaterController: SPUStandardUpdaterController!
 
-        func application(_: NSApplication, open urls: [URL]) {
-            if urls.first!.isFileURL {
-                NSLog("Attempting to import ISCU file from: %@", urls.first!.path)
-                importIscu(urls.first!)
-            }
+    func application(_: NSApplication, open urls: [URL]) {
+        if urls.first!.isFileURL {
+            NSLog("Attempting to import ISCU file from: %@", urls.first!.path)
+            importIscu(urls.first!)
+        }
 
-            if let url = urls.first {
-                NSLog("Processing URL scheme: %@", url.absoluteString)
-                let path = url.host
-                let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+        if let url = urls.first {
+            NSLog("Processing URL scheme: %@", url.absoluteString)
+            let path = url.host
+            let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
 
-                if path == "upload" {
-                    if let fileItem = queryItems?.first(where: { $0.name == "file" }) {
-                        if let encodedFileURLString = fileItem.value, 
-                           let decodedFileURLString = encodedFileURLString.removingPercentEncoding, 
-                           let fileURL = URL(string: decodedFileURLString) {
-                            NSLog("Processing upload request for file: %@", fileURL.absoluteString)
+            if path == "upload" {
+                if let fileItem = queryItems?.first(where: { $0.name == "file" }) {
+                    if let encodedFileURLString = fileItem.value, 
+                       let decodedFileURLString = encodedFileURLString.removingPercentEncoding, 
+                       let fileURL = URL(string: decodedFileURLString) {
+                        NSLog("Processing upload request for file: %@", fileURL.absoluteString)
 
-                            @Default(.uploadType) var uploadType
-                            NSLog("Using upload type: %@", String(describing: uploadType))
-                            let localFileURL = fileURL
+                        @Default(.uploadType) var uploadType
+                        NSLog("Using upload type: %@", String(describing: uploadType))
+                        let localFileURL = fileURL
 
-                            uploadFile(fileURL: fileURL, uploadType: uploadType) {
-                                Task { @MainActor in
-                                    NSLog("Upload completed, showing toast notification")
-                                    showToast(fileURL: localFileURL) {
-                                        NSSound.beep()
-                                    }
+                        uploadFile(fileURL: fileURL, uploadType: uploadType) {
+                            Task { @MainActor in
+                                NSLog("Upload completed, showing toast notification")
+                                showToast(fileURL: localFileURL) {
+                                    NSSound.beep()
                                 }
                             }
-                        } else {
-                            NSLog("Error: Failed to process file URL from query parameters")
                         }
-                    }
-                }
-            }
-        }
-
-        func applicationDidFinishLaunching(_: Notification) {
-            NSLog("Application finished launching")
-            AppDelegate.shared = self
-
-            Task {
-                NSLog("Initializing screen recorder")
-                screenRecorder = ScreenRecorder()
-            }
-
-            #if GITHUB_RELEASE
-            NSLog("Initializing updater controller for GitHub release")
-            updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
-            #endif
-        }
-
-        @MainActor
-        func stopRecording() {
-            let wasRecordingGif = recordGif
-            let recorder = screenRecorder
-            
-            Task {
-                recorder?.stop { result in
-                    Task { @MainActor in
-                        switch result {
-                        case let .success(url):
-                            print("Recording stopped successfully. URL: \(url)")
-                            postRecordingTasks(url, wasRecordingGif)
-                        case let .failure(error):
-                            print("Error while stopping recording: \(error.localizedDescription)")
-                        }
+                    } else {
+                        NSLog("Error: Failed to process file URL from query parameters")
                     }
                 }
             }
         }
     }
+
+    func applicationDidFinishLaunching(_: Notification) {
+        NSLog("Application finished launching")
+        AppDelegate.shared = self
+
+        Task {
+            NSLog("Initializing screen recorder")
+            screenRecorder = ScreenRecorder()
+        }
+
+        #if GITHUB_RELEASE
+        NSLog("Initializing updater controller for GitHub release")
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
+        #endif
+    }
+
+    @MainActor
+    func stopRecording() {
+        let wasRecordingGif = recordGif
+        let recorder = screenRecorder
+        
+        Task {
+            recorder?.stop { result in
+                Task { @MainActor in
+                    switch result {
+                    case let .success(url):
+                        print("Recording stopped successfully. URL: \(url)")
+                        postRecordingTasks(url, wasRecordingGif)
+                    case let .failure(error):
+                        print("Error while stopping recording: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+    }
+}
 #else
     class AppDelegate: NSObject, NSApplicationDelegate {
         @MainActor private(set) static var shared: AppDelegate! = nil
