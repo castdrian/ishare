@@ -35,16 +35,15 @@ func recordScreen(gif: Bool? = false) {
     NSLog("Recording to path: %@ with suffix: %@", path, suffix)
 
     let fileURL = URL(fileURLWithPath: path)
-    let screenRecorder = AppDelegate.shared.screenRecorder
 
     if gif ?? false {
         AppDelegate.shared.recordGif = true
     }
 
     Task {
-        if await (screenRecorder?.canRecord) != nil {
+        if await AppDelegate.shared.screenRecorder.canRecord {
             NSLog("Starting screen recording")
-            await screenRecorder?.start(fileURL)
+            await AppDelegate.shared.screenRecorder.start(fileURL)
         } else {
             NSLog("Screen recording permission denied")
             BezelNotification.show(messageText: "Missing permission", icon: ToastIcon)

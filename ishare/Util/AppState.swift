@@ -42,8 +42,8 @@ final class AppState: ObservableObject {
         }
         
         KeyboardShortcuts.onKeyUp(for: .recordScreen) {
-            if let screenRecorder = AppDelegate.shared.screenRecorder,
-               screenRecorder.isRunning {
+            let screenRecorder = AppDelegate.shared.screenRecorder
+            if screenRecorder.isRunning {
                 let pickerManager = ContentSharingPickerManager.shared
                 pickerManager.deactivatePicker()
                 AppDelegate.shared.stopRecording()
@@ -53,8 +53,8 @@ final class AppState: ObservableObject {
         }
         
         KeyboardShortcuts.onKeyUp(for: .recordGif) {
-            if let screenRecorder = AppDelegate.shared.screenRecorder,
-               screenRecorder.isRunning {
+            let screenRecorder = AppDelegate.shared.screenRecorder
+            if screenRecorder.isRunning {
                 let pickerManager = ContentSharingPickerManager.shared
                 pickerManager.deactivatePicker()
                 AppDelegate.shared.stopRecording()
@@ -90,8 +90,8 @@ final class AppState: ObservableObject {
         }
         
         KeyboardShortcuts.onKeyUp(for: .recordScreenForceUpload) {
-            if let screenRecorder = AppDelegate.shared.screenRecorder,
-               screenRecorder.isRunning {
+            let screenRecorder = AppDelegate.shared.screenRecorder
+            if screenRecorder.isRunning {
                 let pickerManager = ContentSharingPickerManager.shared
                 pickerManager.deactivatePicker()
                 AppDelegate.shared.stopRecording()
@@ -103,8 +103,8 @@ final class AppState: ObservableObject {
         }
         
         KeyboardShortcuts.onKeyUp(for: .recordGifForceUpload) {
-            if let screenRecorder = AppDelegate.shared.screenRecorder,
-               screenRecorder.isRunning {
+            let screenRecorder = AppDelegate.shared.screenRecorder
+            if screenRecorder.isRunning {
                 let pickerManager = ContentSharingPickerManager.shared
                 pickerManager.deactivatePicker()
                 AppDelegate.shared.stopRecording()

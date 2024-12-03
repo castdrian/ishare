@@ -118,7 +118,7 @@ struct MainMenuView: View {
             label: {
                 Image(systemName: "menubar.dock.rectangle.badge.record")
                 Text("Record")
-            }.globalKeyboardShortcut(.recordScreen).disabled(AppDelegate.shared.screenRecorder?.isRunning ?? false)
+            }.globalKeyboardShortcut(.recordScreen).disabled(AppDelegate.shared.screenRecorder.isRunning)
 
             Button {
                 recordScreen(gif: true)
@@ -126,7 +126,7 @@ struct MainMenuView: View {
             label: {
                 Image(systemName: "photo.stack")
                 Text("Record GIF")
-            }.globalKeyboardShortcut(.recordGif).disabled(AppDelegate.shared.screenRecorder?.isRunning ?? false)
+            }.globalKeyboardShortcut(.recordGif).disabled(AppDelegate.shared.screenRecorder.isRunning)
         }
         VStack {
             Menu {
