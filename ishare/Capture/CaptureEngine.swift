@@ -82,20 +82,24 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
         }
     }
 
-    func stopCapture() async -> (@escaping (Result<URL, any Error>) -> Void) -> Void {
-        enum ScreenRecorderError: Error {
-            case missingFileURL
-        }
+    func stopCapture() async -> @Sendable (@escaping @Sendable (Result<URL, any Error>) -> Void) -> Void {
+        return { [weak self] completion in
+            guard let self = self else { return }
+            enum ScreenRecorderError: Error {
+                case missingFileURL
+            }
 
-        do {
             guard let url = fileURL else {
-                return { completion in
-                    completion(.failure(ScreenRecorderError.missingFileURL))
-                }
+                completion(.failure(ScreenRecorderError.missingFileURL))
+                return
             }
-            return { completion in
-                completion(.success(url))
-            }
+
+            // Stop the stream
+            stream?.stopCapture()
+            stream = nil
+            
+            // Return the file URL
+            completion(.success(url))
         }
     }
 
