@@ -45,7 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     static var shared: AppDelegate { sharedInstance }
     
     var recordGif = false
-    var screenRecorder: ScreenRecorder!
+    var screenRecorder: ScreenRecorder?
     var updaterController: SPUStandardUpdaterController!
 
     func application(_: NSApplication, open urls: [URL]) {
@@ -88,8 +88,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
 
     func applicationDidFinishLaunching(_: Notification) {
         NSLog("Application finished launching")
-        AppDelegate.shared = self
-
+        
         Task {
             NSLog("Initializing screen recorder")
             screenRecorder = ScreenRecorder()
@@ -122,33 +121,35 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     }
 }
 #else
-    class AppDelegate: NSObject, NSApplicationDelegate {
-        @MainActor private(set) static var shared: AppDelegate! = nil
-        var recordGif = false
-        var screenRecorder: ScreenRecorder!
+@MainActor
+class AppDelegate: NSObject, NSApplicationDelegate {
+    private static let sharedInstance = AppDelegate()
+    static var shared: AppDelegate { sharedInstance }
+    
+    var recordGif = false
+    var screenRecorder: ScreenRecorder?
 
-        func application(_: NSApplication, open urls: [URL]) {
-            if urls.first!.isFileURL {
-                importIscu(urls.first!)
-            }
+    func application(_: NSApplication, open urls: [URL]) {
+        if urls.first!.isFileURL {
+            importIscu(urls.first!)
+        }
 
-            if let url = urls.first {
-                let path = url.host
-                let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+        if let url = urls.first {
+            let path = url.host
+            let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
 
-                if path == "upload" {
-                    if let fileItem = queryItems?.first(where: { $0.name == "file" }) {
-                        if let encodedFileURLString = fileItem.value, let decodedFileURLString = encodedFileURLString.removingPercentEncoding, let fileURL = URL(string: decodedFileURLString) {
-                            print("Received file URL: \(fileURL.absoluteString)")
+            if path == "upload" {
+                if let fileItem = queryItems?.first(where: { $0.name == "file" }) {
+                    if let encodedFileURLString = fileItem.value, let decodedFileURLString = encodedFileURLString.removingPercentEncoding, let fileURL = URL(string: decodedFileURLString) {
+                        print("Received file URL: \(fileURL.absoluteString)")
 
-                            @Default(.uploadType) var uploadType
-                            let localFileURL = fileURL
+                        @Default(.uploadType) var uploadType
+                        let localFileURL = fileURL
 
-                            uploadFile(fileURL: fileURL, uploadType: uploadType) {
-                                Task { @MainActor in
-                                    showToast(fileURL: localFileURL) {
-                                        NSSound.beep()
-                                    }
+                        uploadFile(fileURL: fileURL, uploadType: uploadType) {
+                            Task { @MainActor in
+                                showToast(fileURL: localFileURL) {
+                                    NSSound.beep()
                                 }
                             }
                         }
@@ -156,33 +157,34 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
                 }
             }
         }
+    }
 
-        func applicationDidFinishLaunching(_: Notification) {
-            AppDelegate.shared = self
-
-            Task {
-                screenRecorder = ScreenRecorder()
-            }
+    func applicationDidFinishLaunching(_: Notification) {
+        NSLog("Application finished launching")
+        
+        Task {
+            screenRecorder = ScreenRecorder()
         }
+    }
 
-        @MainActor
-        func stopRecording() {
-            let wasRecordingGif = recordGif
-            let recorder = screenRecorder
-            
-            Task {
-                recorder?.stop { result in
-                    Task { @MainActor in
-                        switch result {
-                        case let .success(url):
-                            print("Recording stopped successfully. URL: \(url)")
-                            postRecordingTasks(url, wasRecordingGif)
-                        case let .failure(error):
-                            print("Error while stopping recording: \(error.localizedDescription)")
-                        }
+    @MainActor
+    func stopRecording() {
+        let wasRecordingGif = recordGif
+        let recorder = screenRecorder
+        
+        Task {
+            recorder?.stop { result in
+                Task { @MainActor in
+                    switch result {
+                    case let .success(url):
+                        print("Recording stopped successfully. URL: \(url)")
+                        postRecordingTasks(url, wasRecordingGif)
+                    case let .failure(error):
+                        print("Error while stopping recording: \(error.localizedDescription)")
                     }
                 }
             }
         }
     }
+}
 #endif
