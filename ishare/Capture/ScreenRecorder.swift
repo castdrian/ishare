@@ -80,15 +80,17 @@ class ScreenRecorder: ObservableObject {
         pickerManager.showPicker()
     }
 
-    func stop(completion: @escaping (Result<URL, any Error>) -> Void) {
+    func stop(completion: @escaping @Sendable (Result<URL, any Error>) -> Void) {
         Task {
             let stopClosure = await captureEngine.stopCapture()
             stopClosure { result in
-                switch result {
-                case let .success(url):
-                    completion(.success(url))
-                case let .failure(error):
-                    completion(.failure(error))
+                Task { @MainActor in
+                    switch result {
+                    case let .success(url):
+                        completion(.success(url))
+                    case let .failure(error):
+                        completion(.failure(error))
+                    }
                 }
             }
             stopAudioMetering()
