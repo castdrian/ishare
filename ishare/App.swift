@@ -45,7 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
     static var shared: AppDelegate { sharedInstance }
     
     var recordGif = false
-    let screenRecorder = ScreenRecorder()
+    var screenRecorder = ScreenRecorder()
     var updaterController: SPUStandardUpdaterController!
 
     func application(_: NSApplication, open urls: [URL]) {
@@ -106,7 +106,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
         let recorder = screenRecorder
         
         Task {
-            recorder?.stop { result in
+            recorder.stop { result in
                 Task { @MainActor in
                     switch result {
                     case let .success(url):
