@@ -14,6 +14,7 @@
 		3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */ = {isa = PBXBuildFile; productRef = 3A59057D2A73EF5C00109892 /* BezelNotification */; };
 		3A59CD5E2A6EE47E00E85161 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A59CD5D2A6EE47E00E85161 /* VideoCapture.swift */; };
 		3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3A6D1E982ACB004000882366 /* SettingsAccess */; };
+		3A71583D2CFF147200EE398E /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF917C72C4AFE4700D42B77 /* Sparkle */; };
 		3A72B9952A752A0A00B2DEBA /* ScreenRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9942A752A0A00B2DEBA /* ScreenRecorder.swift */; };
 		3A72B9972A752AD000B2DEBA /* CaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9962A752AD000B2DEBA /* CaptureEngine.swift */; };
 		3A72B9992A752B1500B2DEBA /* PowerMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A72B9982A752B1500B2DEBA /* PowerMeter.swift */; };
@@ -38,7 +39,6 @@
 		3AE7312A2B47052E006F10F7 /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE731292B47052E006F10F7 /* UploadManager.swift */; };
 		3AEFA5672A9FC15800F485B4 /* PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */; };
 		3AF7F0212B3EF16B000117DD /* HistoryGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7F0202B3EF16B000117DD /* HistoryGridView.swift */; };
-		3AF917C82C4AFE4700D42B77 /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF917C72C4AFE4700D42B77 /* Sparkle */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3AF9A80F2C4B011A0094B78B /* sharemenuext.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3AF9A8052C4B011A0094B78B /* sharemenuext.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -115,12 +115,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A71583D2CFF147200EE398E /* Sparkle in Frameworks */,
 				3A88C32A2BD6E4CE00EEDCE3 /* LaunchAtLogin in Frameworks */,
 				3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */,
 				3A88C3252BD6320100EEDCE3 /* KeyboardShortcuts in Frameworks */,
 				3A72B9A12A7594F900B2DEBA /* MenuBarExtraAccess in Frameworks */,
 				3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */,
-				3AF917C82C4AFE4700D42B77 /* Sparkle in Frameworks */,
 				3A0679E12A648C0F0088DE6A /* SwiftyJSON in Frameworks */,
 				3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */,
 				3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */,
@@ -583,7 +583,6 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTING_SEARCH_PATHS = NO;
-				"EXCLUDED_SOURCE_FILE_NAMES[arch=*]" = Sparkle.framework;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ishare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ishare;
@@ -632,7 +631,6 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTABILITY = NO;
 				ENABLE_TESTING_SEARCH_PATHS = NO;
-				"EXCLUDED_SOURCE_FILE_NAMES[arch=*]" = Sparkle.framework;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ishare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ishare;
@@ -788,6 +786,22 @@
 				SWIFT_UPCOMING_FEATURE_INTERNAL_IMPORTS_BY_DEFAULT = YES;
 				SWIFT_UPCOMING_FEATURE_ISOLATED_DEFAULT_VALUES = YES;
 				SWIFT_VERSION = 5.0;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "GITHUB_RELEASE $(inherited)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					"Sparkle",
+				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
+				SPARKLE_FRAMEWORK_PATH = "$(BUILT_PRODUCTS_DIR)/Sparkle.framework";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"$(SPARKLE_FRAMEWORK_PATH)",
+				);
 			};
 			name = GitHub;
 		};
