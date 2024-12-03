@@ -583,6 +583,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_TESTING_SEARCH_PATHS = NO;
+				"EXCLUDED_SOURCE_FILE_NAMES[arch=*]" = Sparkle.framework;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ishare/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ishare;
