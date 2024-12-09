@@ -51,8 +51,6 @@
   </a>
 </p>
 
-[Translate on Crowdin](https://crowdin.com/project/isharemac)
-
 ## 🚀 Features
 
 <details markdown="block">
