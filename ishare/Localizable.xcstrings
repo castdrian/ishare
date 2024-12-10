@@ -3,6 +3,12 @@
   "strings": {
     "*required": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "*مطلوب"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -15,10 +21,34 @@
             "value": "*requerido"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "*obligatoire"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "*आवश्यक"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "*必須"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "*필수"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "*Gerekli"
           }
         },
         "uk": {
@@ -26,11 +56,23 @@
             "state": "translated",
             "value": "*необхідно*"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "*必须"
+          }
         }
       }
     },
     "About ishare": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نبذة عن إيشاري"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -43,10 +85,34 @@
             "value": "Acerca de ishare"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "À propos d'ishare"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ishare के बारे में"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ishareについて"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "ishare 정보"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ishare hakkında"
           }
         },
         "uk": {
@@ -54,11 +120,23 @@
             "state": "translated",
             "value": "Про ishare"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关于 ishare"
+          }
         }
       }
     },
     "Advanced": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متقدم"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -71,10 +149,34 @@
             "value": "Avanzado"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avancé"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अग्रवर्ती"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上級"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "고급"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gelişmiş"
           }
         },
         "uk": {
@@ -82,11 +184,23 @@
             "state": "translated",
             "value": "Розширений"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "高级"
+          }
         }
       }
     },
     "Advanced Settings": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإعدادات المتقدمة"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -99,10 +213,34 @@
             "value": "Configuración avanzada"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paramètres avancés"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "उन्नत सेटिंग्स"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "詳細設定"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "고급 설정"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gelişmiş Ayarlar"
           }
         },
         "uk": {
@@ -110,11 +248,23 @@
             "state": "translated",
             "value": "Додаткові налаштування"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "高级设置"
+          }
         }
       }
     },
     "AirDrop": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انزال"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -127,13 +277,43 @@
             "value": "AirDrop"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "एयरड्रॉप"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "エアドロップ"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "에어드롭"
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop"
+          }
+        },
         "uk": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AirDrop"
+          }
+        },
+        "zh-CN": {
           "stringUnit": {
             "state": "translated",
             "value": "AirDrop"
@@ -143,6 +323,12 @@
     },
     "Cancel": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء الأمر"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -155,10 +341,34 @@
             "value": "Cancelar"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रद्द करना"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キャンセル"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "취소"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İptal"
           }
         },
         "uk": {
@@ -166,11 +376,23 @@
             "state": "translated",
             "value": "Скасувати"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
         }
       }
     },
     "Capture": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أسر"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -183,10 +405,34 @@
             "value": "Capture"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पकड़ना"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キャプチャ"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "캡처"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalama"
           }
         },
         "uk": {
@@ -194,11 +440,23 @@
             "state": "translated",
             "value": "Захоплення"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕获"
+          }
         }
       }
     },
     "Capture %@": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القبض ٪ @"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -211,10 +469,34 @@
             "value": "Captura %@"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture %@"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कैप्चर % @"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キャプチャ"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "캡처 %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalama %@"
           }
         },
         "uk": {
@@ -222,11 +504,23 @@
             "state": "translated",
             "value": "Захопити %@"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕获 %@"
+          }
         }
       }
     },
     "Capture Region": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منطقة الالتقاط"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -239,10 +533,34 @@
             "value": "Región de captura"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Région de capture"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कब्जा क्षेत्र"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キャプチャ領域"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "지역 캡처"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalama Bölgesi"
           }
         },
         "uk": {
@@ -250,11 +568,23 @@
             "state": "translated",
             "value": "Регіон захоплення"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕获区域"
+          }
         }
       }
     },
     "Capture Region:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "منطقة الالتقاط:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -267,10 +597,34 @@
             "value": "Región de captura:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Région de capture :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कब्जा क्षेत्र:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キャプチャ・リージョン"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "지역 캡처:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalama Bölgesi:"
           }
         },
         "uk": {
@@ -278,11 +632,23 @@
             "state": "translated",
             "value": "Захопити регіон:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕获区域："
+          }
         }
       }
     },
     "Capture Screen:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شاشة الالتقاط:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -295,10 +661,34 @@
             "value": "Capturar pantalla:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture d'écran :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "स्क्रीन कैप्चर करें:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "画面をキャプチャする"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "캡처 화면:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekranı yakala:"
           }
         },
         "uk": {
@@ -306,11 +696,23 @@
             "state": "translated",
             "value": "Екран захоплення:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕捉屏幕："
+          }
         }
       }
     },
     "Capture Window": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نافذة الالتقاط"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -323,10 +725,34 @@
             "value": "Ventana de captura"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fenêtre de capture"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "विंडो कैप्चर करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キャプチャウィンドウ"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "캡처 창"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalama Penceresi"
           }
         },
         "uk": {
@@ -334,11 +760,23 @@
             "state": "translated",
             "value": "Вікно захоплення"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕捉窗口"
+          }
         }
       }
     },
     "Capture Window:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نافذة الالتقاط:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -351,10 +789,34 @@
             "value": "Ventana de captura:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fenêtre de capture :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "विंडो कैप्चर करें:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キャプチャウィンドウ："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "캡처 창:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yakalama Penceresi:"
           }
         },
         "uk": {
@@ -362,11 +824,23 @@
             "state": "translated",
             "value": "Вікно захоплення:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捕捉窗口："
+          }
         }
       }
     },
     "Check for Updates": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التحقق من وجود تحديثات"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -379,10 +853,34 @@
             "value": "Buscar actualizaciones"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérifier les mises à jour"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अपडेट के लिए जाँच करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アップデートの確認"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "업데이트 확인"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Güncellemeleri Kontrol Edin"
           }
         },
         "uk": {
@@ -390,11 +888,23 @@
             "state": "translated",
             "value": "Перевірте наявність оновлень"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "检查更新"
+          }
         }
       }
     },
     "Clear All": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسح الكل"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -407,10 +917,34 @@
             "value": "Borrar todo"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout effacer"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सभी साफ करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すべてクリア"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "모두 지우기"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tümünü Temizle"
           }
         },
         "uk": {
@@ -418,11 +952,23 @@
             "state": "translated",
             "value": "Очистити все."
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部清除"
+          }
         }
       }
     },
     "Close": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غلق"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -435,10 +981,34 @@
             "value": "Cerrar"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fermer"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बंद करना"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "閉じる"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "닫기"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kapat"
           }
         },
         "uk": {
@@ -446,11 +1016,23 @@
             "state": "translated",
             "value": "Закрити"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "关闭"
+          }
         }
       }
     },
     "Copy to Clipboard": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ إلى الحافظة"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -463,10 +1045,34 @@
             "value": "Copiar al portapapeles"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier dans le presse-papiers"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "क्लिपबोर्ड पर कॉपी करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "クリップボードにコピー"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "클립보드에 복사"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panoya Kopyala"
           }
         },
         "uk": {
@@ -474,11 +1080,23 @@
             "state": "translated",
             "value": "Скопіювати в буфер обміну"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制到剪贴板"
+          }
         }
       }
     },
     "Copy URL": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسخ عنوان URL"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -491,10 +1109,34 @@
             "value": "Copiar URL"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier l'URL"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "URL कॉपी करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "URLをコピー"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "URL 복사"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "URL'yi kopyala"
           }
         },
         "uk": {
@@ -502,11 +1144,23 @@
             "state": "translated",
             "value": "Скопіювати URL-адресу"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "复制 URL"
+          }
         }
       }
     },
     "Create": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خلق"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -519,10 +1173,34 @@
             "value": "Cree"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Créer"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बनाना"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "作成"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "만들기"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oluştur"
           }
         },
         "uk": {
@@ -530,11 +1208,23 @@
             "state": "translated",
             "value": "Створити"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "创建"
+          }
         }
       }
     },
     "Create Custom Uploader": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنشاء رافع مخصص"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -547,10 +1237,34 @@
             "value": "Crear cargador personalizado"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Créer un téléchargeur personnalisé"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कस्टम अपलोडर बनाएँ"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "カスタムアップローダーの作成"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "사용자 지정 업로더 만들기"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel Yükleyici Oluşturun"
           }
         },
         "uk": {
@@ -558,11 +1272,23 @@
             "state": "translated",
             "value": "Створіть власний завантажувач"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "创建自定义上传程序"
+          }
         }
       }
     },
     "Delete": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -575,10 +1301,34 @@
             "value": "Borrar"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मिटाना"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "削除"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "삭제"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Silme"
           }
         },
         "uk": {
@@ -586,11 +1336,23 @@
             "state": "translated",
             "value": "Видалити"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除"
+          }
         }
       }
     },
     "Delete Uploader": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف القائم بالتحميل"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -603,10 +1365,34 @@
             "value": "Borrar Uploader"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer l'Uploader"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अपलोडर हटाएं"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アップローダーの削除"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "업로더 삭제"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleyiciyi Sil"
           }
         },
         "uk": {
@@ -614,11 +1400,23 @@
             "state": "translated",
             "value": "Видалити завантажувач"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "删除上传程序"
+          }
         }
       }
     },
     "Donate": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تبرّع"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -631,10 +1429,34 @@
             "value": "Donar"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faire un don"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "दान करना"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "寄付する"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "기부하기"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bağış Yapın"
           }
         },
         "uk": {
@@ -642,11 +1464,23 @@
             "state": "translated",
             "value": "Пожертвувати"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捐赠"
+          }
         }
       }
     },
     "Drag and drop .iscu files here or click to select": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قم بسحب ملفات .iscu وإفلاتها هنا أو انقر لتحديد"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -659,10 +1493,34 @@
             "value": "Arrastre y suelte aquí los archivos .iscu o haga clic para seleccionarlos"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faites glisser et déposez les fichiers .iscu ici ou cliquez pour les sélectionner"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ".iscu फ़ाइलों को यहाँ खींचें और छोड़ें या चयन करने के लिए क्लिक करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ".iscu ファイルをここにドラッグ＆ドロップするか、クリックして選択します。"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": ".iscu 파일을 여기로 끌어다 놓거나 클릭하여 선택합니다."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ".iscu dosyalarını buraya sürükleyip bırakın veya seçmek için tıklayın"
           }
         },
         "uk": {
@@ -670,11 +1528,23 @@
             "state": "translated",
             "value": "Перетягніть .iscu файли сюди або клацніть, щоб вибрати"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "将 .iscu 文件拖放到此处或单击选择"
+          }
         }
       }
     },
     "Edit Custom Uploader": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحرير الرافع المخصص"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -687,10 +1557,34 @@
             "value": "Editar cargador personalizado"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifier le chargeur personnalisé"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कस्टम अपलोडर संपादित करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "カスタムアップローダーの編集"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "사용자 지정 업로더 편집"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel Yükleyiciyi Düzenle"
           }
         },
         "uk": {
@@ -698,11 +1592,23 @@
             "state": "translated",
             "value": "Редагувати користувацький завантажувач"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑自定义上传程序"
+          }
         }
       }
     },
     "Edit Uploader": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحرير الرافع"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -715,10 +1621,34 @@
             "value": "Editar cargador"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifier le chargeur"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अपलोडर संपादित करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アップローダーの編集"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "업로더 편집"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleyiciyi Düzenle"
           }
         },
         "uk": {
@@ -726,11 +1656,23 @@
             "state": "translated",
             "value": "Редагувати завантажувач"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "编辑上传器"
+          }
         }
       }
     },
     "Error": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خطأ"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -743,10 +1685,34 @@
             "value": "Error"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erreur"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "चूक"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "エラー"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "오류"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hata"
           }
         },
         "uk": {
@@ -754,11 +1720,23 @@
             "state": "translated",
             "value": "Помилка."
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "错误"
+          }
         }
       }
     },
     "Excluded applications": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الطلبات المستبعدة"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -771,10 +1749,34 @@
             "value": "Aplicaciones excluidas"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Applications exclues"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बहिष्कृत आवेदन"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "除外アプリケーション"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "제외된 애플리케이션"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hariç tutulan uygulamalar"
           }
         },
         "uk": {
@@ -782,11 +1784,23 @@
             "state": "translated",
             "value": "Виключені програми"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "排除在外的应用程序"
+          }
         }
       }
     },
     "Export Uploader": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحميل التصدير"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -799,10 +1813,34 @@
             "value": "Cargador de exportación"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export Uploader"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अपलोडर निर्यात करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "エクスポート・アップローダー"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "내보내기 업로더"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleyiciyi Dışa Aktar"
           }
         },
         "uk": {
@@ -810,11 +1848,23 @@
             "state": "translated",
             "value": "Завантажувач експорту"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出口上传器"
+          }
         }
       }
     },
     "File prefix:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بادئة الملف:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -827,10 +1877,34 @@
             "value": "Prefijo del archivo:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Préfixe du fichier :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "फ़ाइल उपसर्ग:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ファイルの接頭辞："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "파일 접두사:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosya öneki:"
           }
         },
         "uk": {
@@ -838,11 +1912,23 @@
             "state": "translated",
             "value": "Префікс файлу:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "文件前缀："
+          }
         }
       }
     },
     "Force Upload Modifier:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فرض معدل التحميل:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -855,10 +1941,34 @@
             "value": "Modificador de carga forzada:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modificateur de chargement forcé :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "फोर्स अपलोड संशोधक:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォース・アップロード・モディファイア："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "강제 업로드 수정자:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleme Değiştiricisini Zorla:"
           }
         },
         "uk": {
@@ -866,11 +1976,23 @@
             "state": "translated",
             "value": "Модифікатор примусового завантаження:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "强制上传修改器："
+          }
         }
       }
     },
     "Format:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تنسيق:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -883,10 +2005,34 @@
             "value": "Formato:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "प्रारूप:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォーマット"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "형식:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format:"
           }
         },
         "uk": {
@@ -894,11 +2040,23 @@
             "state": "translated",
             "value": "Формат:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "格式："
+          }
         }
       }
     },
     "General": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عام"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -911,10 +2069,34 @@
             "value": "General"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Général"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सामान्य"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一般"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "일반"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Genel"
           }
         },
         "uk": {
@@ -922,11 +2104,23 @@
             "state": "translated",
             "value": "Генерал"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一般情况"
+          }
         }
       }
     },
     "GitHub": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جيت هب"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -939,7 +2133,31 @@
             "value": "GitHub"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "गिटहब"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ギットハブ"
+          }
+        },
         "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub"
+          }
+        },
+        "tr": {
           "stringUnit": {
             "state": "translated",
             "value": "GitHub"
@@ -950,11 +2168,23 @@
             "state": "translated",
             "value": "GitHub"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub"
+          }
         }
       }
     },
     "History": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تاريخ"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -967,10 +2197,34 @@
             "value": "Historia"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'histoire"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "इतिहास"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "歴史"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "역사"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarih"
           }
         },
         "uk": {
@@ -978,11 +2232,23 @@
             "state": "translated",
             "value": "Історія"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "历史"
+          }
         }
       }
     },
     "I understand": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أفهم"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -995,10 +2261,34 @@
             "value": "Comprendo"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je comprends"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मुझे समझ आ रहा है"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分かっている"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "이해합니다"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anlıyorum."
           }
         },
         "uk": {
@@ -1006,11 +2296,23 @@
             "state": "translated",
             "value": "Я розумію."
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我明白"
+          }
         }
       }
     },
     "Image files": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات الصور"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1023,10 +2325,34 @@
             "value": "Archivos de imagen"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fichiers images"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "छवि फ़ाइलें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "画像ファイル"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "이미지 파일"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Görüntü dosyaları"
           }
         },
         "uk": {
@@ -1034,11 +2360,23 @@
             "state": "translated",
             "value": "Файли зображень"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图像文件"
+          }
         }
       }
     },
     "Image path:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسار الصورة:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1051,10 +2389,34 @@
             "value": "Ruta de la imagen:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chemin de l'image :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "छवि पथ:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "イメージパス："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "이미지 경로:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resim yolu:"
           }
         },
         "uk": {
@@ -1062,11 +2424,23 @@
             "state": "translated",
             "value": "Шлях до зображення:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "图像路径："
+          }
         }
       }
     },
     "Imgur Client ID:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معرف عميل Imgur:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1079,10 +2453,34 @@
             "value": "ID de cliente de Imgur:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Imgur ID du client :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "इमगुर क्लाइंट आईडी:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ImgurクライアントID："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "Imgur 클라이언트 ID:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Imgur İstemci Kimliği:"
           }
         },
         "uk": {
@@ -1090,11 +2488,23 @@
             "state": "translated",
             "value": "Ідентифікатор клієнта Imgur:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Imgur 客户端 ID："
+          }
         }
       }
     },
     "Import": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استورد"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1107,10 +2517,34 @@
             "value": "Importar"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importation"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आयात"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "가져오기"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İthalat"
           }
         },
         "uk": {
@@ -1118,11 +2552,23 @@
             "state": "translated",
             "value": "Імпорт"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "进口"
+          }
         }
       }
     },
     "Import Custom Uploader": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استيراد الرافع المخصص"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1135,10 +2581,34 @@
             "value": "Importar cargador personalizado"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importer un téléchargeur personnalisé"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कस्टम अपलोडर आयात करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "カスタムアップローダーのインポート"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "사용자 지정 업로더 가져오기"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Özel Yükleyiciyi İçe Aktar"
           }
         },
         "uk": {
@@ -1146,11 +2616,23 @@
             "state": "translated",
             "value": "Імпортувати користувацький завантажувач"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "导入自定义上传程序"
+          }
         }
       }
     },
     "Keybinds": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "روابط المفاتيح"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1163,10 +2645,34 @@
             "value": "Teclados"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raccourcis clavier"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कीबाइंड"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "キーバインド"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "키 바인드"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tuş Bağlamaları"
           }
         },
         "uk": {
@@ -1174,11 +2680,23 @@
             "state": "translated",
             "value": "Зв'язки клавіш"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "按键绑定"
+          }
         }
       }
     },
     "Land down under": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الهبوط تحت"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1191,10 +2709,34 @@
             "value": "Tierra adentro"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le pays d'en bas"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नीचे भूमि"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下界の土地"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "아래 땅"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yeraltı ülkesi"
           }
         },
         "uk": {
@@ -1202,11 +2744,23 @@
             "state": "translated",
             "value": "Земля під водою"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下层土地"
+          }
         }
       }
     },
     "Mail": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بريد"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1219,10 +2773,34 @@
             "value": "Correo"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Courrier"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "डाक"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メール"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "메일"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Posta"
           }
         },
         "uk": {
@@ -1230,11 +2808,23 @@
             "state": "translated",
             "value": "Пошта"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "邮件"
+          }
         }
       }
     },
     "Menu Bar Icon": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أيقونة شريط القائمة"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1247,10 +2837,34 @@
             "value": "Icono de la barra de menús"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icône de la barre de menu"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मेनू बार आइकन"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メニューバーアイコン"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "메뉴 모음 아이콘"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menü Çubuğu Simgesi"
           }
         },
         "uk": {
@@ -1258,11 +2872,23 @@
             "state": "translated",
             "value": "Піктограма рядка меню"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "菜单栏图标"
+          }
         }
       }
     },
     "Messages": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رسائل"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1275,10 +2901,34 @@
             "value": "Mensajes"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Messages"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "संदेश"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メッセージ"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "메시지"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mesajlar"
           }
         },
         "uk": {
@@ -1286,11 +2936,23 @@
             "state": "translated",
             "value": "Повідомлення"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "信息"
+          }
         }
       }
     },
     "Name": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسم"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1303,10 +2965,34 @@
             "value": "Nombre"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "नाम"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名称"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "이름"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "İsim"
           }
         },
         "uk": {
@@ -1314,11 +3000,23 @@
             "state": "translated",
             "value": "Ім'я"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名称"
+          }
         }
       }
     },
     "OK": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "موافق"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1331,10 +3029,34 @@
             "value": "OK"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ठीक है"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "확인"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "TAMAM."
           }
         },
         "uk": {
@@ -1342,11 +3064,23 @@
             "state": "translated",
             "value": "ГАРАЗД."
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好的"
+          }
         }
       }
     },
     "Open History Window": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح نافذة المحفوظات"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1359,10 +3093,34 @@
             "value": "Abrir la ventana de historial"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir la fenêtre de l'historique"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "इतिहास विंडो खोलें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴ウィンドウを開く"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "기록 창 열기"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçmiş Penceresini Aç"
           }
         },
         "uk": {
@@ -1370,11 +3128,23 @@
             "state": "translated",
             "value": "Відкрити вікно історії"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开历史窗口"
+          }
         }
       }
     },
     "Open History Window:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح نافذة المحفوظات:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1387,10 +3157,34 @@
             "value": "Abrir ventana de historial:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir la fenêtre de l'historique :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "इतिहास विंडो खोलें:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "履歴ウィンドウを開く："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "기록 창을 엽니다:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Geçmiş Penceresini Açın:"
           }
         },
         "uk": {
@@ -1398,11 +3192,23 @@
             "state": "translated",
             "value": "Відкрити вікно історії:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开历史窗口："
+          }
         }
       }
     },
     "Open in Browser": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فتح في المتصفح"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1415,10 +3221,34 @@
             "value": "Abrir en el navegador"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir dans le navigateur"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ब्राउज़र में खोलें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ブラウザで開く"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "브라우저에서 열기"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tarayıcıda Aç"
           }
         },
         "uk": {
@@ -1426,11 +3256,23 @@
             "state": "translated",
             "value": "Відкрити в браузері"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在浏览器中打开"
+          }
         }
       }
     },
     "Open in Finder": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح في Finder"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1443,10 +3285,34 @@
             "value": "Abrir en el Finder"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir dans le Finder"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder में खोलें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ファインダーで開く"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "Finder에서 열기"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finder'da Aç"
           }
         },
         "uk": {
@@ -1454,11 +3320,23 @@
             "state": "translated",
             "value": "Відкрийте у Finder"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在 Finder 中打开"
+          }
         }
       }
     },
     "Open Main Menu:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح القائمة الرئيسية:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1471,10 +3349,34 @@
             "value": "Abrir el menú principal:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ouvrir le menu principal :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मुख्य मेनू खोलें:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メインメニューを開きます："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "메인 메뉴를 엽니다:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ana Menüyü açın:"
           }
         },
         "uk": {
@@ -1482,11 +3384,23 @@
             "state": "translated",
             "value": "Відкрийте головне меню:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打开主菜单："
+          }
         }
       }
     },
     "Photos": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصور"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1499,10 +3413,34 @@
             "value": "Fotos"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photos"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "तस्वीरें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "写真"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "사진"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotoğraflar"
           }
         },
         "uk": {
@@ -1510,11 +3448,23 @@
             "state": "translated",
             "value": "Фотографії"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "照片"
+          }
         }
       }
     },
     "Pick a folder": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار مجلد"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1527,10 +3477,34 @@
             "value": "Elija una carpeta"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir un dossier"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "कोई फ़ोल्डर चुनें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フォルダを選ぶ"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "폴더 선택"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bir klasör seçin"
           }
         },
         "uk": {
@@ -1538,11 +3512,23 @@
             "state": "translated",
             "value": "Виберіть папку"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择文件夹"
+          }
         }
       }
     },
     "Post Media Tasks": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مهام نشر الوسائط"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1555,10 +3541,34 @@
             "value": "Publicar tareas multimedia"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tâches de post-média"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "पोस्ट मीडिया कार्य"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ポストメディア・タスク"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "미디어 작업 게시"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medya Görevleri Gönder"
           }
         },
         "uk": {
@@ -1566,11 +3576,23 @@
             "state": "translated",
             "value": "Розмістити медіа-завдання"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "发布媒体任务"
+          }
         }
       }
     },
     "Quit": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انهاء"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1583,10 +3605,34 @@
             "value": "Deje de"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Démissionner"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "छोड़ना"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "やめる"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "종료"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bırak"
           }
         },
         "uk": {
@@ -1594,11 +3640,23 @@
             "state": "translated",
             "value": "Звільнися."
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出"
+          }
         }
       }
     },
     "Record": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سجل"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1611,10 +3669,34 @@
             "value": "Registro"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रिकॉर्ड"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記録"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "기록"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt"
           }
         },
         "uk": {
@@ -1622,11 +3704,23 @@
             "state": "translated",
             "value": "Запис"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "记录"
+          }
         }
       }
     },
     "Record .mp4 instead of .mov": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سجل .mp4 بدلا من .mov"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1639,10 +3733,34 @@
             "value": "Grabar .mp4 en lugar de .mov"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer .mp4 au lieu de .mov"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ".mov के बजाय .mp4 रिकॉर्ड करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ".movの代わりに.mp4を録画する"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": ".mov 대신 .mp4로 녹화"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ".mov yerine .mp4 kaydedin"
           }
         },
         "uk": {
@@ -1650,11 +3768,23 @@
             "state": "translated",
             "value": "Записуйте .mp4 замість .mov"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录制 .mp4 而不是 .mov"
+          }
         }
       }
     },
     "Record GIF": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل GIF"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1667,10 +3797,34 @@
             "value": "Grabar GIF"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer le GIF"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GIF रिकॉर्ड करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "レコードGIF"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "GIF 녹화"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GIF Kaydı"
           }
         },
         "uk": {
@@ -1678,11 +3832,23 @@
             "state": "translated",
             "value": "Запис GIF"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "记录 GIF"
+          }
         }
       }
     },
     "Record GIF:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سجل GIF:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1695,10 +3861,34 @@
             "value": "Record GIF:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Record GIF :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रिकॉर्ड GIF:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "レコードGIF："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "GIF를 녹화합니다:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GIF kaydı:"
           }
         },
         "uk": {
@@ -1706,11 +3896,23 @@
             "state": "translated",
             "value": "Записати GIF:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "记录 GIF："
+          }
         }
       }
     },
     "Record Screen:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شاشة التسجيل:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1723,10 +3925,34 @@
             "value": "Pantalla de grabación:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Écran d'enregistrement :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रिकॉर्ड स्क्रीन:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記録画面："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "녹화 화면:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıt Ekranı:"
           }
         },
         "uk": {
@@ -1734,11 +3960,23 @@
             "state": "translated",
             "value": "Екран запису:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "记录屏幕："
+          }
         }
       }
     },
     "Reset All Keybinds": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إعادة تعيين جميع روابط المفاتيح"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1751,10 +3989,34 @@
             "value": "Restablecer todas las combinaciones de teclas"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Réinitialiser tous les raccourcis clavier"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सभी कीबाइंड रीसेट करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "すべてのキーバインドをリセット"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "모든 키 바인드 재설정"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tüm Tuş Bağlamalarını Sıfırla"
           }
         },
         "uk": {
@@ -1762,11 +4024,23 @@
             "state": "translated",
             "value": "Скинути всі сполучення клавіш"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重置所有按键"
+          }
         }
       }
     },
     "Save": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أنقذ"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1779,10 +4053,34 @@
             "value": "Guardar"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Économiser"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "रक्षा कर"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "セーブ"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "저장"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kaydet"
           }
         },
         "uk": {
@@ -1790,11 +4088,23 @@
             "state": "translated",
             "value": "Зберегти"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "节省"
+          }
         }
       }
     },
     "Save to Disk": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حفظ على القرص"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1807,10 +4117,34 @@
             "value": "Guardar en disco"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer sur disque"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "डिस्क पर सहेजें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ディスクに保存"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "디스크에 저장"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Diske Kaydet"
           }
         },
         "uk": {
@@ -1818,11 +4152,23 @@
             "state": "translated",
             "value": "Зберегти на диск"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存到磁盘"
+          }
         }
       }
     },
     "Screencapture binary:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ثنائي لقطة الشاشة:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1835,10 +4181,34 @@
             "value": "Captura de pantalla binaria:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Capture d'écran binaire :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "स्क्रीनकैप्चर बाइनरी:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スクリーンキャプチャーのバイナリ："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "바이너리 화면 캡처:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ekran yakalama ikilisi:"
           }
         },
         "uk": {
@@ -1846,11 +4216,23 @@
             "state": "translated",
             "value": "Скріншот бінарний:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "二进制屏幕截图："
+          }
         }
       }
     },
     "Select apps to exclude": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدد التطبيقات المراد استبعادها"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1863,10 +4245,34 @@
             "value": "Seleccione las aplicaciones que desea excluir"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionner les applications à exclure"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "बहिष्कृत करने के लिए ऐप्स का चयन करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "除外するアプリを選択する"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "제외할 앱 선택"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hariç tutulacak uygulamaları seçin"
           }
         },
         "uk": {
@@ -1874,11 +4280,23 @@
             "state": "translated",
             "value": "Виберіть програми, які потрібно виключити"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择要排除的应用程序"
+          }
         }
       }
     },
     "Selected File: %@": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملف المحدد: ٪ @"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1891,10 +4309,34 @@
             "value": "Fichero seleccionado: %@"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fichier sélectionné : %@"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "चयनित फ़ाइल: % @"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選択されたファイル: %@"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "선택한 파일: %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seçilen Dosya: %@"
           }
         },
         "uk": {
@@ -1902,11 +4344,23 @@
             "state": "translated",
             "value": "Вибраний файл: %@."
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "所选文件： %@"
+          }
         }
       }
     },
     "Set to default": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التعيين إلى الإعداد الافتراضي"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1919,10 +4373,34 @@
             "value": "Por defecto"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Régler par défaut"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "डिफ़ॉल्ट पर सेट करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "デフォルト設定"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "기본값으로 설정"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Varsayılana ayarla"
           }
         },
         "uk": {
@@ -1930,11 +4408,23 @@
             "state": "translated",
             "value": "Встановлено за замовчуванням"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置为默认值"
+          }
         }
       }
     },
     "Settings": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اعدادات"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1947,10 +4437,34 @@
             "value": "Ajustes"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paramètres"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "सेटिंग्स"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "設定"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "설정"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayarlar"
           }
         },
         "uk": {
@@ -1958,11 +4472,23 @@
             "state": "translated",
             "value": "Налаштування"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "设置"
+          }
         }
       }
     },
     "Test Uploader": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختبار التحميل"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -1975,10 +4501,34 @@
             "value": "Cargador de prueba"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test Uploader"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "टेस्ट अपलोडर"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テスト・アップローダー"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "테스트 업로더"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Test Yükleyicisi"
           }
         },
         "uk": {
@@ -1986,11 +4536,23 @@
             "state": "translated",
             "value": "Завантажувач тестів"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "测试上传器"
+          }
         }
       }
     },
     "Toast Timeout: %lld seconds": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مهلة الخبز المحمص: ٪ lld ثانية"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2003,10 +4565,34 @@
             "value": "Tiempo de tostado: %lld segundos"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Délai d'attente pour le toast : %lld secondes"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "टोस्ट टाइमआउट: %lld सेकंड"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "トーストタイムアウト: %lld 秒"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "토스트 시간 초과: %lld 초"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tost Zaman Aşımı: %lld saniye"
           }
         },
         "uk": {
@@ -2014,11 +4600,23 @@
             "state": "translated",
             "value": "Тайм-аут тосту: %lld секунд"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "吐司超时：%lld 秒"
+          }
         }
       }
     },
     "Upload Destination": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "وجهة التحميل"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2031,10 +4629,34 @@
             "value": "Cargar destino"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Télécharger la destination"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "गंतव्य अपलोड करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アップロード先"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "업로드 대상"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleme Hedefi"
           }
         },
         "uk": {
@@ -2042,11 +4664,23 @@
             "state": "translated",
             "value": "Завантажити Місце призначення"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上传目的地"
+          }
         }
       }
     },
     "Upload Media": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحميل الوسائط"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2059,10 +4693,34 @@
             "value": "Cargar medios"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Télécharger les médias"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मीडिया अपलोड करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "メディアのアップロード"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "미디어 업로드"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Medya Yükle"
           }
         },
         "uk": {
@@ -2070,11 +4728,23 @@
             "state": "translated",
             "value": "Завантажити медіа"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上传媒体"
+          }
         }
       }
     },
     "Uploaders": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القائمون بالتحميل"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2087,10 +4757,34 @@
             "value": "Cargadores"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uploaders"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "अपलोडर"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "アップローダー"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "업로더"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yükleyiciler"
           }
         },
         "uk": {
@@ -2098,11 +4792,23 @@
             "state": "translated",
             "value": "Завантажувачі"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上传者"
+          }
         }
       }
     },
     "Use HDR": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم HDR"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2115,10 +4821,34 @@
             "value": "Utilizar HDR"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser le HDR"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HDR का इस्तेमाल करना"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HDRの使用"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "HDR 사용"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HDR kullanın"
           }
         },
         "uk": {
@@ -2126,11 +4856,23 @@
             "state": "translated",
             "value": "Використовуйте HDR"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 HDR"
+          }
         }
       }
     },
     "Use HEVC": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم HEVC"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2143,10 +4885,34 @@
             "value": "Utilizar HEVC"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser HEVC"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "एचईवीसी का प्रयोग करें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HEVCを使用する"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "HEVC 사용"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HEVC kullanın"
           }
         },
         "uk": {
@@ -2154,11 +4920,23 @@
             "state": "translated",
             "value": "Використовуйте HEVC"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "使用 HEVC"
+          }
         }
       }
     },
     "Value": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قيمة"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2171,10 +4949,34 @@
             "value": "Valor"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valeur"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "मूल्य"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "価値"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "가치"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Değer"
           }
         },
         "uk": {
@@ -2182,11 +4984,23 @@
             "state": "translated",
             "value": "Значення"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "价值"
+          }
         }
       }
     },
     "Video files": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ملفات الفيديو"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2199,10 +5013,34 @@
             "value": "Archivos de vídeo"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fichiers vidéo"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "वीडियो फ़ाइलें"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ビデオファイル"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "비디오 파일"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video dosyaları"
           }
         },
         "uk": {
@@ -2210,11 +5048,23 @@
             "state": "translated",
             "value": "Відеофайли"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "视频文件"
+          }
         }
       }
     },
     "Video path:": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسار الفيديو:"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2227,10 +5077,34 @@
             "value": "Ruta del vídeo:"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chemin vidéo :"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "वीडियो पथ:"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ビデオパス："
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "비디오 경로:"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video yolu:"
           }
         },
         "uk": {
@@ -2238,11 +5112,23 @@
             "state": "translated",
             "value": "Відеотракт:"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "视频路径："
+          }
         }
       }
     },
     "Warning! Only modify these settings if you know what you're doing!": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحذير! قم بتعديل هذه الإعدادات فقط إذا كنت تعرف ما تفعله!"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2255,10 +5141,34 @@
             "value": "¡Atención! Modifique estos ajustes sólo si sabe lo que hace."
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attention ! Ne modifiez ces paramètres que si vous savez ce que vous faites !"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "चेतावनी! इन सेटिंग्स को केवल तभी संशोधित करें जब आप जानते हैं कि आप क्या कर रहे हैं!"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "警告これらの設定を変更するのは、自分が何をしているか分かっている場合のみにしてください！"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "경고! 이러한 설정은 자신이 무엇을 하고 있는지 알고 있는 경우에만 수정하세요!"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uyarı! Bu ayarları sadece ne yaptığınızı biliyorsanız değiştirin!"
           }
         },
         "uk": {
@@ -2266,11 +5176,23 @@
             "state": "translated",
             "value": "Попередження! Змінюйте ці налаштування, тільки якщо ви знаєте, що робите!"
           }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "警告！只有在您知道自己在做什么的情况下才能修改这些设置！"
+          }
         }
       }
     },
     "You have no saved uploaders": {
       "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ليس لديك رافعون محفوظون"
+          }
+        },
         "de": {
           "stringUnit": {
             "state": "translated",
@@ -2283,16 +5205,46 @@
             "value": "No tiene ningún cargador guardado"
           }
         },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vous n'avez pas de téléchargeurs enregistrés"
+          }
+        },
+        "hi": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "आपके पास कोई सहेजा गया अपलोडर नहीं है"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存されたアップローダーがありません"
+          }
+        },
         "ko": {
           "stringUnit": {
             "state": "translated",
             "value": "저장된 업로더가 없습니다."
           }
         },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kayıtlı yükleyiciniz yok"
+          }
+        },
         "uk": {
           "stringUnit": {
             "state": "translated",
             "value": "У вас немає збережених завантажувачів"
+          }
+        },
+        "zh-CN": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "您没有保存上传者"
           }
         }
       }
