@@ -54,6 +54,7 @@ extension Defaults.Keys {
     static let recordMP4 = Key<Bool>("recordMP4", default: true, iCloud: true)
     static let useHEVC = Key<Bool>("useHEVC", default: false, iCloud: true)
     static let useHDR = Key<Bool>("useHDR", default: false, iCloud: true)
+    static let recordMic = Key<Bool>("recordMic", default: true, iCloud: true)
     static let builtInShare = Key<SharingPreferences>("builtInShare", default: .init(), iCloud: true)
     static let toastTimeout = Key<Double>("toastTimeout", default: 2, iCloud: true)
     static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT, iCloud: true)

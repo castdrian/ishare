@@ -262,6 +262,7 @@ struct RecordingSettingsView: View {
     @Default(.useHEVC) var useHEVC
     @Default(.useHDR) var useHDR
     @Default(.aussieMode) var aussieMode
+    @Default(.recordMic) var recordMic
 
     @State private var isExcludedAppSheetPresented = false
 
@@ -273,6 +274,7 @@ struct RecordingSettingsView: View {
                         Toggle("Record .mp4 instead of .mov", isOn: $recordMP4)
                         Toggle("Use HEVC", isOn: $useHEVC)
                         Toggle("Use HDR", isOn: $useHDR)
+                        Toggle("Record microphone", isOn: $recordMic)
                     }
                 }
             }
