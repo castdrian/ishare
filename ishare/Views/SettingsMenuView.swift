@@ -262,8 +262,11 @@ struct RecordingSettingsView: View {
     @Default(.useHEVC) var useHEVC
     @Default(.useHDR) var useHDR
     @Default(.aussieMode) var aussieMode
+    @Default(.recordAudio) var recordAudio
     @Default(.recordMic) var recordMic
-
+    @Default(.recordPointer) var recordPointer
+    @Default(.recordClicks) var recordClicks
+    
     @State private var isExcludedAppSheetPresented = false
 
     var body: some View {
@@ -274,7 +277,40 @@ struct RecordingSettingsView: View {
                         Toggle("Record .mp4 instead of .mov", isOn: $recordMP4)
                         Toggle("Use HEVC", isOn: $useHEVC)
                         Toggle("Use HDR", isOn: $useHDR)
+                        Toggle("Record audio", isOn: $recordAudio)
                         Toggle("Record microphone", isOn: $recordMic)
+                            .onChange(of: recordMic) { oldValue, newValue in
+                                if newValue {
+                                    Task {
+                                        switch AVCaptureDevice.authorizationStatus(for: .audio) {
+                                        case .authorized:
+                                            NSLog("Microphone permissions already granted")
+                                        case .notDetermined:
+                                            NSLog("Requesting microphone permissions")
+                                            let granted = await AVCaptureDevice.requestAccess(for: .audio)
+                                            if !granted {
+                                                NSLog("Microphone permissions denied")
+                                                await MainActor.run {
+                                                    recordMic = false
+                                                }
+                                            }
+                                            NSLog("Microphone permissions granted")
+                                        case .denied, .restricted:
+                                            NSLog("Microphone permissions denied or restricted")
+                                            await MainActor.run {
+                                                recordMic = false
+                                            }
+                                        @unknown default:
+                                            NSLog("Unknown microphone permission status")
+                                            await MainActor.run {
+                                                recordMic = false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        Toggle("Record pointer", isOn: $recordPointer)
+                        Toggle("Record clicks", isOn: $recordClicks)
                     }
                 }
             }

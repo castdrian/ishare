@@ -26,11 +26,17 @@ struct CapturedFrame: Sendable {
 class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
     private var recordMP4: Bool = false
     private var useHEVC: Bool = false
+    private var recordAudio: Bool = false
+    private var recordMic: Bool = false
+    private var recordPointer: Bool = false
+    private var recordClicks: Bool = false
 
     private var stream: SCStream?
     private var fileURL: URL?
     private let videoSampleBufferQueue = DispatchQueue(label: "com.example.apple-samplecode.VideoSampleBufferQueue")
     private let audioSampleBufferQueue = DispatchQueue(label: "com.example.apple-samplecode.AudioSampleBufferQueue")
+    private let micAudioSampleBufferQueue = DispatchQueue(label: "com.example.apple-samplecode.AudioSampleBufferQueue")
+
 
     // Performs average and peak power calculations on the audio samples.
     private let powerMeter = PowerMeter()
@@ -50,8 +56,17 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
         
         @Default(.recordMP4) var recordMP4
         @Default(.useHEVC) var useHEVC
+        @Default(.recordAudio) var recordAudio
+        @Default(.recordMic) var recordMic
+        @Default(.recordPointer) var recordPointer
+        @Default(.recordClicks) var recordClicks
+
         self.recordMP4 = recordMP4
         self.useHEVC = useHEVC
+        self.recordAudio = recordAudio
+        self.recordMic = recordMic
+        self.recordPointer = recordPointer
+        self.recordClicks = recordClicks
         
         return AsyncThrowingStream<CapturedFrame, any Error> { continuation in
             // The stream output object.
@@ -63,12 +78,18 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
             self.startTime = Date()
 
             do {
+                config.capturesAudio = recordAudio
+                config.captureMicrophone = recordMic
+                config.showsCursor = recordPointer
+                config.showMouseClicks = recordClicks
+                
                 stream = SCStream(filter: contentFilter, configuration: config, delegate: streamOutput)
                 self.fileURL = outputURL
 
                 // Add a stream output to capture screen content.
                 try stream?.addStreamOutput(streamOutput!, type: .screen, sampleHandlerQueue: videoSampleBufferQueue)
                 try stream?.addStreamOutput(streamOutput!, type: .audio, sampleHandlerQueue: audioSampleBufferQueue)
+                try stream?.addStreamOutput(streamOutput!, type: .microphone, sampleHandlerQueue: micAudioSampleBufferQueue)
 
                 let recordingConfiguration = SCRecordingOutputConfiguration()
 
@@ -158,7 +179,10 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
                 self.pcmBufferHandler?(samples)
             }
         case .microphone:
-            return
+            guard let samples = createPCMBuffer(for: sampleBuffer) else { return }
+            Task { @MainActor [self] in
+                self.pcmBufferHandler?(samples)
+            }
         @unknown default:
             fatalError("Encountered unknown stream output type: \(outputType)")
         }

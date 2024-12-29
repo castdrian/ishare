@@ -10,6 +10,7 @@ import Defaults
 import Foundation
 @preconcurrency import ScreenCaptureKit
 import SwiftUI
+import AVFoundation
 
 class AudioLevelsProvider: ObservableObject {
     @Published var audioLevels = AudioLevels.zero
@@ -17,6 +18,8 @@ class AudioLevelsProvider: ObservableObject {
 
 @MainActor
 class ScreenRecorder: ObservableObject {
+    @Default(.recordMic) var recordMic
+
     @Published var isRunning = false
     @Published var isAppAudioExcluded = false
     @Published private(set) var audioLevelsProvider = AudioLevelsProvider()
@@ -31,6 +34,10 @@ class ScreenRecorder: ObservableObject {
                 NSLog("Checking screen recording permissions")
                 try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
                 NSLog("Screen recording permissions granted")
+                
+                if recordMic {
+                }
+                
                 return true
             } catch {
                 NSLog("Screen recording permissions denied: %@", error.localizedDescription)

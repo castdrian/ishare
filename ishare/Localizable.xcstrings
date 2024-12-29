@@ -3780,6 +3780,12 @@
         }
       }
     },
+    "Record audio" : {
+
+    },
+    "Record clicks" : {
+
+    },
     "Record GIF" : {
       "localizations" : {
         "ar" : {
@@ -3909,6 +3915,9 @@
       }
     },
     "Record microphone" : {
+
+    },
+    "Record pointer" : {
 
     },
     "Record Screen:" : {
