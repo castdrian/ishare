@@ -1,0 +1,10 @@
+{
+  "name": "copyparty",
+  "requestURL": "http://127.0.0.1:3923/screenshots/",
+  "headers": {
+    "pw": "VALUE",
+    "accept": "json"
+  },
+  "fileFormName": "f",
+  "responseURL": "{{files[0].url}}",
+}
