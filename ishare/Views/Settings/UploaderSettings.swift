@@ -25,7 +25,7 @@ struct UploaderSettingsView: View {
                 if uploaders.isEmpty {
                     HStack(alignment: .center) {
                         VStack {
-                            Text("You have no saved uploaders")
+                            Text("You have no saved uploaders".localized())
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                                 .font(.largeTitle)
                                 .foregroundColor(.secondary)
@@ -48,7 +48,7 @@ struct UploaderSettingsView: View {
                                     .frame(width: 12, height: 12)
                             }
                             .buttonStyle(BorderlessButtonStyle())
-                            .help("Delete Uploader")
+                            .help("Delete Uploader".localized())
 
                             Button(action: {
                                 testCustomUploader(uploader)
@@ -59,7 +59,7 @@ struct UploaderSettingsView: View {
                                     .frame(width: 12, height: 12)
                             }
                             .buttonStyle(BorderlessButtonStyle())
-                            .help("Test Uploader")
+                            .help("Test Uploader".localized())
 
                             Button(action: {
                                 editingUploader = uploader
@@ -71,7 +71,7 @@ struct UploaderSettingsView: View {
                                     .frame(width: 12, height: 12)
                             }
                             .buttonStyle(BorderlessButtonStyle())
-                            .help("Edit Uploader")
+                            .help("Edit Uploader".localized())
 
                             Button(action: {
                                 exportUploader(uploader)
@@ -82,7 +82,7 @@ struct UploaderSettingsView: View {
                                     .frame(width: 12, height: 12)
                             }
                             .buttonStyle(BorderlessButtonStyle())
-                            .help("Export Uploader")
+                            .help("Export Uploader".localized())
                         }
                         .padding(.horizontal)
                         .padding(.vertical, 4)
@@ -98,21 +98,21 @@ struct UploaderSettingsView: View {
                     editingUploader = nil
                     isAddSheetPresented.toggle()
                 }) {
-                    Text("Create")
+                    Text("Create".localized())
                 }
                 .buttonStyle(DefaultButtonStyle())
 
                 Button(action: {
                     isImportSheetPresented.toggle()
                 }) {
-                    Text("Import")
+                    Text("Import".localized())
                 }
                 .buttonStyle(DefaultButtonStyle())
 
                 Button(action: {
                     clearAllUploaders()
                 }) {
-                    Text("Clear All")
+                    Text("Clear All".localized())
                         .foregroundColor(.red)
                 }
                 .buttonStyle(DefaultButtonStyle())
@@ -172,15 +172,15 @@ struct UploaderSettingsView: View {
                     print("Upload error: \(error)")
                     let alert = NSAlert()
                     alert.alertStyle = .critical
-                    alert.messageText = "Upload Error"
-                    alert.informativeText = "An error occurred during the upload process."
+                    alert.messageText = "Upload Error".localized()
+                    alert.informativeText = "An error occurred during the upload process.".localized()
                     alert.runModal()
                 } else if let url = finalURL {
                     print("Final URL: \(url)")
                     let alert = NSAlert()
                     alert.alertStyle = .informational
-                    alert.messageText = "Upload Successful"
-                    alert.informativeText = "The file was uploaded successfully."
+                    alert.messageText = "Upload Successful".localized()
+                    alert.informativeText = "The file was uploaded successfully.".localized()
                     alert.runModal()
                 }
             }
@@ -236,21 +236,21 @@ struct AddCustomUploaderView: View {
 
     var body: some View {
         ScrollView {
-            Text(uploader == nil ? "Create Custom Uploader" : "Edit Custom Uploader")
+            Text(uploader == nil ? "Create Custom Uploader".localized() : "Edit Custom Uploader".localized())
                 .font(.title)
                 .padding()
             Divider().padding(.horizontal)
 
             VStack(alignment: .leading) {
                 Group {
-                    InputField(label: "Name*", text: $uploaderName)
+                    InputField(label: "Name*".lowercased(), text: $uploaderName)
                     HStack {
-                        InputField(label: "Request URL*", text: $requestURL)
-                        InputField(label: "Response URL*", text: $responseURL)
+                        InputField(label: "Request URL*".localized(), text: $requestURL)
+                        InputField(label: "Response URL*".localized(), text: $responseURL)
                     }
                     HStack {
-                        InputField(label: "Deletion URL", text: $deletionURL)
-                        InputField(label: "File Form Name", text: $fileFormName)
+                        InputField(label: "Deletion URL".localized(), text: $deletionURL)
+                        InputField(label: "File Form Name".localized(), text: $fileFormName)
                     }
                 }
                 .padding(.bottom)
@@ -261,12 +261,12 @@ struct AddCustomUploaderView: View {
                 FormDataView()
                 Divider().padding(.vertical)
 
-                Text("*required").font(.footnote).frame(maxWidth: .infinity, alignment: .leading).opacity(0.5)
+                Text("*required".localized()).font(.footnote).frame(maxWidth: .infinity, alignment: .leading).opacity(0.5)
 
                 Button(action: {
                     saveCustomUploader()
                 }) {
-                    Text("Save")
+                    Text("Save".localized())
                         .frame(maxWidth: .infinity)
                 }
                 .padding()
@@ -299,11 +299,11 @@ struct AddCustomUploaderView: View {
     }
 
     private func HeaderView() -> some View {
-        EntryListView(title: "Headers", entries: $header)
+        EntryListView(title: "Headers".localized(), entries: $header)
     }
 
     private func FormDataView() -> some View {
-        EntryListView(title: "Form Data", entries: $formData)
+        EntryListView(title: "Form Data".localized(), entries: $formData)
     }
 
     struct EntryListView: View {
@@ -332,11 +332,11 @@ struct AddCustomUploaderView: View {
                     Divider()
                     HStack {
                         VStack(alignment: .leading) {
-                            Text("Name").frame(maxWidth: .infinity)
+                            Text("Name".localized()).frame(maxWidth: .infinity)
                         }
                         Divider()
                         VStack(alignment: .leading) {
-                            Text("Value").frame(maxWidth: .infinity)
+                            Text("Value".localized()).frame(maxWidth: .infinity)
                         }
                         Button(action: {}) {
                             Image(systemName: "minus.circle")
@@ -418,10 +418,10 @@ struct AddCustomUploaderView: View {
         var body: some View {
             HStack {
                 VStack(alignment: .leading) {
-                    TextField("Name", text: $entry.key)
+                    TextField("Name".localized(), text: $entry.key)
                 }
                 VStack(alignment: .leading) {
-                    TextField("Value", text: $entry.value)
+                    TextField("Value".localized(), text: $entry.value)
                 }
             }
         }
@@ -456,7 +456,7 @@ struct ImportCustomUploaderView: View {
 
     var body: some View {
         VStack {
-            Text("Import Custom Uploader")
+            Text("Import Custom Uploader".localized())
                 .font(.title)
 
             Divider()
@@ -472,7 +472,7 @@ struct ImportCustomUploaderView: View {
                             .scaledToFit()
                             .frame(width: 50, height: 50)
                             .foregroundColor(.gray)
-                        Text("Drag and drop .iscu files here or click to select")
+                        Text("Drag and drop .iscu files here or click to select".localized())
                             .foregroundColor(.gray)
                     }
                 )
@@ -497,13 +497,13 @@ struct ImportCustomUploaderView: View {
                 }
 
             if let fileURL = selectedFileURLs.first {
-                Text("Selected File: \(fileURL.lastPathComponent)")
+                Text("Selected File: \(fileURL.lastPathComponent)".localized())
                     .foregroundColor(.secondary)
             }
 
             Spacer()
 
-            Button("Cancel") {
+            Button("Cancel".localized()) {
                 presentationMode.wrappedValue.dismiss()
             }
             .padding()
@@ -511,9 +511,9 @@ struct ImportCustomUploaderView: View {
         .padding()
         .alert(item: $importError) { error in
             Alert(
-                title: Text("Error"),
+                title: Text("Error".localized()),
                 message: Text(error.localizedDescription),
-                dismissButton: .default(Text("OK"))
+                dismissButton: .default(Text("OK".localized()))
             )
         }
     }

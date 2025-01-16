@@ -70,6 +70,8 @@
 		3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = 3ADDAEE22A65D00F00C42406 /* Zip */; };
 		3AE7312A2B47052E006F10F7 /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE731292B47052E006F10F7 /* UploadManager.swift */; };
 		3AEFA5672A9FC15800F485B4 /* PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */; };
+		3AF432E82D390C69003DF3DD /* LocalizableManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF432E72D390C69003DF3DD /* LocalizableManager.swift */; };
+		3AF432E92D390C69003DF3DD /* LocalizableManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF432E72D390C69003DF3DD /* LocalizableManager.swift */; };
 		3AF7F0212B3EF16B000117DD /* HistoryGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7F0202B3EF16B000117DD /* HistoryGridView.swift */; };
 		3AF9A80F2C4B011A0094B78B /* sharemenuext.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3AF9A8052C4B011A0094B78B /* sharemenuext.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -143,6 +145,7 @@
 		3ADDAED92A659A0B00C42406 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Util/Assets.xcassets; sourceTree = "<group>"; };
 		3AE731292B47052E006F10F7 /* UploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewImage.swift; sourceTree = "<group>"; };
+		3AF432E72D390C69003DF3DD /* LocalizableManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizableManager.swift; sourceTree = "<group>"; };
 		3AF7F0202B3EF16B000117DD /* HistoryGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryGridView.swift; sourceTree = "<group>"; };
 		3AF9A8052C4B011A0094B78B /* sharemenuext.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = sharemenuext.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -285,6 +288,7 @@
 				3AB345C52A5F0C7A00AAEC0E /* Constants.swift */,
 				3AB38D032A62B56B00184E0D /* CustomUploader.swift */,
 				3AEFA5662A9FC15800F485B4 /* PreviewImage.swift */,
+				3AF432E72D390C69003DF3DD /* LocalizableManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -492,6 +496,7 @@
 				3A2994872CFF79CB0079CBB8 /* SettingsMenuView.swift in Sources */,
 				3A2994882CFF79CB0079CBB8 /* ToastPopover.swift in Sources */,
 				3A2994892CFF79CB0079CBB8 /* ImageCapture.swift in Sources */,
+				3AF432E92D390C69003DF3DD /* LocalizableManager.swift in Sources */,
 				3A29948A2CFF79CB0079CBB8 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -519,6 +524,7 @@
 				3AB345B62A5E8E6300AAEC0E /* SettingsMenuView.swift in Sources */,
 				3AB345C42A5EEB8D00AAEC0E /* ToastPopover.swift in Sources */,
 				3AB345AB2A5D779500AAEC0E /* ImageCapture.swift in Sources */,
+				3AF432E82D390C69003DF3DD /* LocalizableManager.swift in Sources */,
 				3AB345C62A5F0C7A00AAEC0E /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

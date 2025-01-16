@@ -37,7 +37,6 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
     private let audioSampleBufferQueue = DispatchQueue(label: "com.example.apple-samplecode.AudioSampleBufferQueue")
     private let micAudioSampleBufferQueue = DispatchQueue(label: "com.example.apple-samplecode.AudioSampleBufferQueue")
 
-
     // Performs average and peak power calculations on the audio samples.
     private let powerMeter = PowerMeter()
     var audioLevels: AudioLevels { powerMeter.levels }
@@ -53,7 +52,7 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
         let config = configuration
         let contentFilter = filter
         let outputURL = fileURL
-        
+
         @Default(.recordMP4) var recordMP4
         @Default(.useHEVC) var useHEVC
         @Default(.recordAudio) var recordAudio
@@ -67,7 +66,7 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
         self.recordMic = recordMic
         self.recordPointer = recordPointer
         self.recordClicks = recordClicks
-        
+
         return AsyncThrowingStream<CapturedFrame, any Error> { continuation in
             // The stream output object.
             let output = CaptureEngineStreamOutput(continuation: continuation)
@@ -82,7 +81,7 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
                 config.captureMicrophone = recordMic
                 config.showsCursor = recordPointer
                 config.showMouseClicks = recordClicks
-                
+
                 stream = SCStream(filter: contentFilter, configuration: config, delegate: streamOutput)
                 self.fileURL = outputURL
 
@@ -109,8 +108,8 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
     }
 
     func stopCapture() async -> @Sendable (@escaping @Sendable (Result<URL, any Error>) -> Void) -> Void {
-        return { [weak self] completion in
-            guard let self = self else { return }
+        { [weak self] completion in
+            guard let self else { return }
             enum ScreenRecorderError: Error {
                 case missingFileURL
             }
@@ -123,7 +122,7 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
             // Stop the stream
             stream?.stopCapture()
             stream = nil
-            
+
             // Return the file URL
             completion(.success(url))
         }
@@ -135,9 +134,9 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
             let configuration: SCStreamConfiguration
             let filter: SCContentFilter
         }
-        
+
         let params = SendableParams(configuration: configuration, filter: filter)
-        
+
         do {
             try await stream?.updateConfiguration(params.configuration)
             try await stream?.updateContentFilter(params.filter)
@@ -170,18 +169,18 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
             // Create a CapturedFrame structure for a video sample buffer.
             guard let frame = createFrame(for: sampleBuffer) else { return }
             Task { @MainActor [self] in
-                self.capturedFrameHandler?(frame)
+                capturedFrameHandler?(frame)
             }
         case .audio:
             // Create an AVAudioPCMBuffer from an audio sample buffer.
             guard let samples = createPCMBuffer(for: sampleBuffer) else { return }
             Task { @MainActor [self] in
-                self.pcmBufferHandler?(samples)
+                pcmBufferHandler?(samples)
             }
         case .microphone:
             guard let samples = createPCMBuffer(for: sampleBuffer) else { return }
             Task { @MainActor [self] in
-                self.pcmBufferHandler?(samples)
+                pcmBufferHandler?(samples)
             }
         @unknown default:
             fatalError("Encountered unknown stream output type: \(outputType)")
@@ -202,7 +201,7 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
         }
         // Finish the AsyncThrowingStream if it's still running
         Task { @MainActor [self] in
-            self.continuation?.finish(throwing: error)
+            continuation?.finish(throwing: error)
         }
     }
 

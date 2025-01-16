@@ -25,7 +25,7 @@ extension KeyboardShortcuts.Name {
     static let recordScreen = Self("recordScreen", default: .init(.z, modifiers: [.control, .option]))
     static let recordGif = Self("recordGif", default: .init(.g, modifiers: [.control, .option]))
     static let openHistoryWindow = Self("openHistoryWindow", default: .init(.k, modifiers: [.command, .option]))
-    
+
     // Force upload variants
     static let captureRegionForceUpload = Self("captureRegionForceUpload", default: .init(.p, modifiers: [.shift, .option, .command]))
     static let captureWindowForceUpload = Self("captureWindowForceUpload", default: .init(.p, modifiers: [.shift, .control, .option]))
@@ -65,6 +65,7 @@ extension Defaults.Keys {
     static let ignoredBundleIdentifiers = Key<[String]>("ignoredApps", default: [], iCloud: true)
     static let aussieMode = Key<Bool>("aussieMode", default: false, iCloud: true)
     static let forceUploadModifier = Key<ForceUploadModifier>("forceUploadModifier", default: .shift)
+    static let storedLanguage = Key<LanguageTypes>("storedlanguage", default: .english, iCloud: true)
 }
 
 extension KeyboardShortcuts.Shortcut {
@@ -404,15 +405,15 @@ enum ForceUploadModifier: String, CaseIterable, Identifiable, Defaults.Serializa
     case control = "⌃"
     case option = "⌥"
     case command = "⌘"
-    
+
     var id: Self { self }
-    
+
     var modifierFlag: NSEvent.ModifierFlags {
         switch self {
-        case .shift: return .shift
-        case .control: return .control
-        case .option: return .option
-        case .command: return .command
+        case .shift: .shift
+        case .control: .control
+        case .option: .option
+        case .command: .command
         }
     }
 }

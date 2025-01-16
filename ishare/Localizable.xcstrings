@@ -2756,6 +2756,15 @@
         }
       }
     },
+    "Language" : {
+
+    },
+    "Language Change" : {
+
+    },
+    "Launch at login" : {
+
+    },
     "Mail" : {
       "localizations" : {
         "ar" : {
@@ -4048,6 +4057,9 @@
         }
       }
     },
+    "Restart Now" : {
+
+    },
     "Save" : {
       "localizations" : {
         "ar" : {
@@ -4559,6 +4571,9 @@
           }
         }
       }
+    },
+    "The app needs to close to apply the language change. Please reopen the app after it closes." : {
+
     },
     "Toast Timeout: %lld seconds" : {
       "localizations" : {

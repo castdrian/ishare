@@ -11,323 +11,326 @@ import ScreenCaptureKit
 import SettingsAccess
 import SwiftUI
 import UniformTypeIdentifiers
+
 #if canImport(Sparkle)
-    import Sparkle
+	import Sparkle
 #endif
 
 enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
-    case builtIn(UploadType)
-    case custom(UUID?)
+	case builtIn(UploadType)
+	case custom(UUID?)
 }
 
 @MainActor
 class WindowHolder: Sendable {
-    static let shared = WindowHolder()
-    var historyWindowController: HistoryWindowController?
+	static let shared = WindowHolder()
+	var historyWindowController: HistoryWindowController?
 }
 
 @MainActor
 class HistoryWindowController: NSWindowController {
-    convenience init(contentView: NSView) {
-        let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 600, height: 400),
-            styleMask: [.titled, .closable],
-            backing: .buffered, defer: false
-        )
-        window.center()
-        window.contentView = contentView
-        self.init(window: window)
-    }
+	convenience init(contentView: NSView) {
+		let window = NSWindow(
+			contentRect: NSRect(x: 0, y: 0, width: 600, height: 400),
+			styleMask: [.titled, .closable],
+			backing: .buffered, defer: false
+		)
+		window.center()
+		window.contentView = contentView
+		self.init(window: window)
+	}
 
-    override func windowDidLoad() {
-        super.windowDidLoad()
-    }
+	override func windowDidLoad() {
+		super.windowDidLoad()
+	}
 }
 
 @MainActor
-func openHistoryWindow(uploadHistory: [HistoryItem]) {
-    if WindowHolder.shared.historyWindowController == nil {
-        let historyView = HistoryGridView()
-        let hostingController = NSHostingController(rootView: historyView)
-        let windowController = HistoryWindowController(contentView: hostingController.view)
-        windowController.window?.title = "History"
+func openHistoryWindow(uploadHistory _: [HistoryItem]) {
+	if WindowHolder.shared.historyWindowController == nil {
+		let historyView = HistoryGridView()
+		let hostingController = NSHostingController(rootView: historyView)
+		let windowController = HistoryWindowController(contentView: hostingController.view)
+		windowController.window?.title = "History".localized()
 
-        windowController.showWindow(nil)
-        NSApp.activate(ignoringOtherApps: true)
+		windowController.showWindow(nil)
+		NSApp.activate(ignoringOtherApps: true)
 
-        WindowHolder.shared.historyWindowController = windowController
-    } else {
-        WindowHolder.shared.historyWindowController?.window?.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
-    }
+		WindowHolder.shared.historyWindowController = windowController
+	} else {
+		WindowHolder.shared.historyWindowController?.window?.makeKeyAndOrderFront(nil)
+		NSApp.activate(ignoringOtherApps: true)
+	}
 }
 
 struct MainMenuView: View {
-    @Default(.copyToClipboard) var copyToClipboard
-    @Default(.openInFinder) var openInFinder
-    @Default(.saveToDisk) var saveToDisk
-    @Default(.uploadMedia) var uploadMedia
-    @Default(.uploadType) var uploadType
-    @Default(.activeCustomUploader) var activeCustomUploader
-    @Default(.savedCustomUploaders) var savedCustomUploaders
-    @Default(.uploadDestination) var uploadDestination
-    @Default(.builtInShare) var builtInShare
-    @Default(.uploadHistory) var uploadHistory
+	@EnvironmentObject var localizableManager: LocalizableManager
 
-    var body: some View {
-        VStack {
-            Menu {
-                Button {
-                    Task {
-                        await captureScreen(type: .REGION)
-                    }
-                } label: {
-                    Image(systemName: "uiwindow.split.2x1")
-                    Text("Capture Region")
-                }.globalKeyboardShortcut(.captureRegion)
+	@Default(.copyToClipboard) var copyToClipboard
+	@Default(.openInFinder) var openInFinder
+	@Default(.saveToDisk) var saveToDisk
+	@Default(.uploadMedia) var uploadMedia
+	@Default(.uploadType) var uploadType
+	@Default(.activeCustomUploader) var activeCustomUploader
+	@Default(.savedCustomUploaders) var savedCustomUploaders
+	@Default(.uploadDestination) var uploadDestination
+	@Default(.builtInShare) var builtInShare
+	@Default(.uploadHistory) var uploadHistory
 
-                Button {
-                    Task {
-                        await captureScreen(type: .WINDOW)
-                    }
-                } label: {
-                    Image(systemName: "macwindow.on.rectangle")
-                    Text("Capture Window")
-                }.globalKeyboardShortcut(.captureWindow)
+	var body: some View {
+		VStack {
+			Menu {
+				Button {
+					Task {
+						await captureScreen(type: .REGION)
+					}
+				} label: {
+					Image(systemName: "uiwindow.split.2x1")
+					Text("Capture Region".localized())
+				}.globalKeyboardShortcut(.captureRegion)
 
-                ForEach(NSScreen.screens.indices, id: \.self) { index in
-                    let screen = NSScreen.screens[index]
-                    let screenName = screen.localizedName
-                    Button {
-                        Task {
-                            await captureScreen(type: .SCREEN, display: index + 1)
-                        }
-                    } label: {
-                        Image(systemName: "macwindow")
-                        Text("Capture \(screenName ?? "Screen")")
-                    }.globalKeyboardShortcut(index == 0 ? .captureScreen : .noKeybind)
-                }
-            } label: {
-                Image(systemName: "photo.on.rectangle.angled")
-                Text("Capture")
-            }
+				Button {
+					Task {
+						await captureScreen(type: .WINDOW)
+					}
+				} label: {
+					Image(systemName: "macwindow.on.rectangle")
+					Text("Capture Window".localized())
+				}.globalKeyboardShortcut(.captureWindow)
 
-            Button {
-                recordScreen()
-            }
-            label: {
-                Image(systemName: "menubar.dock.rectangle.badge.record")
-                Text("Record")
-            }.globalKeyboardShortcut(.recordScreen).disabled(AppDelegate.shared.screenRecorder.isRunning)
+				ForEach(NSScreen.screens.indices, id: \.self) { index in
+					let screen = NSScreen.screens[index]
+					let screenName = screen.localizedName
+					Button {
+						Task {
+							await captureScreen(type: .SCREEN, display: index + 1)
+						}
+					} label: {
+						Image(systemName: "macwindow")
+						Text("Capture \(screenName ?? "Screen")".localized())
+					}.globalKeyboardShortcut(index == 0 ? .captureScreen : .noKeybind)
+				}
+			} label: {
+				Image(systemName: "photo.on.rectangle.angled")
+				Text("Capture".localized())
+			}
 
-            Button {
-                recordScreen(gif: true)
-            }
-            label: {
-                Image(systemName: "photo.stack")
-                Text("Record GIF")
-            }.globalKeyboardShortcut(.recordGif).disabled(AppDelegate.shared.screenRecorder.isRunning)
-        }
-        VStack {
-            Menu {
-                Toggle(isOn: $copyToClipboard) {
-                    Image(systemName: "clipboard")
-                    Text("Copy to Clipboard")
-                }.toggleStyle(.checkbox)
+			Button {
+				recordScreen()
+			} label: {
+				Image(systemName: "menubar.dock.rectangle.badge.record")
+				Text("Record".localized())
+			}.globalKeyboardShortcut(.recordScreen).disabled(
+				AppDelegate.shared.screenRecorder.isRunning)
 
-                Toggle(isOn: $saveToDisk) {
-                    Image(systemName: "internaldrive")
-                    Text("Save to Disk")
-                }
-                .toggleStyle(.checkbox)
-                .onChange(of: saveToDisk) {
-                    if !saveToDisk {
-                        openInFinder = false
-                    }
-                }
+			Button {
+				recordScreen(gif: true)
+			} label: {
+				Image(systemName: "photo.stack")
+				Text("Record GIF".localized())
+			}.globalKeyboardShortcut(.recordGif).disabled(
+				AppDelegate.shared.screenRecorder.isRunning)
+		}
+		VStack {
+			Menu {
+				Toggle(isOn: $copyToClipboard) {
+					Image(systemName: "clipboard")
+					Text("Copy to Clipboard".localized())
+				}.toggleStyle(.checkbox)
 
-                Toggle(isOn: $openInFinder) {
-                    Image(systemName: "folder")
-                    Text("Open in Finder")
-                }
-                .toggleStyle(.checkbox)
-                .disabled(!saveToDisk)
+				Toggle(isOn: $saveToDisk) {
+					Image(systemName: "internaldrive")
+					Text("Save to Disk".localized())
+				}
+				.toggleStyle(.checkbox)
+				.onChange(of: saveToDisk) {
+					if !saveToDisk {
+						openInFinder = false
+					}
+				}
 
-                Toggle(isOn: $uploadMedia) {
-                    Image(systemName: "icloud.and.arrow.up")
-                    Text("Upload Media")
-                }.toggleStyle(.checkbox)
+				Toggle(isOn: $openInFinder) {
+					Image(systemName: "folder")
+					Text("Open in Finder".localized())
+				}
+				.toggleStyle(.checkbox)
+				.disabled(!saveToDisk)
 
-                Divider().frame(height: 1).foregroundColor(Color.gray.opacity(0.5))
+				Toggle(isOn: $uploadMedia) {
+					Image(systemName: "icloud.and.arrow.up")
+					Text("Upload Media".localized())
+				}.toggleStyle(.checkbox)
 
-                Toggle(isOn: $builtInShare.airdrop) {
-                    Image(nsImage: airdropIcon ?? NSImage())
-                    Text("AirDrop")
-                }.toggleStyle(.checkbox)
+				Divider().frame(height: 1).foregroundColor(Color.gray.opacity(0.5))
 
-                Toggle(isOn: $builtInShare.photos) {
-                    Image(nsImage: icon(forAppWithName: "com.apple.Photos") ?? NSImage())
-                    Text("Photos")
-                }.toggleStyle(.checkbox)
+				Toggle(isOn: $builtInShare.airdrop) {
+					Image(nsImage: airdropIcon ?? NSImage())
+					Text("AirDrop".localized())
+				}.toggleStyle(.checkbox)
 
-                Toggle(isOn: $builtInShare.messages) {
-                    Image(nsImage: icon(forAppWithName: "com.apple.MobileSMS") ?? NSImage())
-                    Text("Messages")
-                }.toggleStyle(.checkbox)
+				Toggle(isOn: $builtInShare.photos) {
+					Image(nsImage: icon(forAppWithName: "com.apple.Photos") ?? NSImage())
+					Text("Photos".localized())
+				}.toggleStyle(.checkbox)
 
-                Toggle(isOn: $builtInShare.mail) {
-                    Image(nsImage: icon(forAppWithName: "com.apple.Mail") ?? NSImage())
-                    Text("Mail")
-                }.toggleStyle(.checkbox)
-            } label: {
-                Image(systemName: "list.bullet.clipboard")
-                Text("Post Media Tasks")
-            }
+				Toggle(isOn: $builtInShare.messages) {
+					Image(nsImage: icon(forAppWithName: "com.apple.MobileSMS") ?? NSImage())
+					Text("Messages".localized())
+				}.toggleStyle(.checkbox)
 
-            Picker(selection: $uploadDestination) {
-                ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) { uploadType in
-                    Button {} label: {
-                        Image(nsImage: ImgurIcon)
-                        Text(uploadType.rawValue.capitalized)
-                    }.tag(UploadDestination.builtIn(uploadType))
-                }
-                if let customUploaders = savedCustomUploaders {
-                    if !customUploaders.isEmpty {
-                        Divider()
-                        ForEach(CustomUploader.allCases, id: \.self) { uploader in
-                            Button {} label: {
-                                Image(nsImage: AppIcon)
-                                Text(uploader.name)
-                            }.tag(UploadDestination.custom(uploader.id))
-                        }
-                    }
-                }
-            }
-            label: {
-                Image(systemName: "icloud.and.arrow.up")
-                Text("Upload Destination")
-            }
-            .onChange(of: uploadDestination) {
-                if case .builtIn = uploadDestination {
-                    activeCustomUploader = nil
-                    uploadType = .IMGUR
-                    BezelNotification.show(messageText: "Selected \(uploadType.rawValue.capitalized)", icon: ToastIcon)
-                } else if case let .custom(customUploader) = uploadDestination {
-                    activeCustomUploader = customUploader
-                    uploadType = .CUSTOM
-                    BezelNotification.show(messageText: "Selected Custom", icon: ToastIcon)
-                }
-            }
-            .pickerStyle(MenuPickerStyle())
+				Toggle(isOn: $builtInShare.mail) {
+					Image(nsImage: icon(forAppWithName: "com.apple.Mail") ?? NSImage())
+					Text("Mail".localized())
+				}.toggleStyle(.checkbox)
+			} label: {
+				Image(systemName: "list.bullet.clipboard")
+				Text("Post Media Tasks".localized())
+			}
 
-            if !uploadHistory.isEmpty {
-                Menu {
-                    Button {
-                        Task { @MainActor in
-                            openHistoryWindow(uploadHistory: uploadHistory)
-                        }
-                    } label: {
-                        Image(systemName: "clock.arrow.circlepath")
-                        Text("Open History Window")
-                    }.globalKeyboardShortcut(.openHistoryWindow)
+			Picker(selection: $uploadDestination) {
+				ForEach(UploadType.allCases.filter { $0 != .CUSTOM }, id: \.self) { uploadType in
+					Button {
+					} label: {
+						Image(nsImage: ImgurIcon)
+						Text(uploadType.rawValue.capitalized)
+					}.tag(UploadDestination.builtIn(uploadType))
+				}
+				if let customUploaders = savedCustomUploaders {
+					if !customUploaders.isEmpty {
+						Divider()
+						ForEach(CustomUploader.allCases, id: \.self) { uploader in
+							Button {
+							} label: {
+								Image(nsImage: AppIcon)
+								Text(uploader.name)
+							}.tag(UploadDestination.custom(uploader.id))
+						}
+					}
+				}
+			} label: {
+				Image(systemName: "icloud.and.arrow.up")
+				Text("Upload Destination".localized())
+			}
+			.onChange(of: uploadDestination) {
+				if case .builtIn = uploadDestination {
+					activeCustomUploader = nil
+					uploadType = .IMGUR
+					BezelNotification.show(
+						messageText: "Selected \(uploadType.rawValue.capitalized)".localized(),
+						icon: ToastIcon)
+				} else if case let .custom(customUploader) = uploadDestination {
+					activeCustomUploader = customUploader
+					uploadType = .CUSTOM
+					BezelNotification.show(
+						messageText: "Selected Custom".localized(), icon: ToastIcon)
+				}
+			}
+			.pickerStyle(MenuPickerStyle())
 
-                    Divider()
+			if !uploadHistory.isEmpty {
+				Menu {
+					Button {
+						Task { @MainActor in
+							openHistoryWindow(uploadHistory: uploadHistory)
+						}
+					} label: {
+						Image(systemName: "clock.arrow.circlepath")
+						Text("Open History Window".localized())
+					}.globalKeyboardShortcut(.openHistoryWindow)
 
-                    ForEach(uploadHistory.prefix(10), id: \.self) { item in
-                        Button {
-                            NSPasteboard.general.declareTypes([.string], owner: nil)
-                            NSPasteboard.general.setString(item.fileUrl ?? "", forType: .string)
-                            BezelNotification.show(messageText: "Copied URL", icon: ToastIcon)
-                        } label: {
-                            HStack {
-                                if let urlStr = item.fileUrl, let url = URL(string: urlStr), url.pathExtension.lowercased() == "mp4" || url.pathExtension.lowercased() == "mov" {
-                                    Image(systemName: "video")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 30, height: 30)
-                                } else { PreviewImage(url: URL(string: item.fileUrl ?? "")) { phase in
-                                    switch phase {
-                                    case let .success(nsImage):
-                                        Image(nsImage: nsImage).resizable()
-                                            .scaledToFit()
-                                            .frame(width: 30, height: 30)
-                                    case .failure:
-                                        Image(systemName: "exclamationmark.triangle.fill")
-                                            .foregroundColor(.red)
-                                    case .empty:
-                                        ProgressView()
-                                            .frame(width: 30, height: 30)
-                                    }
-                                }
-                                .frame(width: 30, height: 30)
-                                }
-                            }
-                        }
-                    }
-                }
-                label: {
-                    Image(systemName: "clock.arrow.circlepath")
-                    Text("History")
-                }
-            }
+					Divider()
 
-            Divider()
+					ForEach(uploadHistory.prefix(10), id: \.self) { item in
+						Button {
+							NSPasteboard.general.declareTypes([.string], owner: nil)
+							NSPasteboard.general.setString(item.fileUrl ?? "", forType: .string)
+							BezelNotification.show(
+								messageText: "Copied URL".localized(), icon: ToastIcon)
+						} label: {
+							HStack {
+								if let urlStr = item.fileUrl, let url = URL(string: urlStr),
+									url.pathExtension.lowercased() == "mp4"
+										|| url.pathExtension.lowercased() == "mov"
+								{
+									Image(systemName: "video")
+										.resizable()
+										.scaledToFit()
+										.frame(width: 30, height: 30)
+								} else {
+									PreviewImage(url: URL(string: item.fileUrl ?? "")) { phase in
+										switch phase {
+										case let .success(nsImage):
+											Image(nsImage: nsImage).resizable()
+												.scaledToFit()
+												.frame(width: 30, height: 30)
+										case .failure:
+											Image(systemName: "exclamationmark.triangle.fill")
+												.foregroundColor(.red)
+										case .empty:
+											ProgressView()
+												.frame(width: 30, height: 30)
+										}
+									}
+									.frame(width: 30, height: 30)
+								}
+							}
+						}
+					}
+				} label: {
+					Image(systemName: "clock.arrow.circlepath")
+					Text("History".localized())
+				}
+			}
 
-            if #available(macOS 14.0, *) {
-                SettingsLink {
-                    Image(systemName: "gearshape")
-                    Text("Settings")
-                } preAction: {
-                    NSApp.activate(ignoringOtherApps: true)
-                } postAction: {}
-                    .keyboardShortcut("s")
-            } else {
-                Button(action: {
-                    NSApplication.shared.activate(ignoringOtherApps: true)
-                    NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-                }) {
-                    Image(systemName: "gearshape")
-                    Text("Settings")
-                }.keyboardShortcut("s")
-            }
+			Divider()
 
-            Button {
-                NSApplication.shared.activate(ignoringOtherApps: true)
+			SettingsLink {
+				Image(systemName: "gearshape")
+				Text("Settings".localized())
+			} preAction: {
+				NSApp.activate(ignoringOtherApps: true)
+			} postAction: {
+			}
+			.keyboardShortcut("s")
 
-                let options: [NSApplication.AboutPanelOptionKey: Any] = [
-                    NSApplication.AboutPanelOptionKey(rawValue: "Copyright"): "© \(Calendar.current.component(.year, from: Date())) ADRIAN CASTRO",
-                ]
+			Button {
+				NSApplication.shared.activate(ignoringOtherApps: true)
 
-                NSApplication.shared.orderFrontStandardAboutPanel(options: options)
-            } label: {
-                Image(systemName: "info.circle")
-                Text("About ishare")
-            }
-            .keyboardShortcut("a")
+				let options: [NSApplication.AboutPanelOptionKey: Any] = [
+					NSApplication.AboutPanelOptionKey(rawValue: "Copyright".localized()):
+						"© \(Calendar.current.component(.year, from: Date())) ADRIAN CASTRO"
+				]
 
-            #if GITHUB_RELEASE
-                Button {
-                    NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/castdrian")!)
-                } label: {
-                    Image(systemName: "heart.circle")
-                    Text("Donate")
-                }.keyboardShortcut("d")
+				NSApplication.shared.orderFrontStandardAboutPanel(options: options)
+			} label: {
+				Image(systemName: "info.circle")
+				Text("About ishare".localized())
+			}
+			.keyboardShortcut("a")
 
-                Button {
-                    AppDelegate.shared.updaterController.updater.checkForUpdates()
-                } label: {
-                    Image(systemName: "arrow.triangle.2.circlepath")
-                    Text("Check for Updates")
-                }.keyboardShortcut("u")
+			#if GITHUB_RELEASE
+				Button {
+					NSWorkspace.shared.open(URL(string: "https://github.com/sponsors/castdrian")!)
+				} label: {
+					Image(systemName: "heart.circle")
+					Text("Donate".localized())
+				}.keyboardShortcut("d")
 
-            #endif
+				Button {
+					AppDelegate.shared.updaterController.updater.checkForUpdates()
+				} label: {
+					Image(systemName: "arrow.triangle.2.circlepath")
+					Text("Check for Updates".localized())
+				}.keyboardShortcut("u")
 
-            Button {
-                NSApplication.shared.terminate(nil)
-            } label: {
-                Image(systemName: "power.circle")
-                Text("Quit")
-            }.keyboardShortcut("q")
-        }
-    }
+			#endif
+
+			Button {
+				NSApplication.shared.terminate(nil)
+			} label: {
+				Image(systemName: "power.circle")
+				Text("Quit".localized())
+			}.keyboardShortcut("q")
+		}
+	}
 }

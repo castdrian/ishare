@@ -23,7 +23,7 @@ class ShareViewController: SLComposeServiceViewController {
 
     func sendFileToApp() {
         NSLog("Share extension activated")
-        
+
         let supportedTypes: [UTType] = [
             .quickTimeMovie,
             .mpeg4Movie,
@@ -32,10 +32,10 @@ class ShareViewController: SLComposeServiceViewController {
             .heic,
             .tiff,
             .gif,
-            .webP
+            .webP,
         ]
-        
-        guard let extensionContext = extensionContext,
+
+        guard let extensionContext,
               let item = (extensionContext.inputItems as? [NSExtensionItem])?.first,
               let provider = item.attachments?.first(where: { provider in
                   supportedTypes.contains(where: { provider.hasItemConformingToTypeIdentifier($0.identifier) })
@@ -48,13 +48,13 @@ class ShareViewController: SLComposeServiceViewController {
 
         let typeIdentifier = supportedTypes.first { provider.hasItemConformingToTypeIdentifier($0.identifier) }?.identifier ?? UTType.data.identifier
         let localTypeIdentifier = typeIdentifier
-        
+
         NSLog("Processing shared item of type: %@", typeIdentifier)
-        
+
         provider.loadItem(forTypeIdentifier: typeIdentifier, options: nil) { [weak self] item, _ in
-            guard let item = item else { return }
-            
-            let processItem = { (item: (any NSSecureCoding)) -> URL? in
+            guard let item else { return }
+
+            let processItem = { (item: any NSSecureCoding) -> URL? in
                 if let urlItem = item as? URL {
                     return urlItem
                 } else if let data = item as? Data {
@@ -88,7 +88,7 @@ class ShareViewController: SLComposeServiceViewController {
                 }
                 return nil
             }
-            
+
             if let url = processItem(item) {
                 if let encodedURLString = url.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                    let shareURL = URL(string: "ishare://upload?file=\(encodedURLString)")
@@ -106,4 +106,3 @@ class ShareViewController: SLComposeServiceViewController {
         }
     }
 }
-
