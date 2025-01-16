@@ -230,6 +230,8 @@ struct KeybindSettingsView: View {
 						KeyboardShortcuts.Recorder(
 							"Record Screen:".localized(), name: .recordScreen)
 						KeyboardShortcuts.Recorder("Record GIF:".localized(), name: .recordGif)
+                        KeyboardShortcuts.Recorder("Open most recent item:".localized(), name: .openMostRecentItem)
+                        KeyboardShortcuts.Recorder("Upload from Pasteboard:".localized(), name: .uploadPasteBoardItem)
 
 						Divider()
 							.padding(.vertical, 5)

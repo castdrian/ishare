@@ -25,6 +25,10 @@ extension KeyboardShortcuts.Name {
     static let recordScreen = Self("recordScreen", default: .init(.z, modifiers: [.control, .option]))
     static let recordGif = Self("recordGif", default: .init(.g, modifiers: [.control, .option]))
     static let openHistoryWindow = Self("openHistoryWindow", default: .init(.k, modifiers: [.command, .option]))
+    
+    static let openMostRecentItem = Self("openMostRecentItem", default: .init(.o, modifiers: [.control, .option]))
+    static let uploadPasteBoardItem = Self("uploadPasteBoardItem", default: .init(.u, modifiers: [.control, .option]))
+
 
     // Force upload variants
     static let captureRegionForceUpload = Self("captureRegionForceUpload", default: .init(.p, modifiers: [.shift, .option, .command]))
