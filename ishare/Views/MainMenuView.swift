@@ -317,7 +317,7 @@ struct MainMenuView: View {
 				}.keyboardShortcut("d")
 
 				Button {
-					AppDelegate.shared.updaterController.updater.checkForUpdates()
+					AppDelegate.shared.checkForUpdates()
 				} label: {
 					Image(systemName: "arrow.triangle.2.circlepath")
 					Text("Check for Updates".localized())
