@@ -26,11 +26,16 @@ struct CapturedFrame: Sendable {
 class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
     private var recordMP4: Bool = false
     private var useHEVC: Bool = false
+    private var recordAudio: Bool = false
+    private var recordMic: Bool = false
+    private var recordPointer: Bool = false
+    private var recordClicks: Bool = false
 
     private var stream: SCStream?
     private var fileURL: URL?
     private let videoSampleBufferQueue = DispatchQueue(label: "com.example.apple-samplecode.VideoSampleBufferQueue")
     private let audioSampleBufferQueue = DispatchQueue(label: "com.example.apple-samplecode.AudioSampleBufferQueue")
+    private let micAudioSampleBufferQueue = DispatchQueue(label: "com.example.apple-samplecode.AudioSampleBufferQueue")
 
     // Performs average and peak power calculations on the audio samples.
     private let powerMeter = PowerMeter()
@@ -47,12 +52,21 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
         let config = configuration
         let contentFilter = filter
         let outputURL = fileURL
-        
+
         @Default(.recordMP4) var recordMP4
         @Default(.useHEVC) var useHEVC
+        @Default(.recordAudio) var recordAudio
+        @Default(.recordMic) var recordMic
+        @Default(.recordPointer) var recordPointer
+        @Default(.recordClicks) var recordClicks
+
         self.recordMP4 = recordMP4
         self.useHEVC = useHEVC
-        
+        self.recordAudio = recordAudio
+        self.recordMic = recordMic
+        self.recordPointer = recordPointer
+        self.recordClicks = recordClicks
+
         return AsyncThrowingStream<CapturedFrame, any Error> { continuation in
             // The stream output object.
             let output = CaptureEngineStreamOutput(continuation: continuation)
@@ -63,12 +77,18 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
             self.startTime = Date()
 
             do {
+                config.capturesAudio = recordAudio
+                config.captureMicrophone = recordMic
+                config.showsCursor = recordPointer
+                config.showMouseClicks = recordClicks
+
                 stream = SCStream(filter: contentFilter, configuration: config, delegate: streamOutput)
                 self.fileURL = outputURL
 
                 // Add a stream output to capture screen content.
                 try stream?.addStreamOutput(streamOutput!, type: .screen, sampleHandlerQueue: videoSampleBufferQueue)
                 try stream?.addStreamOutput(streamOutput!, type: .audio, sampleHandlerQueue: audioSampleBufferQueue)
+                try stream?.addStreamOutput(streamOutput!, type: .microphone, sampleHandlerQueue: micAudioSampleBufferQueue)
 
                 let recordingConfiguration = SCRecordingOutputConfiguration()
 
@@ -88,8 +108,8 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
     }
 
     func stopCapture() async -> @Sendable (@escaping @Sendable (Result<URL, any Error>) -> Void) -> Void {
-        return { [weak self] completion in
-            guard let self = self else { return }
+        { [weak self] completion in
+            guard let self else { return }
             enum ScreenRecorderError: Error {
                 case missingFileURL
             }
@@ -102,7 +122,7 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
             // Stop the stream
             stream?.stopCapture()
             stream = nil
-            
+
             // Return the file URL
             completion(.success(url))
         }
@@ -114,9 +134,9 @@ class CaptureEngine: NSObject, @unchecked Sendable, SCRecordingOutputDelegate {
             let configuration: SCStreamConfiguration
             let filter: SCContentFilter
         }
-        
+
         let params = SendableParams(configuration: configuration, filter: filter)
-        
+
         do {
             try await stream?.updateConfiguration(params.configuration)
             try await stream?.updateContentFilter(params.filter)
@@ -149,16 +169,19 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
             // Create a CapturedFrame structure for a video sample buffer.
             guard let frame = createFrame(for: sampleBuffer) else { return }
             Task { @MainActor [self] in
-                self.capturedFrameHandler?(frame)
+                capturedFrameHandler?(frame)
             }
         case .audio:
             // Create an AVAudioPCMBuffer from an audio sample buffer.
             guard let samples = createPCMBuffer(for: sampleBuffer) else { return }
             Task { @MainActor [self] in
-                self.pcmBufferHandler?(samples)
+                pcmBufferHandler?(samples)
             }
         case .microphone:
-            return
+            guard let samples = createPCMBuffer(for: sampleBuffer) else { return }
+            Task { @MainActor [self] in
+                pcmBufferHandler?(samples)
+            }
         @unknown default:
             fatalError("Encountered unknown stream output type: \(outputType)")
         }
@@ -178,7 +201,7 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
         }
         // Finish the AsyncThrowingStream if it's still running
         Task { @MainActor [self] in
-            self.continuation?.finish(throwing: error)
+            continuation?.finish(throwing: error)
         }
     }
 

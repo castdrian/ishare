@@ -195,9 +195,10 @@ After:
 
 ## 📤 Compatible Uploader Services
 
-ishare is confirmed to be compatible with the following uploader services:
+ishare is confirmed to be compatible with the following upload services:
 
 - [chibisafe](https://github.com/chibisafe/chibisafe)
+- [copyparty](https://github.com/9001/copyparty)
 - [lumen](https://github.com/ChecksumDev/lumen)
 - [zipline](https://github.com/diced/zipline)
 - [discord webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
