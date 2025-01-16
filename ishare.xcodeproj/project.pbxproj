@@ -44,8 +44,6 @@
 		3A2994972CFF79CB0079CBB8 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 3AD9788C2C412F94002EA1EA /* Localizable.xcstrings */; };
 		3A2994982CFF79CB0079CBB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADDAED92A659A0B00C42406 /* Assets.xcassets */; };
 		3A29949A2CFF79CB0079CBB8 /* sharemenuext.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3AF9A8052C4B011A0094B78B /* sharemenuext.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		3A4AEFB32D3942D1002CE02F /* MacControlCenterUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3A4AEFB22D3942D1002CE02F /* MacControlCenterUI */; };
-		3A4AEFB52D3942E4002CE02F /* MacControlCenterUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3A4AEFB42D3942E4002CE02F /* MacControlCenterUI */; };
 		3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */ = {isa = PBXBuildFile; productRef = 3A59057D2A73EF5C00109892 /* BezelNotification */; };
 		3A59CD5E2A6EE47E00E85161 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A59CD5D2A6EE47E00E85161 /* VideoCapture.swift */; };
 		3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 3A6D1E982ACB004000882366 /* SettingsAccess */; };
@@ -76,8 +74,6 @@
 		3AF432E92D390C69003DF3DD /* LocalizableManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF432E72D390C69003DF3DD /* LocalizableManager.swift */; };
 		3AF432EB2D393B6D003DF3DD /* PasteboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF432EA2D393B6D003DF3DD /* PasteboardExtension.swift */; };
 		3AF432EC2D393B6D003DF3DD /* PasteboardExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF432EA2D393B6D003DF3DD /* PasteboardExtension.swift */; };
-		3AF432EF2D394248003DF3DD /* Luminare in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF432EE2D394248003DF3DD /* Luminare */; };
-		3AF432F12D394266003DF3DD /* Luminare in Frameworks */ = {isa = PBXBuildFile; productRef = 3AF432F02D394266003DF3DD /* Luminare */; };
 		3AF7F0212B3EF16B000117DD /* HistoryGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF7F0202B3EF16B000117DD /* HistoryGridView.swift */; };
 		3AF9A80F2C4B011A0094B78B /* sharemenuext.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3AF9A8052C4B011A0094B78B /* sharemenuext.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -178,7 +174,6 @@
 			files = (
 				3A29948C2CFF79CB0079CBB8 /* Sparkle in Frameworks */,
 				3A29948D2CFF79CB0079CBB8 /* LaunchAtLogin in Frameworks */,
-				3AF432F12D394266003DF3DD /* Luminare in Frameworks */,
 				3A29948E2CFF79CB0079CBB8 /* Zip in Frameworks */,
 				3A29948F2CFF79CB0079CBB8 /* KeyboardShortcuts in Frameworks */,
 				3A2994902CFF79CB0079CBB8 /* MenuBarExtraAccess in Frameworks */,
@@ -187,7 +182,6 @@
 				3A2994932CFF79CB0079CBB8 /* BezelNotification in Frameworks */,
 				3A2994942CFF79CB0079CBB8 /* SettingsAccess in Frameworks */,
 				3A2994952CFF79CB0079CBB8 /* Defaults in Frameworks */,
-				3A4AEFB52D3942E4002CE02F /* MacControlCenterUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,14 +192,12 @@
 				3A88C32A2BD6E4CE00EEDCE3 /* LaunchAtLogin in Frameworks */,
 				3ADDAEE32A65D00F00C42406 /* Zip in Frameworks */,
 				3A88C3252BD6320100EEDCE3 /* KeyboardShortcuts in Frameworks */,
-				3AF432EF2D394248003DF3DD /* Luminare in Frameworks */,
 				3A72B9A12A7594F900B2DEBA /* MenuBarExtraAccess in Frameworks */,
 				3A17C0792A61A20E0012F285 /* Alamofire in Frameworks */,
 				3A0679E12A648C0F0088DE6A /* SwiftyJSON in Frameworks */,
 				3A59057E2A73EF5C00109892 /* BezelNotification in Frameworks */,
 				3A6D1E992ACB004000882366 /* SettingsAccess in Frameworks */,
 				3A88C3232BD631D600EEDCE3 /* Defaults in Frameworks */,
-				3A4AEFB32D3942D1002CE02F /* MacControlCenterUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,8 +341,6 @@
 				3A2994702CFF79CB0079CBB8 /* KeyboardShortcuts */,
 				3A2994722CFF79CB0079CBB8 /* LaunchAtLogin */,
 				3A2994742CFF79CB0079CBB8 /* Sparkle */,
-				3AF432F02D394266003DF3DD /* Luminare */,
-				3A4AEFB42D3942E4002CE02F /* MacControlCenterUI */,
 			);
 			productName = ishare;
 			productReference = 3A29949F2CFF79CB0079CBB8 /* ishare.app */;
@@ -381,8 +371,6 @@
 				3A88C3222BD631D600EEDCE3 /* Defaults */,
 				3A88C3242BD6320100EEDCE3 /* KeyboardShortcuts */,
 				3A88C3292BD6E4CE00EEDCE3 /* LaunchAtLogin */,
-				3AF432EE2D394248003DF3DD /* Luminare */,
-				3A4AEFB22D3942D1002CE02F /* MacControlCenterUI */,
 			);
 			productName = ishare;
 			productReference = 3A9A9FD42A5C84B5007BA5C9 /* ishare.app */;
@@ -448,8 +436,6 @@
 				3A88C3212BD631D600EEDCE3 /* XCRemoteSwiftPackageReference "Defaults" */,
 				3A88C3282BD6E4CE00EEDCE3 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 				3AF917C62C4AFE4700D42B77 /* XCRemoteSwiftPackageReference "Sparkle" */,
-				3AF432ED2D394248003DF3DD /* XCRemoteSwiftPackageReference "Luminare" */,
-				3A4AEFB12D3942D1002CE02F /* XCRemoteSwiftPackageReference "MacControlCenterUI" */,
 			);
 			productRefGroup = 3A9A9FD52A5C84B5007BA5C9 /* Products */;
 			projectDirPath = "";
@@ -1129,14 +1115,6 @@
 				minimumVersion = 2.6.4;
 			};
 		};
-		3A4AEFB12D3942D1002CE02F /* XCRemoteSwiftPackageReference "MacControlCenterUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/orchetect/MacControlCenterUI";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.3.3;
-			};
-		};
 		3A59057C2A73EF5C00109892 /* XCRemoteSwiftPackageReference "BezelNotification" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/BlueHuskyStudios/BezelNotification.git";
@@ -1191,14 +1169,6 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.0.0;
-			};
-		};
-		3AF432ED2D394248003DF3DD /* XCRemoteSwiftPackageReference "Luminare" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MrKai77/Luminare";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
 			};
 		};
 		3AF917C62C4AFE4700D42B77 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
@@ -1272,16 +1242,6 @@
 			package = 3A2994752CFF79CB0079CBB8 /* XCRemoteSwiftPackageReference "Sparkle" */;
 			productName = Sparkle;
 		};
-		3A4AEFB22D3942D1002CE02F /* MacControlCenterUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3A4AEFB12D3942D1002CE02F /* XCRemoteSwiftPackageReference "MacControlCenterUI" */;
-			productName = MacControlCenterUI;
-		};
-		3A4AEFB42D3942E4002CE02F /* MacControlCenterUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3A4AEFB12D3942D1002CE02F /* XCRemoteSwiftPackageReference "MacControlCenterUI" */;
-			productName = MacControlCenterUI;
-		};
 		3A59057D2A73EF5C00109892 /* BezelNotification */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 3A59057C2A73EF5C00109892 /* XCRemoteSwiftPackageReference "BezelNotification" */;
@@ -1316,16 +1276,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3ADDAEE12A65D00F00C42406 /* XCRemoteSwiftPackageReference "Zip" */;
 			productName = Zip;
-		};
-		3AF432EE2D394248003DF3DD /* Luminare */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AF432ED2D394248003DF3DD /* XCRemoteSwiftPackageReference "Luminare" */;
-			productName = Luminare;
-		};
-		3AF432F02D394266003DF3DD /* Luminare */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3AF432ED2D394248003DF3DD /* XCRemoteSwiftPackageReference "Luminare" */;
-			productName = Luminare;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
