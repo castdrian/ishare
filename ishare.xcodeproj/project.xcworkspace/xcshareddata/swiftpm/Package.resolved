@@ -1,5 +1,5 @@
 {
-  "originHash" : "457379c019910912d45c64f6cf194185cf499a36d1e88eb6d8948ac28538815f",
+  "originHash" : "607cb3f4fbe5f1ea248a4cdcfe682683a3bd7e8aa3a6b04d712d07fe16873f72",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -44,6 +44,24 @@
       "state" : {
         "revision" : "a04ec1c363be3627734f6dad757d82f5d4fa8fcc",
         "version" : "1.1.0"
+      }
+    },
+    {
+      "identity" : "luminare",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MrKai77/Luminare",
+      "state" : {
+        "revision" : "6115039d9d7bbd71ebbd2e38cab845cf5725bd52",
+        "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "maccontrolcenterui",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/orchetect/MacControlCenterUI",
+      "state" : {
+        "revision" : "30bff7163905641bb2b80898e7191bec0ef507f9",
+        "version" : "2.3.3"
       }
     },
     {
