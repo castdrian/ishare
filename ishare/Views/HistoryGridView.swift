@@ -48,18 +48,17 @@ struct ContextMenuWrapper<Content: View>: View {
     var body: some View {
         content
             .contextMenu {
-                Button("Copy URL") {
+                Button("Copy URL".localized()) {
                     NSPasteboard.general.declareTypes([.string], owner: nil)
                     NSPasteboard.general.setString(item.fileUrl ?? "", forType: .string)
-                    BezelNotification.show(messageText: "Copied URL", icon: ToastIcon)
+                    BezelNotification.show(messageText: "Copied URL".localized(), icon: ToastIcon)
                 }
-                Button("Open in Browser") {
+                Button("Open in Browser".localized()) {
                     if let url = URL(string: item.fileUrl ?? "") {
                         NSWorkspace.shared.open(url)
                     }
                 }
-                Button("Delete") {
-                    print(item.deletionUrl ?? "nop")
+                Button("Delete".localized()) {
                     if let deletionUrl = item.deletionUrl {
                         performDeletionRequest(deletionUrl: deletionUrl) { result in
                             DispatchQueue.main.async {
@@ -68,13 +67,13 @@ struct ContextMenuWrapper<Content: View>: View {
                                     print(message)
                                     if let index = uploadHistory.firstIndex(of: item) {
                                         uploadHistory.remove(at: index)
-                                        BezelNotification.show(messageText: "Deleted", icon: ToastIcon)
+                                        BezelNotification.show(messageText: "Deleted".lowercased(), icon: ToastIcon)
                                     }
                                 case let .failure(error):
                                     print("Deletion error: \(error.localizedDescription)")
                                     if let index = uploadHistory.firstIndex(of: item) {
                                         uploadHistory.remove(at: index)
-                                        BezelNotification.show(messageText: "Deleted", icon: ToastIcon)
+                                        BezelNotification.show(messageText: "Deleted".localized(), icon: ToastIcon)
                                     }
                                 }
                             }

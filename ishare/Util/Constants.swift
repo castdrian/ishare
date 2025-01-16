@@ -26,6 +26,10 @@ extension KeyboardShortcuts.Name {
     static let recordGif = Self("recordGif", default: .init(.g, modifiers: [.control, .option]))
     static let openHistoryWindow = Self("openHistoryWindow", default: .init(.k, modifiers: [.command, .option]))
     
+    static let openMostRecentItem = Self("openMostRecentItem", default: .init(.o, modifiers: [.control, .option]))
+    static let uploadPasteBoardItem = Self("uploadPasteBoardItem", default: .init(.u, modifiers: [.control, .option]))
+
+
     // Force upload variants
     static let captureRegionForceUpload = Self("captureRegionForceUpload", default: .init(.p, modifiers: [.shift, .option, .command]))
     static let captureWindowForceUpload = Self("captureWindowForceUpload", default: .init(.p, modifiers: [.shift, .control, .option]))
@@ -54,6 +58,10 @@ extension Defaults.Keys {
     static let recordMP4 = Key<Bool>("recordMP4", default: true, iCloud: true)
     static let useHEVC = Key<Bool>("useHEVC", default: false, iCloud: true)
     static let useHDR = Key<Bool>("useHDR", default: false, iCloud: true)
+    static let recordAudio = Key<Bool>("recordAudio", default: true, iCloud: true)
+    static let recordMic = Key<Bool>("recordMic", default: false, iCloud: true)
+    static let recordPointer = Key<Bool>("recordPointer", default: true, iCloud: true)
+    static let recordClicks = Key<Bool>("recordClicks", default: false, iCloud: true)
     static let builtInShare = Key<SharingPreferences>("builtInShare", default: .init(), iCloud: true)
     static let toastTimeout = Key<Double>("toastTimeout", default: 2, iCloud: true)
     static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT, iCloud: true)
@@ -61,6 +69,7 @@ extension Defaults.Keys {
     static let ignoredBundleIdentifiers = Key<[String]>("ignoredApps", default: [], iCloud: true)
     static let aussieMode = Key<Bool>("aussieMode", default: false, iCloud: true)
     static let forceUploadModifier = Key<ForceUploadModifier>("forceUploadModifier", default: .shift)
+    static let storedLanguage = Key<LanguageTypes>("storedlanguage", default: .english, iCloud: true)
 }
 
 extension KeyboardShortcuts.Shortcut {
@@ -400,15 +409,62 @@ enum ForceUploadModifier: String, CaseIterable, Identifiable, Defaults.Serializa
     case control = "⌃"
     case option = "⌥"
     case command = "⌘"
-    
+
     var id: Self { self }
-    
+
     var modifierFlag: NSEvent.ModifierFlags {
         switch self {
-        case .shift: return .shift
-        case .control: return .control
-        case .option: return .option
-        case .command: return .command
+        case .shift: .shift
+        case .control: .control
+        case .option: .option
+        case .command: .command
         }
+    }
+}
+
+enum UploadDestination: Equatable, Hashable, Codable, Defaults.Serializable {
+    case builtIn(UploadType)
+    case custom(UUID?)
+}
+
+@MainActor
+class WindowHolder: Sendable {
+    static let shared = WindowHolder()
+    var historyWindowController: HistoryWindowController?
+}
+
+@MainActor
+class HistoryWindowController: NSWindowController {
+    convenience init(contentView: NSView) {
+        let window = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 600, height: 400),
+            styleMask: [.titled, .closable],
+            backing: .buffered, defer: false
+        )
+        window.center()
+        window.contentView = contentView
+        self.init(window: window)
+    }
+
+    override func windowDidLoad() {
+        super.windowDidLoad()
+    }
+}
+
+@MainActor
+func openHistoryWindow(uploadHistory _: [HistoryItem]) {
+    if WindowHolder.shared.historyWindowController == nil {
+        let historyView = HistoryGridView()
+        let hostingController = NSHostingController(rootView: historyView)
+        let windowController = HistoryWindowController(contentView: hostingController.view)
+        windowController.window?.title = "History".localized()
+
+        windowController.showWindow(nil)
+        NSApp.activate(ignoringOtherApps: true)
+
+        WindowHolder.shared.historyWindowController = windowController
+    } else {
+        WindowHolder.shared.historyWindowController?.window?.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
     }
 }

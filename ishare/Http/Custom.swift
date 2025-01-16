@@ -19,7 +19,11 @@ enum CustomUploadError: Error {
 }
 
 @MainActor
-func customUpload(fileURL: URL, specification: CustomUploader, callback: (@Sendable ((any Error)?, URL?) -> Void)? = nil, completion: @Sendable @escaping () -> Void) {
+func customUpload(
+    fileURL: URL, specification: CustomUploader,
+    callback: (@Sendable ((any Error)?, URL?) -> Void)? = nil,
+    completion: @Sendable @escaping () -> Void
+) {
     NSLog("Starting custom upload for file: %@", fileURL.path)
     NSLog("Using uploader: %@", specification.name)
 
@@ -38,51 +42,71 @@ func customUpload(fileURL: URL, specification: CustomUploader, callback: (@Senda
 
     switch specification.requestBodyType {
     case .multipartFormData, .none:
-        uploadMultipartFormData(fileURL: fileURL, url: url, headers: headers, specification: specification, callback: callback, completion: completion)
+        uploadMultipartFormData(
+            fileURL: fileURL, url: url, headers: headers, specification: specification,
+            callback: callback, completion: completion
+        )
     case .binary:
-        uploadBinaryData(fileURL: fileURL, url: url, headers: &headers, specification: specification, callback: callback, completion: completion)
+        uploadBinaryData(
+            fileURL: fileURL, url: url, headers: &headers, specification: specification,
+            callback: callback, completion: completion
+        )
     }
 }
 
 @MainActor
-private func uploadMultipartFormData(fileURL: URL, url: URL, headers: HTTPHeaders, specification: CustomUploader, callback: (@Sendable ((any Error)?, URL?) -> Void)?, completion: @Sendable @escaping () -> Void) {
+private func uploadMultipartFormData(
+    fileURL: URL, url: URL, headers: HTTPHeaders, specification: CustomUploader,
+    callback: (@Sendable ((any Error)?, URL?) -> Void)?, completion: @Sendable @escaping () -> Void
+) {
     let uploadManager = UploadManager.shared
     let localCallback = callback
     let localCompletion = completion
 
-    AF.upload(multipartFormData: { multipartFormData in
-        if let formData = specification.formData {
-            for (key, value) in formData {
-                multipartFormData.append(value.data(using: .utf8)!, withName: key)
-            }
-        }
-
-        let mimeType = mimeTypeForPathExtension(fileURL.pathExtension)
-        let lowercasedFileName = fileNameWithLowercaseExtension(from: fileURL)
-        multipartFormData.append(fileURL, withName: specification.fileFormName ?? "file", fileName: lowercasedFileName, mimeType: mimeType)
-
-    }, to: url, method: .post, headers: headers)
-        .uploadProgress { progress in
-            Task { @MainActor in
-                uploadManager.updateProgress(fraction: progress.fractionCompleted)
-            }
-        }
-        .response { response in
-            Task { @MainActor in
-                uploadManager.uploadCompleted()
-                print(response)
-                if let data = response.data {
-                    handleResponse(data: data, specification: specification, callback: localCallback, completion: localCompletion)
-                } else {
-                    localCallback?(CustomUploadError.responseRetrieval, nil)
-                    localCompletion()
+    AF.upload(
+        multipartFormData: { multipartFormData in
+            if let formData = specification.formData {
+                for (key, value) in formData {
+                    multipartFormData.append(value.data(using: .utf8)!, withName: key)
                 }
             }
+
+            let mimeType = mimeTypeForPathExtension(fileURL.pathExtension)
+            let lowercasedFileName = fileNameWithLowercaseExtension(from: fileURL)
+            multipartFormData.append(
+                fileURL, withName: specification.fileFormName ?? "file",
+                fileName: lowercasedFileName, mimeType: mimeType
+            )
+
+        }, to: url, method: .post, headers: headers
+    )
+    .uploadProgress { progress in
+        Task { @MainActor in
+            uploadManager.updateProgress(fraction: progress.fractionCompleted)
         }
+    }
+    .response { response in
+        Task { @MainActor in
+            uploadManager.uploadCompleted()
+            print(response)
+            if let data = response.data {
+                handleResponse(
+                    data: data, specification: specification, callback: localCallback,
+                    completion: localCompletion
+                )
+            } else {
+                localCallback?(CustomUploadError.responseRetrieval, nil)
+                localCompletion()
+            }
+        }
+    }
 }
 
 @MainActor
-private func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders, specification: CustomUploader, callback: (@Sendable ((any Error)?, URL?) -> Void)?, completion: @Sendable @escaping () -> Void) {
+private func uploadBinaryData(
+    fileURL: URL, url: URL, headers: inout HTTPHeaders, specification: CustomUploader,
+    callback: (@Sendable ((any Error)?, URL?) -> Void)?, completion: @Sendable @escaping () -> Void
+) {
     let uploadManager = UploadManager.shared
     let localCallback = callback
     let localCompletion = completion
@@ -99,7 +123,10 @@ private func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders
             Task { @MainActor in
                 uploadManager.uploadCompleted()
                 if let data = response.data {
-                    handleResponse(data: data, specification: specification, callback: localCallback, completion: localCompletion)
+                    handleResponse(
+                        data: data, specification: specification, callback: localCallback,
+                        completion: localCompletion
+                    )
                 } else {
                     localCallback?(CustomUploadError.responseRetrieval, nil)
                     localCompletion()
@@ -109,7 +136,10 @@ private func uploadBinaryData(fileURL: URL, url: URL, headers: inout HTTPHeaders
 }
 
 @MainActor
-private func handleResponse(data: Data, specification: CustomUploader, callback: (@Sendable ((any Error)?, URL?) -> Void)?, completion: @Sendable () -> Void) {
+private func handleResponse(
+    data: Data, specification: CustomUploader, callback: (@Sendable ((any Error)?, URL?) -> Void)?,
+    completion: @Sendable () -> Void
+) {
     let json = JSON(data)
     let fileUrl = constructUrl(from: specification.responseURL, using: json)
     let deletionUrl = constructUrl(from: specification.deletionURL, using: json)
@@ -146,7 +176,7 @@ private func tagPlaceholders(in url: String) -> (taggedUrl: String, tags: [(Stri
     var taggedUrl = url
     var tags: [(String, String)] = []
 
-    let pattern = "\\{\\{([a-zA-Z0-9_]+(\\[[0-9]+\\])?)\\}\\}"
+    let pattern = "\\{\\{([^}]+)\\}\\}"
     let regex = try? NSRegularExpression(pattern: pattern, options: [])
     let nsrange = NSRange(url.startIndex ..< url.endIndex, in: url)
 
@@ -214,7 +244,9 @@ func mimeTypeForPathExtension(_ ext: String) -> String {
 }
 
 @MainActor
-func performDeletionRequest(deletionUrl: String, completion: @Sendable @escaping (Result<String, any Error>) -> Void) {
+func performDeletionRequest(
+    deletionUrl: String, completion: @Sendable @escaping (Result<String, any Error>) -> Void
+) {
     guard let url = URL(string: deletionUrl) else {
         completion(.failure(CustomUploadError.responseParsing))
         return
@@ -238,9 +270,9 @@ func performDeletionRequest(deletionUrl: String, completion: @Sendable @escaping
     }
 
     switch uploader?.deleteRequestType {
-    case .GET:
+    case .get:
         sendRequest(with: .get)
-    case .DELETE:
+    case .delete:
         sendRequest(with: .delete)
     case nil:
         sendRequest(with: .get)

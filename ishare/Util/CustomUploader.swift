@@ -14,11 +14,28 @@ enum RequestBodyType: String, Codable {
 }
 
 enum DeleteRequestType: String, Codable {
-    case GET = "get"
-    case DELETE = "delete"
+    case get = "GET"
+    case delete = "DELETE"
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        switch rawValue.uppercased() {
+        case "GET":
+            self = .get
+        case "DELETE":
+            self = .delete
+        default:
+            throw DecodingError.dataCorruptedError(
+                in: container, debugDescription: "Invalid delete request type: \(rawValue)"
+            )
+        }
+    }
 }
 
-struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable, Defaults.Serializable {
+struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable, Defaults
+    .Serializable
+{
     var id: UUID
     let name: String
     let requestURL: String
@@ -30,7 +47,11 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
     let deletionURL: String?
     let deleteRequestType: DeleteRequestType?
 
-    init(id: UUID = UUID(), name: String, requestURL: String, headers: [String: String]?, formData: [String: String]?, fileFormName: String?, requestBodyType: RequestBodyType? = nil, responseURL: String, deletionURL: String? = nil, deleteRequestType: DeleteRequestType? = nil) {
+    init(
+        id: UUID = UUID(), name: String, requestURL: String, headers: [String: String]?,
+        formData: [String: String]?, fileFormName: String?, requestBodyType: RequestBodyType? = nil,
+        responseURL: String, deletionURL: String? = nil, deleteRequestType: DeleteRequestType? = nil
+    ) {
         self.id = id
         self.name = name
         self.requestURL = requestURL
@@ -59,16 +80,37 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: DynamicCodingKey.self)
 
-        id = try container.decodeDynamicIfPresent(UUID.self, forKey: DynamicCodingKey(stringValue: "id")!) ?? UUID()
-        name = try container.decodeDynamic(String.self, forKey: DynamicCodingKey(stringValue: "name")!)
-        requestURL = try container.decodeDynamic(String.self, forKey: DynamicCodingKey(stringValue: "requesturl")!)
-        headers = try container.decodeDynamicIfPresent([String: String].self, forKey: DynamicCodingKey(stringValue: "headers")!)
-        formData = try container.decodeDynamicIfPresent([String: String].self, forKey: DynamicCodingKey(stringValue: "formdata")!)
-        fileFormName = try container.decodeDynamicIfPresent(String.self, forKey: DynamicCodingKey(stringValue: "fileformname")!)
-        requestBodyType = try container.decodeDynamicIfPresent(RequestBodyType.self, forKey: DynamicCodingKey(stringValue: "requestbodytype")!)
-        responseURL = try container.decodeDynamic(String.self, forKey: DynamicCodingKey(stringValue: "responseurl")!)
-        deletionURL = try container.decodeDynamicIfPresent(String.self, forKey: DynamicCodingKey(stringValue: "deletionurl")!)
-        deleteRequestType = try container.decodeDynamicIfPresent(DeleteRequestType.self, forKey: DynamicCodingKey(stringValue: "deleterequesttype")!)
+        id =
+            try container.decodeDynamicIfPresent(
+                UUID.self, forKey: DynamicCodingKey(stringValue: "id")!
+            ) ?? UUID()
+        name = try container.decodeDynamic(
+            String.self, forKey: DynamicCodingKey(stringValue: "name")!
+        )
+        requestURL = try container.decodeDynamic(
+            String.self, forKey: DynamicCodingKey(stringValue: "requesturl")!
+        )
+        headers = try container.decodeDynamicIfPresent(
+            [String: String].self, forKey: DynamicCodingKey(stringValue: "headers")!
+        )
+        formData = try container.decodeDynamicIfPresent(
+            [String: String].self, forKey: DynamicCodingKey(stringValue: "formdata")!
+        )
+        fileFormName = try container.decodeDynamicIfPresent(
+            String.self, forKey: DynamicCodingKey(stringValue: "fileformname")!
+        )
+        requestBodyType = try container.decodeDynamicIfPresent(
+            RequestBodyType.self, forKey: DynamicCodingKey(stringValue: "requestbodytype")!
+        )
+        responseURL = try container.decodeDynamic(
+            String.self, forKey: DynamicCodingKey(stringValue: "responseurl")!
+        )
+        deletionURL = try container.decodeDynamicIfPresent(
+            String.self, forKey: DynamicCodingKey(stringValue: "deletionurl")!
+        )
+        deleteRequestType = try container.decodeDynamicIfPresent(
+            DeleteRequestType.self, forKey: DynamicCodingKey(stringValue: "deleterequesttype")!
+        )
     }
 
     static var allCases: [CustomUploader] {
@@ -85,8 +127,12 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
 
     static func fromJSON(_ json: Data) throws -> CustomUploader {
         // Convert JSON data to a dictionary
-        guard let jsonObject = try JSONSerialization.jsonObject(with: json, options: []) as? [String: Any] else {
-            throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "Invalid JSON structure"))
+        guard
+            let jsonObject = try JSONSerialization.jsonObject(with: json, options: [])
+            as? [String: Any]
+        else {
+            throw DecodingError.dataCorrupted(
+                DecodingError.Context(codingPath: [], debugDescription: "Invalid JSON structure"))
         }
 
         // Convert all keys in the dictionary to lowercase
@@ -95,7 +141,9 @@ struct CustomUploader: Codable, Hashable, Equatable, CaseIterable, Identifiable,
         }
 
         // Encode the modified dictionary back to Data
-        let modifiedJsonData = try JSONSerialization.data(withJSONObject: lowercasedKeysJsonObject, options: [])
+        let modifiedJsonData = try JSONSerialization.data(
+            withJSONObject: lowercasedKeysJsonObject, options: []
+        )
 
         // Decode using the modified JSON data
         let decoder = JSONDecoder()
@@ -155,15 +203,23 @@ struct DynamicCodingKey: CodingKey {
 extension KeyedDecodingContainer {
     func decodeDynamic<T: Decodable>(_: T.Type, forKey key: DynamicCodingKey) throws -> T {
         let keyString = key.stringValue.lowercased()
-        guard let dynamicKey = allKeys.first(where: { $0.stringValue.lowercased() == keyString }) else {
-            throw DecodingError.keyNotFound(key, DecodingError.Context(codingPath: codingPath, debugDescription: "No value associated with key \(keyString)"))
+        guard let dynamicKey = allKeys.first(where: { $0.stringValue.lowercased() == keyString })
+        else {
+            throw DecodingError.keyNotFound(
+                key,
+                DecodingError.Context(
+                    codingPath: codingPath,
+                    debugDescription: "No value associated with key \(keyString)"
+                )
+            )
         }
         return try decode(T.self, forKey: dynamicKey)
     }
 
     func decodeDynamicIfPresent<T: Decodable>(_: T.Type, forKey key: DynamicCodingKey) throws -> T? {
         let keyString = key.stringValue.lowercased()
-        guard let dynamicKey = allKeys.first(where: { $0.stringValue.lowercased() == keyString }) else {
+        guard let dynamicKey = allKeys.first(where: { $0.stringValue.lowercased() == keyString })
+        else {
             return nil
         }
         return try decodeIfPresent(T.self, forKey: dynamicKey)

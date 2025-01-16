@@ -27,7 +27,7 @@ enum FileType: String, CaseIterable, Identifiable, Defaults.Serializable {
 @MainActor
 func captureScreen(type: CaptureType, display: Int = 1) async {
     NSLog("Starting screen capture with type: %@, display: %d", type.rawValue, display)
-    
+
     let capturePath = Defaults[.capturePath]
     let fileType = Defaults[.captureFileType]
     let fileName = Defaults[.captureFileName]
@@ -49,7 +49,7 @@ func captureScreen(type: CaptureType, display: Int = 1) async {
     let task = Process()
     task.launchPath = captureBinary
     task.arguments = type == CaptureType.SCREEN ? [type.rawValue, fileType.rawValue, "-D", "\(display)", path] : [type.rawValue, fileType.rawValue, path]
-    
+
     NSLog("Executing capture command: %@ %@", captureBinary, task.arguments?.joined(separator: " ") ?? "")
     task.launch()
     task.waitUntilExit()
@@ -119,7 +119,7 @@ private func getCaptureNameSuffix(type: CaptureType, display: Int) async -> Stri
             return "-\(appName.lowercased())"
         }
         return "-window"
-        
+
     case .SCREEN:
         if let screen = NSScreen.screens[safe: display - 1] {
             if let displayName = screen.localizedName {
@@ -128,7 +128,7 @@ private func getCaptureNameSuffix(type: CaptureType, display: Int) async -> Stri
             return "-display-\(display)"
         }
         return "-screen"
-        
+
     case .REGION:
         if let frontmostApp = NSWorkspace.shared.frontmostApplication {
             let appName = frontmostApp.localizedName ?? "region"
@@ -141,7 +141,7 @@ private func getCaptureNameSuffix(type: CaptureType, display: Int) async -> Stri
 // Helper extension for safe array access
 extension Collection {
     subscript(safe index: Index) -> Element? {
-        return indices.contains(index) ? self[index] : nil
+        indices.contains(index) ? self[index] : nil
     }
 }
 
@@ -152,10 +152,10 @@ extension NSScreen {
         let bounds = frame
         let width = Int(bounds.width)
         let height = Int(bounds.height)
-        
+
         if let displayID = deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID {
             // Check if this is the main display
-            if (CGDisplayIsMain(displayID) != 0) {
+            if CGDisplayIsMain(displayID) != 0 {
                 return "main-\(width)x\(height)"
             }
             return "display-\(width)x\(height)"
