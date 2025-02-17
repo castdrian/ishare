@@ -4,6 +4,6 @@
 	"headers": {
 		"Authorization": "API_KEY",
 	},
-	"responseURL": "{{files[0]}}",
+	"responseURL": "{{files[0].url}}",
 	"fileFormName": "file"
 }
