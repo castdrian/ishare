@@ -67,9 +67,9 @@ extension Defaults.Keys {
     static let menuBarIcon = Key<MenuBarIcon>("menuBarIcon", default: .DEFAULT, iCloud: true)
     static let uploadHistory = Key<[HistoryItem]>("uploadHistory", default: [], iCloud: true)
     static let ignoredBundleIdentifiers = Key<[String]>("ignoredApps", default: [], iCloud: true)
-    static let aussieMode = Key<Bool>("aussieMode", default: false, iCloud: true)
     static let forceUploadModifier = Key<ForceUploadModifier>("forceUploadModifier", default: .shift)
-    static let storedLanguage = Key<LanguageTypes>("storedlanguage", default: .english, iCloud: true)
+    static let storedLanguage = Key<LanguageTypes>("storedlanguage", default: Locale.current.identifier.starts(with: "en-AU") ? .aussie : .english, iCloud: true)
+    static let aussieMode = Key<Bool>("aussieMode", default: Locale.current.identifier.starts(with: "en-AU"), iCloud: true)
 }
 
 extension KeyboardShortcuts.Shortcut {

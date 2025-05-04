@@ -11,6 +11,7 @@ import SwiftUI
 
 enum LanguageTypes: String, CaseIterable, RawRepresentable, Defaults.Serializable {
 	case english = "en"
+    case aussie = "en-AU"
 	case arabic = "ar"
 	case chinese = "zh-CN"
 	case french = "fr"
@@ -25,6 +26,7 @@ enum LanguageTypes: String, CaseIterable, RawRepresentable, Defaults.Serializabl
 	var name: String {
 		switch self {
 		case .english: "English"
+        case .aussie: "English (Australia)"
 		case .arabic: "عربي"
 		case .chinese: "中文"
 		case .french: "Français"
@@ -64,6 +66,7 @@ class LocalizableManager: ObservableObject {
 	static let shared = LocalizableManager()
 
 	@Default(.storedLanguage) var storedLanguage
+    @Default(.aussieMode) var aussieMode
 
 	@Published var currentLanguage: LanguageTypes = .english {
 		didSet {
@@ -84,6 +87,9 @@ class LocalizableManager: ObservableObject {
 	func confirmLanguageChange() {
 		guard let newLanguage = pendingLanguage else { return }
 		currentLanguage = newLanguage
+        if currentLanguage == .aussie {
+            aussieMode = true
+        }
 		Task { @MainActor in
 			NSApplication.shared.terminate(nil)
 		}
