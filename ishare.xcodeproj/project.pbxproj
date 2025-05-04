@@ -1088,7 +1088,7 @@
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
 			requirement = {
 				kind = exactVersion;
-				version = "9.0.0-beta.3";
+				version = 9.0.3;
 			};
 		};
 		3A2994712CFF79CB0079CBB8 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
