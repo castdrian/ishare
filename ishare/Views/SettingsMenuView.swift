@@ -97,116 +97,139 @@ struct SettingsMenuView: View {
 }
 
 struct GeneralSettingsView: View {
-	@EnvironmentObject var localizableManager: LocalizableManager
+    @EnvironmentObject var localizableManager: LocalizableManager
 
-	@Default(.menuBarIcon) var menubarIcon
-	@Default(.toastTimeout) var toastTimeout
-	@Default(.aussieMode) var aussieMode
-	@Default(.uploadHistory) var uploadHistory
+    @Default(.menuBarIcon) var menubarIcon
+    @Default(.toastTimeout) var toastTimeout
+    @Default(.aussieMode) var aussieMode
+    @Default(.uploadHistory) var uploadHistory
 
-	let appImage = NSImage(named: "AppIcon") ?? AppIcon
+    let appImage = NSImage(named: "AppIcon") ?? AppIcon
 
-	struct MenuButtonStyle: ButtonStyle {
-		var backgroundColor: Color
+    struct MenuButtonStyle: ButtonStyle {
+        var backgroundColor: Color
 
-		func makeBody(configuration: Self.Configuration) -> some View {
-			configuration.label
-				.font(.headline)
-				.padding(10)
-				.background(backgroundColor)
-				.cornerRadius(5)
-		}
-	}
+        func makeBody(configuration: Self.Configuration) -> some View {
+            configuration.label
+                .font(.headline)
+                .padding(10)
+                .background(backgroundColor)
+                .cornerRadius(5)
+        }
+    }
 
-	var body: some View {
-		VStack(alignment: .leading, spacing: 30) {
-			VStack(alignment: .leading, spacing: 40) {
-				VStack(alignment: .leading, spacing: 10) {
-					Text("Language".localized())
-					Picker(
-						"",
-						selection: Binding(
-							get: { localizableManager.currentLanguage },
-							set: { localizableManager.changeLanguage(to: $0) }
-						)
-					) {
-						ForEach(LanguageTypes.allCases, id: \.self) { language in
-							Text(language.name)
-								.tag(language)
-						}
-					}
-					.frame(width: 120)
-					.labelsHidden()
-				}
+    var body: some View {
+        ZStack {
+            VStack(alignment: .leading, spacing: 30) {
+                VStack(alignment: .leading, spacing: 40) {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Language".localized())
+                        Picker(
+                            "",
+                            selection: Binding(
+                                get: { localizableManager.currentLanguage },
+                                set: { localizableManager.changeLanguage(to: $0) }
+                            )
+                        ) {
+                            ForEach(LanguageTypes.allCases, id: \.self) { language in
+                                Text(language.name)
+                                    .tag(language)
+                            }
+                        }
+                        .frame(width: 120)
+                        .labelsHidden()
+                    }
 
-				VStack(alignment: .leading, spacing: 10) {
-					LaunchAtLogin.Toggle {
-						Text("Launch at login".localized())
-					}
-					Toggle("Land down under".localized(), isOn: $aussieMode)
-				}
+                    VStack(alignment: .leading, spacing: 10) {
+                        LaunchAtLogin.Toggle {
+                            Text("Launch at login".localized())
+                        }
+                        Toggle("Land down under".localized(), isOn: $aussieMode)
+                    }
 
-				VStack(alignment: .leading, spacing: 10) {
-					Text("Menu Bar Icon".localized())
-					HStack {
-						ForEach(MenuBarIcon.allCases, id: \.self) { choice in
-							Button(action: {
-								menubarIcon = choice
-							}) {
-								switch choice {
-								case .DEFAULT:
-									Image(nsImage: GlyphIcon)
-										.resizable()
-										.aspectRatio(contentMode: .fill)
-										.frame(width: 20, height: 5)
-								case .APPICON:
-									Image(nsImage: AppIcon)
-										.resizable()
-										.aspectRatio(contentMode: .fill)
-										.frame(width: 20, height: 5)
-								case .SYSTEM:
-									Image(systemName: "photo.on.rectangle.angled")
-										.resizable()
-										.aspectRatio(contentMode: .fill)
-										.frame(width: 20, height: 5)
-								}
-							}
-							.buttonStyle(
-								MenuButtonStyle(
-									backgroundColor:
-										menubarIcon == choice ? .accentColor : .clear)
-							)
-						}
-					}
-				}
-			}
-			.padding(.top, 30)
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Menu Bar Icon".localized())
+                        HStack {
+                            ForEach(MenuBarIcon.allCases, id: \.self) { choice in
+                                Button(action: {
+                                    menubarIcon = choice
+                                }) {
+                                    switch choice {
+                                    case .DEFAULT:
+                                        Image(nsImage: GlyphIcon)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 20, height: 5)
+                                    case .APPICON:
+                                        Image(nsImage: AppIcon)
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 20, height: 5)
+                                    case .SYSTEM:
+                                        Image(systemName: "photo.on.rectangle.angled")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 20, height: 5)
+                                    }
+                                }
+                                .buttonStyle(
+                                    MenuButtonStyle(
+                                        backgroundColor:
+                                            menubarIcon == choice ? .accentColor : .clear)
+                                )
+                            }
+                        }
+                    }
+                }
+                .padding(.top, 30)
 
-			Spacer()
+                Spacer()
 
-			VStack(alignment: .leading) {
-				Text("Toast Timeout: \(Int(toastTimeout)) seconds".localized())
-				Slider(value: $toastTimeout, in: 1...10, step: 1)
-					.frame(maxWidth: .infinity)
-			}
-			.padding(.bottom, 30)
-		}
-		.padding(30)
-		.rotationEffect(aussieMode ? .degrees(180) : .zero)
-		.alert("Language Change".localized(), isPresented: $localizableManager.showRestartAlert) {
-			Button("Restart Now".localized(), role: .destructive) {
-				localizableManager.confirmLanguageChange()
-			}
-			Button("Cancel".localized(), role: .cancel) {
-				localizableManager.showRestartAlert = false
-			}
-		} message: {
-			Text(
-				"The app needs to close to apply the language change. Please reopen the app after it closes."
-					.localized())
-		}
-	}
+                VStack(alignment: .leading) {
+                    Text("Toast Timeout: \(Int(toastTimeout)) seconds".localized())
+                    Slider(value: $toastTimeout, in: 1...10, step: 1)
+                        .frame(maxWidth: .infinity)
+                }
+                .padding(.bottom, 30)
+            }
+            .padding(30)
+            .rotationEffect(aussieMode ? .degrees(180) : .zero)
+
+            if localizableManager.showRestartAlert {
+                Color.black.opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .zIndex(1)
+
+                VStack(spacing: 15) {
+                    Text("Language Change".localized())
+                        .font(.headline)
+                    Text(
+                        "The app needs to close to apply the language change. Please reopen the app after it closes."
+                            .localized())
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+
+                    HStack(spacing: 20) {
+                        Button("Restart Now".localized(), role: .destructive) {
+                            localizableManager.confirmLanguageChange()
+                        }
+                        Button("Cancel".localized(), role: .cancel) {
+                            localizableManager.showRestartAlert = false
+                        }
+                    }
+                }
+                .padding()
+                .background(Color(NSColor.windowBackgroundColor))
+                .cornerRadius(12)
+                .shadow(radius: 10)
+                .padding(40)
+                .zIndex(2)
+                .rotationEffect(aussieMode ? .degrees(180) : .zero)
+            }
+        }
+    }
 }
+
 
 struct KeybindSettingsView: View {
 	@Default(.forceUploadModifier) var forceUploadModifier
@@ -271,9 +294,9 @@ struct KeybindSettingsView: View {
 					.frame(maxWidth: .infinity)
 			}
 			.padding(.horizontal)
-			.rotationEffect(aussieMode ? .degrees(180) : .zero)
 		}
 		.padding()
+        .rotationEffect(aussieMode ? .degrees(180) : .zero)
 	}
 }
 
@@ -428,61 +451,77 @@ struct RecordingSettingsView: View {
 }
 
 struct AdvancedSettingsView: View {
-	@State private var showingAlert: Bool = false
-	@Default(.imgurClientId) var imgurClientId
-	@Default(.captureBinary) var captureBinary
-	@Default(.aussieMode) var aussieMode
+    @State private var showingAlert: Bool = false
+    @Default(.imgurClientId) var imgurClientId
+    @Default(.captureBinary) var captureBinary
+    @Default(.aussieMode) var aussieMode
 
-	var body: some View {
-		VStack {
-			Spacer()
-			VStack(alignment: .leading) {
-				Text("Imgur Client ID:".localized()).font(.headline)
-				HStack {
-					TextField(String(), text: $imgurClientId)
-					Button(action: {
-						imgurClientId = Defaults.Keys.imgurClientId.defaultValue
-					}) {
-						Image(systemName: "arrow.clockwise")
-					}.help("Set to default".localized())
-				}
-			}
-			Spacer()
-			VStack {
-				VStack(alignment: .leading) {
-					Text("Screencapture binary:".localized()).font(.headline)
-					HStack {
-						TextField(String(), text: $captureBinary)
-						Button(action: {
-							captureBinary = Defaults.Keys.captureBinary.defaultValue
-							BezelNotification.show(
-								messageText: "Reset captureBinary".localized(), icon: ToastIcon)
-						}) {
-							Image(systemName: "arrow.clockwise")
-						}.help("Set to default".localized())
-					}
-				}
-			}
-			Spacer()
-		}.padding().rotationEffect(aussieMode ? .degrees(180) : .zero)
-			.alert(
-				Text("Advanced Settings".localized()),
-				isPresented: $showingAlert,
-				actions: {
-					Button("I understand".localized()) {
-						showingAlert = false
-					}
-				},
-				message: {
-					Text(
-						"Warning! Only modify these settings if you know what you're doing!"
-							.localized())
-				}
-			)
-			.onAppear {
-				showingAlert = true
-			}
-	}
+    var body: some View {
+        ZStack {
+            VStack {
+                Spacer()
+                VStack(alignment: .leading) {
+                    Text("Imgur Client ID:".localized()).font(.headline)
+                    HStack {
+                        TextField(String(), text: $imgurClientId)
+                        Button(action: {
+                            imgurClientId = Defaults.Keys.imgurClientId.defaultValue
+                        }) {
+                            Image(systemName: "arrow.clockwise")
+                        }.help("Set to default".localized())
+                    }
+                }
+                Spacer()
+                VStack(alignment: .leading) {
+                    Text("Screencapture binary:".localized()).font(.headline)
+                    HStack {
+                        TextField(String(), text: $captureBinary)
+                        Button(action: {
+                            captureBinary = Defaults.Keys.captureBinary.defaultValue
+                            BezelNotification.show(
+                                messageText: "Reset captureBinary".localized(), icon: ToastIcon)
+                        }) {
+                            Image(systemName: "arrow.clockwise")
+                        }.help("Set to default".localized())
+                    }
+                }
+                Spacer()
+            }
+            .padding()
+            .rotationEffect(aussieMode ? .degrees(180) : .zero)
+
+            if showingAlert {
+                Color.black.opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .zIndex(1)
+
+                VStack(spacing: 15) {
+                    Text("Advanced Settings".localized())
+                        .font(.headline)
+                    Text("Warning! Only modify these settings if you know what you're doing!".localized())
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+
+                    Button("I understand".localized()) {
+                        withAnimation {
+                            showingAlert = false
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+                .background(Color(NSColor.windowBackgroundColor))
+                .cornerRadius(12)
+                .shadow(radius: 10)
+                .padding(40)
+                .zIndex(2)
+                .rotationEffect(aussieMode ? .degrees(180) : .zero) // 🌀 Flip this too!
+            }
+        }
+        .onAppear {
+            showingAlert = true
+        }
+    }
 }
 
 #Preview {
