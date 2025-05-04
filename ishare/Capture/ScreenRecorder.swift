@@ -120,12 +120,14 @@ class ScreenRecorder: ObservableObject {
     private func startCapture(with filter: SCContentFilter, fileURL: URL) async {
         @Default(.useHDR) var useHDR
         
-        let config: SCStreamConfiguration
-        if useHDR {
-            config = SCStreamConfiguration(preset: .captureHDRStreamCanonicalDisplay)
-        } else {
-            config = SCStreamConfiguration()
-        }
+        let ptRect = filter.contentRect
+        let pxScale = CGFloat(filter.pointPixelScale)
+        let pxRect = CGRect(x: ptRect.origin.x * pxScale, y: ptRect.origin.y * pxScale, width: ptRect.width * pxScale, height: ptRect.height * pxScale)
+
+        let config = useHDR ? SCStreamConfiguration(preset: .captureHDRStreamCanonicalDisplay) : SCStreamConfiguration()
+        config.width = Int(round(pxRect.width / 2) * 2)
+        config.height = Int(round(pxRect.height / 2) * 2)
+        config.scalesToFit = false
 
         isRunning = true
 
