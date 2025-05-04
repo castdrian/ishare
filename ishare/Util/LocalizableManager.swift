@@ -89,6 +89,8 @@ class LocalizableManager: ObservableObject {
 		currentLanguage = newLanguage
         if currentLanguage == .aussie {
             aussieMode = true
+        } else {
+            aussieMode = false
         }
 		Task { @MainActor in
 			NSApplication.shared.terminate(nil)
