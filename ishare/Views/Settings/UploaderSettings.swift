@@ -224,6 +224,7 @@ struct UploaderSettingsView: View {
 struct AddCustomUploaderView: View {
     @Environment(\.presentationMode) var presentationMode
     @Default(.savedCustomUploaders) var savedCustomUploaders
+    @Default(.aussieMode) var aussieMode
     @Binding var uploader: CustomUploader?
 
     @State private var uploaderName: String = ""
@@ -284,6 +285,7 @@ struct AddCustomUploaderView: View {
                 formData = uploader.formData?.map { CustomEntryModel(key: $0.key, value: $0.value) } ?? []
             }
         }
+        .rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 
     private struct InputField: View {
@@ -433,6 +435,7 @@ struct ImportCustomUploaderView: View {
     @Default(.savedCustomUploaders) var savedCustomUploaders
     @Default(.activeCustomUploader) var activeCustomUploader
     @Default(.uploadType) var uploadType
+    @Default(.aussieMode) var aussieMode
 
     @State private var selectedFileURLs: [URL] = []
     @State private var importError: ImportError?
@@ -516,6 +519,7 @@ struct ImportCustomUploaderView: View {
                 dismissButton: .default(Text("OK".localized()))
             )
         }
+        .rotationEffect(aussieMode ? .degrees(180) : .zero)
     }
 
     private func importUploader() {
