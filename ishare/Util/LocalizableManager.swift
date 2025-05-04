@@ -70,7 +70,6 @@ class LocalizableManager: ObservableObject {
 
 	@Published var currentLanguage: LanguageTypes = .english {
 		didSet {
-            print(storedLanguage)
 			storedLanguage = currentLanguage
 			Bundle.setLanguage(language: currentLanguage.rawValue)
 		}
