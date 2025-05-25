@@ -41,7 +41,7 @@ func captureScreen(type: CaptureType, display: Int = 1) async {
     let suffix = await getCaptureNameSuffix(type: type, display: display)
 
     let timestamp = Int(Date().timeIntervalSince1970)
-    let uniqueFilename = "\(fileName)-\(timestamp)\(suffix).\(fileType)"
+    let uniqueFilename = "\(fileName)-\(timestamp)\(suffix).\(fileType.rawValue)"
 
     var path = "\(capturePath)\(uniqueFilename)"
     path = NSString(string: path).expandingTildeInPath
