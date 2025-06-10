@@ -15,10 +15,32 @@ enum ImagePhase {
     case failure
 }
 
-struct PreviewImage<Content: View>: View {
-    @State private var image: NSImage? = nil
-    @State private var phase: ImagePhase = .empty
+@MainActor
+class ImageLoader: ObservableObject {
+    @Published var phase: ImagePhase = .empty
+    private var image: NSImage?
+    
+    func load(url: URL) async {
+        let config = URLSessionConfiguration.default
+        config.httpMaximumConnectionsPerHost = 100
+        let session = URLSession(configuration: config)
+        
+        do {
+            let (data, _) = try await session.data(from: url)
+            if let uiImage = NSImage(data: data) {
+                self.image = uiImage
+                self.phase = .success(uiImage)
+            } else {
+                self.phase = .failure
+            }
+        } catch {
+            self.phase = .failure
+        }
+    }
+}
 
+struct PreviewImage<Content: View>: View {
+    @StateObject private var loader = ImageLoader()
     let url: URL?
     let content: (ImagePhase) -> Content
 
@@ -28,35 +50,11 @@ struct PreviewImage<Content: View>: View {
     }
 
     var body: some View {
-        SafeContentWrapper(content: content(phase))
-            .onAppear {
-                guard let url else {
-                    return
+        content(loader.phase)
+            .task {
+                if let url = url {
+                    await loader.load(url: url)
                 }
-                let config = URLSessionConfiguration.default
-                config.httpMaximumConnectionsPerHost = 100
-                let session = URLSession(configuration: config)
-                let task = session.dataTask(with: url) { data, _, _ in
-                    if let data, let uiImage = NSImage(data: data) {
-                        DispatchQueue.main.async {
-                            image = uiImage
-                            phase = .success(uiImage)
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            phase = .failure
-                        }
-                    }
-                }
-                task.resume()
             }
-    }
-}
-
-struct SafeContentWrapper<Content: View>: View {
-    let content: Content
-    
-    var body: some View {
-        content
     }
 }
