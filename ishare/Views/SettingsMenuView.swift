@@ -147,41 +147,41 @@ struct GeneralSettingsView: View {
                         Toggle("Land down under".localized(), isOn: $aussieMode)
                     }
 
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Menu Bar Icon".localized())
-                        HStack {
-                            ForEach(MenuBarIcon.allCases, id: \.self) { choice in
-                                Button(action: {
-                                    menubarIcon = choice
-                                }) {
-                                    switch choice {
-                                    case .DEFAULT:
-                                        Image(nsImage: GlyphIcon)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 20, height: 5)
-                                    case .APPICON:
-                                        Image(nsImage: AppIcon)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 20, height: 5)
-                                    case .SYSTEM:
-                                        Image(systemName: "photo.on.rectangle.angled")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 20, height: 5)
-                                    }
+                VStack(alignment: .leading) {
+                    Text("Menu Bar Icon")
+                    HStack {
+                        ForEach(MenuBarIcon.allCases, id: \.self) { choice in
+                            Button(action: {
+                                menubarIcon = choice
+                            }) {
+                                switch choice {
+                                case .DEFAULT:
+                                    Image(.menubar)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 20, height: 5)
+                                case .APPICON:
+                                    Image(nsImage: AppIcon)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 20, height: 5)
+                                case .SYSTEM:
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 20, height: 5)
                                 }
-                                .buttonStyle(
-                                    MenuButtonStyle(
-                                        backgroundColor:
-                                            menubarIcon == choice ? .accentColor : .clear)
-                                )
                             }
+                            .buttonStyle(
+                                MenuButtonStyle(
+                                    backgroundColor:
+                                    menubarIcon == choice ? .accentColor : .clear)
+                            )
                         }
                     }
                 }
-                .padding(.top, 30)
+            }
+            .padding(.top, 30)
 
                 Spacer()
 

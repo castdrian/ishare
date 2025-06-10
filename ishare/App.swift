@@ -10,7 +10,7 @@ import MenuBarExtraAccess
 import SwiftUI
 
 #if canImport(Sparkle)
-	import Sparkle
+import Sparkle
 #endif
 
 protocol UpdaterProtocol {
@@ -41,44 +41,33 @@ struct ishare: App {
 	@StateObject private var appState = AppState()
 	@NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
 
-	var body: some Scene {
-		MenuBarExtra {
-			MainMenuView()
-		} label: {
-			switch menubarIcon {
-			case .DEFAULT: Image(nsImage: GlyphIcon)
-			case .APPICON: Image(nsImage: AppIcon)
-			case .SYSTEM: Image(systemName: "photo.on.rectangle.angled")
-			}
-		}
-		.menuBarExtraAccess(isPresented: $showMainMenu)
-		Settings {
-			SettingsMenuView()
-				.environmentObject(LocalizableManager.shared)
-		}
-	}
+    var body: some Scene {
+        MenuBarExtra {
+            MainMenuView()
+        }
+        label: {
+            switch menubarIcon {
+            case .DEFAULT:
+                Image(.menubar)
+            case .APPICON: Image(nsImage: AppIcon)
+            case .SYSTEM: Image(systemName: "photo.on.rectangle.angled")
+            }
+        }
+        .menuBarExtraAccess(isPresented: $showMainMenu)
+        Settings {
+            SettingsMenuView()
+        }
+    }
 }
 
 @MainActor
-class AppDelegate: NSObject, NSApplicationDelegate {
-	private static let sharedInstance = AppDelegate()
-	static var shared: AppDelegate { sharedInstance }
+class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
+    private static let sharedInstance = AppDelegate()
+    static var shared: AppDelegate { sharedInstance }
 
-	var recordGif = false
-	let screenRecorder = ScreenRecorder()
-
-	#if GITHUB_RELEASE
-		private let updater: SparkleUpdater
-
-		override init() {
-			self.updater = SparkleUpdater()
-			super.init()
-		}
-	#endif
-
-	func applicationDidFinishLaunching(_: Notification) {
-		NSLog("Application finished launching")
-	}
+    var recordGif = false
+    var screenRecorder: ScreenRecorder?
+    var updaterController: SPUStandardUpdaterController!
 
 	func application(_: NSApplication, open urls: [URL]) {
 		if urls.first!.isFileURL {
@@ -91,57 +80,133 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 			let path = url.host
 			let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
 
-			if path == "upload" {
-				if let fileItem = queryItems?.first(where: { $0.name == "file" }) {
-					if let encodedFileURLString = fileItem.value,
-						let decodedFileURLString = encodedFileURLString.removingPercentEncoding,
-						let fileURL = URL(string: decodedFileURLString)
-					{
-						NSLog("Processing upload request for file: %@", fileURL.absoluteString)
+            if path == "upload" {
+                if let fileItem = queryItems?.first(where: { $0.name == "file" }) {
+                    if let encodedFileURLString = fileItem.value,
+                       let decodedFileURLString = encodedFileURLString.removingPercentEncoding,
+                       let fileURL = URL(string: decodedFileURLString)
+                    {
+                        NSLog("Processing upload request for file: %@", fileURL.absoluteString)
 
 						@Default(.uploadType) var uploadType
 						NSLog("Using upload type: %@", String(describing: uploadType))
 						let localFileURL = fileURL
 
-						uploadFile(fileURL: fileURL, uploadType: uploadType) {
-							Task { @MainActor in
-								NSLog("Upload completed, showing toast notification")
-								showToast(fileURL: localFileURL) {
-									NSSound.beep()
-								}
-							}
-						}
-					} else {
-						NSLog("Error: Failed to process file URL from query parameters")
-					}
-				}
-			}
-		}
-	}
+                        uploadFile(fileURL: fileURL, uploadType: uploadType) {
+                            Task { @MainActor in
+                                NSLog("Upload completed, showing toast notification")
+                                showToast(fileURL: localFileURL) {
+                                    NSSound.beep()
+                                }
+                            }
+                        }
+                    } else {
+                        NSLog("Error: Failed to process file URL from query parameters")
+                    }
+                }
+            }
+        }
+    }
 
-	@MainActor
-	func stopRecording() {
-		let wasRecordingGif = recordGif
-		let recorder = screenRecorder
+    func applicationDidFinishLaunching(_: Notification) {
+        NSLog("Application finished launching")
 
-		Task {
-			recorder.stop { result in
-				Task { @MainActor in
-					switch result {
-					case let .success(url):
-						print("Recording stopped successfully. URL: \(url)")
-						postRecordingTasks(url, wasRecordingGif)
-					case let .failure(error):
-						print("Error while stopping recording: \(error.localizedDescription)")
-					}
-				}
-			}
-		}
-	}
+        Task {
+            NSLog("Initializing screen recorder")
+            screenRecorder = ScreenRecorder()
+        }
 
-	func checkForUpdates() {
-		#if GITHUB_RELEASE
-			updater.checkForUpdates()
-		#endif
-	}
+        #if GITHUB_RELEASE
+        NSLog("Initializing updater controller for GitHub release")
+        updaterController = SPUStandardUpdaterController(startingUpdater: true, updaterDelegate: self, userDriverDelegate: nil)
+        #endif
+    }
+
+    @MainActor
+    func stopRecording() {
+        let wasRecordingGif = recordGif
+        let recorder = screenRecorder
+
+        Task {
+            recorder?.stop { result in
+                Task { @MainActor in
+                    switch result {
+                    case let .success(url):
+                        print("Recording stopped successfully. URL: \(url)")
+                        postRecordingTasks(url, wasRecordingGif)
+                    case let .failure(error):
+                        print("Error while stopping recording: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+    }
 }
+#else
+@MainActor
+class AppDelegate: NSObject, NSApplicationDelegate {
+    private static let sharedInstance = AppDelegate()
+    static var shared: AppDelegate { sharedInstance }
+
+    var recordGif = false
+    var screenRecorder: ScreenRecorder?
+
+    func application(_: NSApplication, open urls: [URL]) {
+        if urls.first!.isFileURL {
+            importIscu(urls.first!)
+        }
+
+        if let url = urls.first {
+            let path = url.host
+            let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems
+
+            if path == "upload" {
+                if let fileItem = queryItems?.first(where: { $0.name == "file" }) {
+                    if let encodedFileURLString = fileItem.value, let decodedFileURLString = encodedFileURLString.removingPercentEncoding, let fileURL = URL(string: decodedFileURLString) {
+                        print("Received file URL: \(fileURL.absoluteString)")
+
+                        @Default(.uploadType) var uploadType
+                        let localFileURL = fileURL
+
+                        uploadFile(fileURL: fileURL, uploadType: uploadType) {
+                            Task { @MainActor in
+                                showToast(fileURL: localFileURL) {
+                                    NSSound.beep()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func applicationDidFinishLaunching(_: Notification) {
+        NSLog("Application finished launching")
+
+        Task {
+            screenRecorder = ScreenRecorder()
+        }
+    }
+
+    @MainActor
+    func stopRecording() {
+        let wasRecordingGif = recordGif
+        let recorder = screenRecorder
+
+        Task {
+            recorder?.stop { result in
+                Task { @MainActor in
+                    switch result {
+                    case let .success(url):
+                        print("Recording stopped successfully. URL: \(url)")
+                        postRecordingTasks(url, wasRecordingGif)
+                    case let .failure(error):
+                        print("Error while stopping recording: \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+    }
+}
+#endif

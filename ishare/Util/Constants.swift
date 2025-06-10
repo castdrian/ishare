@@ -240,18 +240,6 @@ let AppIcon: NSImage = {
 }()
 
 @MainActor
-let GlyphIcon: NSImage = {
-    let appIconImage = NSImage(named: "GlyphIcon")!
-    let ratio = appIconImage.size.height / appIconImage.size.width
-    let newSize = NSSize(width: 18, height: 18 / ratio)
-    let resizedImage = NSImage(size: newSize)
-    resizedImage.lockFocus()
-    appIconImage.draw(in: NSRect(origin: .zero, size: newSize), from: NSRect(origin: .zero, size: appIconImage.size), operation: .copy, fraction: 1.0)
-    resizedImage.unlockFocus()
-    return resizedImage
-}()
-
-@MainActor
 let ImgurIcon: NSImage = {
     let appIconImage = NSImage(named: "Imgur")
     let ratio = (appIconImage?.size.height)! / (appIconImage?.size.width)!
