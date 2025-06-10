@@ -22,13 +22,13 @@ struct HistoryGridView: View {
                     itemView(for: item)
                         .frame(width: 100, height: 100)
                         .contextMenu {
-                            Button("Copy URL") {
+                            Button("Copy URL".localized()) {
                                 copyURL(item)
                             }
-                            Button("Open in Browser") {
+                            Button("Open in Browser".localized()) {
                                 openInBrowser(item)
                             }
-                            Button("Delete") {
+                            Button("Delete".localized()) {
                                 deleteItem(item)
                             }
                         }
@@ -52,7 +52,7 @@ struct HistoryGridView: View {
     private func copyURL(_ item: HistoryItem) {
         NSPasteboard.general.declareTypes([.string], owner: nil)
         NSPasteboard.general.setString(item.fileUrl ?? "", forType: .string)
-        BezelNotification.show(messageText: "Copied URL", icon: ToastIcon)
+        BezelNotification.show(messageText: "Copied URL".localized(), icon: ToastIcon)
     }
     
     private func openInBrowser(_ item: HistoryItem) {
@@ -71,7 +71,7 @@ struct HistoryGridView: View {
                 Task { @MainActor in
                     if let index = uploadHistory.firstIndex(of: item) {
                         uploadHistory.remove(at: index)
-                        BezelNotification.show(messageText: "Deleted", icon: ToastIcon)
+                        BezelNotification.show(messageText: "Deleted".localized(), icon: ToastIcon)
                     }
                 }
             } catch {
@@ -79,7 +79,7 @@ struct HistoryGridView: View {
                 Task { @MainActor in
                     if let index = uploadHistory.firstIndex(of: item) {
                         uploadHistory.remove(at: index)
-                        BezelNotification.show(messageText: "Deleted", icon: ToastIcon)
+                        BezelNotification.show(messageText: "Deleted".localized(), icon: ToastIcon)
                     }
                 }
             }

@@ -428,7 +428,7 @@ struct RecordingSettingsView: View {
                         }
                     }) {
                         Image(systemName: "folder.fill")
-                    }.help("Pick a folder")
+                    }.help("Pick a folder".localized())
                 }
             }
 
