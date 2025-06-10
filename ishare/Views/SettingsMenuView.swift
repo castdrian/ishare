@@ -306,23 +306,25 @@ struct CaptureSettingsView: View {
 	@Default(.captureFileName) var fileName
 	@Default(.aussieMode) var aussieMode
 
-	var body: some View {
-		VStack(alignment: .leading, spacing: 30) {
-			VStack(alignment: .leading, spacing: 15) {
-				Text("Image path:".localized()).font(.headline)
-				HStack {
-					TextField(text: $capturePath) {}
-					Button(action: {
-						selectFolder { folderURL in
-							if let url = folderURL {
-								capturePath = url.path()
-							}
-						}
-					}) {
-						Image(systemName: "folder.fill")
-					}.help("Pick a folder".localized())
-				}
-			}
+    var body: some View {
+        VStack(alignment: .leading, spacing: 30) {
+            VStack(alignment: .leading, spacing: 15) {
+                Text("Image path:").font(.headline)
+                HStack {
+                    TextField(text: $capturePath) {}
+                    Button(action: {
+                        selectFolder { folderURL in
+                            if let url = folderURL {
+                                Task { @MainActor in
+                                    capturePath = url.path()
+                                }
+                            }
+                        }
+                    }) {
+                        Image(systemName: "folder.fill")
+                    }.help("Pick a folder")
+                }
+            }
 
 			VStack(alignment: .leading, spacing: 15) {
 				Text("File prefix:".localized()).font(.headline)
@@ -412,21 +414,23 @@ struct RecordingSettingsView: View {
 				}
 			}
 
-			VStack(alignment: .leading, spacing: 15) {
-				Text("Video path:".localized()).font(.headline)
-				HStack {
-					TextField(text: $recordingPath) {}
-					Button(action: {
-						selectFolder { folderURL in
-							if let url = folderURL {
-								recordingPath = url.path()
-							}
-						}
-					}) {
-						Image(systemName: "folder.fill")
-					}.help("Pick a folder".localized())
-				}
-			}
+            VStack(alignment: .leading, spacing: 15) {
+                Text("Video path:").font(.headline)
+                HStack {
+                    TextField(text: $recordingPath) {}
+                    Button(action: {
+                        selectFolder { folderURL in
+                            if let url = folderURL {
+                                Task { @MainActor in
+                                    recordingPath = url.path()
+                                }
+                            }
+                        }
+                    }) {
+                        Image(systemName: "folder.fill")
+                    }.help("Pick a folder")
+                }
+            }
 
 			VStack(alignment: .leading, spacing: 15) {
 				Text("File prefix:".localized()).font(.headline)

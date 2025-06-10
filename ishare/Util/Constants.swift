@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  Constants.swift
 //  ishare
 //
 //  Created by Adrian Castro on 12.07.23.
@@ -150,7 +150,7 @@ extension utsname {
 }
 
 @MainActor
-func selectFolder(completion: @escaping (URL?) -> Void) {
+func selectFolder(completion: @escaping @Sendable (URL?) -> Void) {
     let folderPicker = NSOpenPanel()
     folderPicker.canChooseDirectories = true
     folderPicker.canChooseFiles = false
@@ -158,7 +158,8 @@ func selectFolder(completion: @escaping (URL?) -> Void) {
     folderPicker.canDownloadUbiquitousContents = true
     folderPicker.canResolveUbiquitousConflicts = true
 
-    folderPicker.begin { response in
+    Task {
+        let response = await folderPicker.beginAsyncModal()
         if response == .OK {
             completion(folderPicker.urls.first)
         } else {
@@ -180,67 +181,49 @@ func importIscu(_ url: URL) {
         alert.beginSheetModal(for: keyWindow) { response in
             if response == .alertFirstButtonReturn {
                 NSLog("User confirmed import")
-                alert.window.orderOut(nil)
-                importFile(url) { success, error in
-                    Task { @MainActor in
-                        if success {
-                            NSLog("ISCU import successful")
-                            let successAlert = NSAlert()
-                            successAlert.messageText = "Import Successful"
-                            successAlert.informativeText = "The custom uploader has been imported successfully."
-                            successAlert.addButton(withTitle: "OK")
-                            successAlert.runModal()
-                        } else if let error {
-                            NSLog("ISCU import failed: %@", error.localizedDescription)
-                            let errorAlert = NSAlert()
-                            errorAlert.messageText = "Import Error"
-                            errorAlert.informativeText = error.localizedDescription
-                            errorAlert.addButton(withTitle: "OK")
-                            errorAlert.runModal()
+                
+                Task { @MainActor in
+                    alert.window.orderOut(nil)
+                    
+                    do {
+                        let data = try Data(contentsOf: url)
+                        let decoder = JSONDecoder()
+                        let uploader = try decoder.decode(CustomUploader.self, from: data)
+
+                        @Default(.savedCustomUploaders) var savedCustomUploaders
+                        @Default(.activeCustomUploader) var activeCustomUploader
+                        @Default(.uploadType) var uploadType
+
+                        if var uploaders = savedCustomUploaders {
+                            uploaders.remove(uploader)
+                            uploaders.insert(uploader)
+                            savedCustomUploaders = uploaders
+                        } else {
+                            savedCustomUploaders = Set([uploader])
                         }
+
+                        activeCustomUploader = uploader.id
+                        uploadType = .CUSTOM
+                        
+                        NSLog("ISCU import successful")
+                        let successAlert = NSAlert()
+                        successAlert.messageText = "Import Successful"
+                        successAlert.informativeText = "The custom uploader has been imported successfully."
+                        successAlert.addButton(withTitle: "OK")
+                        successAlert.runModal()
+                    } catch {
+                        NSLog("ISCU import failed: %@", error.localizedDescription)
+                        let errorAlert = NSAlert()
+                        errorAlert.messageText = "Import Error"
+                        errorAlert.informativeText = error.localizedDescription
+                        errorAlert.addButton(withTitle: "OK")
+                        errorAlert.runModal()
                     }
                 }
             } else {
                 NSLog("User cancelled import")
             }
         }
-    }
-}
-
-@MainActor func importFile(_ url: URL, completion: @escaping (Bool, (any Error)?) -> Void) {
-    do {
-        let data = try Data(contentsOf: url)
-        let decoder = JSONDecoder()
-        let uploader = try decoder.decode(CustomUploader.self, from: data)
-
-        @Default(.savedCustomUploaders) var savedCustomUploaders
-        @Default(.activeCustomUploader) var activeCustomUploader
-        @Default(.uploadType) var uploadType
-
-        if var uploaders = savedCustomUploaders {
-            uploaders.remove(uploader)
-            uploaders.insert(uploader)
-            savedCustomUploaders = uploaders
-        } else {
-            savedCustomUploaders = Set([uploader])
-        }
-
-        activeCustomUploader = uploader.id
-        uploadType = .CUSTOM
-
-        completion(true, nil) // Success callback
-    } catch {
-        completion(false, error) // Error callback
-    }
-}
-
-struct Contributor: Codable {
-    let login: String
-    let avatarURL: URL
-
-    enum CodingKeys: String, CodingKey {
-        case login
-        case avatarURL = "avatar_url"
     }
 }
 

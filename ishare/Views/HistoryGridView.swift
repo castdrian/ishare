@@ -39,48 +39,76 @@ struct ContextMenuWrapper<Content: View>: View {
     @Default(.uploadHistory) var uploadHistory
     let content: Content
     let item: HistoryItem
-
+    
     init(item: HistoryItem, @ViewBuilder content: () -> Content) {
         self.item = item
         self.content = content()
     }
-
+    
     var body: some View {
         content
             .contextMenu {
-                Button("Copy URL".localized()) {
-                    NSPasteboard.general.declareTypes([.string], owner: nil)
-                    NSPasteboard.general.setString(item.fileUrl ?? "", forType: .string)
-                    BezelNotification.show(messageText: "Copied URL".localized(), icon: ToastIcon)
+                Button("Copy URL") {
+                    copyURL()
                 }
-                Button("Open in Browser".localized()) {
-                    if let url = URL(string: item.fileUrl ?? "") {
-                        NSWorkspace.shared.open(url)
-                    }
+                Button("Open in Browser") {
+                    openInBrowser()
                 }
-                Button("Delete".localized()) {
-                    if let deletionUrl = item.deletionUrl {
-                        performDeletionRequest(deletionUrl: deletionUrl) { result in
-                            DispatchQueue.main.async {
-                                switch result {
-                                case let .success(message):
-                                    print(message)
-                                    if let index = uploadHistory.firstIndex(of: item) {
-                                        uploadHistory.remove(at: index)
-                                        BezelNotification.show(messageText: "Deleted".lowercased(), icon: ToastIcon)
-                                    }
-                                case let .failure(error):
-                                    print("Deletion error: \(error.localizedDescription)")
-                                    if let index = uploadHistory.firstIndex(of: item) {
-                                        uploadHistory.remove(at: index)
-                                        BezelNotification.show(messageText: "Deleted".localized(), icon: ToastIcon)
-                                    }
-                                }
-                            }
-                        }
-                    }
+                Button("Delete") {
+                    deleteItem()
                 }
             }
+    }
+    
+    private func copyURL() {
+        NSPasteboard.general.declareTypes([.string], owner: nil)
+        NSPasteboard.general.setString(item.fileUrl ?? "", forType: .string)
+        BezelNotification.show(messageText: "Copied URL", icon: ToastIcon)
+    }
+    
+    private func openInBrowser() {
+        if let url = URL(string: item.fileUrl ?? "") {
+            NSWorkspace.shared.open(url)
+        }
+    }
+    
+    private func deleteItem() {
+        print(item.deletionUrl ?? "nop")
+        if let deletionUrl = item.deletionUrl {
+            Task {
+                await performDeletionRequestAsync(deletionUrl: deletionUrl)
+            }
+        }
+    }
+    
+    private func performDeletionRequestAsync(deletionUrl: String) async {
+        do {
+            let message = try await performDeletion(deletionUrl: deletionUrl)
+            print(message)
+            if let index = uploadHistory.firstIndex(of: item) {
+                uploadHistory.remove(at: index)
+                BezelNotification.show(messageText: "Deleted", icon: ToastIcon)
+            }
+        } catch {
+            print("Deletion error: \(error.localizedDescription)")
+            if let index = uploadHistory.firstIndex(of: item) {
+                uploadHistory.remove(at: index)
+                BezelNotification.show(messageText: "Deleted", icon: ToastIcon)
+            }
+        }
+    }
+    
+    private func performDeletion(deletionUrl: String) async throws -> String {
+        return try await withCheckedThrowingContinuation { continuation in
+            performDeletionRequest(deletionUrl: deletionUrl) { result in
+                switch result {
+                case .success(let message):
+                    continuation.resume(returning: message)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
     }
 }
 

@@ -73,7 +73,7 @@ func showToast(fileURL: URL, completion: (@Sendable () -> Void)? = nil) {
 }
 
 @MainActor
-private func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, completion: (() -> Void)? = nil) {
+private func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, completion: (@Sendable () -> Void)? = nil) {
     let toastTimeout = Defaults[.toastTimeout]
     let localCompletion = completion
     let toastWindow = NSWindow(
@@ -107,8 +107,14 @@ private func showThumbnailAndToast(fileURL: URL, thumbnailImage: NSImage, comple
                 context.duration = fadeDuration
                 toastWindow.animator().alphaValue = 0.0
             }) {
-                toastWindow.orderOut(nil)
-                localCompletion?()
+                Task { @MainActor in
+                    toastWindow.orderOut(nil)
+                    // Use a captured @Sendable copy of the completion handler
+                    if let completion = localCompletion {
+                        let sendableCompletion: @Sendable () -> Void = completion
+                        sendableCompletion()
+                    }
+                }
             }
         }
     }

@@ -28,7 +28,7 @@ struct PreviewImage<Content: View>: View {
     }
 
     var body: some View {
-        content(phase)
+        SafeContentWrapper(content: content(phase))
             .onAppear {
                 guard let url else {
                     return
@@ -50,5 +50,13 @@ struct PreviewImage<Content: View>: View {
                 }
                 task.resume()
             }
+    }
+}
+
+struct SafeContentWrapper<Content: View>: View {
+    let content: Content
+    
+    var body: some View {
+        content
     }
 }
