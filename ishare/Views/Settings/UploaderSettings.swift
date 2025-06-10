@@ -209,8 +209,10 @@ struct UploaderSettingsView: View {
         savePanel.allowedContentTypes = [.init(filenameExtension: "iscu")!]
         savePanel.nameFieldStringValue = "\(uploader.name).iscu"
 
-        savePanel.begin { result in
-            if result == .OK, let url = savePanel.url {
+        // Launch the panel and handle the result
+        Task { @MainActor in
+            let response = await savePanel.beginAsyncModal()
+            if response == .OK, let url = savePanel.url {
                 do {
                     try data.write(to: url)
                 } catch {
@@ -440,7 +442,7 @@ struct ImportCustomUploaderView: View {
     @State private var selectedFileURLs: [URL] = []
     @State private var importError: ImportError?
 
-    func selectFile(completion: @escaping (URL?) -> Void) {
+    func selectFile(completion: @escaping @Sendable (URL?) -> Void) {
         let filePicker = NSOpenPanel()
         filePicker.canChooseDirectories = false
         filePicker.canChooseFiles = true
@@ -448,7 +450,8 @@ struct ImportCustomUploaderView: View {
         filePicker.canDownloadUbiquitousContents = true
         filePicker.canResolveUbiquitousConflicts = true
 
-        filePicker.begin { response in
+        Task { @MainActor in
+            let response = await filePicker.beginAsyncModal()
             if response == .OK {
                 completion(filePicker.urls.first)
             } else {
@@ -482,15 +485,17 @@ struct ImportCustomUploaderView: View {
                 .onTapGesture {
                     selectFile { fileURL in
                         if let url = fileURL {
-                            selectedFileURLs.append(url)
-                            importUploader()
+                            Task { @MainActor in
+                                selectedFileURLs.append(url)
+                                importUploader()
+                            }
                         }
                     }
                 }
                 .onDrop(of: ["public.file-url"], isTargeted: nil) { providers in
                     providers.first?.loadItem(forTypeIdentifier: "public.file-url", options: nil) { item, _ in
                         if let data = item as? Data, let url = URL(dataRepresentation: data, relativeTo: nil) {
-                            DispatchQueue.main.async {
+                            Task { @MainActor in
                                 selectedFileURLs.append(url)
                                 importUploader()
                             }

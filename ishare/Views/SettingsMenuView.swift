@@ -147,41 +147,41 @@ struct GeneralSettingsView: View {
                         Toggle("Land down under".localized(), isOn: $aussieMode)
                     }
 
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Menu Bar Icon".localized())
-                        HStack {
-                            ForEach(MenuBarIcon.allCases, id: \.self) { choice in
-                                Button(action: {
-                                    menubarIcon = choice
-                                }) {
-                                    switch choice {
-                                    case .DEFAULT:
-                                        Image(nsImage: GlyphIcon)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 20, height: 5)
-                                    case .APPICON:
-                                        Image(nsImage: AppIcon)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 20, height: 5)
-                                    case .SYSTEM:
-                                        Image(systemName: "photo.on.rectangle.angled")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 20, height: 5)
-                                    }
+                VStack(alignment: .leading) {
+                    Text("Menu Bar Icon".localized())
+                    HStack {
+                        ForEach(MenuBarIcon.allCases, id: \.self) { choice in
+                            Button(action: {
+                                menubarIcon = choice
+                            }) {
+                                switch choice {
+                                case .DEFAULT:
+                                    Image(.menubar)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 20, height: 5)
+                                case .APPICON:
+                                    Image(nsImage: AppIcon)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 20, height: 5)
+                                case .SYSTEM:
+                                    Image(systemName: "photo.on.rectangle.angled")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 20, height: 5)
                                 }
-                                .buttonStyle(
-                                    MenuButtonStyle(
-                                        backgroundColor:
-                                            menubarIcon == choice ? .accentColor : .clear)
-                                )
                             }
+                            .buttonStyle(
+                                MenuButtonStyle(
+                                    backgroundColor:
+                                    menubarIcon == choice ? .accentColor : .clear)
+                            )
                         }
                     }
                 }
-                .padding(.top, 30)
+            }
+            .padding(.top, 30)
 
                 Spacer()
 
@@ -306,23 +306,25 @@ struct CaptureSettingsView: View {
 	@Default(.captureFileName) var fileName
 	@Default(.aussieMode) var aussieMode
 
-	var body: some View {
-		VStack(alignment: .leading, spacing: 30) {
-			VStack(alignment: .leading, spacing: 15) {
-				Text("Image path:".localized()).font(.headline)
-				HStack {
-					TextField(text: $capturePath) {}
-					Button(action: {
-						selectFolder { folderURL in
-							if let url = folderURL {
-								capturePath = url.path()
-							}
-						}
-					}) {
-						Image(systemName: "folder.fill")
-					}.help("Pick a folder".localized())
-				}
-			}
+    var body: some View {
+        VStack(alignment: .leading, spacing: 30) {
+            VStack(alignment: .leading, spacing: 15) {
+                Text("Image path:").font(.headline)
+                HStack {
+                    TextField(text: $capturePath) {}
+                    Button(action: {
+                        selectFolder { folderURL in
+                            if let url = folderURL {
+                                Task { @MainActor in
+                                    capturePath = url.path()
+                                }
+                            }
+                        }
+                    }) {
+                        Image(systemName: "folder.fill")
+                    }.help("Pick a folder".localized())
+                }
+            }
 
 			VStack(alignment: .leading, spacing: 15) {
 				Text("File prefix:".localized()).font(.headline)
@@ -412,21 +414,23 @@ struct RecordingSettingsView: View {
 				}
 			}
 
-			VStack(alignment: .leading, spacing: 15) {
-				Text("Video path:".localized()).font(.headline)
-				HStack {
-					TextField(text: $recordingPath) {}
-					Button(action: {
-						selectFolder { folderURL in
-							if let url = folderURL {
-								recordingPath = url.path()
-							}
-						}
-					}) {
-						Image(systemName: "folder.fill")
-					}.help("Pick a folder".localized())
-				}
-			}
+            VStack(alignment: .leading, spacing: 15) {
+                Text("Video path:").font(.headline)
+                HStack {
+                    TextField(text: $recordingPath) {}
+                    Button(action: {
+                        selectFolder { folderURL in
+                            if let url = folderURL {
+                                Task { @MainActor in
+                                    recordingPath = url.path()
+                                }
+                            }
+                        }
+                    }) {
+                        Image(systemName: "folder.fill")
+                    }.help("Pick a folder".localized())
+                }
+            }
 
 			VStack(alignment: .leading, spacing: 15) {
 				Text("File prefix:".localized()).font(.headline)

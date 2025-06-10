@@ -13,74 +13,90 @@ import SwiftUI
 
 struct HistoryGridView: View {
     @Default(.uploadHistory) var uploadHistory
+    
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100, maximum: .infinity), spacing: 3)], spacing: 3) {
                 ForEach(uploadHistory, id: \.self) { item in
-                    if let urlStr = item.fileUrl, let url = URL(string: urlStr), url.pathExtension.lowercased() == "mp4" || url.pathExtension.lowercased() == "mov" {
-                        ContextMenuWrapper(item: item) {
-                            VideoThumbnailView(url: url)
-                                .frame(width: 100, height: 100)
+                    // Use regular context menu directly
+                    itemView(for: item)
+                        .frame(width: 100, height: 100)
+                        .contextMenu {
+                            Button("Copy URL".localized()) {
+                                copyURL(item)
+                            }
+                            Button("Open in Browser".localized()) {
+                                openInBrowser(item)
+                            }
+                            Button("Delete".localized()) {
+                                deleteItem(item)
+                            }
                         }
-                    } else {
-                        ContextMenuWrapper(item: item) {
-                            HistoryItemView(urlString: item.fileUrl ?? "")
-                                .frame(width: 100, height: 100)
-                        }
-                    }
                 }
             }
         }
         .frame(minWidth: 600, minHeight: 400)
     }
-}
-
-struct ContextMenuWrapper<Content: View>: View {
-    @Default(.uploadHistory) var uploadHistory
-    let content: Content
-    let item: HistoryItem
-
-    init(item: HistoryItem, @ViewBuilder content: () -> Content) {
-        self.item = item
-        self.content = content()
+    
+    @ViewBuilder
+    private func itemView(for item: HistoryItem) -> some View {
+        if let urlStr = item.fileUrl, 
+           let url = URL(string: urlStr), 
+           url.pathExtension.lowercased() == "mp4" || url.pathExtension.lowercased() == "mov" {
+            VideoThumbnailView(url: url)
+        } else {
+            HistoryItemView(urlString: item.fileUrl ?? "")
+        }
     }
-
-    var body: some View {
-        content
-            .contextMenu {
-                Button("Copy URL".localized()) {
-                    NSPasteboard.general.declareTypes([.string], owner: nil)
-                    NSPasteboard.general.setString(item.fileUrl ?? "", forType: .string)
-                    BezelNotification.show(messageText: "Copied URL".localized(), icon: ToastIcon)
-                }
-                Button("Open in Browser".localized()) {
-                    if let url = URL(string: item.fileUrl ?? "") {
-                        NSWorkspace.shared.open(url)
+    
+    private func copyURL(_ item: HistoryItem) {
+        NSPasteboard.general.declareTypes([.string], owner: nil)
+        NSPasteboard.general.setString(item.fileUrl ?? "", forType: .string)
+        BezelNotification.show(messageText: "Copied URL".localized(), icon: ToastIcon)
+    }
+    
+    private func openInBrowser(_ item: HistoryItem) {
+        if let url = URL(string: item.fileUrl ?? "") {
+            NSWorkspace.shared.open(url)
+        }
+    }
+    
+    private func deleteItem(_ item: HistoryItem) {
+        guard let deletionUrl = item.deletionUrl else { return }
+        
+        Task {
+            do {
+                let message = try await performDeletionAsync(deletionUrl)
+                print(message)
+                Task { @MainActor in
+                    if let index = uploadHistory.firstIndex(of: item) {
+                        uploadHistory.remove(at: index)
+                        BezelNotification.show(messageText: "Deleted".localized(), icon: ToastIcon)
                     }
                 }
-                Button("Delete".localized()) {
-                    if let deletionUrl = item.deletionUrl {
-                        performDeletionRequest(deletionUrl: deletionUrl) { result in
-                            DispatchQueue.main.async {
-                                switch result {
-                                case let .success(message):
-                                    print(message)
-                                    if let index = uploadHistory.firstIndex(of: item) {
-                                        uploadHistory.remove(at: index)
-                                        BezelNotification.show(messageText: "Deleted".lowercased(), icon: ToastIcon)
-                                    }
-                                case let .failure(error):
-                                    print("Deletion error: \(error.localizedDescription)")
-                                    if let index = uploadHistory.firstIndex(of: item) {
-                                        uploadHistory.remove(at: index)
-                                        BezelNotification.show(messageText: "Deleted".localized(), icon: ToastIcon)
-                                    }
-                                }
-                            }
-                        }
+            } catch {
+                print("Deletion error: \(error.localizedDescription)")
+                Task { @MainActor in
+                    if let index = uploadHistory.firstIndex(of: item) {
+                        uploadHistory.remove(at: index)
+                        BezelNotification.show(messageText: "Deleted".localized(), icon: ToastIcon)
                     }
                 }
             }
+        }
+    }
+    
+    private func performDeletionAsync(_ deletionUrl: String) async throws -> String {
+        return try await withCheckedThrowingContinuation { continuation in
+            performDeletionRequest(deletionUrl: deletionUrl) { result in
+                switch result {
+                case .success(let message):
+                    continuation.resume(returning: message)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
     }
 }
 

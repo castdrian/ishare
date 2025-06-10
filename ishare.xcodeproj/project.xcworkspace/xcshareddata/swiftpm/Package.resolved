@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sindresorhus/Defaults",
       "state" : {
-        "revision" : "d8a954e69ff13b0f7805f3757c8f8d0c8ef5a8cb",
-        "version" : "9.0.0-beta.3"
+        "revision" : "00c82eff4550c87cf9c547d7e5493a6a97837061",
+        "version" : "9.0.3"
       }
     },
     {
@@ -89,6 +89,15 @@
       "state" : {
         "revision" : "a854f4ed89b7e404019b5a09d24e067acc15432d",
         "version" : "1.2.4"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax",
+      "state" : {
+        "revision" : "f99ae8aa18f0cf0d53481901f88a0991dc3bd4a2",
+        "version" : "601.0.1"
       }
     },
     {
