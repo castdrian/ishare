@@ -148,7 +148,7 @@ struct GeneralSettingsView: View {
                     }
 
                 VStack(alignment: .leading) {
-                    Text("Menu Bar Icon")
+                    Text("Menu Bar Icon".localized())
                     HStack {
                         ForEach(MenuBarIcon.allCases, id: \.self) { choice in
                             Button(action: {
