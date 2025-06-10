@@ -18,7 +18,6 @@ enum ImagePhase {
 @MainActor
 class ImageLoader: ObservableObject {
     @Published var phase: ImagePhase = .empty
-    private var image: NSImage?
     
     func load(url: URL) async {
         let config = URLSessionConfiguration.default
