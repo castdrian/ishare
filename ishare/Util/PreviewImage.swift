@@ -27,7 +27,6 @@ class ImageLoader: ObservableObject {
         do {
             let (data, _) = try await session.data(from: url)
             if let uiImage = NSImage(data: data) {
-                self.image = uiImage
                 self.phase = .success(uiImage)
             } else {
                 self.phase = .failure

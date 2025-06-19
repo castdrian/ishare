@@ -94,6 +94,10 @@ class ContentSharingPickerManager: NSObject, SCContentSharingPickerObserver {
     }
 
     nonisolated func contentSharingPicker(_: SCContentSharingPicker, didCancelFor stream: SCStream?) {
+        Task { @MainActor in
+            self.deactivatePicker()
+        }
+        
         struct SendableParams: @unchecked Sendable {
             let stream: SCStream?
         }
@@ -119,3 +123,4 @@ class ContentSharingPickerManager: NSObject, SCContentSharingPickerObserver {
         }
     }
 }
+
